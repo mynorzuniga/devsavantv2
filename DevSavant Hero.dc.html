@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&family=Space+Grotesk:wght@500&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <style>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; background: #050505; }
+
+
+    @keyframes content-enter {
+      from { opacity: 0; filter: blur(22px); }
+      to   { opacity: 1; filter: blur(0px);  }
+    }
+    @keyframes btn-grow {
+      from { clip-path: inset(0% 100% 0% 0%); }
+      to   { clip-path: inset(0% 0% 0% 0%);   }
+    }
+    @keyframes letter-enter {
+      from { opacity: 0; filter: blur(8px); }
+      to   { opacity: 1; filter: blur(0px); }
+    }
+    @keyframes nav-enter {
+      from { opacity: 0; transform: translateX(10px); }
+      to   { opacity: 1; transform: translateX(0);    }
+    }
+  </style>
+</helmet>
+<div style="position:relative; width:100vw; height:100vh; overflow:hidden; background:#050505; font-family:'Inter',sans-serif;">
+
+  <div ref="{{ bgRef }}" style="position:fixed; inset:0; width:100vw; height:100vh; z-index:0;"></div>
+
+  <svg style="position:absolute;width:0;height:0;overflow:visible;pointer-events:none;" aria-hidden="true">
+    <defs>
+      <filter id="lqp-goo" x="-50%" y="-50%" width="200%" height="200%">
+        <feGaussianBlur id="lqp-blur" in="SourceGraphic" stdDeviation="26" result="blur"></feGaussianBlur>
+        <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 26 -10" result="goo"></feColorMatrix>
+      </filter>
+      <mask id="lqp-mask" maskUnits="userSpaceOnUse" x="-100" y="-100" width="10000" height="10000">
+        <g filter="url(#lqp-goo)" id="lqp-blobs"></g>
+      </mask>
+    </defs>
+  </svg>
+
+  <div style="position:relative; z-index:1; height:100vh; display:flex;">
+
+    <aside style="flex:0 0 clamp(280px,24vw,400px); position:relative; display:flex; flex-direction:column; padding:clamp(40px,5vh,60px) 0 clamp(40px,5vh,60px) clamp(40px,4vw,60px);">
+      <div style="position:absolute; top:clamp(40px,5vh,72px); left:clamp(40px,4vw,60px); animation:nav-enter 1s cubic-bezier(0.16,1,0.3,1) 0.2s both;">
+        <img src="uploads/logo-devsavant-full.png" alt="DevSavant" style="height:clamp(52px,6.5vh,82px); width:auto; object-fit:contain; object-position:left;" />
+      </div>
+
+      <nav style="margin-top:clamp(150px,27vh,290px); display:flex; flex-direction:column; align-items:flex-start; gap:clamp(16px,2.3vh,30px);">
+        <a href="#" style="font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(17px,1.4vw,24px); color:#ffffff; text-decoration:none; transition:opacity .2s ease; animation:nav-enter 0.9s cubic-bezier(0.16,1,0.3,1) 0.35s both;" style-hover="opacity:0.65;">Services</a>
+        <a href="#" style="font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(17px,1.4vw,24px); color:#ffffff; text-decoration:none; transition:opacity .2s ease; animation:nav-enter 0.9s cubic-bezier(0.16,1,0.3,1) 0.48s both;" style-hover="opacity:0.65;">Our Expertise</a>
+        <a href="#" style="font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(17px,1.4vw,24px); color:#ffffff; text-decoration:none; transition:opacity .2s ease; animation:nav-enter 0.9s cubic-bezier(0.16,1,0.3,1) 0.61s both;" style-hover="opacity:0.65;">About Us</a>
+        <a href="#" style="font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(17px,1.4vw,24px); color:#ffffff; text-decoration:none; transition:opacity .2s ease; animation:nav-enter 0.9s cubic-bezier(0.16,1,0.3,1) 0.74s both;" style-hover="opacity:0.65;">VC Partnerships</a>
+        <a href="#" style="font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(17px,1.4vw,24px); color:#ffffff; text-decoration:none; transition:opacity .2s ease; animation:nav-enter 0.9s cubic-bezier(0.16,1,0.3,1) 0.87s both;" style-hover="opacity:0.65;">Blog</a>
+        <a href="#" style="font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(17px,1.4vw,24px); color:#ffffff; text-decoration:none; transition:opacity .2s ease; animation:nav-enter 0.9s cubic-bezier(0.16,1,0.3,1) 1.0s both;" style-hover="opacity:0.65;">Careers</a>
+        <a href="#" style="margin-top:clamp(8px,1.4vh,18px); font-family:'Inter',sans-serif; font-weight:700; font-size:clamp(13px,1vw,16px); letter-spacing:0.05em; color:#18282C; text-decoration:none; text-transform:uppercase; background:#CCFFCE; padding:9px 18px; box-shadow:0 0 28px rgba(150,255,170,0.2); transition:transform .2s ease, box-shadow .2s ease; animation:nav-enter 0.9s cubic-bezier(0.16,1,0.3,1) 1.13s both;" style-hover="transform:translateY(-2px); box-shadow:0 0 44px rgba(150,255,170,0.4);">Contact</a>
+      </nav>
+    </aside>
+
+    <main ref="{{ mainRef }}" style="flex:1; position:relative; border-left:1px solid rgba(255,255,255,0.12); border-top:1px solid rgba(255,255,255,0.12); border-top-left-radius:44px; border-bottom-left-radius:44px; display:flex; align-items:center; padding-left:clamp(48px,6.5vw,140px); padding-right:clamp(32px,4vw,72px); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); background:rgba(0,0,0,0.15); overflow:hidden; mask:url(#lqp-mask); -webkit-mask:url(#lqp-mask);">
+
+      <svg style="position:absolute;width:0;height:0;overflow:hidden;" aria-hidden="true">
+        <defs>
+          <filter id="panel-noise">
+            <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="4" stitchTiles="stitch"/>
+            <feColorMatrix type="saturate" values="0"/>
+          </filter>
+        </defs>
+      </svg>
+      <div style="position:absolute;inset:0;pointer-events:none;opacity:0.055;filter:url(#panel-noise);background:#ffffff;"></div>
+
+      <div style="position:relative;z-index:1;max-width:1040px;">
+        <h1 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(48px,6.6vw,108px); line-height:1.04; letter-spacing:-0.01em; text-wrap:balance; text-shadow:0 4px 32px rgba(31,98,255,0.40); animation:content-enter 1.5s cubic-bezier(0.16,1,0.3,1) 1.8s both;">From Prototyping to High-Performing Teams</h1>
+        <p style="margin:clamp(20px,2.8vh,38px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:#C7FFE0; font-size:clamp(22px,2.3vw,40px); line-height:1.2; animation:content-enter 1.5s cubic-bezier(0.16,1,0.3,1) 2.1s both;">We Power Startup Development.</p>
+        <a href="#" style="margin-top:clamp(32px,4.5vh,56px); display:inline-flex; align-items:center; gap:14px; background:#CCFFCE; color:#18282C; font-family:'Inter',sans-serif; font-weight:700; text-transform:uppercase; font-size:clamp(18px,1.7vw,26px); letter-spacing:0.045em; padding:13px 26px; text-decoration:none; box-shadow:0 0 44px rgba(150,255,170,0.28); transition:transform .2s ease, box-shadow .2s ease; animation:btn-grow 1.1s cubic-bezier(0.16,1,0.3,1) 2.5s both;" style-hover="transform:translateY(-2px); box-shadow:0 0 60px rgba(150,255,170,0.45);">Get Started Today <span style="font-weight:700; font-size:1.05em;">&#8594;</span></a>
+      </div>
+    </main>
+
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      bgRef: (el) => {
+        if (el && el !== this._bg) { this._bg = el; this._init(); }
+      },
+      mainRef: (el) => {
+        if (el && el !== this._mainEl) { this._mainEl = el; }
+      }
+    };
+  }
+
+  componentDidMount() {
+    this._init();
+    this._onResize = () => this._resize();
+    window.addEventListener('resize', this._onResize);
+    this._initLiquidMask();
+  }
+
+  _initLiquidMask() {
+    if (this._liquidDone) return;
+    this._liquidDone = true;
+    const run = () => {
+      const panel = this._mainEl;
+      const blobContainer = document.getElementById('lqp-blobs');
+      if (!panel || !blobContainer) {
+        this._liquidDone = false;
+        setTimeout(() => this._initLiquidMask(), 80);
+        return;
+      }
+      setTimeout(() => {
+        const rect = panel.getBoundingClientRect();
+        const w = rect.width;
+        const h = rect.height;
+        const SVGNS = 'http://www.w3.org/2000/svg';
+
+        // Dense, heavily-overlapping circles so the goo filter always renders them
+        // as ONE continuous liquid mass (no visible grid). We then reveal them in
+        // order of distance from the top-left corner, so the mass grows like liquid
+        // pouring in and filling the space.
+        const spacing = Math.min(w, h) / 15;
+        const radius = spacing * 0.78;
+        // Scale the goo blur with the circle size so the metaball melts smoothly
+        // at any viewport (a fixed px blur looks dotty on large screens).
+        const blurEl = document.getElementById('lqp-blur');
+        if (blurEl) blurEl.setAttribute('stdDeviation', (radius * 0.85).toFixed(1));
+        const cols = Math.ceil(w / spacing) + 2;
+        const rows = Math.ceil(h / spacing) + 2;
+        // Coherent multi-frequency noise — neighbouring circles get similar values,
+        // so the wavefront develops organic bulges and tendrils instead of a clean arc.
+        const noise2 = (x, y) =>
+          Math.sin(x * 0.016 + y * 0.011 + 0.4) * 0.6 +
+          Math.sin(x * 0.006 - y * 0.022 + 1.7) * 0.45 +
+          Math.sin((x + y) * 0.013 + 3.1) * 0.35; // ~ -1.4 .. 1.4
+
+        const blobs = [];
+        let maxDist = 1;
+
+        for (let i = 0; i < rows; i++) {
+          for (let j = 0; j < cols; j++) {
+            const cx = j * spacing;
+            const cy = i * spacing;
+            const n = noise2(cx, cy);
+            const r = radius * (0.7 + 0.5 * (n * 0.5 + 0.5)); // varied size -> wavy edge
+            const c = document.createElementNS(SVGNS, 'circle');
+            c.setAttribute('cx', cx);
+            c.setAttribute('cy', cy);
+            c.setAttribute('r', r);
+            c.setAttribute('fill', 'white');
+            c.style.transformOrigin = cx + 'px ' + cy + 'px';
+            c.style.transform = 'scale(0)';
+            blobContainer.appendChild(c);
+            const dist = Math.sqrt(cx * cx + cy * cy);
+            if (dist > maxDist) maxDist = dist;
+            blobs.push({ el: c, dist: dist, n: n });
+          }
+        }
+
+        // The front advances by distance from the top-left, but the noise pushes
+        // some regions ahead and holds others back, so it flows like a liquid.
+        const FILL_TIME = 1500;
+        const START_DELAY = 120;
+        const WOBBLE = 360;       // ms of front irregularity
+        blobs.forEach(({ el, dist, n }) => {
+          let delay = START_DELAY + (dist / maxDist) * FILL_TIME + n * WOBBLE;
+          if (delay < 0) delay = 0;
+          const dur = 0.85 + (n * 0.5 + 0.5) * 0.5; // 0.85 - 1.35s, varied
+          setTimeout(() => {
+            el.style.transition = 'transform ' + dur.toFixed(2) + 's cubic-bezier(0.33, 0, 0.2, 1)';
+            el.style.transform = 'scale(1)';
+          }, delay);
+        });
+
+      }, 100);
+    };
+    run();
+  }
+
+  componentWillUnmount() {
+    cancelAnimationFrame(this._raf);
+    clearTimeout(this._poll);
+    window.removeEventListener('resize', this._onResize);
+    if (this.renderer) {
+      try { this._bg && this.renderer.domElement && this._bg.removeChild(this.renderer.domElement); } catch (e) {}
+      this.renderer.dispose && this.renderer.dispose();
+    }
+  }
+
+  componentDidUpdate() { this._applyProps(); }
+
+  _stateToScroll() {
+    const s = this.props.colorState || 'Forest';
+    return s === 'Aqua' ? 1.0 : (s === 'Teal' ? 0.5 : 0.0);
+  }
+
+  _applyProps() {
+    if (!this.material) return;
+    this.material.uniforms.u_scroll.value = this._stateToScroll();
+    this.material.uniforms.u_grain.value = (this.props.grain === false) ? 0.0 : 1.0;
+  }
+
+  _resize() {
+    if (!this.renderer) return;
+    this.renderer.setSize(window.innerWidth, window.innerHeight);
+    this.material.uniforms.u_resolution.value.set(window.innerWidth, window.innerHeight);
+  }
+
+  _init() {
+    if (this._started) return;
+    if (!window.THREE || !this._bg) {
+      clearTimeout(this._poll);
+      this._poll = setTimeout(() => this._init(), 60);
+      return;
+    }
+    this._started = true;
+    const THREE = window.THREE;
+    const container = this._bg;
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    container.appendChild(renderer.domElement);
+    this.renderer = renderer;
+
+    const vertexShader = `
+      varying vec2 vUv;
+      void main() {
+        vUv = uv;
+        gl_Position = vec4(position, 1.0);
+      }
+    `;
+
+    const fragmentShader = `
+      uniform float u_time;
+      uniform vec2 u_resolution;
+      uniform float u_scroll;
+      uniform float u_grain;
+      varying vec2 vUv;
+
+      float hash(vec2 p) { return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453); }
+
+      float noise(vec2 p) {
+        vec2 i = floor(p);
+        vec2 f = fract(p);
+        f = f * f * (3.0 - 2.0 * f);
+        float a = hash(i);
+        float b = hash(i + vec2(1.0, 0.0));
+        float c = hash(i + vec2(0.0, 1.0));
+        float d = hash(i + vec2(1.0, 1.0));
+        return mix(mix(a, b, f.x), mix(c, d, f.x), f.y);
+      }
+
+      float fbm(vec2 p) {
+        float v = 0.0;
+        float a = 0.5;
+        mat2 rot = mat2(0.866, -0.5, 0.5, 0.866);
+        for (int i = 0; i < 5; i++) {
+          v += a * noise(p);
+          p = rot * p * 2.0 + vec2(100.0);
+          a *= 0.5;
+        }
+        return v;
+      }
+
+      void main() {
+        vec2 uv = vUv;
+        vec2 p = uv * 2.0 - 1.0;
+        p.x *= u_resolution.x / u_resolution.y;
+
+        float t = u_time * 0.08;
+        float s = u_scroll;
+
+        vec2 q = vec2(fbm(p * 0.4 + t * 0.05 + s * 2.5), fbm(p * 0.4 + vec2(5.2, 1.3) - t * 0.05 + s * 2.0));
+        vec2 r = vec2(fbm(p * 0.4 + 1.2 * q + vec2(1.7, 9.2) + t * 0.04 - s * 1.5),
+                      fbm(p * 0.4 + 1.2 * q + vec2(8.3, 2.8) + t * 0.06 + s * 3.0));
+
+        float blobFBM = fbm(p * 0.6 + r * 1.5 - t * 0.03 + s * 1.2);
+        float bokeh = smoothstep(0.3, 0.9, blobFBM);
+
+        float trailFBM = fbm(p * 0.8 + r * 1.8 - t * 0.05 - s * 1.8);
+        float trailDist = abs(trailFBM - 0.5);
+        float trail = smoothstep(0.15, 0.0, trailDist) * 0.6;
+        float trailGlow = smoothstep(0.4, 0.0, trailDist) * 0.3;
+        trail = trail + trailGlow;
+
+        vec3 bg0 = vec3(0.015, 0.025, 0.015);
+        vec3 blur0 = vec3(0.0, 0.35, 0.05);
+        vec3 trail0 = vec3(0.1, 0.7, 0.15);
+
+        vec3 bg1 = vec3(0.01, 0.025, 0.03);
+        vec3 blur1 = vec3(0.0, 0.25, 0.35);
+        vec3 trail1 = vec3(0.05, 0.65, 0.7);
+
+        vec3 bg2 = vec3(0.005, 0.035, 0.04);
+        vec3 blur2 = vec3(0.0, 0.35, 0.45);
+        vec3 trail2 = vec3(0.1, 0.9, 0.8);
+
+        vec3 bg = mix(mix(bg0, bg1, smoothstep(0.0, 0.5, s)), bg2, smoothstep(0.5, 1.0, s));
+        vec3 blurCol = mix(mix(blur0, blur1, smoothstep(0.0, 0.5, s)), blur2, smoothstep(0.5, 1.0, s));
+        vec3 trailCol = mix(mix(trail0, trail1, smoothstep(0.0, 0.5, s)), trail2, smoothstep(0.5, 1.0, s));
+
+        vec3 color = bg;
+        color += blurCol * bokeh;
+        color += trailCol * trail;
+
+        float grain = hash(uv + fract(u_time)) * 0.12 * u_grain;
+        color = max(color - grain, 0.0);
+
+        gl_FragColor = vec4(color, 1.0);
+      }
+    `;
+
+    const geometry = new THREE.PlaneGeometry(2, 2);
+    const material = new THREE.ShaderMaterial({
+      vertexShader,
+      fragmentShader,
+      uniforms: {
+        u_time: { value: 0.0 },
+        u_resolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
+        u_scroll: { value: this._stateToScroll() },
+        u_grain: { value: (this.props.grain === false) ? 0.0 : 1.0 }
+      }
+    });
+    this.material = material;
+
+    const mesh = new THREE.Mesh(geometry, material);
+    scene.add(mesh);
+
+    const clock = new THREE.Clock();
+    const animate = () => {
+      this._raf = requestAnimationFrame(animate);
+      const speed = (this.props.motionSpeed == null) ? 1 : this.props.motionSpeed;
+      material.uniforms.u_time.value = clock.getElapsedTime() * speed;
+      renderer.render(scene, camera);
+    };
+    animate();
+  }
+}
+</script>
+</body>
+</html>
