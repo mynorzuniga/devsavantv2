@@ -35,7 +35,7 @@
     }
   </style>
 </helmet>
-<div style="position:relative; width:100vw; height:100vh; overflow:hidden; background:#050505; font-family:'Inter',sans-serif;">
+<div ref="{{ scrollRef }}" style="position:relative; width:100%; height:100vh; overflow-y:auto; overflow-x:hidden; background:#050505; font-family:'Inter',sans-serif;">
 
   <div ref="{{ bgRef }}" style="position:fixed; inset:0; width:100vw; height:100vh; z-index:0;"></div>
 
@@ -43,7 +43,7 @@
     <defs>
       <filter id="lqp-goo" x="-50%" y="-50%" width="200%" height="200%">
         <feGaussianBlur id="lqp-blur" in="SourceGraphic" stdDeviation="26" result="blur"></feGaussianBlur>
-        <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 26 -10" result="goo"></feColorMatrix>
+        <feColorMatrix id="lqp-cm" in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 26 -10" result="goo"></feColorMatrix>
       </filter>
       <mask id="lqp-mask" maskUnits="userSpaceOnUse" x="-100" y="-100" width="10000" height="10000">
         <g filter="url(#lqp-goo)" id="lqp-blobs"></g>
@@ -51,7 +51,8 @@
     </defs>
   </svg>
 
-  <div style="position:relative; z-index:1; height:100vh; display:flex;">
+  <div style="height:135vh; position:relative; z-index:1;">
+    <div style="position:sticky; top:0; height:100vh; display:flex;">
 
     <aside style="flex:0 0 clamp(280px,24vw,400px); position:relative; display:flex; flex-direction:column; padding:clamp(40px,5vh,60px) 0 clamp(40px,5vh,60px) clamp(40px,4vw,60px);">
       <div style="position:absolute; top:clamp(40px,5vh,72px); left:clamp(40px,4vw,60px); animation:nav-enter 1s cubic-bezier(0.16,1,0.3,1) 0.2s both;">
@@ -81,18 +82,34 @@
       </svg>
       <div style="position:absolute;inset:0;pointer-events:none;opacity:0.055;filter:url(#panel-noise);background:#ffffff;"></div>
 
-      <div style="position:relative;z-index:1;max-width:1040px;">
+      <div id="hero-content" style="position:relative;z-index:1;max-width:1040px; will-change:opacity,filter;">
         <h1 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(48px,6.6vw,108px); line-height:1.04; letter-spacing:-0.01em; text-wrap:balance; text-shadow:0 4px 32px rgba(31,98,255,0.40); animation:content-enter 1.5s cubic-bezier(0.16,1,0.3,1) 1.8s both;">From Prototyping to High-Performing Teams</h1>
         <p style="margin:clamp(20px,2.8vh,38px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:#C7FFE0; font-size:clamp(22px,2.3vw,40px); line-height:1.2; animation:content-enter 1.5s cubic-bezier(0.16,1,0.3,1) 2.1s both;">We Power Startup Development.</p>
         <a href="#" style="margin-top:clamp(32px,4.5vh,56px); display:inline-flex; align-items:center; gap:14px; background:#CCFFCE; color:#18282C; font-family:'Inter',sans-serif; font-weight:700; text-transform:uppercase; font-size:clamp(18px,1.7vw,26px); letter-spacing:0.045em; padding:13px 26px; text-decoration:none; box-shadow:0 0 44px rgba(150,255,170,0.28); transition:transform .2s ease, box-shadow .2s ease; animation:btn-grow 1.1s cubic-bezier(0.16,1,0.3,1) 2.5s both;" style-hover="transform:translateY(-2px); box-shadow:0 0 60px rgba(150,255,170,0.45);">Get Started Today <span style="font-weight:700; font-size:1.05em;">&#8594;</span></a>
       </div>
+
     </main>
 
+    <div id="mission-overlay" style="position:absolute; left:clamp(280px,24vw,400px); top:0; right:0; bottom:0; pointer-events:none; z-index:3;">
+      <div id="mission-a" style="position:absolute; left:3%; top:5%; width:54%; height:52%; display:flex; align-items:center; padding:clamp(28px,3.5vw,56px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; opacity:0; pointer-events:none; will-change:opacity; z-index:1;">
+        <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(48px,6.6vw,108px); line-height:1.04; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.40);">Our Mission<br>is Simple:</h2>
+      </div>
+      <div id="mission-b" style="position:absolute; right:3%; bottom:5%; width:54%; height:42%; display:flex; align-items:center; padding:clamp(28px,3.5vw,56px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; opacity:0; pointer-events:none; will-change:opacity; z-index:2;">
+        <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:#C7FFE0; font-size:clamp(18px,1.85vw,32px); line-height:1.4;">Turn ambition into execution, and help every company move confidently toward its next milestone.</p>
+      </div>
+    </div>
+
+    </div>
   </div>
 </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script>
 class Component extends DCLogic {
+  _onScroll = () => {
+    if (this._scrollRAF) return;
+    this._scrollRAF = requestAnimationFrame(() => { this._scrollRAF = 0; this._applyScroll(); });
+  };
+
   renderVals() {
     return {
       bgRef: (el) => {
@@ -100,6 +117,13 @@ class Component extends DCLogic {
       },
       mainRef: (el) => {
         if (el && el !== this._mainEl) { this._mainEl = el; }
+      },
+      scrollRef: (el) => {
+        if (el && el !== this._scrollEl) {
+          this._scrollEl = el;
+          el.addEventListener('scroll', this._onScroll, { passive: true });
+          this._applyScroll();
+        }
       }
     };
   }
@@ -109,6 +133,86 @@ class Component extends DCLogic {
     this._onResize = () => this._resize();
     window.addEventListener('resize', this._onResize);
     this._initLiquidMask();
+    this._scrollProg = 0;
+    this._applyScroll();
+  }
+
+  _applyScroll() {
+    const el = this._scrollEl;
+    if (!el) return;
+    const max = (el.scrollHeight - el.clientHeight) || 1;
+    let p = el.scrollTop / max;
+    p = Math.max(0, Math.min(1, p));
+    this._scrollProg = p;
+
+    const hero = document.getElementById('hero-content');
+    if (hero) {
+      const hp = Math.min(1, p / 0.4);
+      hero.style.opacity = String(1 - hp);
+      hero.style.filter = 'blur(' + (hp * 26).toFixed(1) + 'px)';
+      hero.style.pointerEvents = hp >= 1 ? 'none' : 'auto';
+    }
+
+    // Drive the liquid split morph from p=0.18 to p=0.73
+    const morphP = Math.max(0, Math.min(1, (p - 0.18) / 0.55));
+    this._applyMorph(morphP);
+
+    // Crossfade: masked split glass fades out, real bordered panels fade in
+    if (this._mainEl) {
+      const mo = Math.max(0, Math.min(1, (p - 0.72) / 0.20));
+      this._mainEl.style.opacity = String(1 - mo);
+    }
+    const mpA = Math.max(0, Math.min(1, (p - 0.70) / 0.22));
+    const mpB = Math.max(0, Math.min(1, (p - 0.76) / 0.22));
+    const maA = document.getElementById('mission-a');
+    const maB = document.getElementById('mission-b');
+    if (maA) { maA.style.opacity = String(mpA); maA.style.pointerEvents = mpA > 0.5 ? 'auto' : 'none'; }
+    if (maB) { maB.style.opacity = String(mpB); maB.style.pointerEvents = mpB > 0.5 ? 'auto' : 'none'; }
+  }
+
+  _setupMorph() {
+    const blobContainer = document.getElementById('lqp-blobs');
+    const panel = this._mainEl;
+    if (!blobContainer || !panel) return;
+    const rect = panel.getBoundingClientRect();
+    const w = rect.width, h = rect.height;
+    const SVGNS = 'http://www.w3.org/2000/svg';
+    blobContainer.innerHTML = '';
+    // Tune goo for the morph: enough blur for liquid neck, tapered to crisp at full split
+    const blurEl = document.getElementById('lqp-blur');
+    if (blurEl) blurEl.setAttribute('stdDeviation', '22');
+    const cm = document.getElementById('lqp-cm');
+    if (cm) cm.setAttribute('values', '1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -9');
+    const mk = () => { const r = document.createElementNS(SVGNS, 'rect'); r.setAttribute('fill', 'white'); blobContainer.appendChild(r); return r; };
+    this._morphRectA = mk();
+    this._morphRectB = mk();
+    this._morphW = w;
+    this._morphH = h;
+    this._morphReady = true;
+    this._applyMorph(this._scrollProg || 0);
+  }
+
+  _applyMorph(p) {
+    if (!this._morphReady) return;
+    const w = this._morphW, h = this._morphH;
+    const e = p < 0.5 ? 2*p*p : 1 - Math.pow(-2*p+2, 2)/2;
+    const L = (a, b) => a + (b-a)*e;
+    // Taper blur: liquid neck at start → crisp separate panels at end
+    const blurEl = document.getElementById('lqp-blur');
+    if (blurEl) blurEl.setAttribute('stdDeviation', L(22, 1.5).toFixed(1));
+    const cm = document.getElementById('lqp-cm');
+    if (cm) cm.setAttribute('values', '1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 ' + L(22, 6).toFixed(1) + ' ' + L(-9, -2).toFixed(1));
+    const setR = (el, x, y, rw, rh, rx) => {
+      el.setAttribute('x', L(0, x).toFixed(2));
+      el.setAttribute('y', L(0, y).toFixed(2));
+      el.setAttribute('width', L(w, rw).toFixed(2));
+      el.setAttribute('height', L(h, rh).toFixed(2));
+      el.setAttribute('rx', L(44, rx).toFixed(2));
+    };
+    // Rect A → top-left card (matches mission-a panel: left:3% top:5% w:54% h:52%)
+    setR(this._morphRectA, w*0.03, h*0.05, w*0.54, h*0.52, 40);
+    // Rect B → bottom-right card (matches mission-b panel: right:3% bottom:5% w:54% h:42%)
+    setR(this._morphRectB, w*0.43, h*0.53, w*0.54, h*0.42, 40);
   }
 
   _initLiquidMask() {
@@ -185,6 +289,10 @@ class Component extends DCLogic {
           }, delay);
         });
 
+        // Once the liquid has filled the panel, swap the circle field for the two
+        // morph-rects so scrolling can split the panel into the two mission cards.
+        setTimeout(() => this._setupMorph(), 3200);
+
       }, 100);
     };
     run();
@@ -209,7 +317,6 @@ class Component extends DCLogic {
 
   _applyProps() {
     if (!this.material) return;
-    this.material.uniforms.u_scroll.value = this._stateToScroll();
     this.material.uniforms.u_grain.value = (this.props.grain === false) ? 0.0 : 1.0;
   }
 
@@ -286,9 +393,9 @@ class Component extends DCLogic {
         float t = u_time * 0.08;
         float s = u_scroll;
 
-        vec2 q = vec2(fbm(p * 0.4 + t * 0.05 + s * 2.5), fbm(p * 0.4 + vec2(5.2, 1.3) - t * 0.05 + s * 2.0));
-        vec2 r = vec2(fbm(p * 0.4 + 1.2 * q + vec2(1.7, 9.2) + t * 0.04 - s * 1.5),
-                      fbm(p * 0.4 + 1.2 * q + vec2(8.3, 2.8) + t * 0.06 + s * 3.0));
+        vec2 q = vec2(fbm(p * 0.4 + t * 0.05 + s * 0.4), fbm(p * 0.4 + vec2(5.2, 1.3) - t * 0.05 + s * 0.3));
+        vec2 r = vec2(fbm(p * 0.4 + 1.2 * q + vec2(1.7, 9.2) + t * 0.04 - s * 0.25),
+                      fbm(p * 0.4 + 1.2 * q + vec2(8.3, 2.8) + t * 0.06 + s * 0.45));
 
         float blobFBM = fbm(p * 0.6 + r * 1.5 - t * 0.03 + s * 1.2);
         float bokeh = smoothstep(0.3, 0.9, blobFBM);
@@ -299,25 +406,25 @@ class Component extends DCLogic {
         float trailGlow = smoothstep(0.4, 0.0, trailDist) * 0.3;
         trail = trail + trailGlow;
 
-        vec3 bg0 = vec3(0.015, 0.025, 0.015);
+        vec3 bg0 = vec3(0.004, 0.007, 0.004);
         vec3 blur0 = vec3(0.0, 0.35, 0.05);
         vec3 trail0 = vec3(0.1, 0.7, 0.15);
 
-        vec3 bg1 = vec3(0.01, 0.025, 0.03);
-        vec3 blur1 = vec3(0.0, 0.25, 0.35);
-        vec3 trail1 = vec3(0.05, 0.65, 0.7);
+        vec3 bg1 = vec3(0.004, 0.007, 0.008);
+        vec3 blur1 = vec3(0.0, 0.28, 0.18);
+        vec3 trail1 = vec3(0.06, 0.62, 0.32);
 
-        vec3 bg2 = vec3(0.005, 0.035, 0.04);
-        vec3 blur2 = vec3(0.0, 0.35, 0.45);
-        vec3 trail2 = vec3(0.1, 0.9, 0.8);
+        vec3 bg2 = vec3(0.004, 0.007, 0.012);
+        vec3 blur2 = vec3(0.0, 0.24, 0.28);
+        vec3 trail2 = vec3(0.05, 0.58, 0.42);
 
         vec3 bg = mix(mix(bg0, bg1, smoothstep(0.0, 0.5, s)), bg2, smoothstep(0.5, 1.0, s));
         vec3 blurCol = mix(mix(blur0, blur1, smoothstep(0.0, 0.5, s)), blur2, smoothstep(0.5, 1.0, s));
         vec3 trailCol = mix(mix(trail0, trail1, smoothstep(0.0, 0.5, s)), trail2, smoothstep(0.5, 1.0, s));
 
         vec3 color = bg;
-        color += blurCol * bokeh;
-        color += trailCol * trail;
+        color += blurCol * bokeh * 0.65;
+        color += trailCol * trail * 0.70;
 
         float grain = hash(uv + fract(u_time)) * 0.12 * u_grain;
         color = max(color - grain, 0.0);
@@ -347,6 +454,7 @@ class Component extends DCLogic {
       this._raf = requestAnimationFrame(animate);
       const speed = (this.props.motionSpeed == null) ? 1 : this.props.motionSpeed;
       material.uniforms.u_time.value = clock.getElapsedTime() * speed;
+      material.uniforms.u_scroll.value = this._scrollProg || 0;
       renderer.render(scene, camera);
     };
     animate();
