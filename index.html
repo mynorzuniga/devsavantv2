@@ -33,6 +33,15 @@
       from { opacity: 0; transform: translateX(10px); }
       to   { opacity: 1; transform: translateX(0);    }
     }
+    #ds-agent-input::placeholder {
+      color: rgba(255,255,255,0.5);
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+    }
+    @keyframes agent-enter {
+      from { opacity: 0; transform: translateY(32px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
   </style>
 </helmet>
 <div ref="{{ scrollRef }}" style="position:relative; width:100%; height:100vh; overflow-y:auto; overflow-x:hidden; background:#050505; font-family:'Inter',sans-serif;">
@@ -52,7 +61,7 @@
   </svg>
 
   <div style="height:135vh; position:relative; z-index:1;">
-    <div style="position:sticky; top:0; height:100vh; display:flex;">
+    <div id="hero-sticky" style="position:sticky; top:0; height:100vh; display:flex;">
 
     <aside style="flex:0 0 clamp(280px,24vw,400px); position:relative; display:flex; flex-direction:column; padding:clamp(40px,5vh,60px) 0 clamp(40px,5vh,60px) clamp(40px,4vw,60px);">
       <div style="position:absolute; top:clamp(40px,5vh,72px); left:clamp(40px,4vw,60px); animation:nav-enter 1s cubic-bezier(0.16,1,0.3,1) 0.2s both;">
@@ -99,8 +108,10 @@
       </div>
     </div>
 
-    </div>
   </div>
+
+  <!-- Fixed agent bar -->
+
 </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script>
@@ -135,29 +146,270 @@ class Component extends DCLogic {
     this._initLiquidMask();
     this._scrollProg = 0;
     this._applyScroll();
+    this._mountAgentBar();
+  }
+
+  _mountAgentBar() {
+    if (this._agentBar) return;
+    const style = document.createElement('style');
+    style.textContent = `
+      #ds-agent-input::placeholder { color: rgba(255,255,255,0.5); font-family:'Inter',sans-serif; font-weight:300; }
+      @keyframes agent-enter { from { opacity:0; transform:translateY(32px); } to { opacity:1; transform:translateY(0); } }
+    `;
+    document.head.appendChild(style);
+    this._agentStyle = style;
+
+    const bar = document.createElement('div');
+    bar.style.cssText = 'position:fixed;bottom:0;left:0;right:0;z-index:9999;padding:0 clamp(40px,4vw,60px) clamp(20px,2.8vh,32px) clamp(40px,4vw,60px);pointer-events:none;';
+    bar.innerHTML = `
+      <div style="pointer-events:auto;max-width:100%;">
+        <p style="margin:0 0 10px;font-family:'Inter',sans-serif;font-weight:300;font-size:clamp(17px,1.4vw,24px);color:#fff;line-height:1;opacity:0;animation:agent-enter 0.8s cubic-bezier(0.34,1.2,0.64,1) 3.6s forwards;">Got something you need to ask?</p>
+        <div style="position:relative;width:100%;opacity:0;animation:agent-enter 0.8s cubic-bezier(0.34,1.2,0.64,1) 3.9s forwards;">
+          <div style="position:absolute;inset:0;border-radius:12px;overflow:hidden;pointer-events:none;">
+            <div style="position:absolute;inset:0;background:rgba(4,12,8,0.72);"></div>
+            <div style="position:absolute;inset:0;opacity:0.06;filter:url(#panel-noise);background:#fff;"></div>
+          </div>
+          <input id="ds-agent-input" type="text" placeholder="Ask anything..." style="position:relative;width:100%;box-sizing:border-box;font-family:'Inter',sans-serif;font-weight:300;font-size:clamp(17px,1.4vw,24px);color:#fff;background:transparent;border:1px solid rgba(199,255,224,0.40);border-radius:12px;padding:clamp(14px,1.8vh,20px) clamp(20px,2vw,32px);outline:none;transition:border-color .2s ease;" />
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:10px;">
+          <button style="position:relative;font-family:'Inter',sans-serif;font-weight:300;font-size:clamp(13px,1.05vw,17px);color:#fff;background:rgba(4,12,8,0.68);border:1px solid rgba(8,165,18,0.35);border-radius:6px;padding:8px 18px;cursor:pointer;white-space:nowrap;transition:background .2s ease;opacity:0;animation:agent-enter 0.7s cubic-bezier(0.34,1.2,0.64,1) 4.15s forwards;">What type of work do you do?</button>
+          <button style="position:relative;font-family:'Inter',sans-serif;font-weight:300;font-size:clamp(13px,1.05vw,17px);color:#fff;background:rgba(4,12,8,0.68);border:1px solid rgba(8,165,18,0.35);border-radius:6px;padding:8px 18px;cursor:pointer;white-space:nowrap;transition:background .2s ease;opacity:0;animation:agent-enter 0.7s cubic-bezier(0.34,1.2,0.64,1) 4.35s forwards;">Can you build me a team?</button>
+          <button style="position:relative;font-family:'Inter',sans-serif;font-weight:300;font-size:clamp(13px,1.05vw,17px);color:#fff;background:rgba(4,12,8,0.68);border:1px solid rgba(8,165,18,0.35);border-radius:6px;padding:8px 18px;cursor:pointer;white-space:nowrap;transition:background .2s ease;opacity:0;animation:agent-enter 0.7s cubic-bezier(0.34,1.2,0.64,1) 4.55s forwards;">How long does it take to build an app?</button>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(bar);
+    this._agentBar = bar;
+
+    const input = bar.querySelector('#ds-agent-input');
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && input.value.trim()) this._triggerAgent(input.value.trim());
+    });
+    bar.querySelectorAll('button').forEach(btn => {
+      btn.addEventListener('click', () => this._triggerAgent(btn.textContent.trim()));
+    });
+  }
+
+  _triggerAgent(query) {
+    // If already active, just swap response
+    if (this._agentActive) {
+      if (this._responseOverlay) {
+        this._responseOverlay.style.opacity = '0';
+        setTimeout(() => {
+          if (this._responseOverlay && this._responseOverlay.parentNode) this._responseOverlay.parentNode.removeChild(this._responseOverlay);
+          this._responseOverlay = null;
+          this._mountResponseOverlay(query);
+        }, 350);
+      }
+      return;
+    }
+    this._agentActive = true;
+    if (this._scrollEl) {
+      this._savedScroll = this._scrollEl.scrollTop;
+      this._scrollEl.style.overflowY = 'hidden';
+    }
+
+    // Blur the WebGL canvas directly — all UI stays above it unaffected
+    if (this._bg) {
+      this._bg.style.transition = 'filter 0.9s ease, transform 0.9s ease';
+      this._bg.style.filter = 'blur(28px)';
+      this._bg.style.transform = 'scale(1.06)';
+    }
+
+    // Speed up background texture
+    this._speedBoost = 3.2;
+
+    // Fade hero content and glass panel, not the sidebar
+    const heroContent = document.getElementById('hero-content');
+    if (heroContent) { heroContent.style.transition = 'opacity 0.5s ease'; heroContent.style.opacity = '0'; }
+    const mo = document.getElementById('mission-overlay');
+    if (mo) { mo.style.transition = 'opacity 0.4s ease'; mo.style.opacity = '0'; }
+    if (this._mainEl) { this._mainEl.style.transition = 'opacity 0.5s ease'; this._mainEl.style.opacity = '0'; }
+
+    // Hide chips + label
+    if (this._agentBar) {
+      const label = this._agentBar.querySelector('p');
+      const chips = this._agentBar.querySelectorAll('button');
+      if (label) { label.style.transition = 'opacity 0.3s ease'; label.style.opacity = '0'; }
+      chips.forEach(b => { b.style.transition = 'opacity 0.25s ease'; b.style.opacity = '0'; });
+    }
+
+    setTimeout(() => { this._mountResponseOverlay(query); }, 800);
+  }
+
+
+  _mountResponseOverlay(query) {
+    const RESPONSES = {
+      'What type of work do you do?': {
+        headline: 'Full-Stack Teams\n& Products.',
+        sections: [
+          { label: 'What we build', body: 'End-to-end digital products \u2014 from design systems to production-grade infrastructure. We cover frontend, backend, mobile, DevOps, and everything in between.' },
+          { label: 'Who we work with', body: 'Venture-backed startups and growth-stage companies that need to move fast without compromising quality. We become a seamless extension of your team.' },
+          { label: 'How we engage', body: 'Dedicated teams, embedded in your workflow. We adapt to your process \u2014 async, agile, or fully on-site. No agency overhead, no lock-in.' }
+        ]
+      },
+      'Can you build me a team?': {
+        headline: 'Your Team,\nReady in Two Weeks.',
+        sections: [
+          { label: 'How it works', body: 'We match you with senior engineers, product leads, and designers from our vetted network. First interview in 48 hours, team assembled in under two weeks.' },
+          { label: 'What you get', body: 'Full-time dedicated engineers who join your Slack, your standups, and your codebase. You own the IP. We handle the hiring, HR, and retention.' },
+          { label: 'Flexibility', body: 'Scale up or down as your product evolves. No long-term contracts required \u2014 just great people building great things.' }
+        ]
+      },
+      'How long does it take to build an app?': {
+        headline: '6\u201312 Weeks\nto Your MVP.',
+        sections: [
+          { label: 'Week 1\u20132', body: 'Architecture, design system, and core data models. You see real screens before the end of week one.' },
+          { label: 'Week 3\u20136', body: 'Core feature development. Daily standups, continuous deployment, weekly demos you can share with investors or users.' },
+          { label: 'Week 7+', body: 'Polish, performance, and launch. We stay engaged post-launch to iterate based on real user feedback.' }
+        ]
+      }
+    };
+    const resp = RESPONSES[query] || {
+      headline: 'Let\u2019s Build\nSomething.',
+      sections: [
+        { label: 'Who we are', body: 'DevSavant is a product development partner for ambitious startups. We build, ship, and scale digital products and the teams behind them.' },
+        { label: 'What we\u2019re good at', body: 'Turning ambition into execution \u2014 whether that is a new product, a scaled engineering team, or a complete technical pivot.' },
+        { label: 'Next step', body: 'Drop us your details and we will get back to you within 24 hours with a concrete plan tailored to your situation.' }
+      ]
+    };
+
+    // X close button
+    const xBtn = document.createElement('button');
+    xBtn.style.cssText = 'position:fixed;top:clamp(24px,3vh,40px);right:clamp(24px,3vw,48px);z-index:10000;background:none;border:none;cursor:pointer;color:rgba(255,255,255,0.45);font-size:26px;line-height:1;padding:8px;transition:color 0.2s ease;opacity:0;animation:agent-enter 0.5s ease 0.3s forwards;';
+    xBtn.innerHTML = '&#x2715;';
+    xBtn.addEventListener('mouseenter', () => { xBtn.style.color = '#fff'; });
+    xBtn.addEventListener('mouseleave', () => { xBtn.style.color = 'rgba(255,255,255,0.45)'; });
+    xBtn.addEventListener('click', () => this._resetAgent());
+    document.body.appendChild(xBtn);
+    this._xBtn = xBtn;
+
+    // Scrollable response overlay — left inset matches sidebar
+    const sideW = 'clamp(280px,24vw,400px)';
+    const overlay = document.createElement('div');
+    overlay.style.cssText = 'position:fixed;top:0;bottom:clamp(100px,16vh,160px);left:' + sideW + ';right:0;z-index:9995;overflow-y:auto;padding:clamp(48px,8vh,120px) 8% clamp(48px,6vh,80px) clamp(48px,6.5vw,140px);pointer-events:auto;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;';
+
+    // Query echo
+    const qEl = document.createElement('p');
+    qEl.style.cssText = "margin:0 0 clamp(16px,2.5vh,28px);font-family:'Inter',sans-serif;font-weight:300;font-size:clamp(14px,1.1vw,18px);color:rgba(199,255,224,0.45);opacity:0;transition:opacity 0.5s ease;";
+    qEl.textContent = '\u2192 ' + query;
+
+    // Headline
+    const hEl = document.createElement('h2');
+    hEl.style.cssText = "margin:0 0 clamp(32px,5vh,72px);font-family:'Space Grotesk',sans-serif;font-weight:500;color:#E0FFEE;font-size:clamp(48px,6.6vw,108px);line-height:1.04;letter-spacing:-0.01em;white-space:pre-line;text-shadow:0 4px 32px rgba(31,98,255,0.40);";
+
+    overlay.appendChild(qEl);
+    overlay.appendChild(hEl);
+
+    // Section containers (pre-built, filled by typewriter)
+    const sectionEls = resp.sections.map((sec, idx) => {
+      const wrap = document.createElement('div');
+      wrap.style.cssText = 'margin-bottom:clamp(28px,4vh,52px);opacity:0;transition:opacity 0.6s ease;';
+      const lbl = document.createElement('p');
+      lbl.style.cssText = "margin:0 0 10px;font-family:'Inter',sans-serif;font-weight:700;text-transform:uppercase;font-size:clamp(11px,0.85vw,14px);letter-spacing:0.12em;color:rgba(199,255,224,0.45);";
+      lbl.textContent = sec.label;
+      const body = document.createElement('p');
+      body.style.cssText = "margin:0;font-family:'Inter',sans-serif;font-weight:300;color:#C7FFE0;font-size:clamp(18px,1.85vw,32px);line-height:1.35;";
+      wrap.appendChild(lbl);
+      wrap.appendChild(body);
+      overlay.appendChild(wrap);
+      return { wrap, body, text: sec.body };
+    });
+
+    document.body.appendChild(overlay);
+    this._responseOverlay = overlay;
+
+    // Animate in: query echo -> headline typewriter -> sections cascade
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      qEl.style.opacity = '1';
+      setTimeout(() => {
+        this._typeText(resp.headline, hEl, () => {
+          let delay = 120;
+          sectionEls.forEach(({ wrap, body, text }, i) => {
+            setTimeout(() => {
+              wrap.style.opacity = '1';
+              setTimeout(() => this._typeText(text, body, null), 80);
+            }, delay * i);
+          });
+        });
+      }, 280);
+    }));
+  }
+
+  _typeText(text, el, onDone) {
+    // Decode unicode escapes in the stored string
+    const decoded = text.replace(/\\u([0-9A-Fa-f]{4})/g, (m, c) => String.fromCharCode(parseInt(c, 16)));
+    let i = 0;
+    el.textContent = '';
+    const isHeading = el.tagName === 'H2';
+    const tick = () => {
+      if (i < decoded.length) {
+        el.textContent = decoded.slice(0, ++i);
+        setTimeout(tick, isHeading ? (20 + Math.random() * 16) : (11 + Math.random() * 10));
+      } else if (onDone) { onDone(); }
+    };
+    tick();
+  }
+
+  _resetAgent() {
+    // Remove X button
+    if (this._xBtn) {
+      const x = this._xBtn; x.style.opacity = '0';
+      setTimeout(() => { if (x.parentNode) x.parentNode.removeChild(x); }, 400);
+      this._xBtn = null;
+    }
+    // Remove response overlay
+    if (this._responseOverlay) {
+      const ov = this._responseOverlay;
+      ov.style.transition = 'opacity 0.45s ease'; ov.style.opacity = '0';
+      setTimeout(() => { if (ov.parentNode) ov.parentNode.removeChild(ov); }, 450);
+      this._responseOverlay = null;
+    }
+    // Remove blur overlay (no longer used)
+    if (this._blurOverlay) {
+      const bo = this._blurOverlay; bo.style.opacity = '0';
+      setTimeout(() => { if (bo.parentNode) bo.parentNode.removeChild(bo); }, 700);
+      this._blurOverlay = null;
+    }
+    // Restore WebGL canvas blur
+    if (this._bg) {
+      this._bg.style.filter = '';
+      this._bg.style.transform = '';
+    }
+    // Restore speed
+    this._speedBoost = 1;
+    // Restore scroll
+    if (this._scrollEl) { this._scrollEl.style.overflowY = 'auto'; this._scrollEl.scrollTop = this._savedScroll || 0; }
+    // Restore hero content and glass panel — let _applyScroll set correct values for current position
+    this._agentActive = false;
+    setTimeout(() => { this._applyScroll(); }, 50);
+    // Restore mission overlay based on scroll
+    const mo = document.getElementById('mission-overlay');
+    if (mo) { mo.style.transition = 'opacity 0.8s ease'; mo.style.opacity = ''; }
+    // Restore agent bar
+    if (this._agentBar) {
+      const label = this._agentBar.querySelector('p');
+      const chips = this._agentBar.querySelectorAll('button');
+      const inp = this._agentBar.querySelector('#ds-agent-input');
+      if (label) { label.style.transition = 'opacity 0.7s ease'; label.style.opacity = '1'; }
+      chips.forEach(b => { b.style.transition = 'opacity 0.7s ease'; b.style.opacity = '1'; });
+      if (inp) { inp.value = ''; }
+    }
   }
 
   _applyScroll() {
-    const el = this._scrollEl;
-    if (!el) return;
-    const max = (el.scrollHeight - el.clientHeight) || 1;
-    let p = el.scrollTop / max;
-    p = Math.max(0, Math.min(1, p));
+    const sc = this._scrollEl;
+    if (!sc) return;
+    const p = sc.scrollTop / (sc.scrollHeight - sc.clientHeight || 1);
     this._scrollProg = p;
-
-    const hero = document.getElementById('hero-content');
-    if (hero) {
-      const hp = Math.min(1, p / 0.4);
-      hero.style.opacity = String(1 - hp);
-      hero.style.filter = 'blur(' + (hp * 26).toFixed(1) + 'px)';
-      hero.style.pointerEvents = hp >= 1 ? 'none' : 'auto';
+    const heroFade = Math.max(0, Math.min(1, p / 0.18));
+    const heroContent = document.getElementById('hero-content');
+    if (heroContent && !this._agentActive) {
+      heroContent.style.opacity = String(1 - heroFade);
+      heroContent.style.filter = heroFade > 0 ? 'blur(' + (heroFade * 14).toFixed(1) + 'px)' : '';
     }
-
-    // Drive the liquid split morph from p=0.18 to p=0.73
     const morphP = Math.max(0, Math.min(1, (p - 0.18) / 0.55));
     this._applyMorph(morphP);
-
-    // Crossfade: masked split glass fades out, real bordered panels fade in
     if (this._mainEl) {
       const mo = Math.max(0, Math.min(1, (p - 0.72) / 0.20));
       this._mainEl.style.opacity = String(1 - mo);
@@ -178,7 +430,6 @@ class Component extends DCLogic {
     const w = rect.width, h = rect.height;
     const SVGNS = 'http://www.w3.org/2000/svg';
     blobContainer.innerHTML = '';
-    // Tune goo for the morph: enough blur for liquid neck, tapered to crisp at full split
     const blurEl = document.getElementById('lqp-blur');
     if (blurEl) blurEl.setAttribute('stdDeviation', '22');
     const cm = document.getElementById('lqp-cm');
@@ -197,21 +448,24 @@ class Component extends DCLogic {
     const w = this._morphW, h = this._morphH;
     const e = p < 0.5 ? 2*p*p : 1 - Math.pow(-2*p+2, 2)/2;
     const L = (a, b) => a + (b-a)*e;
-    // Taper blur: liquid neck at start → crisp separate panels at end
+    // Blur peaks at mid-split then tapers — at p=0 it must be ~0 so the mask
+    // rect doesn't feather the right-side edges of <main>
+    const blurPeak = 22;
+    const blurVal = p < 0.5 ? L(0.2, blurPeak) : L(blurPeak, 1.2);
     const blurEl = document.getElementById('lqp-blur');
-    if (blurEl) blurEl.setAttribute('stdDeviation', L(22, 1.5).toFixed(1));
+    if (blurEl) blurEl.setAttribute('stdDeviation', blurVal.toFixed(1));
     const cm = document.getElementById('lqp-cm');
-    if (cm) cm.setAttribute('values', '1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 ' + L(22, 6).toFixed(1) + ' ' + L(-9, -2).toFixed(1));
+    const strength = L(28, 6), offset = L(-12, -2);
+    if (cm) cm.setAttribute('values', '1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 ' + strength.toFixed(1) + ' ' + offset.toFixed(1));
+    const PAD = 32; // oversize at p=0 so blur edge bleeds off-screen
     const setR = (el, x, y, rw, rh, rx) => {
-      el.setAttribute('x', L(0, x).toFixed(2));
-      el.setAttribute('y', L(0, y).toFixed(2));
-      el.setAttribute('width', L(w, rw).toFixed(2));
-      el.setAttribute('height', L(h, rh).toFixed(2));
-      el.setAttribute('rx', L(44, rx).toFixed(2));
+      el.setAttribute('x', (L(-PAD, x)).toFixed(2));
+      el.setAttribute('y', (L(-PAD, y)).toFixed(2));
+      el.setAttribute('width', (L(w + PAD*2, rw)).toFixed(2));
+      el.setAttribute('height', (L(h + PAD*2, rh)).toFixed(2));
+      el.setAttribute('rx', L(0, rx).toFixed(2));
     };
-    // Rect A → top-left card (matches mission-a panel: left:3% top:5% w:54% h:52%)
     setR(this._morphRectA, w*0.03, h*0.05, w*0.54, h*0.52, 40);
-    // Rect B → bottom-right card (matches mission-b panel: right:3% bottom:5% w:54% h:42%)
     setR(this._morphRectB, w*0.43, h*0.53, w*0.54, h*0.42, 40);
   }
 
@@ -228,102 +482,49 @@ class Component extends DCLogic {
       }
       setTimeout(() => {
         const rect = panel.getBoundingClientRect();
-        const w = rect.width;
-        const h = rect.height;
+        const w = rect.width, h = rect.height;
         const SVGNS = 'http://www.w3.org/2000/svg';
-
-        // Dense, heavily-overlapping circles so the goo filter always renders them
-        // as ONE continuous liquid mass (no visible grid). We then reveal them in
-        // order of distance from the top-left corner, so the mass grows like liquid
-        // pouring in and filling the space.
         const spacing = Math.min(w, h) / 15;
         const radius = spacing * 0.78;
-        // Scale the goo blur with the circle size so the metaball melts smoothly
-        // at any viewport (a fixed px blur looks dotty on large screens).
         const blurEl = document.getElementById('lqp-blur');
         if (blurEl) blurEl.setAttribute('stdDeviation', (radius * 0.85).toFixed(1));
         const cols = Math.ceil(w / spacing) + 2;
         const rows = Math.ceil(h / spacing) + 2;
-        // Coherent multi-frequency noise — neighbouring circles get similar values,
-        // so the wavefront develops organic bulges and tendrils instead of a clean arc.
         const noise2 = (x, y) =>
           Math.sin(x * 0.016 + y * 0.011 + 0.4) * 0.6 +
           Math.sin(x * 0.006 - y * 0.022 + 1.7) * 0.45 +
-          Math.sin((x + y) * 0.013 + 3.1) * 0.35; // ~ -1.4 .. 1.4
-
+          Math.sin((x + y) * 0.013 + 3.1) * 0.35;
         const blobs = [];
         let maxDist = 1;
-
         for (let i = 0; i < rows; i++) {
           for (let j = 0; j < cols; j++) {
-            const cx = j * spacing;
-            const cy = i * spacing;
+            const cx = j * spacing, cy = i * spacing;
             const n = noise2(cx, cy);
-            const r = radius * (0.7 + 0.5 * (n * 0.5 + 0.5)); // varied size -> wavy edge
+            const r = radius * (0.7 + 0.5 * (n * 0.5 + 0.5));
             const c = document.createElementNS(SVGNS, 'circle');
-            c.setAttribute('cx', cx);
-            c.setAttribute('cy', cy);
-            c.setAttribute('r', r);
-            c.setAttribute('fill', 'white');
+            c.setAttribute('cx', cx); c.setAttribute('cy', cy); c.setAttribute('r', r); c.setAttribute('fill', 'white');
             c.style.transformOrigin = cx + 'px ' + cy + 'px';
             c.style.transform = 'scale(0)';
             blobContainer.appendChild(c);
             const dist = Math.sqrt(cx * cx + cy * cy);
             if (dist > maxDist) maxDist = dist;
-            blobs.push({ el: c, dist: dist, n: n });
+            blobs.push({ el: c, dist, n });
           }
         }
-
-        // The front advances by distance from the top-left, but the noise pushes
-        // some regions ahead and holds others back, so it flows like a liquid.
-        const FILL_TIME = 1500;
-        const START_DELAY = 120;
-        const WOBBLE = 360;       // ms of front irregularity
+        const FILL_TIME = 1500, START_DELAY = 120, WOBBLE = 360;
         blobs.forEach(({ el, dist, n }) => {
           let delay = START_DELAY + (dist / maxDist) * FILL_TIME + n * WOBBLE;
           if (delay < 0) delay = 0;
-          const dur = 0.85 + (n * 0.5 + 0.5) * 0.5; // 0.85 - 1.35s, varied
+          const dur = 0.85 + (n * 0.5 + 0.5) * 0.5;
           setTimeout(() => {
             el.style.transition = 'transform ' + dur.toFixed(2) + 's cubic-bezier(0.33, 0, 0.2, 1)';
             el.style.transform = 'scale(1)';
           }, delay);
         });
-
-        // Once the liquid has filled the panel, swap the circle field for the two
-        // morph-rects so scrolling can split the panel into the two mission cards.
-        setTimeout(() => this._setupMorph(), 3200);
-
+        setTimeout(() => { this._setupMorph(); }, START_DELAY + FILL_TIME + WOBBLE + 1500);
       }, 100);
     };
     run();
-  }
-
-  componentWillUnmount() {
-    cancelAnimationFrame(this._raf);
-    clearTimeout(this._poll);
-    window.removeEventListener('resize', this._onResize);
-    if (this.renderer) {
-      try { this._bg && this.renderer.domElement && this._bg.removeChild(this.renderer.domElement); } catch (e) {}
-      this.renderer.dispose && this.renderer.dispose();
-    }
-  }
-
-  componentDidUpdate() { this._applyProps(); }
-
-  _stateToScroll() {
-    const s = this.props.colorState || 'Forest';
-    return s === 'Aqua' ? 1.0 : (s === 'Teal' ? 0.5 : 0.0);
-  }
-
-  _applyProps() {
-    if (!this.material) return;
-    this.material.uniforms.u_grain.value = (this.props.grain === false) ? 0.0 : 1.0;
-  }
-
-  _resize() {
-    if (!this.renderer) return;
-    this.renderer.setSize(window.innerWidth, window.innerHeight);
-    this.material.uniforms.u_resolution.value.set(window.innerWidth, window.innerHeight);
   }
 
   _init() {
@@ -336,7 +537,6 @@ class Component extends DCLogic {
     this._started = true;
     const THREE = window.THREE;
     const container = this._bg;
-
     const scene = new THREE.Scene();
     const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
@@ -389,7 +589,6 @@ class Component extends DCLogic {
         vec2 uv = vUv;
         vec2 p = uv * 2.0 - 1.0;
         p.x *= u_resolution.x / u_resolution.y;
-
         float t = u_time * 0.08;
         float s = u_scroll;
 
@@ -423,8 +622,8 @@ class Component extends DCLogic {
         vec3 trailCol = mix(mix(trail0, trail1, smoothstep(0.0, 0.5, s)), trail2, smoothstep(0.5, 1.0, s));
 
         vec3 color = bg;
-        color += blurCol * bokeh * 0.65;
-        color += trailCol * trail * 0.70;
+        color += blurCol * bokeh;
+        color += trailCol * trail;
 
         float grain = hash(uv + fract(u_time)) * 0.12 * u_grain;
         color = max(color - grain, 0.0);
@@ -438,10 +637,10 @@ class Component extends DCLogic {
       vertexShader,
       fragmentShader,
       uniforms: {
-        u_time: { value: 0.0 },
+        u_time:       { value: 0.0 },
         u_resolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
-        u_scroll: { value: this._stateToScroll() },
-        u_grain: { value: (this.props.grain === false) ? 0.0 : 1.0 }
+        u_scroll:     { value: 0.0 },
+        u_grain:      { value: (this.props.grain === false) ? 0.0 : 1.0 }
       }
     });
     this.material = material;
@@ -453,13 +652,34 @@ class Component extends DCLogic {
     const animate = () => {
       this._raf = requestAnimationFrame(animate);
       const speed = (this.props.motionSpeed == null) ? 1 : this.props.motionSpeed;
-      material.uniforms.u_time.value = clock.getElapsedTime() * speed;
+      const elapsed = clock.getElapsedTime();
+      const dt = elapsed - (this._lastElapsed || 0);
+      this._lastElapsed = elapsed;
+      this._accTime = (this._accTime || 0) + dt * speed * (this._speedBoost || 1);
+      material.uniforms.u_time.value = this._accTime;
       material.uniforms.u_scroll.value = this._scrollProg || 0;
       renderer.render(scene, camera);
     };
     animate();
   }
+
+  _resize() {
+    if (!this.renderer) return;
+    this.renderer.setSize(window.innerWidth, window.innerHeight);
+    this.material.uniforms.u_resolution.value.set(window.innerWidth, window.innerHeight);
+  }
+
+  componentWillUnmount() {
+    cancelAnimationFrame(this._raf);
+    clearTimeout(this._poll);
+    window.removeEventListener('resize', this._onResize);
+    if (this.renderer) {
+      try { this._bg && this.renderer.domElement && this._bg.removeChild(this.renderer.domElement); } catch (e) {}
+      this.renderer.dispose && this.renderer.dispose();
+    }
+    if (this._agentBar) { document.body.removeChild(this._agentBar); this._agentBar = null; }
+    if (this._agentStyle) { document.head.removeChild(this._agentStyle); this._agentStyle = null; }
+  }
 }
 </script>
-</body>
-</html>
+</x-dc>
