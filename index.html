@@ -304,17 +304,18 @@ class Component extends DCLogic {
       this._agentInput.focus();
     }, 260);
 
-    // Open chips after width is mostly grown
+    // Open chips smoothly — timed to flow with the expansion curve
     setTimeout(() => {
       const chipH = 60;
       this._chipsWrap.style.maxHeight = chipH + 'px';
       this._chips.forEach((btn, i) => {
         setTimeout(() => {
+          btn.style.transition = 'opacity 0.5s ease, transform 0.5s cubic-bezier(0.16,1,0.3,1)';
           btn.style.opacity = '1';
           btn.style.transform = 'translateY(0)';
-        }, 40 + i * 90);
+        }, 80 + i * 140);
       });
-    }, 380);
+    }, 280);
   }
 
   _collapseBar() {
@@ -421,15 +422,18 @@ class Component extends DCLogic {
       ]
     };
 
-    // X close button
-    const xBtn = document.createElement('button');
-    xBtn.style.cssText = 'position:fixed;top:clamp(24px,3vh,40px);right:clamp(24px,3vw,48px);z-index:10000;background:none;border:none;cursor:pointer;color:rgba(255,255,255,0.45);font-size:26px;line-height:1;padding:8px;transition:color 0.2s ease;opacity:0;animation:agent-enter 0.5s ease 0.3s forwards;';
-    xBtn.innerHTML = '&#x2715;';
-    xBtn.addEventListener('mouseenter', () => { xBtn.style.color = '#fff'; });
-    xBtn.addEventListener('mouseleave', () => { xBtn.style.color = 'rgba(255,255,255,0.45)'; });
-    xBtn.addEventListener('click', () => this._resetAgent());
-    document.body.appendChild(xBtn);
-    this._xBtn = xBtn;
+    // X close button — only create if not already present
+    if (!this._xBtn) {
+      const xBtn = document.createElement('button');
+      xBtn.style.cssText = 'position:fixed;top:clamp(24px,3vh,40px);right:clamp(24px,3vw,48px);z-index:10000;background:none;border:none;cursor:pointer;color:rgba(255,255,255,0.45);font-size:26px;line-height:1;padding:8px;transition:color 0.2s ease,opacity 0.3s ease;opacity:0;';
+      xBtn.innerHTML = '&#x2715;';
+      xBtn.addEventListener('mouseenter', () => { xBtn.style.color = '#fff'; });
+      xBtn.addEventListener('mouseleave', () => { xBtn.style.color = 'rgba(255,255,255,0.45)'; });
+      xBtn.addEventListener('click', () => this._resetAgent());
+      document.body.appendChild(xBtn);
+      this._xBtn = xBtn;
+      requestAnimationFrame(() => requestAnimationFrame(() => { xBtn.style.opacity = '1'; }));
+    }
 
     // Scrollable response overlay — left inset matches sidebar
     const sideW = 'clamp(280px,24vw,400px)';
