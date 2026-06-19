@@ -153,42 +153,194 @@ class Component extends DCLogic {
     if (this._agentBar) return;
     const style = document.createElement('style');
     style.textContent = `
-      #ds-agent-input::placeholder { color: rgba(255,255,255,0.5); font-family:'Inter',sans-serif; font-weight:300; }
-      @keyframes agent-enter { from { opacity:0; transform:translateY(32px); } to { opacity:1; transform:translateY(0); } }
+      #ds-agent-input::placeholder { color:rgba(255,255,255,0.5); font-family:'Inter',sans-serif; font-weight:300; }
     `;
     document.head.appendChild(style);
     this._agentStyle = style;
 
+    // Outer bar — starts at sidebar width, grows rightward
+    // We transition max-width + height + transform together for a true grow
+    const SIDEBAR = 'clamp(280px,24vw,400px)';
+    const PAD_L   = 'clamp(40px,4vw,60px)';
+    const PAD_B   = 'clamp(20px,2.8vh,32px)';
+
     const bar = document.createElement('div');
-    bar.style.cssText = 'position:fixed;bottom:0;left:0;right:0;z-index:9999;padding:0 clamp(40px,4vw,60px) clamp(20px,2.8vh,32px) clamp(40px,4vw,60px);pointer-events:none;';
-    bar.innerHTML = `
-      <div style="pointer-events:auto;max-width:100%;">
-        <p style="margin:0 0 10px;font-family:'Inter',sans-serif;font-weight:300;font-size:clamp(17px,1.4vw,24px);color:#fff;line-height:1;opacity:0;animation:agent-enter 0.8s cubic-bezier(0.34,1.2,0.64,1) 3.6s forwards;">Got something you need to ask?</p>
-        <div style="position:relative;width:100%;opacity:0;animation:agent-enter 0.8s cubic-bezier(0.34,1.2,0.64,1) 3.9s forwards;">
-          <div style="position:absolute;inset:0;border-radius:12px;overflow:hidden;pointer-events:none;">
-            <div style="position:absolute;inset:0;background:rgba(4,12,8,0.72);"></div>
-            <div style="position:absolute;inset:0;opacity:0.06;filter:url(#panel-noise);background:#fff;"></div>
-          </div>
-          <input id="ds-agent-input" type="text" placeholder="Ask anything..." style="position:relative;width:100%;box-sizing:border-box;font-family:'Inter',sans-serif;font-weight:300;font-size:clamp(17px,1.4vw,24px);color:#fff;background:transparent;border:1px solid rgba(199,255,224,0.40);border-radius:12px;padding:clamp(14px,1.8vh,20px) clamp(20px,2vw,32px);outline:none;transition:border-color .2s ease;" />
-        </div>
-        <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:10px;">
-          <button style="position:relative;font-family:'Inter',sans-serif;font-weight:300;font-size:clamp(13px,1.05vw,17px);color:#fff;background:rgba(4,12,8,0.68);border:1px solid rgba(8,165,18,0.35);border-radius:6px;padding:8px 18px;cursor:pointer;white-space:nowrap;transition:background .2s ease;opacity:0;animation:agent-enter 0.7s cubic-bezier(0.34,1.2,0.64,1) 4.15s forwards;">What type of work do you do?</button>
-          <button style="position:relative;font-family:'Inter',sans-serif;font-weight:300;font-size:clamp(13px,1.05vw,17px);color:#fff;background:rgba(4,12,8,0.68);border:1px solid rgba(8,165,18,0.35);border-radius:6px;padding:8px 18px;cursor:pointer;white-space:nowrap;transition:background .2s ease;opacity:0;animation:agent-enter 0.7s cubic-bezier(0.34,1.2,0.64,1) 4.35s forwards;">Can you build me a team?</button>
-          <button style="position:relative;font-family:'Inter',sans-serif;font-weight:300;font-size:clamp(13px,1.05vw,17px);color:#fff;background:rgba(4,12,8,0.68);border:1px solid rgba(8,165,18,0.35);border-radius:6px;padding:8px 18px;cursor:pointer;white-space:nowrap;transition:background .2s ease;opacity:0;animation:agent-enter 0.7s cubic-bezier(0.34,1.2,0.64,1) 4.55s forwards;">How long does it take to build an app?</button>
-        </div>
-      </div>
+    bar.style.cssText = `
+      position:fixed;bottom:0;left:0;z-index:9999;
+      padding:0 ${PAD_L} ${PAD_B} ${PAD_L};
+      box-sizing:border-box;
+      width:100vw;
+      max-width:${SIDEBAR};
+      transform:translateY(0);
+      transition:max-width 0.7s cubic-bezier(0.22,1,0.36,1),
+                 transform 0.7s cubic-bezier(0.22,1,0.36,1);
+      will-change:max-width,transform;
     `;
     document.body.appendChild(bar);
     this._agentBar = bar;
+    this._agentExpanded = false;
 
-    const input = bar.querySelector('#ds-agent-input');
-    input.addEventListener('keydown', (e) => {
+    // Single glass card — height auto-grows with content
+    const card = document.createElement('div');
+    card.style.cssText = `
+      position:relative;width:100%;box-sizing:border-box;
+      background:rgba(0,0,0,0.40);
+      border:1px solid rgba(199,255,224,0.40);
+      border-radius:12px;
+      backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+      overflow:hidden;
+      display:flex;flex-direction:column;gap:0;
+      opacity:0;
+      animation:agent-enter 0.75s cubic-bezier(0.34,1.2,0.64,1) 2.6s forwards;
+    `;
+    bar.appendChild(card);
+
+    // ── Row that contains BOTH the ask-button label and the input (overlapping via grid) ──
+    const topRow = document.createElement('div');
+    topRow.style.cssText = 'position:relative;width:100%;';
+    card.appendChild(topRow);
+
+    // Ask button text (collapsed state)
+    const askLabel = document.createElement('div');
+    askLabel.style.cssText = `
+      position:absolute;inset:0;
+      display:flex;align-items:center;justify-content:space-between;gap:12px;
+      padding:clamp(14px,1.8vh,20px) clamp(20px,2vw,32px);
+      font-family:'Inter',sans-serif;font-weight:300;
+      font-size:clamp(17px,1.4vw,24px);color:#fff;
+      cursor:pointer;
+      opacity:1;transition:opacity 0.3s ease;
+      pointer-events:auto;
+      white-space:nowrap;
+    `;
+    askLabel.innerHTML = '<span>Ask Anything</span><span style="font-size:1.1em;">&#8594;</span>';
+    topRow.appendChild(askLabel);
+    this._askLabel = askLabel;
+
+    // Input (expanded state, hidden initially)
+    const input = document.createElement('input');
+    input.id = 'ds-agent-input';
+    input.type = 'text';
+    input.placeholder = 'Ask anything...';
+    input.style.cssText = `
+      display:block;width:100%;box-sizing:border-box;
+      padding:clamp(14px,1.8vh,20px) clamp(20px,2vw,32px);
+      font-family:'Inter',sans-serif;font-weight:300;
+      font-size:clamp(17px,1.4vw,24px);color:#fff;
+      background:transparent;border:none;outline:none;
+      opacity:0;transition:opacity 0.3s ease;
+      pointer-events:none;
+    `;
+    topRow.appendChild(input);
+    this._agentInput = input;
+    // Give topRow the height of the input row
+    topRow.style.cssText += 'min-height:calc(clamp(14px,1.8vh,20px)*2 + 1lh);';
+
+    // Chips row (hidden initially, zero height)
+    const chipsWrap = document.createElement('div');
+    chipsWrap.style.cssText = `
+      max-height:0;overflow:hidden;
+      transition:max-height 0.55s cubic-bezier(0.22,1,0.36,1),
+                 padding 0.55s cubic-bezier(0.22,1,0.36,1);
+      padding:0 clamp(20px,2vw,32px);
+    `;
+    const chipsRow = document.createElement('div');
+    chipsRow.style.cssText = 'display:flex;flex-wrap:wrap;gap:10px;padding-bottom:clamp(14px,1.8vh,20px);';
+    const chipLabels = ['What type of work do you do?','Can you build me a team?','How long does it take to build an app?'];
+    this._chips = chipLabels.map(label => {
+      const btn = document.createElement('button');
+      btn.style.cssText = `
+        font-family:'Inter',sans-serif;font-weight:300;
+        font-size:clamp(13px,1.05vw,17px);color:#fff;
+        background:rgba(0,0,0,0.50);
+        border:1px solid rgba(8,165,18,0.35);
+        border-radius:6px;padding:8px 18px;
+        cursor:pointer;white-space:nowrap;
+        opacity:0;transform:translateY(6px);
+        transition:opacity 0.4s ease,transform 0.4s ease;
+      `;
+      btn.textContent = label;
+      chipsRow.appendChild(btn);
+      return btn;
+    });
+    chipsWrap.appendChild(chipsRow);
+    card.appendChild(chipsWrap);
+    this._chipsWrap = chipsWrap;
+
+    // ── EVENTS ──
+    askLabel.addEventListener('click', e => { e.stopPropagation(); this._expandBar(); });
+
+    input.addEventListener('keydown', e => {
       if (e.key === 'Enter' && input.value.trim()) this._triggerAgent(input.value.trim());
+      if (e.key === 'Escape') this._collapseBar();
     });
-    bar.querySelectorAll('button').forEach(btn => {
-      btn.addEventListener('click', () => this._triggerAgent(btn.textContent.trim()));
+
+    this._chips.forEach(btn => {
+      btn.addEventListener('mousedown', e => e.preventDefault());
+      btn.addEventListener('click', e => { e.stopPropagation(); this._triggerAgent(btn.textContent.trim()); });
     });
+
+    this._outsideClickHandler = e => {
+      if (this._agentExpanded && !this._agentActive && !bar.contains(e.target)) this._collapseBar();
+    };
+    document.addEventListener('click', this._outsideClickHandler);
   }
+
+  _expandBar() {
+    if (this._agentExpanded) return;
+    this._agentExpanded = true;
+
+    // Grow width to full viewport
+    this._agentBar.style.maxWidth = '100vw';
+    // Lift up to make room for chips
+    this._agentBar.style.transform = 'translateY(-54px)';
+
+    // Crossfade ask-label → input
+    this._askLabel.style.opacity = '0';
+    this._askLabel.style.pointerEvents = 'none';
+    setTimeout(() => {
+      this._agentInput.style.opacity = '1';
+      this._agentInput.style.pointerEvents = 'auto';
+      this._agentInput.focus();
+    }, 260);
+
+    // Open chips after width is mostly grown
+    setTimeout(() => {
+      const chipH = 60;
+      this._chipsWrap.style.maxHeight = chipH + 'px';
+      this._chips.forEach((btn, i) => {
+        setTimeout(() => {
+          btn.style.opacity = '1';
+          btn.style.transform = 'translateY(0)';
+        }, 40 + i * 90);
+      });
+    }, 380);
+  }
+
+  _collapseBar() {
+    if (!this._agentExpanded || this._agentActive) return;
+    this._agentExpanded = false;
+
+    // Chips out first
+    this._chips.forEach(b => { b.style.opacity = '0'; b.style.transform = 'translateY(6px)'; });
+    this._chipsWrap.style.maxHeight = '0';
+
+    // Input → ask-label crossfade
+    this._agentInput.style.opacity = '0';
+    this._agentInput.style.pointerEvents = 'none';
+    setTimeout(() => {
+      this._askLabel.style.opacity = '1';
+      this._askLabel.style.pointerEvents = 'auto';
+      this._agentInput.value = '';
+    }, 220);
+
+    // Shrink width + drop back down
+    setTimeout(() => {
+      this._agentBar.style.maxWidth = 'clamp(280px,24vw,400px)';
+      this._agentBar.style.transform = 'translateY(0)';
+    }, 120);
+  }
+
 
   _triggerAgent(query) {
     // If already active, just swap response
@@ -226,13 +378,8 @@ class Component extends DCLogic {
     if (mo) { mo.style.transition = 'opacity 0.4s ease'; mo.style.opacity = '0'; }
     if (this._mainEl) { this._mainEl.style.transition = 'opacity 0.5s ease'; this._mainEl.style.opacity = '0'; }
 
-    // Hide chips + label
-    if (this._agentBar) {
-      const label = this._agentBar.querySelector('p');
-      const chips = this._agentBar.querySelectorAll('button');
-      if (label) { label.style.transition = 'opacity 0.3s ease'; label.style.opacity = '0'; }
-      chips.forEach(b => { b.style.transition = 'opacity 0.25s ease'; b.style.opacity = '0'; });
-    }
+    // Hide expanded chips while results show
+    if (this._expandedWrap) { this._expandedWrap.style.transition = 'opacity 0.3s ease'; this._expandedWrap.style.opacity = '0.3'; }
 
     setTimeout(() => { this._mountResponseOverlay(query); }, 800);
   }
