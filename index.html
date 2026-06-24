@@ -47,6 +47,28 @@
     #agent-messages::-webkit-scrollbar-track { background: transparent; }
     #agent-messages::-webkit-scrollbar-thumb { background: rgba(199,255,224,0.2); border-radius: 2px; }
     #agent-messages { scrollbar-width: thin; scrollbar-color: rgba(199,255,224,0.2) transparent; }
+
+    #clients-grid > div {
+      transition: background 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease;
+      cursor: default;
+    }
+    #clients-grid > div:hover {
+      background: rgba(255,255,255,0.96) !important;
+      border-color: rgba(255,255,255,0.9) !important;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.22);
+      backdrop-filter: blur(0px) !important;
+      -webkit-backdrop-filter: blur(0px) !important;
+    }
+    #clients-grid > div:hover img {
+      filter: none !important;
+      opacity: 1 !important;
+    }
+    .faq-item { transition: background 0.25s ease, border-color 0.25s ease; }
+    .faq-item:hover { background:rgba(0,0,0,0.30) !important; border-color:rgba(255,255,255,0.22) !important; }
+    .faq-item .faq-body { max-height:0; overflow:hidden; transition:max-height 0.42s cubic-bezier(0.4,0,0.2,1); }
+    .faq-item.open .faq-body { max-height:360px !important; }
+    .faq-item .faq-chevron { display:inline-block; transition:transform 0.3s ease; }
+    .faq-item.open .faq-chevron { transform:rotate(90deg); }
   </style>
 </helmet>
 
@@ -66,7 +88,7 @@
     </defs>
   </svg>
 
-  <div style="height:135vh; position:relative; z-index:1;">
+  <div style="height:600vh; position:relative; z-index:1;">
     <div id="hero-sticky" style="position:sticky; top:0; height:100vh; display:flex;">
 
       <!-- ══════════ LEFT ASIDE ══════════ -->
@@ -126,7 +148,7 @@
           font-size: clamp(13px,1vw,16px);
           letter-spacing: 0.05em;
           color: #18282C; text-decoration:none; text-transform:uppercase;
-          background: #CCFFCE; padding: 9px 18px;
+          background: #9DEBC2; padding: 9px 18px;
           box-shadow: 0 0 28px rgba(150,255,170,0.2);
           align-self: flex-start;
           transition:
@@ -262,6 +284,110 @@
         <div id="mission-b" style="position:absolute; right:3%; bottom:5%; width:54%; height:42%; display:flex; align-items:center; padding:clamp(28px,3.5vw,56px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; opacity:0; pointer-events:none; will-change:opacity; z-index:2;">
           <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:#C7FFE0; font-size:clamp(18px,1.85vw,32px); line-height:1.4;">Turn ambition into execution, and help every company move confidently toward its next milestone.</p>
         </div>
+
+        <!-- ══════════ SERVICES headline ══════════ -->
+        <div id="services-headline" style="position:absolute; left:2%; top:4%; width:96%; height:14%; display:flex; flex-direction:column; justify-content:center; gap:clamp(6px,0.8vh,10px); opacity:0; pointer-events:none; will-change:opacity; z-index:3;">
+          <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(36px,4.2vw,72px); line-height:1.0; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.35);">Our Services</h2>
+        </div>
+
+        <!-- ══════════ SERVICES (tall cards) ══════════ -->
+        <div id="service-a" style="position:absolute; left:2%; top:21%; width:46%; height:73%; display:flex; flex-direction:column; justify-content:center; gap:clamp(18px,2.6vh,32px); padding:clamp(34px,3.1vw,60px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; opacity:0; pointer-events:none; will-change:opacity; z-index:1;">
+          <div style="display:flex; align-items:center; gap:clamp(10px,0.9vw,14px);">
+            <span style="font-family:'Space Grotesk',sans-serif; font-weight:500; font-size:clamp(14px,1.1vw,18px); color:#C7FFE0; letter-spacing:0.04em;">01</span>
+            <span style="height:1px; width:clamp(22px,2.4vw,44px); background:rgba(199,255,224,0.35);"></span>
+          </div>
+          <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(28px,3vw,50px); line-height:1.05; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.40);">Product Engineering</h2>
+          <div style="display:flex; flex-direction:column; gap:clamp(13px,1.6vh,20px);">
+            <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:#C7FFE0; font-size:clamp(15px,1.35vw,21px); line-height:1.55; text-wrap:pretty;">We help funded startups and growth-stage companies turn product ideas into revenue-driving software&mdash;fast. From rapid prototypes and POCs to scalable MVPs, we combine consulting-led discovery with AI-first engineering to accelerate delivery and reduce risk.</p>
+            <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:#C7FFE0; font-size:clamp(15px,1.35vw,21px); line-height:1.55; text-wrap:pretty;">We build solutions that scale with your roadmap, backed by top-tier global talent from LATAM and Asia at more competitive costs than traditional U.S. dev shops.</p>
+          </div>
+          <a href="#" style="align-self:flex-start; display:inline-flex; align-items:center; gap:12px; background:#CCFFCE; color:#18282C; font-family:'Inter',sans-serif; font-weight:700; text-transform:uppercase; font-size:clamp(13px,1.1vw,18px); letter-spacing:0.045em; padding:11px 22px; text-decoration:none; box-shadow:0 0 36px rgba(150,255,170,0.28); transition:transform .2s ease, box-shadow .2s ease;" style-hover="transform:translateY(-2px); box-shadow:0 0 52px rgba(150,255,170,0.45);">Start a Product Sprint <span style="font-weight:700; font-size:1.05em;">&#8594;</span></a>
+        </div>
+
+        <div id="service-b" style="position:absolute; left:52%; top:21%; width:46%; height:73%; display:flex; flex-direction:column; justify-content:center; gap:clamp(18px,2.6vh,32px); padding:clamp(34px,3.1vw,60px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; opacity:0; pointer-events:none; will-change:opacity; z-index:2;">
+          <div style="display:flex; align-items:center; gap:clamp(10px,0.9vw,14px);">
+            <span style="font-family:'Space Grotesk',sans-serif; font-weight:500; font-size:clamp(14px,1.1vw,18px); color:#C7FFE0; letter-spacing:0.04em;">02</span>
+            <span style="height:1px; width:clamp(22px,2.4vw,44px); background:rgba(199,255,224,0.35);"></span>
+          </div>
+          <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(28px,3vw,50px); line-height:1.05; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.40);">Global Staffing</h2>
+          <div style="display:flex; flex-direction:column; gap:clamp(13px,1.6vh,20px);">
+            <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:#C7FFE0; font-size:clamp(15px,1.35vw,21px); line-height:1.55; text-wrap:pretty;">Build high-performing teams with exceptional talent from LATAM and Asia. We deliver fully vetted Mid-Level and Senior Engineers, QA, AI, Data, PM, and support professionals who integrate fast and perform from day one.</p>
+            <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:#C7FFE0; font-size:clamp(15px,1.35vw,21px); line-height:1.55; text-wrap:pretty;">You stay focused on execution while we handle recruitment and vetting. Scale confidently, deliver faster, and power your growth with global talent built for startups.</p>
+          </div>
+          <a href="#" style="align-self:flex-start; display:inline-flex; align-items:center; gap:12px; background:#CCFFCE; color:#18282C; font-family:'Inter',sans-serif; font-weight:700; text-transform:uppercase; font-size:clamp(13px,1.1vw,18px); letter-spacing:0.045em; padding:11px 22px; text-decoration:none; box-shadow:0 0 36px rgba(150,255,170,0.28); transition:transform .2s ease, box-shadow .2s ease;" style-hover="transform:translateY(-2px); box-shadow:0 0 52px rgba(150,255,170,0.45);">Hire Talent Now <span style="font-weight:700; font-size:1.05em;">&#8594;</span></a>
+        </div>
+
+        <!-- ══════════ TESTIMONIALS headline ══════════ -->
+        <div id="testimonials-headline" style="position:absolute; left:2%; top:4%; width:96%; height:14%; display:flex; flex-direction:column; justify-content:center; gap:clamp(5px,0.6vh,8px); opacity:0; pointer-events:none; will-change:opacity; z-index:5;">
+          <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(10px,0.8vw,13px); letter-spacing:0.24em; text-transform:uppercase; color:rgba(199,255,224,0.55);">Testimonials</span>
+          <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(30px,3.6vw,64px); line-height:1.0; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.35);">Trusted by Industry Leaders</h2>
+        </div>
+
+        <!-- ══════════ TESTIMONIALS (stacked horizontal cards) ══════════ -->
+        <div id="testimonial-a" style="position:absolute; left:2%; top:21%; width:96%; height:34%; display:flex; flex-direction:column; justify-content:space-between; padding:clamp(26px,2.8vw,50px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; opacity:0; pointer-events:none; will-change:opacity; z-index:4;">
+          <p style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:400; color:#E0FFEE; font-size:clamp(16px,1.65vw,28px); line-height:1.5; text-wrap:pretty; flex:1; display:flex; align-items:center;">&ldquo;Nearshore staffing solutions come with challenges. But the time zones, similar cultures, and highly fluent English speakers allow us to partner so tightly to operate without any distinction between our staff and DevSavant&rsquo;s.&rdquo;</p>
+          <div style="display:flex; align-items:center; gap:clamp(14px,1.8vw,28px); margin-top:clamp(14px,1.8vh,22px); flex-shrink:0;">
+            <div style="font-family:'Space Grotesk',sans-serif; font-weight:500; font-size:clamp(14px,1.2vw,20px); color:#C7FFE0; letter-spacing:0.04em; background:rgba(199,255,224,0.08); border:1px solid rgba(199,255,224,0.18); border-radius:8px; padding:5px 14px; white-space:nowrap;">Fulcrum</div>
+            <div style="display:flex; flex-direction:column; gap:2px;">
+              <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(13px,1.05vw,17px); color:#E0FFEE;">Jim Baker</span>
+              <span style="font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(11px,0.85vw,14px); color:rgba(199,255,224,0.55);">Director, Reliability and Release Engineering, Fulcrum</span>
+            </div>
+          </div>
+        </div>
+
+        <div id="testimonial-b" style="position:absolute; left:2%; top:58%; width:96%; height:34%; display:flex; flex-direction:column; justify-content:space-between; padding:clamp(26px,2.8vw,50px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; opacity:0; pointer-events:none; will-change:opacity; z-index:4;">
+          <p style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:400; color:#E0FFEE; font-size:clamp(16px,1.65vw,28px); line-height:1.5; text-wrap:pretty; flex:1; display:flex; align-items:center;">&ldquo;I like that DevSavant has established a team of thinkers. Other providers are not thinkers, they are doers&hellip; We need partners, not doers.&rdquo;</p>
+          <div style="display:flex; align-items:center; gap:clamp(14px,1.8vw,28px); margin-top:clamp(14px,1.8vh,22px); flex-shrink:0;">
+            <div style="font-family:'Space Grotesk',sans-serif; font-weight:500; font-size:clamp(14px,1.2vw,20px); color:#C7FFE0; letter-spacing:0.04em; background:rgba(199,255,224,0.08); border:1px solid rgba(199,255,224,0.18); border-radius:8px; padding:5px 14px; white-space:nowrap;">IntelePeer</div>
+            <div style="display:flex; flex-direction:column; gap:2px;">
+              <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(13px,1.05vw,17px); color:#E0FFEE;">Joey Neff</span>
+              <span style="font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(11px,0.85vw,14px); color:rgba(199,255,224,0.55);">VP Application Software Development, IntelePeer</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ══════════ CLIENTS headline ══════════ -->
+        <div id="clients-headline" style="position:absolute; left:2%; top:4%; width:96%; height:14%; display:flex; flex-direction:column; justify-content:center; gap:clamp(5px,0.6vh,8px); opacity:0; pointer-events:none; z-index:5;">
+          <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(10px,0.8vw,13px); letter-spacing:0.24em; text-transform:uppercase; color:rgba(199,255,224,0.55);">Our Clients</span>
+          <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(30px,3.6vw,64px); line-height:1.0; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.35);">Investment Funds that have trusted us</h2>
+        </div>
+
+        <!-- ══════════ CLIENTS (logo grid) ══════════ -->
+        <div id="clients-grid" style="position:absolute; left:2%; top:21%; width:96%; height:75%; display:grid; grid-template-columns:repeat(4,1fr); grid-template-rows:repeat(3,1fr); column-gap:1.8%; row-gap:4%; z-index:4;">
+          <div style="display:flex; align-items:center; justify-content:center; padding:clamp(14px,1.5vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.14); border-radius:24px; opacity:0;"><img src="uploads/Agio-copia-640x184x0x0x640x184x1740154482.png" alt="Agio" style="max-width:78%; max-height:52%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;"></div>
+          <div style="display:flex; align-items:center; justify-content:center; padding:clamp(14px,1.5vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.14); border-radius:24px; opacity:0;"><img src="uploads/Antenna-copia-640x184x0x0x640x184x1740151316.png" alt="Antenna" style="max-width:78%; max-height:52%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;"></div>
+          <div style="display:flex; align-items:center; justify-content:center; padding:clamp(14px,1.5vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.14); border-radius:24px; opacity:0;"><img src="uploads/Conversica-640x184x0x0x640x184x1740155620.png" alt="Conversica" style="max-width:78%; max-height:52%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;"></div>
+          <div style="display:flex; align-items:center; justify-content:center; padding:clamp(14px,1.5vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.14); border-radius:24px; opacity:0;"><img src="uploads/Exactera-640x184x0x0x640x184x1740155548.png" alt="Exactera" style="max-width:78%; max-height:52%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;"></div>
+          <div style="display:flex; align-items:center; justify-content:center; padding:clamp(14px,1.5vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.14); border-radius:24px; opacity:0;"><img src="uploads/FileCloud-copia-640x184x0x0x640x184x1740151502.png" alt="FileCloud" style="max-width:78%; max-height:52%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;"></div>
+          <div style="display:flex; align-items:center; justify-content:center; padding:clamp(14px,1.5vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.14); border-radius:24px; opacity:0;"><img src="uploads/Fulcrum-copia-640x184x0x0x640x184x1740151725.png" alt="Fulcrum" style="max-width:78%; max-height:52%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;"></div>
+          <div style="display:flex; align-items:center; justify-content:center; padding:clamp(14px,1.5vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.14); border-radius:24px; opacity:0;"><img src="uploads/iCAN-copia-640x184x0x0x640x184x1740153618.png" alt="iCAN" style="max-width:78%; max-height:52%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;"></div>
+          <div style="display:flex; align-items:center; justify-content:center; padding:clamp(14px,1.5vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.14); border-radius:24px; opacity:0;"><img src="uploads/Impartner-copia-640x184x0x0x640x184x1740153282.png" alt="Impartner" style="max-width:78%; max-height:52%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;"></div>
+          <div style="display:flex; align-items:center; justify-content:center; padding:clamp(14px,1.5vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.14); border-radius:24px; opacity:0;"><img src="uploads/intelepeer-v2-640x188x0x2x640x184x1755102863.png" alt="IntelePeer" style="max-width:78%; max-height:52%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;"></div>
+          <div style="display:flex; align-items:center; justify-content:center; padding:clamp(14px,1.5vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.14); border-radius:24px; opacity:0;"><img src="uploads/Learning-copia-640x184x0x0x640x184x1740155105.png" alt="Breakout Learning" style="max-width:78%; max-height:52%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;"></div>
+          <div style="display:flex; align-items:center; justify-content:center; padding:clamp(14px,1.5vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.14); border-radius:24px; opacity:0;"><img src="uploads/Onfleet-copia-640x184x0x0x640x184x1740153465.png" alt="Onfleet" style="max-width:78%; max-height:52%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;"></div>
+          <div style="display:flex; align-items:center; justify-content:center; padding:clamp(14px,1.5vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.14); border-radius:24px; opacity:0;"><img src="uploads/Redica-Systems-copia-640x184x0x0x640x184x1740155189.png" alt="Redica Systems" style="max-width:78%; max-height:52%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;"></div>
+        </div>
+        <!-- ══════════ FAQ headline ══════════ -->
+        <div id="faq-headline" style="position:absolute; left:2%; top:4%; width:96%; height:12%; display:flex; flex-direction:column; justify-content:center; opacity:0; pointer-events:none; z-index:3;">
+          <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(30px,3.6vw,64px); line-height:1.0; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.35);">Frequently Asked Questions</h2>
+        </div>
+
+        <!-- ══════════ FAQ items (no z-index on clip = backdrop-filter reaches canvas) ══════════ -->
+        <div id="faq-clip" style="position:absolute; left:2%; top:15%; width:96%; height:84%; overflow:hidden; pointer-events:auto;">
+          <div id="faq-items" style="position:absolute; top:0; left:0; right:0; display:flex; flex-direction:column; gap:clamp(8px,1vh,11px);">
+            <div class="faq-item" data-idx="0" style="padding:clamp(14px,1.6vw,22px) clamp(20px,2.2vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.12); border-radius:18px; cursor:pointer; opacity:0;"><div class="faq-header" style="display:flex; align-items:center; justify-content:space-between; gap:20px;"><span style="font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(13px,1.2vw,19px); line-height:1.3;">Do you work with startups at any stage?</span><span class="faq-chevron" style="color:#C7FFE0; font-size:clamp(16px,1.4vw,22px); flex-shrink:0;">&#x203A;</span></div><div class="faq-body"><p style="margin:clamp(10px,1.2vh,16px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.80); font-size:clamp(12px,1.0vw,16px); line-height:1.65; text-wrap:pretty;">Yes. We support from early-stage founders without a tech team or revenue to established companies +300M in ARR that need to accelerate initiatives or extend technical capabilities.</p></div></div>
+            <div class="faq-item" data-idx="1" style="padding:clamp(14px,1.6vw,22px) clamp(20px,2.2vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.12); border-radius:18px; cursor:pointer; opacity:0;"><div class="faq-header" style="display:flex; align-items:center; justify-content:space-between; gap:20px;"><span style="font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(13px,1.2vw,19px); line-height:1.3;">How do you validate whether my idea is technically feasible?</span><span class="faq-chevron" style="color:#C7FFE0; font-size:clamp(16px,1.4vw,22px); flex-shrink:0;">&#x203A;</span></div><div class="faq-body"><p style="margin:clamp(10px,1.2vh,16px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.80); font-size:clamp(12px,1.0vw,16px); line-height:1.65; text-wrap:pretty;">We run a fast Discovery process to validate assumptions, technical feasibility, and risks. You receive clear insights, budget estimates, and an execution blueprint before any development begins.</p></div></div>
+            <div class="faq-item" data-idx="2" style="padding:clamp(14px,1.6vw,22px) clamp(20px,2.2vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.12); border-radius:18px; cursor:pointer; opacity:0;"><div class="faq-header" style="display:flex; align-items:center; justify-content:space-between; gap:20px;"><span style="font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(13px,1.2vw,19px); line-height:1.3;">How quickly can you deliver a prototype or MVP?</span><span class="faq-chevron" style="color:#C7FFE0; font-size:clamp(16px,1.4vw,22px); flex-shrink:0;">&#x203A;</span></div><div class="faq-body"><p style="margin:clamp(10px,1.2vh,16px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.80); font-size:clamp(12px,1.0vw,16px); line-height:1.65; text-wrap:pretty;">Depending on scope, we deliver prototypes within weeks and MVPs in short iterations, supported by our AI-first approach and a team that scales dynamically.</p></div></div>
+            <div class="faq-item" data-idx="3" style="padding:clamp(14px,1.6vw,22px) clamp(20px,2.2vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.12); border-radius:18px; cursor:pointer; opacity:0;"><div class="faq-header" style="display:flex; align-items:center; justify-content:space-between; gap:20px;"><span style="font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(13px,1.2vw,19px); line-height:1.3;">How do you integrate AI into what you build?</span><span class="faq-chevron" style="color:#C7FFE0; font-size:clamp(16px,1.4vw,22px); flex-shrink:0;">&#x203A;</span></div><div class="faq-body"><p style="margin:clamp(10px,1.2vh,16px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.80); font-size:clamp(12px,1.0vw,16px); line-height:1.65; text-wrap:pretty;">We identify where AI creates real value—automation, copilots, workflows, custom models, LLM integrations, or enhancements to existing processes—and apply it intentionally.</p></div></div>
+            <div class="faq-item" data-idx="4" style="padding:clamp(14px,1.6vw,22px) clamp(20px,2.2vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.12); border-radius:18px; cursor:pointer; opacity:0;"><div class="faq-header" style="display:flex; align-items:center; justify-content:space-between; gap:20px;"><span style="font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(13px,1.2vw,19px); line-height:1.3;">How transparent is the process in terms of cost, timeline, and roadmap?</span><span class="faq-chevron" style="color:#C7FFE0; font-size:clamp(16px,1.4vw,22px); flex-shrink:0;">&#x203A;</span></div><div class="faq-body"><p style="margin:clamp(10px,1.2vh,16px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.80); font-size:clamp(12px,1.0vw,16px); line-height:1.65; text-wrap:pretty;">You receive upfront estimates, a clear plan, and ongoing visibility. No surprises, just aligned expectations and consistent communication.</p></div></div>
+            <div class="faq-item" data-idx="5" style="padding:clamp(14px,1.6vw,22px) clamp(20px,2.2vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.12); border-radius:18px; cursor:pointer; opacity:0;"><div class="faq-header" style="display:flex; align-items:center; justify-content:space-between; gap:20px;"><span style="font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(13px,1.2vw,19px); line-height:1.3;">What happens after the MVP is delivered? Do you offer post-launch support?</span><span class="faq-chevron" style="color:#C7FFE0; font-size:clamp(16px,1.4vw,22px); flex-shrink:0;">&#x203A;</span></div><div class="faq-body"><p style="margin:clamp(10px,1.2vh,16px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.80); font-size:clamp(12px,1.0vw,16px); line-height:1.65; text-wrap:pretty;">Yes. We can continue iterating, expand features, integrate AI, or transition the product to your internal team. You can also move into staff augmentation, where a dedicated engineer fully embeds into your team for post-delivery needs and long-term stability.</p></div></div>
+            <div class="faq-item" data-idx="6" style="padding:clamp(14px,1.6vw,22px) clamp(20px,2.2vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.12); border-radius:18px; cursor:pointer; opacity:0;"><div class="faq-header" style="display:flex; align-items:center; justify-content:space-between; gap:20px;"><span style="font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(13px,1.2vw,19px); line-height:1.3;">How do you source and vet talent in LATAM and Asia?</span><span class="faq-chevron" style="color:#C7FFE0; font-size:clamp(16px,1.4vw,22px); flex-shrink:0;">&#x203A;</span></div><div class="faq-body"><p style="margin:clamp(10px,1.2vh,16px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.80); font-size:clamp(12px,1.0vw,16px); line-height:1.65; text-wrap:pretty;">We run a rigorous process including our proprietary Startup Profile interview, cultural fit evaluations, and technical assessments. Only top-tier talent moves forward.</p></div></div>
+            <div class="faq-item" data-idx="7" style="padding:clamp(14px,1.6vw,22px) clamp(20px,2.2vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.12); border-radius:18px; cursor:pointer; opacity:0;"><div class="faq-header" style="display:flex; align-items:center; justify-content:space-between; gap:20px;"><span style="font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(13px,1.2vw,19px); line-height:1.3;">Can you build a team quickly if we need to scale fast?</span><span class="faq-chevron" style="color:#C7FFE0; font-size:clamp(16px,1.4vw,22px); flex-shrink:0;">&#x203A;</span></div><div class="faq-body"><p style="margin:clamp(10px,1.2vh,16px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.80); font-size:clamp(12px,1.0vw,16px); line-height:1.65; text-wrap:pretty;">Yes. Our recruiting pipelines in LATAM and Asia allow us to present the first candidates within 2 weeks, ensuring speed without compromising quality.</p></div></div>
+            <div class="faq-item" data-idx="8" style="padding:clamp(14px,1.6vw,22px) clamp(20px,2.2vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.12); border-radius:18px; cursor:pointer; opacity:0;"><div class="faq-header" style="display:flex; align-items:center; justify-content:space-between; gap:20px;"><span style="font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(13px,1.2vw,19px); line-height:1.3;">How do you ensure long-term stability and low turnover?</span><span class="faq-chevron" style="color:#C7FFE0; font-size:clamp(16px,1.4vw,22px); flex-shrink:0;">&#x203A;</span></div><div class="faq-body"><p style="margin:clamp(10px,1.2vh,16px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.80); font-size:clamp(12px,1.0vw,16px); line-height:1.65; text-wrap:pretty;">Our engineers are fully embedded into your team, and all day-to-day management is handled directly by you. We stay in a consultative role providing market insights and compensation guidance. This shared model keeps talent aligned, motivated, and consistent over time.</p></div></div>
+            <div class="faq-item" data-idx="9" style="padding:clamp(14px,1.6vw,22px) clamp(20px,2.2vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.12); border-radius:18px; cursor:pointer; opacity:0;"><div class="faq-header" style="display:flex; align-items:center; justify-content:space-between; gap:20px;"><span style="font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(13px,1.2vw,19px); line-height:1.3;">Can your staff integrate with our internal team and processes?</span><span class="faq-chevron" style="color:#C7FFE0; font-size:clamp(16px,1.4vw,22px); flex-shrink:0;">&#x203A;</span></div><div class="faq-body"><p style="margin:clamp(10px,1.2vh,16px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.80); font-size:clamp(12px,1.0vw,16px); line-height:1.65; text-wrap:pretty;">Absolutely. Our team members embed fully into your workflows, tools, standups, and delivery rhythm, functioning as an extension of your team.</p></div></div>
+            <div class="faq-item" data-idx="10" style="padding:clamp(14px,1.6vw,22px) clamp(20px,2.2vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.12); border-radius:18px; cursor:pointer; opacity:0;"><div class="faq-header" style="display:flex; align-items:center; justify-content:space-between; gap:20px;"><span style="font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(13px,1.2vw,19px); line-height:1.3;">Do you offer flexible engagement models?</span><span class="faq-chevron" style="color:#C7FFE0; font-size:clamp(16px,1.4vw,22px); flex-shrink:0;">&#x203A;</span></div><div class="faq-body"><p style="margin:clamp(10px,1.2vh,16px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.80); font-size:clamp(12px,1.0vw,16px); line-height:1.65; text-wrap:pretty;">Yes. You can scale up or down as needs evolve, with transparent costs and flexible terms.</p></div></div>
+          </div>
+        </div>
       </div>
 
     </div>
@@ -300,6 +426,7 @@ class Component extends DCLogic {
 
   componentDidMount() {
     this._init();
+    this._initFaqAccordion();
     this._onResize = () => this._resize();
     window.addEventListener('resize', this._onResize);
     this._initLiquidMask();
@@ -343,6 +470,39 @@ class Component extends DCLogic {
 
   _closeAgentPanel() {
     if (window.dsAnimate) window.dsAnimate.close();
+  }
+
+  _initFaqAccordion() {
+    const clip = document.getElementById('faq-clip');
+    if (!clip) return;
+    const collapse = (item) => {
+      const b = item.querySelector('.faq-body');
+      const c = item.querySelector('.faq-chevron');
+      if (b) { b.style.setProperty('max-height', '0px', 'important'); b.style.setProperty('overflow', 'hidden', 'important'); }
+      if (c) c.style.setProperty('transform', 'rotate(0deg)', 'important');
+      item.dataset.open = '0';
+    };
+    const expand = (item) => {
+      const b = item.querySelector('.faq-body');
+      const c = item.querySelector('.faq-chevron');
+      if (b) { const h = b.scrollHeight + 24; b.style.setProperty('max-height', h + 'px', 'important'); b.style.setProperty('overflow', 'hidden', 'important'); }
+      if (c) c.style.setProperty('transform', 'rotate(90deg)', 'important');
+      item.dataset.open = '1';
+    };
+    clip.querySelectorAll('.faq-item').forEach(item => {
+      const body = item.querySelector('.faq-body');
+      if (body) body.style.setProperty('transition', 'max-height 0.42s cubic-bezier(0.4,0,0.2,1)');
+      collapse(item);
+      item.addEventListener('click', () => {
+        const wasOpen = item.dataset.open === '1';
+        clip.querySelectorAll('.faq-item').forEach(collapse);
+        if (!wasOpen) {
+          expand(item);
+          // Re-sync scroll offset after transition so last item isn't clipped
+          setTimeout(() => { if (this._applyScroll) this._applyScroll(); }, 450);
+        }
+      });
+    });
   }
 
   // _animatePanel delegated entirely to window.dsAnimate (helmet script)
@@ -500,24 +660,69 @@ class Component extends DCLogic {
     if (!sc) return;
     const p = sc.scrollTop / (sc.scrollHeight - sc.clientHeight || 1);
     this._scrollProg = p;
-    const heroFade = Math.max(0, Math.min(1, p / 0.18));
+    const cl = (t) => Math.max(0, Math.min(1, t));
+    const heroFade = cl(p / 0.033);
     const heroContent = document.getElementById('hero-content');
     if (heroContent && !this._agentOpen) {
       heroContent.style.opacity = String(1 - heroFade);
       heroContent.style.filter  = heroFade > 0 ? 'blur(' + (heroFade * 14).toFixed(1) + 'px)' : '';
     }
-    const morphP = Math.max(0, Math.min(1, (p - 0.18) / 0.55));
-    this._applyMorph(morphP);
+    this._applyMorph(p);
+    let mainOp;
+    if      (p < 0.111) mainOp = 1;
+    else if (p < 0.137) mainOp = 1-(p-0.111)/0.026;
+    else if (p < 0.180) mainOp = 0;
+    else if (p < 0.202) mainOp = (p-0.180)/0.022;
+    else if (p < 0.255) mainOp = 1;
+    else if (p < 0.274) mainOp = 1-(p-0.255)/0.019;
+    else if (p < 0.327) mainOp = 0;
+    else if (p < 0.354) mainOp = (p-0.327)/0.027;
+    else if (p < 0.490) mainOp = 1;
+    else if (p < 0.523) mainOp = 1-(p-0.490)/0.033;
+    else if (p < 0.539) mainOp = 0;
+    else if (p < 0.560) mainOp = (p-0.539)/0.021;
+    else if (p < 0.648) mainOp = 1;
+    else if (p < 0.669) mainOp = 1-(p-0.648)/0.021;
+    else if (p < 0.740) mainOp = 0;
+    else if (p < 0.775) mainOp = (p-0.740)/0.035;
+    else if (p < 0.885) mainOp = 1;
+    else if (p < 0.920) mainOp = 1-(p-0.885)/0.035;
+    else                mainOp = 0;
     if (this._mainEl) {
-      const mo = Math.max(0, Math.min(1, (p - 0.72) / 0.20));
-      this._mainEl.style.opacity = String(1 - mo);
+      const mo = Math.max(0, Math.min(1, mainOp));
+      this._mainEl.style.opacity = String(mo);
+      this._mainEl.style.pointerEvents = mo < 0.05 ? 'none' : 'auto';
     }
-    const mpA = Math.max(0, Math.min(1, (p - 0.70) / 0.22));
-    const mpB = Math.max(0, Math.min(1, (p - 0.76) / 0.22));
-    const maA = document.getElementById('mission-a');
-    const maB = document.getElementById('mission-b');
-    if (maA) { maA.style.opacity = String(mpA); maA.style.pointerEvents = mpA > 0.5 ? 'auto' : 'none'; }
-    if (maB) { maB.style.opacity = String(mpB); maB.style.pointerEvents = mpB > 0.5 ? 'auto' : 'none'; }
+    const mOpA = cl((p-0.098)/0.023)*(1-cl((p-0.180)/0.023));
+    const mOpB = cl((p-0.108)/0.023)*(1-cl((p-0.186)/0.023));
+    const maA=document.getElementById('mission-a'), maB=document.getElementById('mission-b');
+    if (maA){maA.style.opacity=String(mOpA);maA.style.pointerEvents=mOpA>.5?'auto':'none';}
+    if (maB){maB.style.opacity=String(mOpB);maB.style.pointerEvents=mOpB>.5?'auto':'none';}
+    const sOpA = cl((p-0.255)/0.026)*(1-cl((p-0.327)/0.033));
+    const sOpB = cl((p-0.261)/0.026)*(1-cl((p-0.337)/0.033));
+    const svA=document.getElementById('service-a'), svB=document.getElementById('service-b'), svH=document.getElementById('services-headline');
+    if (svA){svA.style.opacity=String(sOpA);svA.style.pointerEvents=sOpA>.5?'auto':'none';}
+    if (svB){svB.style.opacity=String(sOpB);svB.style.pointerEvents=sOpB>.5?'auto':'none';}
+    if (svH){svH.style.opacity=String(sOpA);svH.style.pointerEvents=sOpA>.5?'auto':'none';}
+    const tOpA = cl((p-0.490)/0.027)*(1-cl((p-0.539)/0.027));
+    const tOpB = cl((p-0.501)/0.027)*(1-cl((p-0.547)/0.027));
+    const tmA=document.getElementById('testimonial-a'), tmB=document.getElementById('testimonial-b'), tmH=document.getElementById('testimonials-headline');
+    if (tmA){tmA.style.opacity=String(tOpA);tmA.style.pointerEvents=tOpA>.5?'auto':'none';}
+    if (tmB){tmB.style.opacity=String(tOpB);tmB.style.pointerEvents=tOpB>.5?'auto':'none';}
+    if (tmH){tmH.style.opacity=String(tOpA);tmH.style.pointerEvents=tOpA>.5?'auto':'none';}
+    const cFadeOut = 1 - cl((p-0.740)/0.035);
+    const clG=document.getElementById('clients-grid'), clH=document.getElementById('clients-headline');
+    if (clG){[...clG.children].forEach((cell,i)=>{const op=cl((p-0.648-i*.002)/.032)*cFadeOut;cell.style.opacity=String(op);cell.style.pointerEvents=op>.5?'auto':'none';});}
+    if (clH){const co=cl((p-0.648)/.032)*cFadeOut;clH.style.opacity=String(co);clH.style.pointerEvents=co>.5?'auto':'none';}
+    const faqH=document.getElementById('faq-headline');
+    const faqBase=cl((p-0.885)/0.040);
+    if (faqH){faqH.style.opacity=String(faqBase); /* pointer-events always none — never block FAQ clicks */}
+    document.querySelectorAll('.faq-item').forEach((el,i)=>{const op=cl((p-0.885-i*.004)/.040);el.style.opacity=String(op);});
+    const faqItemsEl=document.getElementById('faq-items'), faqClipEl=document.getElementById('faq-clip');
+    if (faqItemsEl&&faqClipEl){
+      const ov=Math.max(0,faqItemsEl.offsetHeight-faqClipEl.offsetHeight);
+      faqItemsEl.style.transform='translateY('+(-cl((p-.935)/.065)*ov).toFixed(1)+'px)';
+    }
   }
 
   // ─── Liquid mask / morph ───────────────────────────────────────────
@@ -535,33 +740,68 @@ class Component extends DCLogic {
     const cm = document.getElementById('lqp-cm');
     if (cm) cm.setAttribute('values', '1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -9');
     const mk = () => { const r = document.createElementNS(SVGNS, 'rect'); r.setAttribute('fill', 'white'); blobContainer.appendChild(r); return r; };
-    this._morphRectA = mk(); this._morphRectB = mk();
+    this._morphRects = [];
+    for (let i = 0; i < 12; i++) this._morphRects.push(mk());
+    this._morphRectA = this._morphRects[0]; this._morphRectB = this._morphRects[1];
     this._morphW = w; this._morphH = h; this._morphReady = true;
     this._applyMorph(this._scrollProg || 0);
   }
 
   _applyMorph(p) {
     if (!this._morphReady) return;
-    const w = this._morphW, h = this._morphH;
-    const e = p < 0.5 ? 2*p*p : 1 - Math.pow(-2*p+2, 2)/2;
-    const L = (a, b) => a + (b-a)*e;
-    const blurPeak = 22;
-    const blurVal = p < 0.5 ? L(0.2, blurPeak) : L(blurPeak, 1.2);
+    const w = this._morphW, h = this._morphH, PAD = 32;
+    const cl = (t) => Math.max(0, Math.min(1, t));
+    const ease = (t) => t < 0.5 ? 2*t*t : 1 - Math.pow(-2*t+2, 2)/2;
+    const mp1 = cl((p - 0.033) / 0.087);
+    const mp2 = cl((p - 0.173) / 0.098);
+    const mp3 = cl((p - 0.327) / 0.163);
+    const mp4 = cl((p - 0.539) / 0.109);
+    const mp5 = cl((p - 0.775) / 0.110);
+    const cover = { x:-PAD, y:-PAD, w:w+PAD*2, h:h+PAD*2, rx:0 };
+    const KF1A  = { x:0.03*w, y:0.05*h, w:0.54*w, h:0.52*h, rx:40 };
+    const KF1B  = { x:0.43*w, y:0.53*h, w:0.54*w, h:0.42*h, rx:40 };
+    const KF2A  = { x:0.02*w, y:0.21*h, w:0.46*w, h:0.73*h, rx:40 };
+    const KF2B  = { x:0.52*w, y:0.21*h, w:0.46*w, h:0.73*h, rx:40 };
+    const KF3A  = { x:0.02*w, y:0.21*h, w:0.96*w, h:0.34*h, rx:40 };
+    const KF3B  = { x:0.02*w, y:0.58*h, w:0.96*w, h:0.34*h, rx:40 };
+    const lr = (a, b, e) => ({ x:a.x+(b.x-a.x)*e, y:a.y+(b.y-a.y)*e, w:a.w+(b.w-a.w)*e, h:a.h+(b.h-a.h)*e, rx:a.rx+(b.rx-a.rx)*e });
+    const GCOLS = 4;
+    const gx0 = 0.02*w, gw = 0.96*w, gapX = 0.0173*w;
+    const cellW = (gw - (GCOLS-1)*gapX) / GCOLS;
+    const gy0 = 0.21*h, gh = 0.75*h, gapY = 0.03*h;
+    const cellH = (gh - 2*gapY) / 3;
+    const gridCell = (i) => {
+      const col = i % GCOLS, row = Math.floor(i / GCOLS);
+      return { x: gx0+col*(cellW+gapX), y: gy0+row*(cellH+gapY), w: cellW, h: cellH, rx: 24 };
+    };
+    const faqBar = (i) => ({ x:0.02*w, y:(0.15+i*0.091)*h, w:0.96*w, h:0.080*h, rx:18 });
+    const rects = this._morphRects;
+    const setR = (el, r) => {
+      el.setAttribute('x', r.x.toFixed(2)); el.setAttribute('y', r.y.toFixed(2));
+      el.setAttribute('width', Math.max(0,r.w).toFixed(2)); el.setAttribute('height', Math.max(0,r.h).toFixed(2));
+      el.setAttribute('rx', r.rx.toFixed(2));
+    };
+    const collapse = { x:w*0.5, y:h*0.5, w:0, h:0, rx:0 };
+    let act = 0;
+    if (mp5 > 0) {
+      const e = ease(mp5); act = Math.sin(Math.PI * mp5);
+      for (let i = 0; i < rects.length; i++) setR(rects[i], i < 11 ? lr(gridCell(i), faqBar(i), e) : collapse);
+    } else if (mp4 > 0) {
+      const e = ease(mp4); act = Math.sin(Math.PI * mp4);
+      for (let i = 0; i < rects.length; i++) setR(rects[i], lr(Math.floor(i/GCOLS) < 2 ? KF3A : KF3B, gridCell(i), e));
+    } else {
+      let A, B;
+      if (mp3 > 0) { const e=ease(mp3); A=lr(KF2A,KF3A,e); B=lr(KF2B,KF3B,e); act=Math.sin(Math.PI*mp3); }
+      else if (mp2 > 0) { const e=ease(mp2); A=lr(KF1A,KF2A,e); B=lr(KF1B,KF2B,e); act=Math.sin(Math.PI*mp2); }
+      else { const e=ease(mp1); A=lr(cover,KF1A,e); B=lr(cover,KF1B,e); act=Math.sin(Math.PI*mp1); }
+      setR(rects[0],A); setR(rects[1],B);
+      for (let i=2; i<rects.length; i++) setR(rects[i],collapse);
+    }
+    const blurVal=1.5+act*21, strength=12+act*16, offset=-4-act*8;
     const blurEl = document.getElementById('lqp-blur');
     if (blurEl) blurEl.setAttribute('stdDeviation', blurVal.toFixed(1));
     const cm = document.getElementById('lqp-cm');
-    const strength = L(28, 6), offset = L(-12, -2);
     if (cm) cm.setAttribute('values', '1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 ' + strength.toFixed(1) + ' ' + offset.toFixed(1));
-    const PAD = 32;
-    const setR = (el, x, y, rw, rh, rx) => {
-      el.setAttribute('x', L(-PAD, x).toFixed(2));
-      el.setAttribute('y', L(-PAD, y).toFixed(2));
-      el.setAttribute('width',  L(w + PAD*2, rw).toFixed(2));
-      el.setAttribute('height', L(h + PAD*2, rh).toFixed(2));
-      el.setAttribute('rx', L(0, rx).toFixed(2));
-    };
-    setR(this._morphRectA, w*0.03, h*0.05, w*0.54, h*0.52, 40);
-    setR(this._morphRectB, w*0.43, h*0.53, w*0.54, h*0.42, 40);
   }
 
   _initLiquidMask() {
@@ -656,13 +896,22 @@ class Component extends DCLogic {
         float bokeh  = smoothstep(0.3,0.9,fbm(p*0.6+r*1.5-t*0.03+s*1.2));
         float tD     = abs(fbm(p*0.8+r*1.8-t*0.05-s*1.8)-0.5);
         float trail  = smoothstep(0.15,0.0,tD)*0.6 + smoothstep(0.4,0.0,tD)*0.3;
-        vec3 bg0=vec3(0.004,0.007,0.004),bl0=vec3(0.0,0.35,0.05),tr0=vec3(0.1,0.7,0.15);
-        vec3 bg1=vec3(0.004,0.007,0.008),bl1=vec3(0.0,0.28,0.18),tr1=vec3(0.06,0.62,0.32);
-        vec3 bg2=vec3(0.004,0.007,0.012),bl2=vec3(0.0,0.24,0.28),tr2=vec3(0.05,0.58,0.42);
+        vec3 bg0=vec3(0.004,0.007,0.006),bl0=vec3(0.03,0.27,0.22),tr0=vec3(0.05,0.54,0.40);
+        vec3 bg1=vec3(0.004,0.006,0.008),bl1=vec3(0.02,0.20,0.28),tr1=vec3(0.04,0.44,0.52);
+        vec3 bg2=vec3(0.004,0.007,0.006),bl2=vec3(0.03,0.26,0.21),tr2=vec3(0.05,0.52,0.38);
         vec3 bg =mix(mix(bg0,bg1,smoothstep(0.0,0.5,s)),bg2,smoothstep(0.5,1.0,s));
         vec3 bl =mix(mix(bl0,bl1,smoothstep(0.0,0.5,s)),bl2,smoothstep(0.5,1.0,s));
         vec3 tr =mix(mix(tr0,tr1,smoothstep(0.0,0.5,s)),tr2,smoothstep(0.5,1.0,s));
         vec3 col = bg + bl*bokeh + tr*trail;
+        float hlShape = smoothstep(0.62,0.92,fbm(p*0.75+q*0.8-t*0.03+s*0.6));
+        vec3 hl0 = vec3(0.55,0.95,0.04);
+        vec3 hl1 = vec3(0.15,0.95,0.08);
+        vec3 hl  = mix(hl0,hl1,smoothstep(0.0,1.0,s));
+        col += hl * hlShape * 0.09;
+        // mid-scroll accent: saturated yellow-green patches baked into the texture
+        float accentShape = smoothstep(0.55,0.88,fbm(p*0.55+r*1.2+t*0.04-s*0.5));
+        vec3 accentCol = mix(vec3(0.72,0.98,0.08), vec3(0.20,0.95,0.30), accentShape);
+        col += accentCol * accentShape * 0.18;
         col = max(col - hash(uv+fract(u_time))*0.12*u_grain, 0.0);
         gl_FragColor = vec4(col, 1.0);
       }
