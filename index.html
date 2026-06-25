@@ -76,6 +76,9 @@
 
   <div ref="{{ bgRef }}" style="position:fixed; inset:0; width:100vw; height:100vh; z-index:0;"></div>
 
+  <!-- Dark veil: sits directly above the background canvas (z:0) but below ALL content (z:1) -->
+  <div id="cta-glass" style="position:fixed; inset:0; background:rgba(2,14,8,0.55); opacity:0; pointer-events:none; z-index:0;"></div>
+
   <svg style="position:absolute;width:0;height:0;overflow:visible;pointer-events:none;" aria-hidden="true">
     <defs>
       <filter id="lqp-goo" x="-50%" y="-50%" width="200%" height="200%">
@@ -88,7 +91,7 @@
     </defs>
   </svg>
 
-  <div style="height:600vh; position:relative; z-index:1;">
+  <div style="height:900vh; position:relative; z-index:1;">
     <div id="hero-sticky" style="position:sticky; top:0; height:100vh; display:flex;">
 
       <!-- ══════════ LEFT ASIDE ══════════ -->
@@ -388,9 +391,45 @@
             <div class="faq-item" data-idx="10" style="padding:clamp(14px,1.6vw,22px) clamp(20px,2.2vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.12); border-radius:18px; cursor:pointer; opacity:0;"><div class="faq-header" style="display:flex; align-items:center; justify-content:space-between; gap:20px;"><span style="font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(13px,1.2vw,19px); line-height:1.3;">Do you offer flexible engagement models?</span><span class="faq-chevron" style="color:#C7FFE0; font-size:clamp(16px,1.4vw,22px); flex-shrink:0;">&#x203A;</span></div><div class="faq-body"><p style="margin:clamp(10px,1.2vh,16px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.80); font-size:clamp(12px,1.0vw,16px); line-height:1.65; text-wrap:pretty;">Yes. You can scale up or down as needs evolve, with transparent costs and flexible terms.</p></div></div>
           </div>
         </div>
-      </div>
 
-    </div>
+        <!-- ══════════ STATS headline ══════════ -->
+        <div id="stats-headline" style="position:absolute; left:2%; top:4%; width:96%; height:14%; display:flex; flex-direction:column; justify-content:center; opacity:0; pointer-events:none; z-index:3;">
+          <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(30px,3.6vw,64px); line-height:1.0; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.35);">Trusted by Venture-Backed Teams</h2>
+        </div>
+
+        <!-- ══════════ STATS cards ══════════ -->
+        <div id="stat-0" style="position:absolute; left:2%; top:21%; width:31%; height:38%; display:flex; flex-direction:column; justify-content:flex-end; padding:clamp(20px,2.2vw,38px); background:rgba(0,0,0,0.15); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.12); border-radius:28px; opacity:0; pointer-events:none; z-index:4;"><svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom:auto;flex-shrink:0;"><rect width="40" height="40" rx="12" fill="rgba(199,255,224,0.10)"/><text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" font-size="20" fill="#C7FFE0">$</text></svg><div style="display:flex;flex-direction:column;gap:4px;"><span style="font-family:'Space Grotesk',sans-serif;font-weight:500;color:#E0FFEE;font-size:clamp(36px,4.5vw,72px);line-height:1.0;letter-spacing:-0.02em;text-shadow:0 2px 24px rgba(10,200,120,0.30);">$100M+</span><span style="font-family:'Inter',sans-serif;font-weight:300;color:rgba(199,255,224,0.65);font-size:clamp(17px,1.7vw,26px);">Raised by our clients</span></div></div>
+        <div id="stat-1" style="position:absolute; left:34.5%; top:21%; width:31%; height:38%; display:flex; flex-direction:column; justify-content:flex-end; padding:clamp(20px,2.2vw,38px); background:rgba(0,0,0,0.15); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.12); border-radius:28px; opacity:0; pointer-events:none; z-index:4;"><svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom:auto;flex-shrink:0;"><rect width="40" height="40" rx="12" fill="rgba(199,255,224,0.10)"/><path d="M20 9l9 4v8c0 5-4 9-9 10-5-1-9-5-9-10v-8l9-4z" stroke="#C7FFE0" stroke-width="1.5" fill="none"/><path d="M16 20l3 3 5-5" stroke="#C7FFE0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><div style="display:flex;flex-direction:column;gap:4px;"><span style="font-family:'Space Grotesk',sans-serif;font-weight:500;color:#E0FFEE;font-size:clamp(36px,4.5vw,72px);line-height:1.0;letter-spacing:-0.02em;text-shadow:0 2px 24px rgba(10,200,120,0.30);">5</span><span style="font-family:'Inter',sans-serif;font-weight:300;color:rgba(199,255,224,0.65);font-size:clamp(17px,1.7vw,26px);">VC Partners</span></div></div>
+        <div id="stat-2" style="position:absolute; left:67%; top:21%; width:31%; height:38%; display:flex; flex-direction:column; justify-content:flex-end; padding:clamp(20px,2.2vw,38px); background:rgba(0,0,0,0.15); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.12); border-radius:28px; opacity:0; pointer-events:none; z-index:4;"><svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom:auto;flex-shrink:0;"><rect width="40" height="40" rx="12" fill="rgba(199,255,224,0.10)"/><circle cx="20" cy="15" r="4" stroke="#C7FFE0" stroke-width="1.5" fill="none"/><path d="M12 29c0-4.4 3.6-8 8-8s8 3.6 8 8" stroke="#C7FFE0" stroke-width="1.5" stroke-linecap="round" fill="none"/></svg><div style="display:flex;flex-direction:column;gap:4px;"><span style="font-family:'Space Grotesk',sans-serif;font-weight:500;color:#E0FFEE;font-size:clamp(36px,4.5vw,72px);line-height:1.0;letter-spacing:-0.02em;text-shadow:0 2px 24px rgba(10,200,120,0.30);">24</span><span style="font-family:'Inter',sans-serif;font-weight:300;color:rgba(199,255,224,0.65);font-size:clamp(17px,1.7vw,26px);">Active Clients</span></div></div>
+        <div id="stat-3" style="position:absolute; left:2%; top:62%; width:64%; height:35%; display:flex; flex-direction:column; justify-content:flex-end; padding:clamp(20px,2.2vw,38px); background:rgba(0,0,0,0.15); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.12); border-radius:28px; opacity:0; pointer-events:none; z-index:4;"><svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom:auto;flex-shrink:0;"><rect width="40" height="40" rx="12" fill="rgba(199,255,224,0.10)"/><circle cx="20" cy="21" r="8" stroke="#C7FFE0" stroke-width="1.5" fill="none"/><path d="M20 17v4l3 2" stroke="#C7FFE0" stroke-width="1.5" stroke-linecap="round" fill="none"/></svg><div style="display:flex;flex-direction:column;gap:4px;"><span style="font-family:'Space Grotesk',sans-serif;font-weight:500;color:#E0FFEE;font-size:clamp(36px,4.5vw,72px);line-height:1.0;letter-spacing:-0.02em;text-shadow:0 2px 24px rgba(10,200,120,0.30);">8+</span><span style="font-family:'Inter',sans-serif;font-weight:300;color:rgba(199,255,224,0.65);font-size:clamp(17px,1.7vw,26px);">Years of experience working in VC Ecosystems</span></div></div>
+        <div id="stat-4" style="position:absolute; left:67%; top:62%; width:31%; height:35%; display:flex; flex-direction:column; justify-content:flex-end; padding:clamp(20px,2.2vw,38px); background:rgba(0,0,0,0.15); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.12); border-radius:28px; opacity:0; pointer-events:none; z-index:4;"><svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom:auto;flex-shrink:0;"><rect width="40" height="40" rx="12" fill="rgba(199,255,224,0.10)"/><path d="M20 10l2.9 6.3 6.8.7-5 4.7 1.4 6.8L20 25l-6.1 3.5 1.4-6.8-5-4.7 6.8-.7z" stroke="#C7FFE0" stroke-width="1.5" fill="none"/></svg><div style="display:flex;flex-direction:column;gap:4px;"><span style="font-family:'Space Grotesk',sans-serif;font-weight:500;color:#E0FFEE;font-size:clamp(36px,4.5vw,72px);line-height:1.0;letter-spacing:-0.02em;text-shadow:0 2px 24px rgba(10,200,120,0.30);">4.7/5</span><span style="font-family:'Inter',sans-serif;font-weight:300;color:rgba(199,255,224,0.65);font-size:clamp(17px,1.7vw,26px);">Satisfaction Score</span></div></div>
+      </div>
+      <!-- ══════════ END mission-overlay ══════════ -->
+
+      <!-- ══════════ CTA content ══════════ -->
+      <div id="cta-content" style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:flex-start; justify-content:center; padding-left:calc(clamp(280px,24vw,400px) + clamp(48px,6.5vw,140px)); padding-right:clamp(32px,5vw,80px); gap:clamp(28px,4vh,52px); opacity:0; pointer-events:none; z-index:23;">
+        <h1 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(52px,7vw,120px); line-height:1.0; letter-spacing:-0.02em; text-shadow:0 4px 48px rgba(10,200,120,0.35);">Ready to Build?</h1>
+        <a href="#" style="display:inline-flex; align-items:center; gap:14px; background:#CCFFCE; color:#18282C; font-family:'Inter',sans-serif; font-weight:700; text-transform:uppercase; font-size:clamp(14px,1.2vw,20px); letter-spacing:0.05em; padding:clamp(13px,1.5vh,18px) clamp(28px,2.8vw,44px); text-decoration:none; box-shadow:0 0 52px rgba(150,255,170,0.32); transition:transform .2s ease,box-shadow .2s ease;" style-hover="transform:translateY(-3px);box-shadow:0 0 72px rgba(150,255,170,0.50);">Schedule a Call <span style="font-weight:700;font-size:1.1em;">&#8594;</span></a>
+        <div style="display:flex; align-items:center; gap:clamp(24px,3.5vw,52px); margin-top:clamp(8px,1.5vh,20px);">
+          <!-- LinkedIn -->
+          <a href="#" style="display:flex; flex-direction:column; align-items:center; gap:10px; text-decoration:none; opacity:0.70; transition:opacity .2s;" style-hover="opacity:1;">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="rgba(199,255,224,0.10)"/><path d="M10 13h3v9h-3v-9zm1.5-4.5a1.5 1.5 0 110 3 1.5 1.5 0 010-3zM15 13h2.9v1.3h.04C18.44 13.5 19.5 13 20.7 13c3 0 3.3 2 3.3 4.5V22h-3v-4c0-1 0-2.3-1.4-2.3-1.4 0-1.6 1.1-1.6 2.2V22h-3v-9z" fill="#C7FFE0"/></svg>
+          </a>
+          <!-- Location -->
+          <a href="#" style="display:flex; flex-direction:column; align-items:center; gap:10px; text-decoration:none; opacity:0.70; transition:opacity .2s;" style-hover="opacity:1;">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="rgba(199,255,224,0.10)"/><path d="M16 8a6 6 0 016 6c0 4-6 10-6 10S10 18 10 14a6 6 0 016-6zm0 4a2 2 0 100 4 2 2 0 000-4z" fill="#C7FFE0"/></svg>
+          </a>
+          <!-- Mail -->
+          <a href="mailto:hello@devsavant.com" style="display:flex; flex-direction:column; align-items:center; gap:10px; text-decoration:none; opacity:0.70; transition:opacity .2s;" style-hover="opacity:1;">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="rgba(199,255,224,0.10)"/><rect x="8" y="10" width="16" height="12" rx="2" stroke="#C7FFE0" stroke-width="1.5" fill="none"/><path d="M8 12l8 6 8-6" stroke="#C7FFE0" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </a>
+          <!-- Phone -->
+          <a href="tel:+1" style="display:flex; flex-direction:column; align-items:center; gap:10px; text-decoration:none; opacity:0.70; transition:opacity .2s;" style-hover="opacity:1;">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="rgba(199,255,224,0.10)"/><path d="M12 10h2l1 4-1.5 1.5c1 2 2.5 3.5 4.5 4.5L19.5 18l4 1v2c0 1-1 2-2 2C12 22 10 12 10 12c0-1 1-2 2-2z" fill="#C7FFE0"/></svg>
+          </a>
+        </div>
+        <a href="#" style="font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.35); font-size:clamp(11px,0.85vw,14px); text-decoration:underline; letter-spacing:0.05em; transition:color .2s;" style-hover="color:rgba(199,255,224,0.70);">Privacy Policy</a>
+      </div>
   </div>
 
 </div>
@@ -661,7 +700,7 @@ class Component extends DCLogic {
     const p = sc.scrollTop / (sc.scrollHeight - sc.clientHeight || 1);
     this._scrollProg = p;
     const cl = (t) => Math.max(0, Math.min(1, t));
-    const heroFade = cl(p / 0.033);
+    const heroFade = cl(p / 0.026);
     const heroContent = document.getElementById('hero-content');
     if (heroContent && !this._agentOpen) {
       heroContent.style.opacity = String(1 - heroFade);
@@ -669,59 +708,99 @@ class Component extends DCLogic {
     }
     this._applyMorph(p);
     let mainOp;
-    if      (p < 0.111) mainOp = 1;
-    else if (p < 0.137) mainOp = 1-(p-0.111)/0.026;
-    else if (p < 0.180) mainOp = 0;
-    else if (p < 0.202) mainOp = (p-0.180)/0.022;
-    else if (p < 0.255) mainOp = 1;
-    else if (p < 0.274) mainOp = 1-(p-0.255)/0.019;
-    else if (p < 0.327) mainOp = 0;
-    else if (p < 0.354) mainOp = (p-0.327)/0.027;
-    else if (p < 0.490) mainOp = 1;
-    else if (p < 0.523) mainOp = 1-(p-0.490)/0.033;
-    else if (p < 0.539) mainOp = 0;
-    else if (p < 0.560) mainOp = (p-0.539)/0.021;
-    else if (p < 0.648) mainOp = 1;
-    else if (p < 0.669) mainOp = 1-(p-0.648)/0.021;
-    else if (p < 0.740) mainOp = 0;
-    else if (p < 0.775) mainOp = (p-0.740)/0.035;
-    else if (p < 0.885) mainOp = 1;
-    else if (p < 0.920) mainOp = 1-(p-0.885)/0.035;
+    if      (p < 0.089) mainOp = 1;
+    else if (p < 0.110) mainOp = 1-(p-0.089)/0.021;
+    else if (p < 0.144) mainOp = 0;
+    else if (p < 0.162) mainOp = (p-0.144)/0.018;
+    else if (p < 0.204) mainOp = 1;
+    else if (p < 0.219) mainOp = 1-(p-0.204)/0.015;
+    else if (p < 0.262) mainOp = 0;
+    else if (p < 0.283) mainOp = (p-0.262)/0.021;
+    else if (p < 0.392) mainOp = 1;
+    else if (p < 0.418) mainOp = 1-(p-0.392)/0.026;
+    else if (p < 0.431) mainOp = 0;
+    else if (p < 0.448) mainOp = (p-0.431)/0.017;
+    else if (p < 0.518) mainOp = 1;
+    else if (p < 0.535) mainOp = 1-(p-0.518)/0.017;
+    else if (p < 0.592) mainOp = 0;
+    else if (p < 0.620) mainOp = (p-0.592)/0.028;
+    else if (p < 0.708) mainOp = 1;
+    else if (p < 0.736) mainOp = 1-(p-0.708)/0.028;
+    else if (p < 0.800) mainOp = 0;
+    else if (p < 0.830) mainOp = (p-0.800)/0.030;
+    else if (p < 0.920) mainOp = 1;
+    else if (p < 0.950) mainOp = 1-(p-0.920)/0.030;
     else                mainOp = 0;
     if (this._mainEl) {
       const mo = Math.max(0, Math.min(1, mainOp));
       this._mainEl.style.opacity = String(mo);
       this._mainEl.style.pointerEvents = mo < 0.05 ? 'none' : 'auto';
     }
-    const mOpA = cl((p-0.098)/0.023)*(1-cl((p-0.180)/0.023));
-    const mOpB = cl((p-0.108)/0.023)*(1-cl((p-0.186)/0.023));
+    const mOpA = cl((p-0.078)/0.018)*(1-cl((p-0.144)/0.018));
+    const mOpB = cl((p-0.086)/0.018)*(1-cl((p-0.149)/0.018));
     const maA=document.getElementById('mission-a'), maB=document.getElementById('mission-b');
     if (maA){maA.style.opacity=String(mOpA);maA.style.pointerEvents=mOpA>.5?'auto':'none';}
     if (maB){maB.style.opacity=String(mOpB);maB.style.pointerEvents=mOpB>.5?'auto':'none';}
-    const sOpA = cl((p-0.255)/0.026)*(1-cl((p-0.327)/0.033));
-    const sOpB = cl((p-0.261)/0.026)*(1-cl((p-0.337)/0.033));
+    const sOpA = cl((p-0.204)/0.021)*(1-cl((p-0.262)/0.026));
+    const sOpB = cl((p-0.209)/0.021)*(1-cl((p-0.270)/0.026));
     const svA=document.getElementById('service-a'), svB=document.getElementById('service-b'), svH=document.getElementById('services-headline');
     if (svA){svA.style.opacity=String(sOpA);svA.style.pointerEvents=sOpA>.5?'auto':'none';}
     if (svB){svB.style.opacity=String(sOpB);svB.style.pointerEvents=sOpB>.5?'auto':'none';}
     if (svH){svH.style.opacity=String(sOpA);svH.style.pointerEvents=sOpA>.5?'auto':'none';}
-    const tOpA = cl((p-0.490)/0.027)*(1-cl((p-0.539)/0.027));
-    const tOpB = cl((p-0.501)/0.027)*(1-cl((p-0.547)/0.027));
+    const tOpA = cl((p-0.392)/0.022)*(1-cl((p-0.431)/0.022));
+    const tOpB = cl((p-0.401)/0.022)*(1-cl((p-0.438)/0.022));
     const tmA=document.getElementById('testimonial-a'), tmB=document.getElementById('testimonial-b'), tmH=document.getElementById('testimonials-headline');
     if (tmA){tmA.style.opacity=String(tOpA);tmA.style.pointerEvents=tOpA>.5?'auto':'none';}
     if (tmB){tmB.style.opacity=String(tOpB);tmB.style.pointerEvents=tOpB>.5?'auto':'none';}
     if (tmH){tmH.style.opacity=String(tOpA);tmH.style.pointerEvents=tOpA>.5?'auto':'none';}
-    const cFadeOut = 1 - cl((p-0.740)/0.035);
+    const cFadeOut = 1 - cl((p-0.592)/0.028);
     const clG=document.getElementById('clients-grid'), clH=document.getElementById('clients-headline');
-    if (clG){[...clG.children].forEach((cell,i)=>{const op=cl((p-0.648-i*.002)/.032)*cFadeOut;cell.style.opacity=String(op);cell.style.pointerEvents=op>.5?'auto':'none';});}
-    if (clH){const co=cl((p-0.648)/.032)*cFadeOut;clH.style.opacity=String(co);clH.style.pointerEvents=co>.5?'auto':'none';}
+    if (clG){[...clG.children].forEach((cell,i)=>{const op=cl((p-0.518-i*.0016)/.026)*cFadeOut;cell.style.opacity=String(op);cell.style.pointerEvents=op>.5?'auto':'none';});}
+    if (clH){const co=cl((p-0.518)/.026)*cFadeOut;clH.style.opacity=String(co);clH.style.pointerEvents=co>.5?'auto':'none';}
+    const faqFadeOut = 1 - cl((p-0.800)/0.040);
     const faqH=document.getElementById('faq-headline');
-    const faqBase=cl((p-0.885)/0.040);
-    if (faqH){faqH.style.opacity=String(faqBase); /* pointer-events always none — never block FAQ clicks */}
-    document.querySelectorAll('.faq-item').forEach((el,i)=>{const op=cl((p-0.885-i*.004)/.040);el.style.opacity=String(op);});
+    const faqBase=cl((p-0.708)/0.032)*faqFadeOut;
+    if (faqH){faqH.style.opacity=String(faqBase);}
+    document.querySelectorAll('.faq-item').forEach((el,i)=>{const op=cl((p-0.708-i*.003)/.032)*faqFadeOut;el.style.opacity=String(op);});
     const faqItemsEl=document.getElementById('faq-items'), faqClipEl=document.getElementById('faq-clip');
     if (faqItemsEl&&faqClipEl){
       const ov=Math.max(0,faqItemsEl.offsetHeight-faqClipEl.offsetHeight);
-      faqItemsEl.style.transform='translateY('+(-cl((p-.935)/.065)*ov).toFixed(1)+'px)';
+      faqItemsEl.style.transform='translateY('+(-cl((p-.748)/.052)*ov).toFixed(1)+'px)';
+    }
+    // Stats section — hold, then fly up when CTA begins
+    const statFlyOut = cl((p - 0.935) / 0.025);
+    const stH = document.getElementById('stats-headline');
+    const stBase = cl((p - 0.905) / 0.030) * (1 - statFlyOut);
+    if (stH) {
+      stH.style.opacity = String(stBase);
+      stH.style.transform = 'translateY(' + (-statFlyOut * 130).toFixed(1) + 'vh)';
+    }
+    ['stat-0','stat-1','stat-2','stat-3','stat-4'].forEach((id, i) => {
+      const el = document.getElementById(id);
+      if (el) {
+        const op = cl((p - 0.905 - i*.006) / 0.030) * (1 - statFlyOut);
+        el.style.opacity = String(op);
+        el.style.pointerEvents = op > 0.5 ? 'auto' : 'none';
+        const fly = cl((p - 0.935 - i * 0.006) / 0.022);
+        el.style.transform = 'translateY(' + (-fly * 135).toFixed(1) + 'vh)';
+      }
+    });
+
+    // CTA glass overlay + content
+    const ctaGlass   = document.getElementById('cta-glass');
+    const ctaContent = document.getElementById('cta-content');
+    const ctaGlassOp = cl((p - 0.945) / 0.030);
+    const ctaContentOp = cl((p - 0.962) / 0.028);
+    if (ctaGlass) {
+      ctaGlass.style.opacity = String(ctaGlassOp);
+      ctaGlass.style.pointerEvents = ctaGlassOp > 0.05 ? 'auto' : 'none';
+    }
+    // Blur the animated background canvas directly (not a backdrop-filter, so content stays crisp)
+    if (this._bg) this._bg.style.filter = ctaGlassOp > 0 ? 'blur(' + (ctaGlassOp * 18).toFixed(1) + 'px)' : '';
+    if (ctaContent) {
+      ctaContent.style.opacity = String(ctaContentOp);
+      ctaContent.style.pointerEvents = ctaContentOp > 0.3 ? 'auto' : 'none';
+      ctaContent.style.filter = ctaContentOp < 1 ? 'blur(' + ((1 - ctaContentOp) * 12).toFixed(1) + 'px)' : '';
     }
   }
 
@@ -756,7 +835,8 @@ class Component extends DCLogic {
     const mp2 = cl((p - 0.173) / 0.098);
     const mp3 = cl((p - 0.327) / 0.163);
     const mp4 = cl((p - 0.539) / 0.109);
-    const mp5 = cl((p - 0.775) / 0.110);
+    const mp5 = cl((p - 0.620) / 0.088);
+    const mp6 = cl((p - 0.830) / 0.090);
     const cover = { x:-PAD, y:-PAD, w:w+PAD*2, h:h+PAD*2, rx:0 };
     const KF1A  = { x:0.03*w, y:0.05*h, w:0.54*w, h:0.52*h, rx:40 };
     const KF1B  = { x:0.43*w, y:0.53*h, w:0.54*w, h:0.42*h, rx:40 };
@@ -775,6 +855,14 @@ class Component extends DCLogic {
       return { x: gx0+col*(cellW+gapX), y: gy0+row*(cellH+gapY), w: cellW, h: cellH, rx: 24 };
     };
     const faqBar = (i) => ({ x:0.02*w, y:(0.15+i*0.091)*h, w:0.96*w, h:0.080*h, rx:18 });
+    const statCard = (i) => {
+      if (i === 0) return { x:0.02*w, y:0.21*h, w:0.31*w, h:0.38*h, rx:28 };
+      if (i === 1) return { x:0.345*w, y:0.21*h, w:0.31*w, h:0.38*h, rx:28 };
+      if (i === 2) return { x:0.67*w, y:0.21*h, w:0.31*w, h:0.38*h, rx:28 };
+      if (i === 3) return { x:0.02*w, y:0.62*h, w:0.64*w, h:0.35*h, rx:28 };
+      return             { x:0.67*w, y:0.62*h, w:0.31*w, h:0.35*h, rx:28 };
+    };
+    const rectToStat = (i) => { if(i<3)return 0; if(i<5)return 1; if(i<7)return 2; if(i<10)return 3; return 4; };
     const rects = this._morphRects;
     const setR = (el, r) => {
       el.setAttribute('x', r.x.toFixed(2)); el.setAttribute('y', r.y.toFixed(2));
@@ -783,7 +871,10 @@ class Component extends DCLogic {
     };
     const collapse = { x:w*0.5, y:h*0.5, w:0, h:0, rx:0 };
     let act = 0;
-    if (mp5 > 0) {
+    if (mp6 > 0) {
+      const e = ease(mp6); act = Math.sin(Math.PI * mp6);
+      for (let i = 0; i < rects.length; i++) setR(rects[i], i < 11 ? lr(faqBar(i), statCard(rectToStat(i)), e) : collapse);
+    } else if (mp5 > 0) {
       const e = ease(mp5); act = Math.sin(Math.PI * mp5);
       for (let i = 0; i < rects.length; i++) setR(rects[i], i < 11 ? lr(gridCell(i), faqBar(i), e) : collapse);
     } else if (mp4 > 0) {
@@ -922,7 +1013,7 @@ class Component extends DCLogic {
         u_time:       { value: 0.0 },
         u_resolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
         u_scroll:     { value: 0.0 },
-        u_grain:      { value: (this.props.grain === false) ? 0.0 : 1.0 }
+        u_grain:      { value: 0.0 }
       }
     });
     this.material = material;
