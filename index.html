@@ -69,6 +69,54 @@
     .faq-item.open .faq-body { max-height:360px !important; }
     .faq-item .faq-chevron { display:inline-block; transition:transform 0.3s ease; }
     .faq-item.open .faq-chevron { transform:rotate(90deg); }
+
+    .nav-item-services { position: relative; }
+    .nav-item-services:hover { z-index: 100; }
+    .nav-item-services .nav-submenu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      z-index: 50;
+      display: flex;
+      flex-direction: column;
+      gap: clamp(8px,1.1vh,14px);
+      margin-top: clamp(6px,0.8vh,12px);
+      padding: clamp(14px,1.6vh,20px) clamp(20px,1.6vw,28px);
+      background: rgba(8,14,16,0.99);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(199,255,224,0.14);
+      border-radius: 10px;
+      box-shadow: 0 18px 50px rgba(0,0,0,0.45);
+      opacity: 0;
+      transform: translateY(-6px);
+      pointer-events: none;
+      transition: opacity 0.32s ease, transform 0.4s cubic-bezier(0.22,1,0.36,1);
+    }
+    .nav-item-services:hover .nav-submenu {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+    .nav-sublink {
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      font-size: clamp(13px,1.0vw,17px);
+      color: rgba(255,255,255,0.72);
+      text-decoration: none;
+      white-space: nowrap;
+      transition: opacity .2s ease, color .2s ease;
+    }
+    .nav-sublink:hover { color: #9DEBC2; }
+    .nav-link.active { color: #9DEBC2 !important; }
+    .nav-item-services .nav-submenu::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: calc(-1 * clamp(6px,0.8vh,12px) - 4px);
+      height: calc(clamp(6px,0.8vh,12px) + 6px);
+    }
   </style>
 </helmet>
 
@@ -136,7 +184,14 @@
           transition:
             gap 0.82s cubic-bezier(0.22,1,0.36,1);
         ">
-          <a href="#" class="nav-link" style="font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(17px,1.4vw,24px); color:#fff; text-decoration:none; white-space:nowrap; transition:opacity .2s ease, font-size 0.75s cubic-bezier(0.22,1,0.36,1); animation:nav-enter 0.9s cubic-bezier(0.16,1,0.3,1) 0.35s both" style-hover="opacity:0.6;">Services</a>
+          <a href="#" class="nav-link active" onclick="{{ onHome }}" style="font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(17px,1.4vw,24px); color:#fff; text-decoration:none; white-space:nowrap; transition:opacity .2s ease, color .2s ease, font-size 0.75s cubic-bezier(0.22,1,0.36,1); animation:nav-enter 0.9s cubic-bezier(0.16,1,0.3,1) 0.22s both" style-hover="opacity:0.6;">Home</a>
+          <div class="nav-item-services" style="display:flex; flex-direction:column; animation:nav-enter 0.9s cubic-bezier(0.16,1,0.3,1) 0.35s both">
+            <a href="#" class="nav-link" style="font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(17px,1.4vw,24px); color:#fff; text-decoration:none; white-space:nowrap; transition:opacity .2s ease, font-size 0.75s cubic-bezier(0.22,1,0.36,1);" style-hover="opacity:0.6;">Services</a>
+            <div class="nav-submenu">
+              <a href="#" class="nav-sublink" onclick="{{ onPE }}">Product Engineering</a>
+              <a href="#" class="nav-sublink">Global Staffing</a>
+            </div>
+          </div>
           <a href="#" class="nav-link" style="font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(17px,1.4vw,24px); color:#fff; text-decoration:none; white-space:nowrap; transition:opacity .2s ease, font-size 0.75s cubic-bezier(0.22,1,0.36,1); animation:nav-enter 0.9s cubic-bezier(0.16,1,0.3,1) 0.48s both" style-hover="opacity:0.6;">Our Expertise</a>
           <a href="#" class="nav-link" style="font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(17px,1.4vw,24px); color:#fff; text-decoration:none; white-space:nowrap; transition:opacity .2s ease, font-size 0.75s cubic-bezier(0.22,1,0.36,1); animation:nav-enter 0.9s cubic-bezier(0.16,1,0.3,1) 0.61s both" style-hover="opacity:0.6;">About Us</a>
           <a href="#" class="nav-link" style="font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(17px,1.4vw,24px); color:#fff; text-decoration:none; white-space:nowrap; transition:opacity .2s ease, font-size 0.75s cubic-bezier(0.22,1,0.36,1); animation:nav-enter 0.9s cubic-bezier(0.16,1,0.3,1) 0.74s both" style-hover="opacity:0.6;">VC Partnerships</a>
@@ -406,6 +461,22 @@
       </div>
       <!-- ══════════ END mission-overlay ══════════ -->
 
+      <!-- ══════════ PRODUCT ENGINEERING PAGE (glass card, animates in) ══════════ -->
+      <div id="pe-overlay" style="position:absolute; left:clamp(280px,24vw,400px); top:0; right:0; bottom:0; display:flex; align-items:center; pointer-events:none; opacity:0; z-index:24; transition:opacity 0.5s ease;">
+        <div id="pe-card" style="position:relative; width:100%; height:100%; display:flex; flex-direction:column; justify-content:center; padding-left:clamp(48px,6.5vw,140px); padding-right:clamp(40px,5vw,90px); background:rgba(0,0,0,0.18); backdrop-filter:blur(30px) saturate(140%); -webkit-backdrop-filter:blur(30px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-top-left-radius:44px; border-bottom-left-radius:44px; opacity:0; transform:translateX(48px) scale(0.985); transition:opacity 0.75s cubic-bezier(0.16,1,0.3,1), transform 0.85s cubic-bezier(0.16,1,0.3,1);">
+          <div style="max-width:920px;">
+            <span class="pe-el" style="display:inline-block; font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(11px,0.9vw,15px); letter-spacing:0.26em; text-transform:uppercase; color:rgba(199,255,224,0.55); opacity:0; transform:translateY(22px); transition:opacity 0.8s cubic-bezier(0.16,1,0.3,1) 0.18s, transform 0.8s cubic-bezier(0.16,1,0.3,1) 0.18s;">Services</span>
+            <h1 class="pe-el" style="margin:clamp(12px,1.6vh,20px) 0 0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(40px,5.4vw,92px); line-height:1.03; letter-spacing:-0.01em; text-wrap:balance; text-shadow:0 4px 32px rgba(31,98,255,0.40); opacity:0; transform:translateY(26px); transition:opacity 0.85s cubic-bezier(0.16,1,0.3,1) 0.28s, transform 0.85s cubic-bezier(0.16,1,0.3,1) 0.28s;">Product Engineering</h1>
+            <p class="pe-el" style="margin:clamp(20px,2.6vh,34px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:#C7FFE0; font-size:clamp(15px,1.45vw,23px); line-height:1.5; text-wrap:pretty; opacity:0; transform:translateY(26px); transition:opacity 0.85s cubic-bezier(0.16,1,0.3,1) 0.40s, transform 0.85s cubic-bezier(0.16,1,0.3,1) 0.40s;">We design and build tailored digital products through an AI-first approach that blends consulting, technical validation, and full-cycle software development. Whether you&rsquo;re exploring an early concept, preparing for a capital-raising milestone, or scaling an existing product, we translate business needs into a clear, executable plan, at any stage.</p>
+            <p class="pe-el" style="margin:clamp(14px,1.8vh,22px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:#C7FFE0; font-size:clamp(15px,1.45vw,23px); line-height:1.5; text-wrap:pretty; opacity:0; transform:translateY(26px); transition:opacity 0.85s cubic-bezier(0.16,1,0.3,1) 0.50s, transform 0.85s cubic-bezier(0.16,1,0.3,1) 0.50s;">Our experience working with VCs and venture-backed startups allows us to move fast, reduce uncertainty, and deliver solutions that support growth, scalability, and investor expectations.</p>
+            <div class="pe-el" style="display:flex; align-items:center; gap:clamp(20px,2.4vw,38px); flex-wrap:wrap; margin-top:clamp(28px,4vh,50px); opacity:0; transform:translateY(26px); transition:opacity 0.85s cubic-bezier(0.16,1,0.3,1) 0.62s, transform 0.85s cubic-bezier(0.16,1,0.3,1) 0.62s;">
+              <a href="#" style="display:inline-flex; align-items:center; gap:14px; background:#CCFFCE; color:#18282C; font-family:'Inter',sans-serif; font-weight:700; text-transform:uppercase; font-size:clamp(15px,1.4vw,22px); letter-spacing:0.045em; padding:13px 26px; text-decoration:none; box-shadow:0 0 44px rgba(150,255,170,0.28); transition:transform .2s ease, box-shadow .2s ease;" style-hover="transform:translateY(-2px); box-shadow:0 0 60px rgba(150,255,170,0.45);">Start a Product Sprint <span style="font-weight:700;font-size:1.05em;">&#8594;</span></a>
+              <a href="#" onclick="{{ onHome }}" style="font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.6); font-size:clamp(13px,1.1vw,17px); text-decoration:none; letter-spacing:0.04em; display:inline-flex; align-items:center; gap:8px; transition:color .2s ease;" style-hover="color:#C7FFE0;"><span style="font-size:1.1em;">&#8592;</span> Back to Home</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- ══════════ CTA content ══════════ -->
       <div id="cta-content" style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:flex-start; justify-content:center; padding-left:calc(clamp(280px,24vw,400px) + clamp(48px,6.5vw,140px)); padding-right:clamp(32px,5vw,80px); gap:clamp(28px,4vh,52px); opacity:0; pointer-events:none; z-index:23;">
         <h1 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(52px,7vw,120px); line-height:1.0; letter-spacing:-0.02em; text-shadow:0 4px 48px rgba(10,200,120,0.35);">Ready to Build?</h1>
@@ -456,6 +527,8 @@ class Component extends DCLogic {
       inputRef:    (el) => { if (el) this._inputEl = el; },
       onAskClick:    () => this._openAgentPanel(),
       onCloseAgent:  () => this._closeAgentPanel(),
+      onPE:   (e) => { if (e) e.preventDefault(); this._showPE(); },
+      onHome: (e) => { if (e) e.preventDefault(); this._showHome(); },
       onSendMessage: () => {
         const q = this._inputEl && this._inputEl.value.trim();
         if (q) { this._inputEl.value = ''; this._handleQuery(q); }
@@ -692,6 +765,114 @@ class Component extends DCLogic {
     tick();
   }
 
+  // ─── Product Engineering view (seamless in-page nav) ───────────────
+
+  _showPE() {
+    if (this._peActive) return;
+    this._peActive = true;
+    if (this._scrollEl) { this._scrollEl.scrollTop = 0; this._scrollEl.style.overflowY = 'hidden'; }
+    this._scrollProg = 0;
+    const aside = document.getElementById('left-aside');
+    const mission = document.getElementById('mission-overlay');
+    const ov = document.getElementById('pe-overlay');
+    const card = document.getElementById('pe-card');
+    const EASE = 'cubic-bezier(0.4,0,0.2,1)', OUT = 600, IN = 750;
+    // 1) Whole site blurs out smoothly, nav included
+    [aside, this._mainEl, mission].forEach(el => {
+      if (!el) return;
+      el.style.animation = 'none';
+      el.style.transition = `opacity ${OUT}ms ${EASE}, filter ${OUT}ms ${EASE}`;
+      el.style.opacity = '0';
+      el.style.filter = 'blur(20px)';
+      el.style.pointerEvents = 'none';
+    });
+    // Select Services while hidden
+    document.querySelectorAll('.nav-link').forEach(a => a.classList.remove('active'));
+    const svcLink = document.querySelector('.nav-item-services .nav-link');
+    if (svcLink) svcLink.classList.add('active');
+    // Prime the incoming page hidden+blurred
+    if (card) {
+      card.style.animation = 'none';
+      card.style.transition = 'none';
+      card.style.transform = 'none';
+      card.style.opacity = '0';
+      card.style.filter = 'blur(20px)';
+      card.querySelectorAll('.pe-el').forEach(el => { el.style.transition='none'; el.style.opacity='1'; el.style.transform='none'; });
+    }
+    // 2) After it's gone, the new page blurs in (home content stays out)
+    clearTimeout(this._peTimer);
+    this._peTimer = setTimeout(() => {
+      if (!this._peActive) return;
+      if (aside) {
+        aside.style.transition = `opacity ${IN}ms ${EASE}, filter ${IN}ms ${EASE}`;
+        aside.style.opacity = '1';
+        aside.style.filter = 'blur(0px)';
+        aside.style.pointerEvents = '';
+      }
+      if (ov) { ov.style.opacity = '1'; ov.style.pointerEvents = 'auto'; }
+      if (card) {
+        void card.offsetWidth;
+        card.style.transition = `opacity ${IN}ms ${EASE}, filter ${IN}ms ${EASE}`;
+        card.style.opacity = '1';
+        card.style.filter = 'blur(0px)';
+      }
+    }, OUT);
+  }
+
+  _showHome() {
+    if (!this._peActive) return;
+    this._peActive = false;
+    clearTimeout(this._peTimer);
+    const aside = document.getElementById('left-aside');
+    const mission = document.getElementById('mission-overlay');
+    const ov = document.getElementById('pe-overlay');
+    const card = document.getElementById('pe-card');
+    const EASE = 'cubic-bezier(0.4,0,0.2,1)', OUT = 600, IN = 750;
+    // 1) New page blurs out smoothly, nav included
+    [aside, card].forEach(el => {
+      if (!el) return;
+      el.style.animation = 'none';
+      el.style.transition = `opacity ${OUT}ms ${EASE}, filter ${OUT}ms ${EASE}`;
+      el.style.opacity = '0';
+      el.style.filter = 'blur(20px)';
+      el.style.pointerEvents = 'none';
+    });
+    if (ov) { ov.style.pointerEvents = 'none'; }
+    // Select Home while hidden
+    document.querySelectorAll('.nav-link').forEach(a => a.classList.remove('active'));
+    const homeLink = document.querySelector('.nav-link');
+    if (homeLink) homeLink.classList.add('active');
+    // 2) After it's gone, home blurs back in
+    this._peTimer = setTimeout(() => {
+      if (this._peActive) return;
+      if (ov) ov.style.opacity = '0';
+      // reset glass card for next time
+      if (card) {
+        card.style.transition = 'none';
+        card.style.transform = 'translateX(48px) scale(0.985)';
+        card.querySelectorAll('.pe-el').forEach(el => { el.style.transition='none'; el.style.opacity='0'; el.style.transform='translateY(26px)'; });
+        void card.offsetWidth;
+        card.querySelectorAll('.pe-el').forEach(el => { el.style.transition=''; });
+      }
+      [this._mainEl, mission, aside].forEach(el => {
+        if (!el) return;
+        el.style.animation = 'none';
+        el.style.transition = `opacity ${IN}ms ${EASE}, filter ${IN}ms ${EASE}`;
+        el.style.opacity = '1';
+        el.style.filter = 'blur(0px)';
+        el.style.pointerEvents = '';
+      });
+      if (this._scrollEl) { this._scrollEl.style.overflowY = 'auto'; this._scrollEl.scrollTop = 0; }
+      this._scrollProg = 0;
+      // Once home is back, hand opacity control back to scroll
+      setTimeout(() => {
+        if (this._peActive) return;
+        [this._mainEl, mission, aside].forEach(el => { if (el) { el.style.filter = ''; el.style.transition = ''; } });
+        this._applyScroll();
+      }, IN + 40);
+    }, OUT);
+  }
+
   // ─── Scroll ────────────────────────────────────────────────────────
 
   _applyScroll() {
@@ -702,7 +883,7 @@ class Component extends DCLogic {
     const cl = (t) => Math.max(0, Math.min(1, t));
     const heroFade = cl(p / 0.026);
     const heroContent = document.getElementById('hero-content');
-    if (heroContent && !this._agentOpen) {
+    if (heroContent && !this._agentOpen && !this._peActive) {
       heroContent.style.opacity = String(1 - heroFade);
       heroContent.style.filter  = heroFade > 0 ? 'blur(' + (heroFade * 14).toFixed(1) + 'px)' : '';
     }
