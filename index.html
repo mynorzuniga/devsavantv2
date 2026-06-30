@@ -21,6 +21,32 @@
       from { opacity: 0; filter: blur(22px); }
       to   { opacity: 1; filter: blur(0px); }
     }
+    /* ===== Product Engineering page swap (body-state driven, re-render proof) ===== */
+    .pe-el { opacity: 1 !important; transform: none !important; }
+    /* nav blurs out then back in — self-sequencing keyframe, no JS timer needed */
+    @keyframes nav-swap {
+      0%   { opacity: 1; filter: blur(0px); }
+      38%  { opacity: 0; filter: blur(18px); }
+      62%  { opacity: 0; filter: blur(18px); }
+      100% { opacity: 1; filter: blur(0px); }
+    }
+    /* transitions only while a swap is happening (keeps scroll fades snappy otherwise) */
+    body.pe-swapping #home-main,
+    body.pe-swapping #mission-overlay,
+    body.pe-swapping #pe-overlay,
+    body.pe-swapping #pe-stage {
+      transition: opacity 0.55s cubic-bezier(0.4,0,0.2,1), filter 0.55s cubic-bezier(0.4,0,0.2,1) !important;
+    }
+    body.pe-swapping #left-aside {
+      animation: nav-swap 1.05s cubic-bezier(0.4,0,0.2,1) both !important;
+    }
+    /* persistent PE state: home held out, glass page shown */
+    body.pe-state #home-main,
+    body.pe-state #mission-overlay {
+      opacity: 0 !important; filter: blur(18px) !important; pointer-events: none !important;
+    }
+    body.pe-state #pe-overlay { opacity: 1 !important; pointer-events: auto !important; }
+    body.pe-state #pe-stage { opacity: 1 !important; }
     @keyframes btn-grow {
       from { clip-path: inset(0% 100% 0% 0%); }
       to   { clip-path: inset(0% 0% 0% 0%); }
@@ -117,10 +143,383 @@
       top: calc(-1 * clamp(6px,0.8vh,12px) - 4px);
       height: calc(clamp(6px,0.8vh,12px) + 6px);
     }
+
+    #svc-scroll { display: contents; }
+    #tmn-scroll { display: contents; }
+    #cli-scroll { display: contents; }
+    #faq-scroll { display: contents; }
+    #stats-scroll { display: contents; }
+    #disc-scroll { display: contents; }
+    .pe-sec { display: contents; }
+    #pe-overlay::-webkit-scrollbar { display: none; }
+
+    /* ─── Mobile navigation ─────────────────────────────────────────── */
+    #mobile-header { display: none; }
+    #mobile-menu   { display: none; pointer-events: none; }
+
+    @media (max-width: 767px) {
+      #left-aside { display: none !important; }
+
+      #mobile-header {
+        display: flex !important;
+        position: fixed; top: 0; left: 0; right: 0; height: 60px; z-index: 200;
+        align-items: center; justify-content: space-between; padding: 0 22px;
+        background: transparent;
+      }
+
+      #mobile-menu {
+        display: flex !important; pointer-events: auto !important;
+        position: fixed; inset: 0; z-index: 400;
+        flex-direction: column;
+        background: rgba(2,8,5,0.70);
+        backdrop-filter: blur(32px) saturate(140%); -webkit-backdrop-filter: blur(32px) saturate(140%);
+        border-left: 1px solid rgba(255,255,255,0.10);
+        padding: 0 30px 48px;
+        transform: translateX(100%);
+        transition: transform 0.45s cubic-bezier(0.22,1,0.36,1);
+      }
+      #mobile-menu.open { transform: translateX(0); }
+
+      #mobile-menu .mob-link {
+        font-family: 'Inter', sans-serif; font-weight: 300;
+        font-size: clamp(24px, 6.5vw, 34px);
+        color: #fff; text-decoration: none;
+        padding: 15px 0;
+        border-bottom: 1px solid rgba(255,255,255,0.07);
+        display: block;
+        transition: color 0.2s ease;
+      }
+      #mobile-menu .mob-link:active { color: #9DEBC2; }
+      #mobile-menu .mob-sub-link {
+        font-family: 'Inter', sans-serif; font-weight: 300;
+        font-size: clamp(15px, 4vw, 20px);
+        color: rgba(199,255,224,0.72); text-decoration: none;
+        padding: 6px 0;
+        display: block;
+        transition: color 0.2s ease;
+      }
+      #mobile-menu .mob-sub-link:active { color: #9DEBC2; }
+
+      #hero-sticky {
+        top: 60px !important;
+        height: calc(100vh - 60px) !important;
+      }
+      #home-main {
+        border-top-left-radius: 28px !important;
+        border-top-right-radius: 28px !important;
+        border-bottom-left-radius: 0 !important;
+        border-bottom-right-radius: 0 !important;
+        border-left: none !important;
+        border-right: none !important;
+        border-bottom: none !important;
+        padding-left: 22px !important; padding-right: 22px !important;
+        padding-top: 32px !important;
+      }
+      #mission-overlay, #pe-overlay { left: 0 !important; }
+      /* Smaller rounded corners on mobile */
+      #mission-a, #mission-b,
+      #service-a, #service-b,
+      #testimonial-a, #testimonial-b { border-radius: 22px !important; }
+      #stat-0, #stat-1, #stat-2, #stat-3, #stat-4 { border-radius: 18px !important; }
+      #clients-grid > div { border-radius: 16px !important; }
+      .faq-item { border-radius: 14px !important; }
+      #mission-a { left: 5% !important; width: 90% !important; }
+      #mission-b { right: 5% !important; width: 78% !important; }
+      #svc-scroll {
+        display: flex !important;
+        position: absolute !important;
+        left: 5%; top: 2%; right: 5%; bottom: 2%;
+        flex-direction: column;
+        gap: 16px;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        pointer-events: none;
+      }
+      #svc-scroll::-webkit-scrollbar { display: none; }
+      #tmn-scroll {
+        display: flex !important;
+        position: absolute !important;
+        left: 5%; top: 2%; right: 5%; bottom: 2%;
+        flex-direction: column;
+        gap: 16px;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        pointer-events: none;
+      }
+      #tmn-scroll::-webkit-scrollbar { display: none; }
+      #testimonials-headline, #testimonial-a, #testimonial-b {
+        position: relative !important;
+        left: auto !important; top: auto !important;
+        right: auto !important; bottom: auto !important;
+        width: 100% !important; height: auto !important;
+        flex-shrink: 0 !important;
+      }
+      #stats-scroll {
+        display: flex !important;
+        position: absolute !important;
+        left: 5%; top: 2%; right: 5%; bottom: 2%;
+        flex-direction: column;
+        gap: 16px;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        pointer-events: none;
+      }
+      #stats-scroll::-webkit-scrollbar { display: none; }
+      #stats-headline {
+        position: relative !important;
+        left: auto !important; top: auto !important;
+        width: 100% !important; height: auto !important;
+        flex-shrink: 0 !important;
+      }
+      #stat-0, #stat-1, #stat-2, #stat-3, #stat-4 {
+        position: relative !important;
+        left: auto !important; top: auto !important;
+        right: auto !important; bottom: auto !important;
+        width: 100% !important; height: auto !important;
+        min-height: 120px !important;
+        flex-shrink: 0 !important;
+      }
+      #cli-scroll {
+        display: flex !important;
+        position: absolute !important;
+        left: 5%; top: 2%; right: 5%; bottom: 2%;
+        flex-direction: column;
+        gap: 16px;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        pointer-events: none;
+      }
+      #cli-scroll::-webkit-scrollbar { display: none; }
+      #clients-headline {
+        position: relative !important;
+        left: auto !important; top: auto !important;
+        width: 100% !important; height: auto !important;
+        flex-shrink: 0 !important;
+      }
+      #clients-grid {
+        position: relative !important;
+        left: auto !important; top: auto !important;
+        right: auto !important; bottom: auto !important;
+        width: 100% !important; height: auto !important;
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important;
+        grid-template-rows: unset !important;
+        column-gap: 10px !important;
+        row-gap: 10px !important;
+        overflow: visible !important;
+        padding: 0 !important;
+        flex-shrink: 0 !important;
+      }
+      #clients-grid > div {
+        min-height: 90px !important;
+      }
+      #clients-grid > div img {
+        max-width: 85% !important;
+        max-height: 70% !important;
+      }
+      #faq-scroll {
+        display: flex !important;
+        position: absolute !important;
+        left: 5%; top: 2%; right: 5%; bottom: 2%;
+        flex-direction: column;
+        gap: 24px;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        pointer-events: none;
+      }
+      #faq-scroll::-webkit-scrollbar { display: none; }
+      #faq-headline {
+        position: relative !important;
+        left: auto !important; top: auto !important;
+        width: 100% !important; height: auto !important;
+        flex-shrink: 0 !important;
+      }
+      #faq-clip {
+        position: relative !important;
+        left: auto !important; top: auto !important;
+        right: auto !important; bottom: auto !important;
+        width: 100% !important; height: auto !important;
+        overflow: visible !important;
+        flex-shrink: 0 !important;
+      }
+      #faq-items {
+        position: relative !important;
+        top: auto !important; left: auto !important; right: auto !important;
+      }
+      #services-headline {
+        position: relative !important;
+        left: auto !important; top: auto !important;
+        width: 100% !important; height: auto !important;
+        padding-bottom: 4px !important;
+      }
+      #service-a, #service-b {
+        position: relative !important;
+        left: auto !important; top: auto !important;
+        right: auto !important; bottom: auto !important;
+        width: 100% !important; height: auto !important;
+        flex-shrink: 0 !important;
+        padding: 20px 22px !important;
+      }
+      #cta-content {
+        padding-left: 22px !important; padding-right: 22px !important;
+        padding-top: 80px !important;
+      }
+      /* PE subpage — mobile: pinned sections w/ internal scroll + liquid morph between (homepage model) */
+      #pe-stage {
+        top: 60px !important;
+        height: calc(100vh - 60px) !important;
+      }
+      /* Hero: glass panel, both top corners rounded, flush sides, below header */
+      #pe-hero-frame {
+        border-right: 1px solid rgba(255,255,255,0.12) !important;
+        border-bottom: none !important;
+        border-top-left-radius: 26px !important;
+        border-top-right-radius: 26px !important;
+        border-bottom-left-radius: 0 !important;
+      }
+      #pe-hero-layer { padding-left: 26px !important; padding-right: 26px !important; }
+      /* Each section becomes a pinned, internally-scrollable column */
+      .pe-sec {
+        display: flex !important;
+        position: absolute !important;
+        left: 0 !important; right: 0 !important; top: 0 !important; bottom: 0 !important;
+        flex-direction: column !important;
+        padding: 18px 16px 24px !important;
+        gap: 14px !important;
+        overflow-y: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+        scrollbar-width: none !important;
+        box-sizing: border-box !important;
+      }
+      .pe-sec::-webkit-scrollbar { display: none; }
+      /* Section headlines — match homepage section headline scale */
+      #disc-hl, #build-hl, #scale-hl, #why-hl, #what-hl, #pe-faq-hl {
+        position: relative !important;
+        left: auto !important; top: auto !important;
+        width: 100% !important; height: auto !important;
+        flex-shrink: 0 !important;
+        justify-content: center !important;
+        margin: 2px 0 6px !important;
+        gap: 10px !important;
+      }
+      #disc-hl h2, #build-hl h2, #scale-hl h2, #why-hl h2, #what-hl h2, #pe-faq-hl h2 {
+        font-size: clamp(30px, 8vw, 40px) !important; line-height: 1.05 !important;
+      }
+      #disc-hl p, #build-hl p, #scale-hl p, #why-hl p, #what-hl p {
+        font-size: clamp(14px, 3.6vw, 17px) !important; line-height: 1.5 !important; max-width: none !important;
+      }
+      /* All section cards: relative, full width, natural height, own glass, full content */
+      #disc-c1,#disc-c2,#disc-c3,#disc-c4,
+      #build-c1,#build-c2,#build-c3,
+      #scale-c1,#scale-c2,
+      #why-c1,#why-c2,#why-c3,#why-c4,#why-c5,#why-c6,
+      #what-c1,#what-c2,#what-c3,#what-c4 {
+        position: relative !important;
+        left: auto !important; top: auto !important; right: auto !important; bottom: auto !important;
+        width: 100% !important; height: auto !important;
+        flex-shrink: 0 !important;
+        box-sizing: border-box !important;
+        opacity: inherit;
+        border-radius: 22px !important;
+        margin: 0 !important;
+        padding: 20px 22px !important;
+        justify-content: flex-start !important;
+        gap: 12px !important;
+      }
+      #scale-c1, #scale-c2 { padding: 24px 24px !important; }
+      #why-c1,#why-c2,#why-c3,#why-c4,#why-c5,#why-c6 { padding: 18px 20px !important; gap: 8px !important; }
+      /* Readable type, full content (no clamps) */
+      #why-c1 svg,#why-c2 svg,#why-c3 svg,#why-c4 svg,#why-c5 svg,#why-c6 svg { display: block !important; }
+      #disc-c1 h3,#disc-c2 h3,#disc-c3 h3,#disc-c4 h3,
+      #what-c1 h3,#what-c2 h3,#what-c3 h3,#what-c4 h3,
+      #why-c1 h3,#why-c2 h3,#why-c3 h3,#why-c4 h3,#why-c5 h3,#why-c6 h3 {
+        font-size: clamp(17px, 4.6vw, 22px) !important; line-height: 1.2 !important;
+      }
+      #disc-c1 p,#disc-c2 p,#disc-c3 p,#disc-c4 p,
+      #what-c1 p,#what-c2 p,#what-c3 p,#what-c4 p,
+      #why-c1 p,#why-c2 p,#why-c3 p,#why-c4 p,#why-c5 p,#why-c6 p {
+        font-size: clamp(13px, 3.5vw, 15px) !important; line-height: 1.55 !important;
+        display: block !important; -webkit-line-clamp: none !important; overflow: visible !important;
+      }
+      #build-c1 h3,#build-c2 h3,#build-c3 h3 { font-size: clamp(20px, 5.6vw, 28px) !important; }
+      #build-c1 p,#build-c2 p,#build-c3 p { font-size: clamp(14px, 3.8vw, 17px) !important; line-height: 1.5 !important; }
+      /* Free-standing CTA (no glass) */
+      #what-cta {
+        position: relative !important;
+        left: auto !important; top: auto !important;
+        width: 100% !important; height: auto !important;
+        flex-shrink: 0 !important;
+        opacity: inherit;
+        margin: 12px 0 4px !important;
+        gap: 16px !important;
+        flex-direction: column !important;
+        align-items: flex-start !important;
+      }
+      /* FAQ inside its pinned scroll section */
+      #pe-faq-clip {
+        position: relative !important;
+        left: auto !important; top: auto !important; right: auto !important; bottom: auto !important;
+        width: 100% !important; height: auto !important;
+        overflow: visible !important;
+        flex-shrink: 0 !important;
+      }
+      #pe-faq-items {
+        position: relative !important;
+        top: auto !important; left: auto !important; right: auto !important;
+      }
+      /* CTA finale stays full-bleed pinned */
+      #pe-cta-content { padding-left: 24px !important; padding-right: 24px !important; }
+    }
   </style>
 </helmet>
 
 <div ref="{{ scrollRef }}" style="position:relative; width:100%; height:100vh; overflow-y:auto; overflow-x:hidden; background:#050505; font-family:'Inter',sans-serif;">
+
+  <!-- ══════════ MOBILE HEADER ══════════ -->
+  <div id="mobile-header">
+    <img src="uploads/logo-devsavant-full.png" alt="DevSavant" style="height:30px; width:auto; object-fit:contain; object-position:left; display:block;">
+    <button onclick="{{ onMobileMenuOpen }}" aria-label="Open menu" style="background:none; border:none; cursor:pointer; padding:10px; display:flex; align-items:center; justify-content:center; -webkit-tap-highlight-color:transparent;">
+      <svg width="24" height="18" viewBox="0 0 24 18" fill="none">
+        <path d="M0 1h24M0 9h24M0 17h24" stroke="#C7FFE0" stroke-width="1.6" stroke-linecap="round"></path>
+      </svg>
+    </button>
+  </div>
+
+  <!-- ══════════ MOBILE MENU OVERLAY ══════════ -->
+  <div id="mobile-menu">
+    <!-- Top bar -->
+    <div style="display:flex; align-items:center; justify-content:space-between; height:60px; flex-shrink:0;">
+      <img src="uploads/logo-devsavant-full.png" alt="DevSavant" style="height:30px; width:auto; object-fit:contain; object-position:left; display:block;">
+      <button onclick="{{ onMobileMenuClose }}" aria-label="Close menu" style="background:none; border:none; cursor:pointer; padding:10px; display:flex; align-items:center; justify-content:center; -webkit-tap-highlight-color:transparent;">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <path d="M1 1l16 16M17 1L1 17" stroke="rgba(255,255,255,0.65)" stroke-width="1.6" stroke-linecap="round"></path>
+        </svg>
+      </button>
+    </div>
+    <!-- Nav links -->
+    <nav style="display:flex; flex-direction:column; flex:1; overflow-y:auto; padding-top:12px;">
+      <a href="#" class="mob-link" onclick="{{ onMobileHome }}">Home</a>
+      <div style="padding:15px 0; border-bottom:1px solid rgba(255,255,255,0.07); display:flex; flex-direction:column; gap:10px;">
+        <span style="font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(24px,6.5vw,34px); color:#fff;">Services</span>
+        <div style="display:flex; flex-direction:column; gap:6px; padding-left:16px;">
+          <a href="#" class="mob-sub-link" onclick="{{ onMobilePE }}">Product Engineering</a>
+          <a href="#" class="mob-sub-link" onclick="{{ onMobileMenuClose }}">Global Staffing</a>
+        </div>
+      </div>
+      <a href="#" class="mob-link" onclick="{{ onMobileMenuClose }}">Our Expertise</a>
+      <a href="#" class="mob-link" onclick="{{ onMobileMenuClose }}">About Us</a>
+      <a href="#" class="mob-link" onclick="{{ onMobileMenuClose }}">VC Partnerships</a>
+      <a href="#" class="mob-link" onclick="{{ onMobileMenuClose }}">Blog</a>
+      <a href="#" class="mob-link" onclick="{{ onMobileMenuClose }}">Careers</a>
+    </nav>
+    <!-- Contact CTA -->
+    <a href="#" onclick="{{ onMobileMenuClose }}" style="flex-shrink:0; margin-top:28px; display:inline-flex; align-items:center; gap:10px; background:#9DEBC2; color:#18282C; font-family:'Inter',sans-serif; font-weight:700; text-transform:uppercase; font-size:14px; letter-spacing:0.06em; padding:14px 28px; text-decoration:none; align-self:flex-start;">Contact &#8594;</a>
+  </div>
 
   <div ref="{{ bgRef }}" style="position:fixed; inset:0; width:100vw; height:100vh; z-index:0;"></div>
 
@@ -315,7 +714,7 @@
       </aside>
       <!-- ══════════ END LEFT ASIDE ══════════ -->
 
-      <main ref="{{ mainRef }}" style="flex:1; position:relative; border-left:1px solid rgba(255,255,255,0.12); border-top:1px solid rgba(255,255,255,0.12); border-top-left-radius:44px; border-bottom-left-radius:44px; display:flex; align-items:center; padding-left:clamp(48px,6.5vw,140px); padding-right:clamp(32px,4vw,72px); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); background:rgba(0,0,0,0.15); overflow:hidden; mask:url(#lqp-mask); -webkit-mask:url(#lqp-mask);">
+      <main id="home-main" ref="{{ mainRef }}" style="flex:1; position:relative; border-left:1px solid rgba(255,255,255,0.12); border-top:1px solid rgba(255,255,255,0.12); border-top-left-radius:44px; border-bottom-left-radius:44px; display:flex; align-items:center; padding-left:clamp(48px,6.5vw,140px); padding-right:clamp(32px,4vw,72px); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); background:rgba(0,0,0,0.15); overflow:hidden; mask:url(#lqp-mask); -webkit-mask:url(#lqp-mask);">
 
         <svg style="position:absolute;width:0;height:0;overflow:hidden;" aria-hidden="true">
           <defs>
@@ -343,12 +742,12 @@
           <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:#C7FFE0; font-size:clamp(18px,1.85vw,32px); line-height:1.4;">Turn ambition into execution, and help every company move confidently toward its next milestone.</p>
         </div>
 
+        <!-- ══════════ SERVICES (tall cards) ══════════ -->
+        <div id="svc-scroll">
         <!-- ══════════ SERVICES headline ══════════ -->
         <div id="services-headline" style="position:absolute; left:2%; top:4%; width:96%; height:14%; display:flex; flex-direction:column; justify-content:center; gap:clamp(6px,0.8vh,10px); opacity:0; pointer-events:none; will-change:opacity; z-index:3;">
           <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(36px,4.2vw,72px); line-height:1.0; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.35);">Our Services</h2>
         </div>
-
-        <!-- ══════════ SERVICES (tall cards) ══════════ -->
         <div id="service-a" style="position:absolute; left:2%; top:21%; width:46%; height:73%; display:flex; flex-direction:column; justify-content:center; gap:clamp(18px,2.6vh,32px); padding:clamp(34px,3.1vw,60px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; opacity:0; pointer-events:none; will-change:opacity; z-index:1;">
           <div style="display:flex; align-items:center; gap:clamp(10px,0.9vw,14px);">
             <span style="font-family:'Space Grotesk',sans-serif; font-weight:500; font-size:clamp(14px,1.1vw,18px); color:#C7FFE0; letter-spacing:0.04em;">01</span>
@@ -374,7 +773,9 @@
           </div>
           <a href="#" style="align-self:flex-start; display:inline-flex; align-items:center; gap:12px; background:#CCFFCE; color:#18282C; font-family:'Inter',sans-serif; font-weight:700; text-transform:uppercase; font-size:clamp(13px,1.1vw,18px); letter-spacing:0.045em; padding:11px 22px; text-decoration:none; box-shadow:0 0 36px rgba(150,255,170,0.28); transition:transform .2s ease, box-shadow .2s ease;" style-hover="transform:translateY(-2px); box-shadow:0 0 52px rgba(150,255,170,0.45);">Hire Talent Now <span style="font-weight:700; font-size:1.05em;">&#8594;</span></a>
         </div>
+        </div><!-- /svc-scroll -->
 
+        <div id="tmn-scroll">
         <!-- ══════════ TESTIMONIALS headline ══════════ -->
         <div id="testimonials-headline" style="position:absolute; left:2%; top:4%; width:96%; height:14%; display:flex; flex-direction:column; justify-content:center; gap:clamp(5px,0.6vh,8px); opacity:0; pointer-events:none; will-change:opacity; z-index:5;">
           <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(10px,0.8vw,13px); letter-spacing:0.24em; text-transform:uppercase; color:rgba(199,255,224,0.55);">Testimonials</span>
@@ -404,6 +805,9 @@
           </div>
         </div>
 
+        </div><!-- /tmn-scroll -->
+
+        <div id="cli-scroll">
         <!-- ══════════ CLIENTS headline ══════════ -->
         <div id="clients-headline" style="position:absolute; left:2%; top:4%; width:96%; height:14%; display:flex; flex-direction:column; justify-content:center; gap:clamp(5px,0.6vh,8px); opacity:0; pointer-events:none; z-index:5;">
           <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(10px,0.8vw,13px); letter-spacing:0.24em; text-transform:uppercase; color:rgba(199,255,224,0.55);">Our Clients</span>
@@ -425,6 +829,8 @@
           <div style="display:flex; align-items:center; justify-content:center; padding:clamp(14px,1.5vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.14); border-radius:24px; opacity:0;"><img src="uploads/Onfleet-copia-640x184x0x0x640x184x1740153465.png" alt="Onfleet" style="max-width:78%; max-height:52%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;"></div>
           <div style="display:flex; align-items:center; justify-content:center; padding:clamp(14px,1.5vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.14); border-radius:24px; opacity:0;"><img src="uploads/Redica-Systems-copia-640x184x0x0x640x184x1740155189.png" alt="Redica Systems" style="max-width:78%; max-height:52%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;"></div>
         </div>
+        </div><!-- /cli-scroll -->
+        <div id="faq-scroll">
         <!-- ══════════ FAQ headline ══════════ -->
         <div id="faq-headline" style="position:absolute; left:2%; top:4%; width:96%; height:12%; display:flex; flex-direction:column; justify-content:center; opacity:0; pointer-events:none; z-index:3;">
           <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(30px,3.6vw,64px); line-height:1.0; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.35);">Frequently Asked Questions</h2>
@@ -447,6 +853,8 @@
           </div>
         </div>
 
+        </div><!-- /faq-scroll -->
+        <div id="stats-scroll">
         <!-- ══════════ STATS headline ══════════ -->
         <div id="stats-headline" style="position:absolute; left:2%; top:4%; width:96%; height:14%; display:flex; flex-direction:column; justify-content:center; opacity:0; pointer-events:none; z-index:3;">
           <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(30px,3.6vw,64px); line-height:1.0; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.35);">Trusted by Venture-Backed Teams</h2>
@@ -458,12 +866,36 @@
         <div id="stat-2" style="position:absolute; left:67%; top:21%; width:31%; height:38%; display:flex; flex-direction:column; justify-content:flex-end; padding:clamp(20px,2.2vw,38px); background:rgba(0,0,0,0.15); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.12); border-radius:28px; opacity:0; pointer-events:none; z-index:4;"><svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom:auto;flex-shrink:0;"><rect width="40" height="40" rx="12" fill="rgba(199,255,224,0.10)"/><circle cx="20" cy="15" r="4" stroke="#C7FFE0" stroke-width="1.5" fill="none"/><path d="M12 29c0-4.4 3.6-8 8-8s8 3.6 8 8" stroke="#C7FFE0" stroke-width="1.5" stroke-linecap="round" fill="none"/></svg><div style="display:flex;flex-direction:column;gap:4px;"><span style="font-family:'Space Grotesk',sans-serif;font-weight:500;color:#E0FFEE;font-size:clamp(36px,4.5vw,72px);line-height:1.0;letter-spacing:-0.02em;text-shadow:0 2px 24px rgba(10,200,120,0.30);">24</span><span style="font-family:'Inter',sans-serif;font-weight:300;color:rgba(199,255,224,0.65);font-size:clamp(17px,1.7vw,26px);">Active Clients</span></div></div>
         <div id="stat-3" style="position:absolute; left:2%; top:62%; width:64%; height:35%; display:flex; flex-direction:column; justify-content:flex-end; padding:clamp(20px,2.2vw,38px); background:rgba(0,0,0,0.15); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.12); border-radius:28px; opacity:0; pointer-events:none; z-index:4;"><svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom:auto;flex-shrink:0;"><rect width="40" height="40" rx="12" fill="rgba(199,255,224,0.10)"/><circle cx="20" cy="21" r="8" stroke="#C7FFE0" stroke-width="1.5" fill="none"/><path d="M20 17v4l3 2" stroke="#C7FFE0" stroke-width="1.5" stroke-linecap="round" fill="none"/></svg><div style="display:flex;flex-direction:column;gap:4px;"><span style="font-family:'Space Grotesk',sans-serif;font-weight:500;color:#E0FFEE;font-size:clamp(36px,4.5vw,72px);line-height:1.0;letter-spacing:-0.02em;text-shadow:0 2px 24px rgba(10,200,120,0.30);">8+</span><span style="font-family:'Inter',sans-serif;font-weight:300;color:rgba(199,255,224,0.65);font-size:clamp(17px,1.7vw,26px);">Years of experience working in VC Ecosystems</span></div></div>
         <div id="stat-4" style="position:absolute; left:67%; top:62%; width:31%; height:35%; display:flex; flex-direction:column; justify-content:flex-end; padding:clamp(20px,2.2vw,38px); background:rgba(0,0,0,0.15); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.12); border-radius:28px; opacity:0; pointer-events:none; z-index:4;"><svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom:auto;flex-shrink:0;"><rect width="40" height="40" rx="12" fill="rgba(199,255,224,0.10)"/><path d="M20 10l2.9 6.3 6.8.7-5 4.7 1.4 6.8L20 25l-6.1 3.5 1.4-6.8-5-4.7 6.8-.7z" stroke="#C7FFE0" stroke-width="1.5" fill="none"/></svg><div style="display:flex;flex-direction:column;gap:4px;"><span style="font-family:'Space Grotesk',sans-serif;font-weight:500;color:#E0FFEE;font-size:clamp(36px,4.5vw,72px);line-height:1.0;letter-spacing:-0.02em;text-shadow:0 2px 24px rgba(10,200,120,0.30);">4.7/5</span><span style="font-family:'Inter',sans-serif;font-weight:300;color:rgba(199,255,224,0.65);font-size:clamp(17px,1.7vw,26px);">Satisfaction Score</span></div></div>
+        </div><!-- /stats-scroll -->
       </div>
       <!-- ══════════ END mission-overlay ══════════ -->
 
       <!-- ══════════ PRODUCT ENGINEERING PAGE (glass card, animates in) ══════════ -->
-      <div id="pe-overlay" style="position:absolute; left:clamp(280px,24vw,400px); top:0; right:0; bottom:0; display:flex; align-items:center; pointer-events:none; opacity:0; z-index:24; transition:opacity 0.5s ease;">
-        <div id="pe-card" style="position:relative; width:100%; height:100%; display:flex; flex-direction:column; justify-content:center; padding-left:clamp(48px,6.5vw,140px); padding-right:clamp(40px,5vw,90px); background:rgba(0,0,0,0.18); backdrop-filter:blur(30px) saturate(140%); -webkit-backdrop-filter:blur(30px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-top-left-radius:44px; border-bottom-left-radius:44px; opacity:0; transform:translateX(48px) scale(0.985); transition:opacity 0.75s cubic-bezier(0.16,1,0.3,1), transform 0.85s cubic-bezier(0.16,1,0.3,1);">
+      <div id="pe-overlay" style="position:absolute; left:clamp(280px,24vw,400px); top:0; right:0; bottom:0; display:flex; flex-direction:column; align-items:stretch; overflow-y:auto; scrollbar-width:none; pointer-events:none; opacity:0; z-index:24; transition:opacity 0.5s ease;">
+        <!-- Sticky morphing stage: the PE hero panel liquid-morphs into the discovery cards -->
+        <div id="pe-stage" style="position:sticky; top:0; height:100vh; overflow:hidden; flex-shrink:0; opacity:0;">
+
+          <!-- SVG goo morph mask -->
+          <svg id="pe-disc-svg" style="position:absolute; inset:0; width:100%; height:100%; z-index:0; pointer-events:none;">
+            <defs>
+              <filter id="pe-goo-f" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur id="pe-gb" in="SourceGraphic" stdDeviation="1.5" result="b"></feGaussianBlur>
+                <feColorMatrix id="pe-cm" in="b" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 12 -4" result="g"></feColorMatrix>
+              </filter>
+              <mask id="pe-disc-msk" maskUnits="userSpaceOnUse" x="-200" y="-200" width="20000" height="20000">
+                <g filter="url(#pe-goo-f)" id="pe-disc-blobs"></g>
+              </mask>
+            </defs>
+          </svg>
+
+          <!-- Glass panel masked by goo -->
+          <div id="pe-disc-glass" style="position:absolute; inset:0; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); overflow:hidden; -webkit-mask:url(#pe-disc-msk); mask:url(#pe-disc-msk);"><div style="position:absolute;inset:0;pointer-events:none;opacity:0.055;filter:url(#panel-noise);background:#ffffff;"></div></div>
+
+          <!-- Hero frame: bordered panel matching home-main (rounded left, flush right, full height) -->
+          <div id="pe-hero-frame" style="position:absolute; inset:0; border-left:1px solid rgba(255,255,255,0.12); border-top:1px solid rgba(255,255,255,0.12); border-bottom:1px solid rgba(255,255,255,0.12); border-top-left-radius:44px; border-bottom-left-radius:44px; pointer-events:none; z-index:1;"></div>
+
+          <!-- HERO content layer (fades out as the glass morphs into cards) -->
+          <div id="pe-hero-layer" style="position:absolute; inset:0; display:flex; flex-direction:column; justify-content:center; padding-left:clamp(48px,6.5vw,140px); padding-right:clamp(40px,5vw,90px); z-index:3; will-change:opacity,filter;">
           <div style="max-width:920px;">
             <span class="pe-el" style="display:inline-block; font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(11px,0.9vw,15px); letter-spacing:0.26em; text-transform:uppercase; color:rgba(199,255,224,0.55); opacity:0; transform:translateY(22px); transition:opacity 0.8s cubic-bezier(0.16,1,0.3,1) 0.18s, transform 0.8s cubic-bezier(0.16,1,0.3,1) 0.18s;">Services</span>
             <h1 class="pe-el" style="margin:clamp(12px,1.6vh,20px) 0 0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(40px,5.4vw,92px); line-height:1.03; letter-spacing:-0.01em; text-wrap:balance; text-shadow:0 4px 32px rgba(31,98,255,0.40); opacity:0; transform:translateY(26px); transition:opacity 0.85s cubic-bezier(0.16,1,0.3,1) 0.28s, transform 0.85s cubic-bezier(0.16,1,0.3,1) 0.28s;">Product Engineering</h1>
@@ -473,8 +905,279 @@
               <a href="#" style="display:inline-flex; align-items:center; gap:14px; background:#CCFFCE; color:#18282C; font-family:'Inter',sans-serif; font-weight:700; text-transform:uppercase; font-size:clamp(15px,1.4vw,22px); letter-spacing:0.045em; padding:13px 26px; text-decoration:none; box-shadow:0 0 44px rgba(150,255,170,0.28); transition:transform .2s ease, box-shadow .2s ease;" style-hover="transform:translateY(-2px); box-shadow:0 0 60px rgba(150,255,170,0.45);">Start a Product Sprint <span style="font-weight:700;font-size:1.05em;">&#8594;</span></a>
               <a href="#" onclick="{{ onHome }}" style="font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.6); font-size:clamp(13px,1.1vw,17px); text-decoration:none; letter-spacing:0.04em; display:inline-flex; align-items:center; gap:8px; transition:color .2s ease;" style-hover="color:#C7FFE0;"><span style="font-size:1.1em;">&#8592;</span> Back to Home</a>
             </div>
-          </div>
-        </div>
+          </div><!-- /max-width -->
+          </div><!-- /pe-hero-layer -->
+
+          <!-- DISCOVERY content (fades in as the glass morphs into cards) -->
+          <div id="disc-scroll">
+
+            <div class="pe-sec" id="sec-disc">
+            <!-- Headline -->
+            <div id="disc-hl" style="position:absolute; left:2%; top:4%; width:96%; height:18%; display:flex; flex-direction:column; justify-content:center; gap:clamp(8px,1.2vh,16px); opacity:0; pointer-events:none; z-index:2;">
+              <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(30px,3.6vw,64px); line-height:1.0; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.35);">Discovery Phase</h2>
+              <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:#C7FFE0; font-size:clamp(14px,1.15vw,20px); line-height:1.5; text-wrap:pretty; max-width:760px;">Collaborative sessions define the problem, map user needs, and produce a technical blueprint&mdash;so development starts with clarity, not guesswork.</p>
+            </div>
+
+            <!-- Card 01: Blueprint -->
+            <div id="disc-c1" style="position:absolute; left:2%; top:26%; width:47%; height:35%; padding:clamp(18px,1.8vw,32px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; display:flex; flex-direction:column; gap:clamp(8px,1vh,14px); opacity:0; pointer-events:none; z-index:2; box-sizing:border-box;">
+              <div style="display:flex; align-items:flex-start; justify-content:space-between;">
+                <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m12.99 6.74 1.93 3.44"></path><path d="M19.136 12a10 10 0 0 1-14.271 0"></path><path d="m21 21-2.16-3.84"></path><path d="m3 21 8.02-14.26"></path><circle cx="12" cy="5" r="2"></circle></svg>
+                <span style="font-family:'Space Grotesk',sans-serif; font-weight:500; font-size:clamp(40px,4.5vw,76px); line-height:1; color:rgba(255,255,255,0.06); letter-spacing:-0.03em; user-select:none;">01</span>
+              </div>
+              <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(14px,1.4vw,22px); line-height:1.2;">Blueprint: Turning Insights Into Execution</h3>
+              <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.72); font-size:clamp(12px,0.88vw,14px); line-height:1.6; text-wrap:pretty;">We transform discovery findings into a clear execution plan — scope definition, user flows, success metrics, and a recommended roadmap aligned with your business priorities.</p>
+            </div>
+
+            <!-- Card 02: BRD -->
+            <div id="disc-c2" style="position:absolute; left:51%; top:26%; width:47%; height:35%; padding:clamp(18px,1.8vw,32px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; display:flex; flex-direction:column; gap:clamp(8px,1vh,14px); opacity:0; pointer-events:none; z-index:2; box-sizing:border-box;">
+              <div style="display:flex; align-items:flex-start; justify-content:space-between;">
+                <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><path d="M12 11h4"></path><path d="M12 16h4"></path><path d="M8 11h.01"></path><path d="M8 16h.01"></path></svg>
+                <span style="font-family:'Space Grotesk',sans-serif; font-weight:500; font-size:clamp(40px,4.5vw,76px); line-height:1; color:rgba(255,255,255,0.06); letter-spacing:-0.03em; user-select:none;">02</span>
+              </div>
+              <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(14px,1.4vw,22px); line-height:1.2;">Business Requirements Document (BRD)</h3>
+              <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.72); font-size:clamp(12px,0.88vw,14px); line-height:1.6; text-wrap:pretty;">We align with your business goals, whether that's preparing for a fundraising round, expanding product capabilities, or launching a new initiative.</p>
+            </div>
+
+            <!-- Card 03: TRD -->
+            <div id="disc-c3" style="position:absolute; left:2%; top:63%; width:47%; height:34%; padding:clamp(18px,1.8vw,32px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; display:flex; flex-direction:column; gap:clamp(8px,1vh,14px); opacity:0; pointer-events:none; z-index:2; box-sizing:border-box;">
+              <div style="display:flex; align-items:flex-start; justify-content:space-between;">
+                <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="16" x="4" y="4" rx="2"></rect><rect width="6" height="6" x="9" y="9" rx="1"></rect><path d="M15 2v2"></path><path d="M15 20v2"></path><path d="M2 15h2"></path><path d="M2 9h2"></path><path d="M20 15h2"></path><path d="M20 9h2"></path><path d="M9 2v2"></path><path d="M9 20v2"></path></svg>
+                <span style="font-family:'Space Grotesk',sans-serif; font-weight:500; font-size:clamp(40px,4.5vw,76px); line-height:1; color:rgba(255,255,255,0.06); letter-spacing:-0.03em; user-select:none;">03</span>
+              </div>
+              <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(14px,1.4vw,22px); line-height:1.2;">Technical Requirements Document (TRD)</h3>
+              <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.72); font-size:clamp(12px,0.88vw,14px); line-height:1.6; text-wrap:pretty;">We define the system architecture, infrastructure needs, AI integrations, technical constraints, and cost analysis.</p>
+            </div>
+
+            <!-- Card 04: UX/UI Mockups -->
+            <div id="disc-c4" style="position:absolute; left:51%; top:63%; width:47%; height:34%; padding:clamp(18px,1.8vw,32px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; display:flex; flex-direction:column; gap:clamp(8px,1vh,14px); opacity:0; pointer-events:none; z-index:2; box-sizing:border-box;">
+              <div style="display:flex; align-items:flex-start; justify-content:space-between;">
+                <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="7" x="3" y="3" rx="1"></rect><rect width="9" height="7" x="3" y="14" rx="1"></rect><rect width="5" height="7" x="16" y="14" rx="1"></rect></svg>
+                <span style="font-family:'Space Grotesk',sans-serif; font-weight:500; font-size:clamp(40px,4.5vw,76px); line-height:1; color:rgba(255,255,255,0.06); letter-spacing:-0.03em; user-select:none;">04</span>
+              </div>
+              <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(14px,1.4vw,22px); line-height:1.2;">UX/UI Mockups</h3>
+              <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.72); font-size:clamp(12px,0.88vw,14px); line-height:1.6; text-wrap:pretty;">Aligned with your brand book and/or ideas.</p>
+            </div>
+
+            </div><!-- /sec-disc -->
+            <div class="pe-sec" id="sec-build">
+            <!-- ══════════ BUILD PHASE ══════════ -->
+            <!-- Build headline -->
+            <div id="build-hl" style="position:absolute; left:2%; top:4%; width:96%; height:18%; display:flex; flex-direction:column; justify-content:center; gap:clamp(8px,1.2vh,16px); opacity:0; pointer-events:none; z-index:2;">
+              <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(30px,3.6vw,64px); line-height:1.0; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.35);">Build Phase</h2>
+              <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:#C7FFE0; font-size:clamp(14px,1.15vw,20px); line-height:1.5; text-wrap:pretty; max-width:820px;">Software in focused sprints. Weekly demos keep you in the loop. AI is used where it improves speed, quality, or usability&mdash;not as a gimmick.</p>
+            </div>
+
+            <!-- Build Card 01: Proof of Concept -->
+            <div id="build-c1" style="position:absolute; left:2%; top:25%; width:30.5%; height:46%; padding:clamp(20px,2vw,32px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; display:flex; flex-direction:column; gap:clamp(14px,2.2vh,26px); opacity:0; pointer-events:none; z-index:2; box-sizing:border-box;">
+              <div style="display:flex; align-items:center; justify-content:space-between;">
+                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"></path><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"></path><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"></path><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"></path></svg>
+                <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(11px,0.8vw,13px); letter-spacing:0.03em; color:#9DEBC2; border:1px solid rgba(157,235,194,0.3); border-radius:100px; padding:5px 13px; white-space:nowrap;">1&ndash;4 weeks</span>
+              </div>
+              <div style="display:flex; flex-direction:column; gap:clamp(8px,1vh,14px);">
+                <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(26px,2.6vw,42px); line-height:1.1;">Proof of Concept</h3>
+                <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.78); font-size:clamp(17px,1.4vw,22px); line-height:1.5; text-wrap:pretty;">Validate technical feasibility before committing.</p>
+              </div>
+            </div>
+
+            <!-- Build Card 02: MVP -->
+            <div id="build-c2" style="position:absolute; left:34.75%; top:25%; width:30.5%; height:46%; padding:clamp(20px,2vw,32px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; display:flex; flex-direction:column; gap:clamp(14px,2.2vh,26px); opacity:0; pointer-events:none; z-index:2; box-sizing:border-box;">
+              <div style="display:flex; align-items:center; justify-content:space-between;">
+                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>
+                <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(11px,0.8vw,13px); letter-spacing:0.03em; color:#9DEBC2; border:1px solid rgba(157,235,194,0.3); border-radius:100px; padding:5px 13px; white-space:nowrap;">4&ndash;12 weeks</span>
+              </div>
+              <div style="display:flex; flex-direction:column; gap:clamp(8px,1vh,14px);">
+                <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(26px,2.6vw,42px); line-height:1.1;">MVP</h3>
+                <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.78); font-size:clamp(17px,1.4vw,22px); line-height:1.5; text-wrap:pretty;">Ship core features to real users for market validation.</p>
+              </div>
+            </div>
+
+            <!-- Build Card 03: Production-Ready -->
+            <div id="build-c3" style="position:absolute; left:67.5%; top:25%; width:30.5%; height:46%; padding:clamp(20px,2vw,32px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; display:flex; flex-direction:column; gap:clamp(14px,2.2vh,26px); opacity:0; pointer-events:none; z-index:2; box-sizing:border-box;">
+              <div style="display:flex; align-items:center; justify-content:space-between;">
+                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path><path d="m9 12 2 2 4-4"></path></svg>
+                <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(11px,0.8vw,13px); letter-spacing:0.03em; color:#9DEBC2; border:1px solid rgba(157,235,194,0.3); border-radius:100px; padding:5px 13px; white-space:nowrap;">12&ndash;20 weeks</span>
+              </div>
+              <div style="display:flex; flex-direction:column; gap:clamp(8px,1vh,14px);">
+                <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(26px,2.6vw,42px); line-height:1.1;">Production-Ready</h3>
+                <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.78); font-size:clamp(17px,1.4vw,22px); line-height:1.5; text-wrap:pretty;">Enterprise-grade deployment with hardened infrastructure.</p>
+              </div>
+            </div>
+
+            </div><!-- /sec-build -->
+            <div class="pe-sec" id="sec-scale">
+            <!-- ══════════ SCALE PHASE ══════════ -->
+            <!-- Scale headline -->
+            <div id="scale-hl" style="position:absolute; left:2%; top:4%; width:96%; height:18%; display:flex; flex-direction:column; justify-content:center; gap:clamp(8px,1.2vh,16px); opacity:0; pointer-events:none; z-index:2;">
+              <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(30px,3.6vw,64px); line-height:1.0; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.35);">Scale Phase</h2>
+              <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:#C7FFE0; font-size:clamp(14px,1.15vw,20px); line-height:1.5; text-wrap:pretty; max-width:880px;">Once validated, we transition you to a dedicated team through Global Staffing, staff augmentation, or continue with ongoing maintenance and feature development.</p>
+            </div>
+
+            <!-- Scale Card 01: Dedicated Teams (large left, content top-aligned) -->
+            <div id="scale-c1" style="position:absolute; left:2%; top:26%; width:62%; height:70%; padding:clamp(28px,2.8vw,52px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; display:flex; flex-direction:column; justify-content:flex-start; gap:clamp(18px,2.6vh,34px); opacity:0; pointer-events:none; z-index:2; box-sizing:border-box;">
+              <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 21a8 8 0 0 0-16 0"></path><circle cx="10" cy="8" r="5"></circle><path d="M22 20c0-3.37-2-6.5-4-8a5 5 0 0 0-.45-8.3"></path></svg>
+              <div style="display:flex; flex-direction:column; gap:clamp(14px,1.8vh,22px);">
+                <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(32px,3.6vw,58px); line-height:1.05;">Dedicated Teams at Scale</h3>
+                <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.78); font-size:clamp(15px,1.25vw,21px); line-height:1.55; text-wrap:pretty; max-width:560px;">Keep momentum with a team that already knows your product &mdash; or scale capacity exactly when you need it.</p>
+                <div style="display:flex; flex-wrap:wrap; gap:10px; margin-top:clamp(4px,0.8vh,10px);">
+                  <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(12px,0.9vw,15px); color:#9DEBC2; border:1px solid rgba(157,235,194,0.3); border-radius:100px; padding:7px 16px;">Staff Augmentation</span>
+                  <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(12px,0.9vw,15px); color:#9DEBC2; border:1px solid rgba(157,235,194,0.3); border-radius:100px; padding:7px 16px;">Ongoing Maintenance</span>
+                  <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(12px,0.9vw,15px); color:#9DEBC2; border:1px solid rgba(157,235,194,0.3); border-radius:100px; padding:7px 16px;">Feature Development</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Scale Card 02: Global Staffing (compact complementary card, bottom-right) -->
+            <div id="scale-c2" style="position:absolute; left:66%; top:57%; width:32%; height:39%; padding:clamp(22px,2.2vw,38px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; display:flex; flex-direction:column; justify-content:center; gap:clamp(10px,1.4vh,18px); opacity:0; pointer-events:none; z-index:2; box-sizing:border-box;">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path><path d="M2 12h20"></path></svg>
+              <div style="display:flex; flex-direction:column; gap:clamp(6px,0.9vh,12px);">
+                <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(22px,2.2vw,34px); line-height:1.1;">Global Staffing</h3>
+                <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(14px,1.1vw,18px); letter-spacing:0.04em; color:#9DEBC2;">LATAM &amp; Asia</span>
+                <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.78); font-size:clamp(13px,1vw,16px); line-height:1.5; text-wrap:pretty;">Senior engineers in aligned time zones, embedded directly into your workflow.</p>
+              </div>
+            </div>
+
+            </div><!-- /sec-scale -->
+            <div class="pe-sec" id="sec-why">
+            <!-- ══════════ WHY THIS MODEL WORKS ══════════ -->
+            <!-- Why headline -->
+            <div id="why-hl" style="position:absolute; left:2%; top:4%; width:96%; height:16%; display:flex; flex-direction:column; justify-content:center; gap:clamp(6px,1vh,12px); opacity:0; pointer-events:none; z-index:2;">
+              <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(28px,3.4vw,60px); line-height:1.0; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.35);">Why This Model Works</h2>
+              <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:#C7FFE0; font-size:clamp(14px,1.1vw,19px); line-height:1.5; text-wrap:pretty; max-width:780px;">We meet you at any stage &mdash; early ideation, pre-seed validation, post-Series A scale, or rebuilding legacy systems.</p>
+            </div>
+
+            <!-- Why grid card 01 -->
+            <div id="why-c1" style="position:absolute; left:2%; top:22%; width:31.3%; height:36%; padding:clamp(18px,1.7vw,30px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:34px; display:flex; flex-direction:column; gap:clamp(8px,1.1vh,15px); opacity:0; pointer-events:none; z-index:2; box-sizing:border-box;">
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 22h14"></path><path d="M5 2h14"></path><path d="M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22"></path><path d="M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2"></path></svg>
+              <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(18px,1.7vw,28px); line-height:1.14;">We meet you at any stage</h3>
+              <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.72); font-size:clamp(12px,0.92vw,15px); line-height:1.55; text-wrap:pretty;">Early ideation, pre-seed validation, post-Series A scale, or rebuilding legacy systems &mdash; our model adapts to where you are and where you need to go.</p>
+            </div>
+
+            <!-- Why grid card 02 -->
+            <div id="why-c2" style="position:absolute; left:34.35%; top:22%; width:31.3%; height:36%; padding:clamp(18px,1.7vw,30px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:34px; display:flex; flex-direction:column; gap:clamp(8px,1.1vh,15px); opacity:0; pointer-events:none; z-index:2; box-sizing:border-box;">
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M16 7h6v6"></path><path d="m22 7-8.5 8.5-5-5L2 17"></path></svg>
+              <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(18px,1.7vw,28px); line-height:1.14;">We understand VC-backed environments</h3>
+              <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.72); font-size:clamp(12px,0.92vw,15px); line-height:1.55; text-wrap:pretty;">Having worked closely with founders, operators, and investors, we know how to build products that support traction, efficiency, and future rounds.</p>
+            </div>
+
+            <!-- Why grid card 03 -->
+            <div id="why-c3" style="position:absolute; left:66.7%; top:22%; width:31.3%; height:36%; padding:clamp(18px,1.7vw,30px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:34px; display:flex; flex-direction:column; gap:clamp(8px,1.1vh,15px); opacity:0; pointer-events:none; z-index:2; box-sizing:border-box;">
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z"></path><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z"></path></svg>
+              <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(18px,1.7vw,28px); line-height:1.14;">We turn ambiguity into clarity</h3>
+              <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.72); font-size:clamp(12px,0.92vw,15px); line-height:1.55; text-wrap:pretty;">Founders often know the problem but not the exact solution. We help shape vision into concrete requirements, architecture, and execution.</p>
+            </div>
+
+            <!-- Why grid card 04 -->
+            <div id="why-c4" style="position:absolute; left:2%; top:61%; width:31.3%; height:36%; padding:clamp(18px,1.7vw,30px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:34px; display:flex; flex-direction:column; gap:clamp(8px,1.1vh,15px); opacity:0; pointer-events:none; z-index:2; box-sizing:border-box;">
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2"></path><path d="m6.87 6.13.74-.74a2 2 0 0 1 2.83 0l5.17 5.17a2 2 0 0 1 0 2.83l-.74.74"></path><path d="m9 9 8 8"></path><circle cx="12" cy="4" r="2"></circle></svg>
+              <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(18px,1.7vw,28px); line-height:1.14;">Senior technical leadership</h3>
+              <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.72); font-size:clamp(12px,0.92vw,15px); line-height:1.55; text-wrap:pretty;">Every engagement is led directly by our Director of AI &amp; Software Development. Work isn&rsquo;t handed off to junior teams &mdash; quality stays high from discovery to delivery.</p>
+            </div>
+
+            <!-- Why grid card 05 -->
+            <div id="why-c5" style="position:absolute; left:34.35%; top:61%; width:31.3%; height:36%; padding:clamp(18px,1.7vw,30px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:34px; display:flex; flex-direction:column; gap:clamp(8px,1.1vh,15px); opacity:0; pointer-events:none; z-index:2; box-sizing:border-box;">
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg>
+              <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(18px,1.7vw,28px); line-height:1.14;">AI as a force multiplier</h3>
+              <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.72); font-size:clamp(12px,0.92vw,15px); line-height:1.55; text-wrap:pretty;">From copilots and automation to custom models and workflow intelligence, we integrate AI only where it drives real operational or product value.</p>
+            </div>
+
+            <!-- Why grid card 06 -->
+            <div id="why-c6" style="position:absolute; left:66.7%; top:61%; width:31.3%; height:36%; padding:clamp(18px,1.7vw,30px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:34px; display:flex; flex-direction:column; gap:clamp(8px,1.1vh,15px); opacity:0; pointer-events:none; z-index:2; box-sizing:border-box;">
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path><path d="M2 12h20"></path></svg>
+              <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(18px,1.7vw,28px); line-height:1.14;">Competitive global execution</h3>
+              <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.72); font-size:clamp(12px,0.92vw,15px); line-height:1.55; text-wrap:pretty;">With talent networks across LATAM and Asia, we offer top-tier engineering at more efficient cost structures than traditional U.S. dev shops &mdash; without compromising quality.</p>
+            </div>
+
+            </div><!-- /sec-why -->
+            <div class="pe-sec" id="sec-what">
+            <!-- ══════════ WHAT WE BUILD ══════════ -->
+            <!-- What headline -->
+            <div id="what-hl" style="position:absolute; left:2%; top:4%; width:96%; height:16%; display:flex; flex-direction:column; justify-content:center; gap:clamp(6px,1vh,12px); opacity:0; pointer-events:none; z-index:2;">
+              <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(30px,3.6vw,64px); line-height:1.0; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.35);">What We Build</h2>
+            </div>
+
+            <!-- What card 01: AI-Powered Products -->
+            <div id="what-c1" style="position:absolute; left:2%; top:22%; width:47.5%; height:30%; padding:clamp(20px,2vw,38px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; display:flex; flex-direction:column; justify-content:center; gap:clamp(10px,1.4vh,18px); opacity:0; pointer-events:none; z-index:2; box-sizing:border-box;">
+              <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"></path><rect width="16" height="12" x="4" y="8" rx="2"></rect><path d="M2 14h2"></path><path d="M20 14h2"></path><path d="M15 13v2"></path><path d="M9 13v2"></path></svg>
+              <div style="display:flex; flex-direction:column; gap:clamp(6px,0.9vh,12px);">
+                <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(20px,2vw,32px); line-height:1.12;">AI-Powered Products</h3>
+                <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.74); font-size:clamp(14px,1.05vw,18px); line-height:1.55; text-wrap:pretty;">LLM integrations, speech recognition, generative AI pipelines.</p>
+              </div>
+            </div>
+
+            <!-- What card 02: Native Mobile Apps -->
+            <div id="what-c2" style="position:absolute; left:50.5%; top:22%; width:47.5%; height:30%; padding:clamp(20px,2vw,38px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; display:flex; flex-direction:column; justify-content:center; gap:clamp(10px,1.4vh,18px); opacity:0; pointer-events:none; z-index:2; box-sizing:border-box;">
+              <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"></rect><path d="M12 18h.01"></path></svg>
+              <div style="display:flex; flex-direction:column; gap:clamp(6px,0.9vh,12px);">
+                <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(20px,2vw,32px); line-height:1.12;">Native Mobile Apps</h3>
+                <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.74); font-size:clamp(14px,1.05vw,18px); line-height:1.55; text-wrap:pretty;">iOS / Android with modern architectures &mdash; Swift, Kotlin, React Native.</p>
+              </div>
+            </div>
+
+            <!-- What card 03: Web Platforms -->
+            <div id="what-c3" style="position:absolute; left:2%; top:54%; width:47.5%; height:30%; padding:clamp(20px,2vw,38px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; display:flex; flex-direction:column; justify-content:center; gap:clamp(10px,1.4vh,18px); opacity:0; pointer-events:none; z-index:2; box-sizing:border-box;">
+              <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="3" rx="2"></rect><line x1="8" x2="16" y1="21" y2="21"></line><line x1="12" x2="12" y1="17" y2="21"></line></svg>
+              <div style="display:flex; flex-direction:column; gap:clamp(6px,0.9vh,12px);">
+                <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(20px,2vw,32px); line-height:1.12;">Web Platforms</h3>
+                <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.74); font-size:clamp(14px,1.05vw,18px); line-height:1.55; text-wrap:pretty;">SaaS applications, self-service tools, admin portals.</p>
+              </div>
+            </div>
+
+            <!-- What card 04: Automation & Internal Tools -->
+            <div id="what-c4" style="position:absolute; left:50.5%; top:54%; width:47.5%; height:30%; padding:clamp(20px,2vw,38px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; display:flex; flex-direction:column; justify-content:center; gap:clamp(10px,1.4vh,18px); opacity:0; pointer-events:none; z-index:2; box-sizing:border-box;">
+              <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>
+              <div style="display:flex; flex-direction:column; gap:clamp(6px,0.9vh,12px);">
+                <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(20px,2vw,32px); line-height:1.12;">Automation &amp; Internal Tools</h3>
+                <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.74); font-size:clamp(14px,1.05vw,18px); line-height:1.55; text-wrap:pretty;">Support workflows, data pipelines, operational dashboards.</p>
+              </div>
+            </div>
+
+            <!-- What CTA — free-standing (no glass), hero CTA style -->
+            <div id="what-cta" style="position:absolute; left:2%; top:88%; width:96%; display:flex; align-items:center; gap:clamp(20px,3vw,48px); flex-wrap:wrap; opacity:0; pointer-events:none; z-index:2;">
+              <span style="font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(22px,2.6vw,46px); line-height:1.05; text-shadow:0 4px 32px rgba(31,98,255,0.35);">Have another idea?</span>
+              <a href="#" style="display:inline-flex; align-items:center; gap:14px; background:#CCFFCE; color:#18282C; font-family:'Inter',sans-serif; font-weight:700; text-transform:uppercase; font-size:clamp(18px,1.7vw,26px); letter-spacing:0.045em; padding:13px 26px; text-decoration:none; box-shadow:0 0 44px rgba(150,255,170,0.28); transition:transform .2s ease, box-shadow .2s ease;" style-hover="transform:translateY(-2px); box-shadow:0 0 60px rgba(150,255,170,0.45);">Let&rsquo;s Talk <span style="font-weight:700;font-size:1.05em;">&#8594;</span></a>
+            </div>
+
+            </div><!-- /sec-what -->
+            <div class="pe-sec" id="sec-faq">
+            <!-- ══════════ FAQ ══════════ -->
+            <div id="pe-faq-hl" style="position:absolute; left:2%; top:4%; width:96%; height:12%; display:flex; flex-direction:column; justify-content:center; opacity:0; pointer-events:none; z-index:3;">
+              <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(28px,3.2vw,56px); line-height:1.0; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.35);">Common Questions About AI &amp; Product Development</h2>
+            </div>
+            <div id="pe-faq-clip" style="position:absolute; left:2%; top:17%; width:96%; height:81%; overflow:hidden; pointer-events:auto;">
+              <div id="pe-faq-items" style="position:absolute; top:0; left:0; right:0; display:flex; flex-direction:column; gap:clamp(8px,1.1vh,13px);">
+                <div class="faq-item" data-idx="0" style="padding:clamp(16px,1.7vw,24px) clamp(20px,2.2vw,32px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.12); border-radius:18px; cursor:pointer; opacity:0;"><div class="faq-header" style="display:flex; align-items:center; justify-content:space-between; gap:20px;"><span style="font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(15px,1.3vw,21px); line-height:1.3;">How involved do I need to be during a project?</span><span class="faq-chevron" style="color:#C7FFE0; font-size:clamp(18px,1.5vw,24px); flex-shrink:0;">&#x203A;</span></div><div class="faq-body"><p style="margin:clamp(10px,1.2vh,16px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.80); font-size:clamp(13px,1.05vw,17px); line-height:1.65; text-wrap:pretty;">Our process is collaborative but lightweight. You set priorities; we execute with transparency, predictable communication, and minimal friction.</p></div></div>
+                <div class="faq-item" data-idx="1" style="padding:clamp(16px,1.7vw,24px) clamp(20px,2.2vw,32px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.12); border-radius:18px; cursor:pointer; opacity:0;"><div class="faq-header" style="display:flex; align-items:center; justify-content:space-between; gap:20px;"><span style="font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(15px,1.3vw,21px); line-height:1.3;">How do you validate whether my idea is technically feasible before investing?</span><span class="faq-chevron" style="color:#C7FFE0; font-size:clamp(18px,1.5vw,24px); flex-shrink:0;">&#x203A;</span></div><div class="faq-body"><p style="margin:clamp(10px,1.2vh,16px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.80); font-size:clamp(13px,1.05vw,17px); line-height:1.65; text-wrap:pretty;">We adapt quickly. Our model is flexible, allowing us to adjust the roadmap and deliverables while keeping alignment with your business goals. All ideas are evaluated by our technical team, as our main priority is to maintain high quality in our deliveries.</p></div></div>
+                <div class="faq-item" data-idx="2" style="padding:clamp(16px,1.7vw,24px) clamp(20px,2.2vw,32px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.12); border-radius:18px; cursor:pointer; opacity:0;"><div class="faq-header" style="display:flex; align-items:center; justify-content:space-between; gap:20px;"><span style="font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(15px,1.3vw,21px); line-height:1.3;">How quickly can you deliver a prototype or MVP?</span><span class="faq-chevron" style="color:#C7FFE0; font-size:clamp(18px,1.5vw,24px); flex-shrink:0;">&#x203A;</span></div><div class="faq-body"><p style="margin:clamp(10px,1.2vh,16px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.80); font-size:clamp(13px,1.05vw,17px); line-height:1.65; text-wrap:pretty;">Depending on scope, we deliver prototypes within weeks and MVPs in short iterations. We can integrate with what you already have or recommend a new architecture if it&rsquo;s more efficient or cost-effective.</p></div></div>
+                <div class="faq-item" data-idx="3" style="padding:clamp(16px,1.7vw,24px) clamp(20px,2.2vw,32px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.12); border-radius:18px; cursor:pointer; opacity:0;"><div class="faq-header" style="display:flex; align-items:center; justify-content:space-between; gap:20px;"><span style="font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(15px,1.3vw,21px); line-height:1.3;">How do you integrate AI into what you build?</span><span class="faq-chevron" style="color:#C7FFE0; font-size:clamp(18px,1.5vw,24px); flex-shrink:0;">&#x203A;</span></div><div class="faq-body"><p style="margin:clamp(10px,1.2vh,16px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.80); font-size:clamp(13px,1.05vw,17px); line-height:1.65; text-wrap:pretty;">We use clear technical requirements, strong architecture foundations, code best practices, and continuous iteration. We integrate AI only where it drives real operational or product value &mdash; everything is built for long-term maintainability.</p></div></div>
+                <div class="faq-item" data-idx="4" style="padding:clamp(16px,1.7vw,24px) clamp(20px,2.2vw,32px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.12); border-radius:18px; cursor:pointer; opacity:0;"><div class="faq-header" style="display:flex; align-items:center; justify-content:space-between; gap:20px;"><span style="font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(15px,1.3vw,21px); line-height:1.3;">What if I only have an idea and no documentation?</span><span class="faq-chevron" style="color:#C7FFE0; font-size:clamp(18px,1.5vw,24px); flex-shrink:0;">&#x203A;</span></div><div class="faq-body"><p style="margin:clamp(10px,1.2vh,16px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.80); font-size:clamp(13px,1.05vw,17px); line-height:1.65; text-wrap:pretty;">We offer tiered discovery packages based on where you are. Whether you arrive with just a concept or a full technical spec, we meet you at your stage and build the right foundation before development starts.</p></div></div>
+              </div>
+            </div>
+
+            </div><!-- /sec-faq -->
+            <!-- ══════════ PE CTA (background blurs, like homepage finale) ══════════ -->
+            <div id="pe-cta-content" style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:flex-start; justify-content:center; padding-left:clamp(48px,6.5vw,140px); padding-right:clamp(32px,5vw,80px); gap:clamp(28px,4vh,52px); opacity:0; pointer-events:none; z-index:30;">
+              <h1 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(52px,7vw,120px); line-height:1.0; letter-spacing:-0.02em; text-shadow:0 4px 48px rgba(10,200,120,0.35);">Ready to Build?</h1>
+              <a href="#" style="display:inline-flex; align-items:center; gap:14px; background:#CCFFCE; color:#18282C; font-family:'Inter',sans-serif; font-weight:700; text-transform:uppercase; font-size:clamp(14px,1.2vw,20px); letter-spacing:0.05em; padding:clamp(13px,1.5vh,18px) clamp(28px,2.8vw,44px); text-decoration:none; box-shadow:0 0 52px rgba(150,255,170,0.32); transition:transform .2s ease,box-shadow .2s ease;" style-hover="transform:translateY(-3px);box-shadow:0 0 72px rgba(150,255,170,0.50);">Schedule a Call <span style="font-weight:700;font-size:1.1em;">&#8594;</span></a>
+              <div style="display:flex; align-items:center; gap:clamp(24px,3.5vw,52px); margin-top:clamp(8px,1.5vh,20px);">
+                <a href="#" style="display:flex; flex-direction:column; align-items:center; gap:10px; text-decoration:none; opacity:0.70; transition:opacity .2s;" style-hover="opacity:1;">
+                  <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="rgba(199,255,224,0.10)"/><path d="M10 13h3v9h-3v-9zm1.5-4.5a1.5 1.5 0 110 3 1.5 1.5 0 010-3zM15 13h2.9v1.3h.04C18.44 13.5 19.5 13 20.7 13c3 0 3.3 2 3.3 4.5V22h-3v-4c0-1 0-2.3-1.4-2.3-1.4 0-1.6 1.1-1.6 2.2V22h-3v-9z" fill="#C7FFE0"/></svg>
+                </a>
+                <a href="#" style="display:flex; flex-direction:column; align-items:center; gap:10px; text-decoration:none; opacity:0.70; transition:opacity .2s;" style-hover="opacity:1;">
+                  <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="rgba(199,255,224,0.10)"/><path d="M16 8a6 6 0 016 6c0 4-6 10-6 10S10 18 10 14a6 6 0 016-6zm0 4a2 2 0 100 4 2 2 0 000-4z" fill="#C7FFE0"/></svg>
+                </a>
+                <a href="mailto:hello@devsavant.com" style="display:flex; flex-direction:column; align-items:center; gap:10px; text-decoration:none; opacity:0.70; transition:opacity .2s;" style-hover="opacity:1;">
+                  <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="rgba(199,255,224,0.10)"/><rect x="8" y="10" width="16" height="12" rx="2" stroke="#C7FFE0" stroke-width="1.5" fill="none"/><path d="M8 12l8 6 8-6" stroke="#C7FFE0" stroke-width="1.5" stroke-linecap="round"/></svg>
+                </a>
+                <a href="tel:+1" style="display:flex; flex-direction:column; align-items:center; gap:10px; text-decoration:none; opacity:0.70; transition:opacity .2s;" style-hover="opacity:1;">
+                  <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="rgba(199,255,224,0.10)"/><path d="M12 10h2l1 4-1.5 1.5c1 2 2.5 3.5 4.5 4.5L19.5 18l4 1v2c0 1-1 2-2 2C12 22 10 12 10 12c0-1 1-2 2-2z" fill="#C7FFE0"/></svg>
+                </a>
+              </div>
+              <a href="#" style="font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.35); font-size:clamp(11px,0.85vw,14px); text-decoration:underline; letter-spacing:0.05em; transition:color .2s;" style-hover="color:rgba(199,255,224,0.70);">Privacy Policy</a>
+            </div>
+
+          </div><!-- /disc-scroll -->
+        </div><!-- /pe-stage -->
+        <div id="pe-spacer" style="height:1200vh; flex-shrink:0;"></div>
       </div>
 
       <!-- ══════════ CTA content ══════════ -->
@@ -507,6 +1210,11 @@
 </x-dc>
 <script type="text/x-dc" data-dc-script>
 class Component extends DCLogic {
+  _onPEScroll = () => {
+    if (this._peScrollRAF) return;
+    this._peScrollRAF = requestAnimationFrame(() => { this._peScrollRAF = 0; this._applyPEScroll(); });
+  };
+
   _onScroll = () => {
     if (this._scrollRAF) return;
     this._scrollRAF = requestAnimationFrame(() => { this._scrollRAF = 0; this._applyScroll(); });
@@ -532,6 +1240,25 @@ class Component extends DCLogic {
       onSendMessage: () => {
         const q = this._inputEl && this._inputEl.value.trim();
         if (q) { this._inputEl.value = ''; this._handleQuery(q); }
+      },
+      onMobileMenuOpen: () => {
+        const m = document.getElementById('mobile-menu');
+        if (m) m.classList.add('open');
+      },
+      onMobileMenuClose: (e) => {
+        if (e && e.preventDefault) e.preventDefault();
+        const m = document.getElementById('mobile-menu');
+        if (m) m.classList.remove('open');
+      },
+      onMobileHome: (e) => {
+        if (e && e.preventDefault) e.preventDefault();
+        document.getElementById('mobile-menu')?.classList.remove('open');
+        this._showHome();
+      },
+      onMobilePE: (e) => {
+        if (e && e.preventDefault) e.preventDefault();
+        document.getElementById('mobile-menu')?.classList.remove('open');
+        this._showPE();
       }
     };
   }
@@ -584,35 +1311,61 @@ class Component extends DCLogic {
     if (window.dsAnimate) window.dsAnimate.close();
   }
 
-  _initFaqAccordion() {
-    const clip = document.getElementById('faq-clip');
-    if (!clip) return;
-    const collapse = (item) => {
+  _initFaqAccordion(clipId) {
+    const clip = document.getElementById(clipId || 'faq-clip');
+    if (!clip || clip._faqWired) return;
+    clip._faqWired = true;
+    const isPE = (clip.id === 'pe-faq-clip');
+    const easeIO = (t) => t < 0.5 ? 2*t*t : 1 - Math.pow(-2*t+2, 2)/2;
+    // rAF-driven height animation (CSS transitions are frozen on this morph-heavy page)
+    const animateMaxH = (b, from, to) => {
+      if (!b) return;
+      if (b._mhRAF) cancelAnimationFrame(b._mhRAF);
+      const dur = 360, t0 = performance.now();
+      const step = (now) => {
+        const k = Math.min(1, (now - t0) / dur);
+        const v = from + (to - from) * easeIO(k);
+        b.style.setProperty('max-height', v.toFixed(1) + 'px', 'important');
+        if (isPE && this._applyPEScroll) this._applyPEScroll();
+        else if (this._applyScroll) this._applyScroll();
+        if (k < 1) { b._mhRAF = requestAnimationFrame(step); }
+        else { b._mhRAF = 0; }
+      };
+      b._mhRAF = requestAnimationFrame(step);
+    };
+    const collapse = (item, animate) => {
       const b = item.querySelector('.faq-body');
       const c = item.querySelector('.faq-chevron');
-      if (b) { b.style.setProperty('max-height', '0px', 'important'); b.style.setProperty('overflow', 'hidden', 'important'); }
+      if (b) {
+        b.style.setProperty('overflow', 'hidden', 'important');
+        const cur = b.getBoundingClientRect().height;
+        if (animate && cur > 1) animateMaxH(b, cur, 0);
+        else { if (b._mhRAF) cancelAnimationFrame(b._mhRAF); b.style.setProperty('max-height', '0px', 'important'); }
+      }
       if (c) c.style.setProperty('transform', 'rotate(0deg)', 'important');
       item.dataset.open = '0';
     };
     const expand = (item) => {
       const b = item.querySelector('.faq-body');
       const c = item.querySelector('.faq-chevron');
-      if (b) { const h = b.scrollHeight + 24; b.style.setProperty('max-height', h + 'px', 'important'); b.style.setProperty('overflow', 'hidden', 'important'); }
+      if (b) {
+        b.style.setProperty('overflow', 'hidden', 'important');
+        const target = b.scrollHeight + 24;
+        const cur = b.getBoundingClientRect().height;
+        animateMaxH(b, cur, target);
+      }
       if (c) c.style.setProperty('transform', 'rotate(90deg)', 'important');
       item.dataset.open = '1';
     };
     clip.querySelectorAll('.faq-item').forEach(item => {
       const body = item.querySelector('.faq-body');
-      if (body) body.style.setProperty('transition', 'max-height 0.42s cubic-bezier(0.4,0,0.2,1)');
-      collapse(item);
+      if (body) body.style.setProperty('transition', 'none', 'important');
+      collapse(item, false);
       item.addEventListener('click', () => {
         const wasOpen = item.dataset.open === '1';
-        clip.querySelectorAll('.faq-item').forEach(collapse);
-        if (!wasOpen) {
-          expand(item);
-          // Re-sync scroll offset after transition so last item isn't clipped
-          setTimeout(() => { if (this._applyScroll) this._applyScroll(); }, 450);
-        }
+        clip.querySelectorAll('.faq-item').forEach(it => { if (it !== item) collapse(it, true); });
+        if (wasOpen) collapse(item, true);
+        else expand(item);
       });
     });
   }
@@ -772,105 +1525,246 @@ class Component extends DCLogic {
     this._peActive = true;
     if (this._scrollEl) { this._scrollEl.scrollTop = 0; this._scrollEl.style.overflowY = 'hidden'; }
     this._scrollProg = 0;
-    const aside = document.getElementById('left-aside');
-    const mission = document.getElementById('mission-overlay');
-    const ov = document.getElementById('pe-overlay');
-    const card = document.getElementById('pe-card');
-    const EASE = 'cubic-bezier(0.4,0,0.2,1)', OUT = 600, IN = 750;
-    // 1) Whole site blurs out smoothly, nav included
-    [aside, this._mainEl, mission].forEach(el => {
-      if (!el) return;
-      el.style.animation = 'none';
-      el.style.transition = `opacity ${OUT}ms ${EASE}, filter ${OUT}ms ${EASE}`;
-      el.style.opacity = '0';
-      el.style.filter = 'blur(20px)';
-      el.style.pointerEvents = 'none';
-    });
-    // Select Services while hidden
+    const b = document.body;
+    // Select Services in the nav
     document.querySelectorAll('.nav-link').forEach(a => a.classList.remove('active'));
-    const svcLink = document.querySelector('.nav-item-services .nav-link');
-    if (svcLink) svcLink.classList.add('active');
-    // Prime the incoming page hidden+blurred
-    if (card) {
-      card.style.animation = 'none';
-      card.style.transition = 'none';
-      card.style.transform = 'none';
-      card.style.opacity = '0';
-      card.style.filter = 'blur(20px)';
-      card.querySelectorAll('.pe-el').forEach(el => { el.style.transition='none'; el.style.opacity='1'; el.style.transform='none'; });
-    }
-    // 2) After it's gone, the new page blurs in (home content stays out)
+    const svc = document.querySelector('.nav-item-services .nav-link');
+    if (svc) svc.classList.add('active');
+    // Set persistent PE state (holds the end look) + run the swap transitions/anim.
+    // Restart the nav-swap keyframe by toggling pe-swapping off→on across a reflow.
+    b.classList.remove('pe-swapping');
+    void b.offsetWidth;
+    b.classList.add('pe-state', 'pe-swapping');
+    // After the swap settles, drop the transition layer (state class keeps the look)
     clearTimeout(this._peTimer);
-    this._peTimer = setTimeout(() => {
-      if (!this._peActive) return;
-      if (aside) {
-        aside.style.transition = `opacity ${IN}ms ${EASE}, filter ${IN}ms ${EASE}`;
-        aside.style.opacity = '1';
-        aside.style.filter = 'blur(0px)';
-        aside.style.pointerEvents = '';
-      }
-      if (ov) { ov.style.opacity = '1'; ov.style.pointerEvents = 'auto'; }
-      if (card) {
-        void card.offsetWidth;
-        card.style.transition = `opacity ${IN}ms ${EASE}, filter ${IN}ms ${EASE}`;
-        card.style.opacity = '1';
-        card.style.filter = 'blur(0px)';
-      }
-    }, OUT);
+    this._peTimer = setTimeout(() => { if (this._peActive) document.body.classList.remove('pe-swapping'); }, 1150);
+    // Set up PE page scroll
+    const peOvl = document.getElementById('pe-overlay');
+    if (peOvl && !this._peScrollListenerAdded) {
+      peOvl.addEventListener('scroll', this._onPEScroll, { passive: true });
+      this._peScrollListenerAdded = true;
+    }
+    setTimeout(() => { this._setupDiscoveryMorph(); this._initFaqAccordion('pe-faq-clip'); this._applyPEScroll(); }, 300);
   }
 
   _showHome() {
     if (!this._peActive) return;
     this._peActive = false;
-    clearTimeout(this._peTimer);
-    const aside = document.getElementById('left-aside');
-    const mission = document.getElementById('mission-overlay');
-    const ov = document.getElementById('pe-overlay');
-    const card = document.getElementById('pe-card');
-    const EASE = 'cubic-bezier(0.4,0,0.2,1)', OUT = 600, IN = 750;
-    // 1) New page blurs out smoothly, nav included
-    [aside, card].forEach(el => {
-      if (!el) return;
-      el.style.animation = 'none';
-      el.style.transition = `opacity ${OUT}ms ${EASE}, filter ${OUT}ms ${EASE}`;
-      el.style.opacity = '0';
-      el.style.filter = 'blur(20px)';
-      el.style.pointerEvents = 'none';
-    });
-    if (ov) { ov.style.pointerEvents = 'none'; }
-    // Select Home while hidden
+    const b = document.body;
+    // Select Home in the nav
     document.querySelectorAll('.nav-link').forEach(a => a.classList.remove('active'));
-    const homeLink = document.querySelector('.nav-link');
-    if (homeLink) homeLink.classList.add('active');
-    // 2) After it's gone, home blurs back in
+    const home = document.querySelector('.nav-link');
+    if (home) home.classList.add('active');
+    // Remove PE state (home returns to its default/scroll look) + run the swap
+    b.classList.remove('pe-state', 'pe-swapping');
+    void b.offsetWidth;
+    b.classList.add('pe-swapping');
+    const peOvlR = document.getElementById('pe-overlay'); if (peOvlR) peOvlR.scrollTop = 0;
+    if (this._scrollEl) { this._scrollEl.style.overflowY = 'auto'; this._scrollEl.scrollTop = 0; }
+    this._scrollProg = 0;
+    this._applyScroll();
+    clearTimeout(this._peTimer);
     this._peTimer = setTimeout(() => {
       if (this._peActive) return;
-      if (ov) ov.style.opacity = '0';
-      // reset glass card for next time
-      if (card) {
-        card.style.transition = 'none';
-        card.style.transform = 'translateX(48px) scale(0.985)';
-        card.querySelectorAll('.pe-el').forEach(el => { el.style.transition='none'; el.style.opacity='0'; el.style.transform='translateY(26px)'; });
-        void card.offsetWidth;
-        card.querySelectorAll('.pe-el').forEach(el => { el.style.transition=''; });
-      }
-      [this._mainEl, mission, aside].forEach(el => {
-        if (!el) return;
-        el.style.animation = 'none';
-        el.style.transition = `opacity ${IN}ms ${EASE}, filter ${IN}ms ${EASE}`;
-        el.style.opacity = '1';
-        el.style.filter = 'blur(0px)';
-        el.style.pointerEvents = '';
+      document.body.classList.remove('pe-swapping');
+      this._applyScroll();
+    }, 1150);
+  }
+
+  // ─── PE Subpage scroll ─────────────────────────────────────────────
+
+  _applyPEScroll() {
+    const sc = document.getElementById('pe-overlay');
+    if (!sc) return;
+    const cl = (t) => Math.max(0, Math.min(1, t));
+    const hl = document.getElementById('pe-hero-layer');
+    // Mobile: sections flow naturally (homepage-style), all content visible, no pinned morph
+    if (window.innerWidth < 768) {
+      if (hl) { hl.style.opacity = '1'; hl.style.filter = ''; hl.style.pointerEvents = 'auto'; }
+      const fr = document.getElementById('pe-hero-frame'); if (fr) fr.style.opacity = '1';
+      ['disc-hl','disc-c1','disc-c2','disc-c3','disc-c4','build-hl','build-c1','build-c2','build-c3','scale-hl','scale-c1','scale-c2','why-hl','why-c1','why-c2','why-c3','why-c4','why-c5','why-c6','what-hl','what-c1','what-c2','what-c3','what-c4','what-cta','pe-faq-hl','pe-cta-content'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) { el.style.opacity = '1'; el.style.pointerEvents = 'auto'; el.style.filter = ''; }
       });
-      if (this._scrollEl) { this._scrollEl.style.overflowY = 'auto'; this._scrollEl.scrollTop = 0; }
-      this._scrollProg = 0;
-      // Once home is back, hand opacity control back to scroll
-      setTimeout(() => {
-        if (this._peActive) return;
-        [this._mainEl, mission, aside].forEach(el => { if (el) { el.style.filter = ''; el.style.transition = ''; } });
-        this._applyScroll();
-      }, IN + 40);
-    }, OUT);
+      document.querySelectorAll('#pe-faq-items .faq-item').forEach(el => { el.style.opacity = '1'; });
+      const dg = document.getElementById('pe-disc-glass'); if (dg) dg.style.opacity = '0';
+      return;
+    }
+    const max = (sc.scrollHeight - sc.clientHeight) || 1;
+    const p = sc.scrollTop / max;
+    // Hero content fades + blurs out
+    const heroFade = cl((p - 0.05) / 0.07);
+    if (hl) {
+      hl.style.opacity = String(1 - heroFade);
+      hl.style.filter = heroFade > 0 ? 'blur(' + (heroFade * 14).toFixed(1) + 'px)' : '';
+      hl.style.pointerEvents = heroFade > 0.5 ? 'none' : 'auto';
+    }
+    // Phase A: hero panel liquid-morphs into 4 discovery cards
+    const mA = cl((p - 0.05) / 0.07);
+    // Phase B: 4 discovery cards liquid-morph into 3 build cards
+    const mB = cl((p - 0.19) / 0.07);
+    // Phase C: 3 build cards liquid-morph into 2 scale panels
+    const mC = cl((p - 0.33) / 0.07);
+    // Phase D: 2 scale panels liquid-morph into 6 why-grid cards
+    const mD = cl((p - 0.47) / 0.07);
+    // Phase E: 6 why cards liquid-morph into 4 what-we-build cards + CTA
+    const mE = cl((p - 0.61) / 0.07);
+    // Phase F: 4 what cards liquid-morph into 5 FAQ bars
+    const mF = cl((p - 0.75) / 0.07);
+    this._applyDiscoveryMorph(mA, mB, mC, mD, mE, mF);
+    const frame = document.getElementById('pe-hero-frame');
+    if (frame) frame.style.opacity = String(1 - cl(mA / 0.3));
+    // Discovery content fades in, then out as build begins
+    const dOp = cl((p - 0.10) / 0.045) * (1 - cl((p - 0.18) / 0.035));
+    ['disc-hl','disc-c1','disc-c2','disc-c3','disc-c4'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) { el.style.opacity = String(dOp); el.style.pointerEvents = dOp > 0.5 ? 'auto' : 'none'; }
+    });
+    // Build content fades in, then out as scale begins
+    const bOp = cl((p - 0.24) / 0.045) * (1 - cl((p - 0.32) / 0.035));
+    ['build-hl','build-c1','build-c2','build-c3'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) { el.style.opacity = String(bOp); el.style.pointerEvents = bOp > 0.5 ? 'auto' : 'none'; }
+    });
+    // Scale content fades in, then out as why begins
+    const scOp = cl((p - 0.38) / 0.045) * (1 - cl((p - 0.46) / 0.035));
+    ['scale-hl','scale-c1','scale-c2'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) { el.style.opacity = String(scOp); el.style.pointerEvents = scOp > 0.5 ? 'auto' : 'none'; }
+    });
+    // Why content fades in, then out as what-we-build begins
+    const wOp = cl((p - 0.52) / 0.045) * (1 - cl((p - 0.60) / 0.035));
+    ['why-hl','why-c1','why-c2','why-c3','why-c4','why-c5','why-c6'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) { el.style.opacity = String(wOp); el.style.pointerEvents = wOp > 0.5 ? 'auto' : 'none'; }
+    });
+    // What We Build content fades in, then out as FAQ begins
+    const tOp = cl((p - 0.66) / 0.045) * (1 - cl((p - 0.74) / 0.035));
+    ['what-hl','what-c1','what-c2','what-c3','what-c4','what-cta'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) { el.style.opacity = String(tOp); el.style.pointerEvents = tOp > 0.5 ? 'auto' : 'none'; }
+    });
+    // FAQ content fades in, then out as the CTA finale begins
+    const fOp = cl((p - 0.80) / 0.05) * (1 - cl((p - 0.88) / 0.04));
+    const faqHlEl = document.getElementById('pe-faq-hl');
+    if (faqHlEl) { faqHlEl.style.opacity = String(fOp); faqHlEl.style.pointerEvents = fOp > 0.5 ? 'auto' : 'none'; }
+    const faqClipEl = document.getElementById('pe-faq-clip');
+    if (faqClipEl) faqClipEl.style.pointerEvents = fOp > 0.5 ? 'auto' : 'none';
+    document.querySelectorAll('#pe-faq-items .faq-item').forEach(el => { el.style.opacity = String(fOp); });
+    // CTA finale: dark veil fades in, background canvas blurs, glass morph clears, content fades in
+    const ctaGlassOp = cl((p - 0.90) / 0.04);
+    const ctaContentOp = cl((p - 0.93) / 0.045);
+    const ctaGlassEl = document.getElementById('cta-glass');
+    if (ctaGlassEl) {
+      ctaGlassEl.style.opacity = String(ctaGlassOp);
+      ctaGlassEl.style.pointerEvents = ctaGlassOp > 0.05 ? 'auto' : 'none';
+    }
+    if (this._bg) this._bg.style.filter = ctaGlassOp > 0 ? 'blur(' + (ctaGlassOp * 18).toFixed(1) + 'px)' : '';
+    const discGlassEl = document.getElementById('pe-disc-glass');
+    if (discGlassEl) discGlassEl.style.opacity = String(1 - ctaGlassOp);
+    const ctaContentEl = document.getElementById('pe-cta-content');
+    if (ctaContentEl) {
+      ctaContentEl.style.opacity = String(ctaContentOp);
+      ctaContentEl.style.pointerEvents = ctaContentOp > 0.3 ? 'auto' : 'none';
+      ctaContentEl.style.filter = ctaContentOp < 1 ? 'blur(' + ((1 - ctaContentOp) * 12).toFixed(1) + 'px)' : '';
+    }
+  }
+
+  _setupDiscoveryMorph() {
+    if (this._discReady) return;
+    const blobsEl = document.getElementById('pe-disc-blobs');
+    if (!blobsEl) { setTimeout(() => this._setupDiscoveryMorph(), 100); return; }
+    const SVGNS = 'http://www.w3.org/2000/svg';
+    this._discRects = [];
+    for (let i = 0; i < 6; i++) {
+      const r = document.createElementNS(SVGNS, 'rect');
+      r.setAttribute('fill', 'white'); blobsEl.appendChild(r); this._discRects.push(r);
+    }
+    this._discReady = true;
+    this._applyDiscoveryMorph(0, 0, 0, 0, 0, 0);
+  }
+
+  _applyDiscoveryMorph(mA, mB, mC, mD, mE, mF) {
+    if (!this._discRects) return;
+    mB = mB || 0; mC = mC || 0; mD = mD || 0; mE = mE || 0; mF = mF || 0;
+    const panel = document.getElementById('pe-stage');
+    const w = (panel && panel.offsetWidth) || window.innerWidth;
+    const h = (panel && panel.offsetHeight) || window.innerHeight;
+    if (!w || !h) return;
+    const mob = window.innerWidth < 768;
+    const cl = (t) => Math.max(0, Math.min(1, t));
+    const ease = (t) => t < 0.5 ? 2*t*t : 1 - Math.pow(-2*t+2, 2)/2;
+    const lr = (a, b, t) => ({ x:a.x+(b.x-a.x)*t, y:a.y+(b.y-a.y)*t, w:a.w+(b.w-a.w)*t, h:a.h+(b.h-a.h)*t, rx:a.rx+(b.rx-a.rx)*t });
+    const setR = (el, r) => {
+      el.setAttribute('x', r.x.toFixed(1)); el.setAttribute('y', r.y.toFixed(1));
+      el.setAttribute('width', Math.max(0,r.w).toFixed(1)); el.setAttribute('height', Math.max(0,r.h).toFixed(1));
+      el.setAttribute('rx', r.rx.toFixed(1));
+    };
+    const coll = { x:w*0.5, y:h*0.5, w:2, h:2, rx:40 };
+    const eA = ease(cl(mA)), eB = ease(cl(mB)), eC = ease(cl(mC)), eD = ease(cl(mD)), eE = ease(cl(mE)), eF = ease(cl(mF));
+    // Discovery 4-card layout
+    let cover = { x:0, y:0, w:w+60, h:h, rx:44 };
+    let D0 = { x:0.02*w, y:0.26*h, w:0.47*w, h:0.35*h, rx:40 };
+    let D1 = { x:0.51*w, y:0.26*h, w:0.47*w, h:0.35*h, rx:40 };
+    let D2 = { x:0.02*w, y:0.63*h, w:0.47*w, h:0.34*h, rx:40 };
+    let D3 = { x:0.51*w, y:0.63*h, w:0.47*w, h:0.34*h, rx:40 };
+    // Build 3-card layout
+    let B0 = { x:0.02*w,    y:0.25*h, w:0.305*w, h:0.46*h, rx:40 };
+    let B1 = { x:0.3475*w,  y:0.25*h, w:0.305*w, h:0.46*h, rx:40 };
+    let B2 = { x:0.675*w,   y:0.25*h, w:0.305*w, h:0.46*h, rx:40 };
+    // Scale 2-panel layout
+    let S0 = { x:0.02*w, y:0.26*h, w:0.62*w, h:0.70*h, rx:40 };
+    let S1 = { x:0.66*w, y:0.57*h, w:0.32*w, h:0.39*h, rx:40 };
+    // Why 6-card grid (3 cols x 2 rows) — coords matched to the actual cards
+    const gx=0.02*w, gpx=0.0105*w, cw=0.313*w;
+    const gy=0.22*h, gpy=0.03*h, chh=0.36*h;
+    const W = (col,row) => ({ x:gx+col*(cw+gpx), y:gy+row*(chh+gpy), w:cw, h:chh, rx:34 });
+    let W0=W(0,0), W1=W(1,0), W2=W(2,0), W3=W(0,1), W4=W(1,1), W5=W(2,1);
+    // What We Build: 2x2 card grid + full-width CTA banner
+    let T0 = { x:0.02*w, y:0.22*h, w:0.475*w, h:0.30*h, rx:40 };
+    let T1 = { x:0.505*w, y:0.22*h, w:0.475*w, h:0.30*h, rx:40 };
+    let T2 = { x:0.02*w, y:0.54*h, w:0.475*w, h:0.30*h, rx:40 };
+    let T3 = { x:0.505*w, y:0.54*h, w:0.475*w, h:0.30*h, rx:40 };
+    // FAQ 5-bar stack — measured from the live question containers so the glass matches exactly
+    let F0,F1,F2,F3,F4;
+    {
+      const stageEl = document.getElementById('pe-stage');
+      const items = document.querySelectorAll('#pe-faq-items .faq-item');
+      const fallback = (i)=>({ x:0.02*w, y:(0.17*h)+i*(0.125*h+0.025*h), w:0.96*w, h:0.125*h, rx:18 });
+      const measure = (i) => {
+        const it = items[i];
+        if (!it || !stageEl) return fallback(i);
+        const sr = stageEl.getBoundingClientRect();
+        const b = it.getBoundingClientRect();
+        if (!b.height) return fallback(i);
+        return { x:b.left-sr.left, y:b.top-sr.top, w:b.width, h:b.height, rx:18 };
+      };
+      F0=measure(0); F1=measure(1); F2=measure(2); F3=measure(3); F4=measure(4);
+    }
+    if (mob) {
+      const M=0.04, FW=0.92;
+      cover={x:0,y:0,w:w,h:h+80,rx:26};
+      D0={x:M*w,y:0.18*h,w:FW*w,h:0.18*h,rx:22}; D1={x:M*w,y:0.38*h,w:FW*w,h:0.18*h,rx:22};
+      D2={x:M*w,y:0.58*h,w:FW*w,h:0.18*h,rx:22}; D3={x:M*w,y:0.78*h,w:FW*w,h:0.18*h,rx:22};
+      B0={x:M*w,y:0.18*h,w:FW*w,h:0.24*h,rx:22}; B1={x:M*w,y:0.44*h,w:FW*w,h:0.24*h,rx:22}; B2={x:M*w,y:0.70*h,w:FW*w,h:0.24*h,rx:22};
+      S0={x:M*w,y:0.18*h,w:FW*w,h:0.38*h,rx:22}; S1={x:M*w,y:0.58*h,w:FW*w,h:0.38*h,rx:22};
+      W0={x:M*w,y:0.18*h,w:FW*w,h:0.115*h,rx:20}; W1={x:M*w,y:0.305*h,w:FW*w,h:0.115*h,rx:20};
+      W2={x:M*w,y:0.43*h,w:FW*w,h:0.115*h,rx:20}; W3={x:M*w,y:0.555*h,w:FW*w,h:0.115*h,rx:20};
+      W4={x:M*w,y:0.68*h,w:FW*w,h:0.115*h,rx:20}; W5={x:M*w,y:0.805*h,w:FW*w,h:0.115*h,rx:20};
+      T0={x:M*w,y:0.17*h,w:FW*w,h:0.14*h,rx:22}; T1={x:M*w,y:0.33*h,w:FW*w,h:0.14*h,rx:22};
+      T2={x:M*w,y:0.49*h,w:FW*w,h:0.14*h,rx:22}; T3={x:M*w,y:0.65*h,w:FW*w,h:0.14*h,rx:22};
+    }
+    // rect0..3 -> what cards -> FAQ bars 0..3 ; rect4 -> FAQ bar 4 ; rect5 collapse (CTA is free text)
+    setR(this._discRects[0], lr(lr(lr(lr(lr(lr(cover, D0, eA), B0, eB), S0, eC), W0, eD), T0, eE), F0, eF));
+    setR(this._discRects[1], lr(lr(lr(lr(lr(lr(cover, D1, eA), B1, eB), S1, eC), W1, eD), T1, eE), F1, eF));
+    setR(this._discRects[2], lr(lr(lr(lr(lr(lr(cover, D2, eA), B2, eB), coll, eC), W2, eD), T2, eE), F2, eF));
+    setR(this._discRects[3], lr(lr(lr(lr(lr(cover, D3, eA), coll, eB), W3, eD), T3, eE), F3, eF));
+    setR(this._discRects[4], lr(lr(lr(coll, W4, eD), coll, eE), F4, eF));
+    setR(this._discRects[5], lr(lr(coll, W5, eD), coll, eE));
+    const act = Math.max(Math.sin(Math.PI * cl(mA)), Math.sin(Math.PI * cl(mB)), Math.sin(Math.PI * cl(mC)), Math.sin(Math.PI * cl(mD)), Math.sin(Math.PI * cl(mE)), Math.sin(Math.PI * cl(mF)));
+    const blurEl = document.getElementById('pe-gb'), cmEl = document.getElementById('pe-cm');
+    if (blurEl) blurEl.setAttribute('stdDeviation', (1.5 + act*21).toFixed(1));
+    if (cmEl) cmEl.setAttribute('values', '1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 ' + (12+act*16).toFixed(0) + ' ' + (-4-act*8).toFixed(0));
   }
 
   // ─── Scroll ────────────────────────────────────────────────────────
@@ -913,7 +1807,8 @@ class Component extends DCLogic {
     else if (p < 0.950) mainOp = 1-(p-0.920)/0.030;
     else                mainOp = 0;
     if (this._mainEl) {
-      const mo = Math.max(0, Math.min(1, mainOp));
+      let mo = Math.max(0, Math.min(1, mainOp));
+      if (window.innerWidth < 768) { const statShow = cl((p - 0.870) / 0.030); mo = mo * (1 - statShow); }
       this._mainEl.style.opacity = String(mo);
       this._mainEl.style.pointerEvents = mo < 0.05 ? 'none' : 'auto';
     }
@@ -928,42 +1823,58 @@ class Component extends DCLogic {
     if (svA){svA.style.opacity=String(sOpA);svA.style.pointerEvents=sOpA>.5?'auto':'none';}
     if (svB){svB.style.opacity=String(sOpB);svB.style.pointerEvents=sOpB>.5?'auto':'none';}
     if (svH){svH.style.opacity=String(sOpA);svH.style.pointerEvents=sOpA>.5?'auto':'none';}
+    const svcS=document.getElementById('svc-scroll');
+    if (svcS){svcS.style.pointerEvents=sOpA>.3?'auto':'none';}
     const tOpA = cl((p-0.392)/0.022)*(1-cl((p-0.431)/0.022));
     const tOpB = cl((p-0.401)/0.022)*(1-cl((p-0.438)/0.022));
     const tmA=document.getElementById('testimonial-a'), tmB=document.getElementById('testimonial-b'), tmH=document.getElementById('testimonials-headline');
     if (tmA){tmA.style.opacity=String(tOpA);tmA.style.pointerEvents=tOpA>.5?'auto':'none';}
     if (tmB){tmB.style.opacity=String(tOpB);tmB.style.pointerEvents=tOpB>.5?'auto':'none';}
     if (tmH){tmH.style.opacity=String(tOpA);tmH.style.pointerEvents=tOpA>.5?'auto':'none';}
+    const tmnS=document.getElementById('tmn-scroll');
+    if (tmnS){tmnS.style.pointerEvents=tOpA>.3?'auto':'none';}
     const cFadeOut = 1 - cl((p-0.592)/0.028);
     const clG=document.getElementById('clients-grid'), clH=document.getElementById('clients-headline');
     if (clG){[...clG.children].forEach((cell,i)=>{const op=cl((p-0.518-i*.0016)/.026)*cFadeOut;cell.style.opacity=String(op);cell.style.pointerEvents=op>.5?'auto':'none';});}
     if (clH){const co=cl((p-0.518)/.026)*cFadeOut;clH.style.opacity=String(co);clH.style.pointerEvents=co>.5?'auto':'none';}
+    const cliS=document.getElementById('cli-scroll');
+    if (cliS){const co2=cl((p-0.518)/.026)*cFadeOut;cliS.style.pointerEvents=co2>.3?'auto':'none';}
     const faqFadeOut = 1 - cl((p-0.800)/0.040);
     const faqH=document.getElementById('faq-headline');
     const faqBase=cl((p-0.708)/0.032)*faqFadeOut;
     if (faqH){faqH.style.opacity=String(faqBase);}
+    const faqS=document.getElementById('faq-scroll');
+    if (faqS){faqS.style.pointerEvents=faqBase>.3?'auto':'none';}
     document.querySelectorAll('.faq-item').forEach((el,i)=>{const op=cl((p-0.708-i*.003)/.032)*faqFadeOut;el.style.opacity=String(op);});
     const faqItemsEl=document.getElementById('faq-items'), faqClipEl=document.getElementById('faq-clip');
     if (faqItemsEl&&faqClipEl){
-      const ov=Math.max(0,faqItemsEl.offsetHeight-faqClipEl.offsetHeight);
-      faqItemsEl.style.transform='translateY('+(-cl((p-.748)/.052)*ov).toFixed(1)+'px)';
+      if (window.innerWidth >= 768) {
+        const ov=Math.max(0,faqItemsEl.offsetHeight-faqClipEl.offsetHeight);
+        faqItemsEl.style.transform='translateY('+(-cl((p-.748)/.052)*ov).toFixed(1)+'px)';
+      } else { faqItemsEl.style.transform='none'; }
     }
     // Stats section — hold, then fly up when CTA begins
     const statFlyOut = cl((p - 0.935) / 0.025);
     const stH = document.getElementById('stats-headline');
-    const stBase = cl((p - 0.905) / 0.030) * (1 - statFlyOut);
+    const stBase = (window.innerWidth >= 768 ? cl((p - 0.905) / 0.030) : cl((p - 0.895) / 0.010)) * (1 - statFlyOut);
+    const statsS = document.getElementById('stats-scroll');
     if (stH) {
       stH.style.opacity = String(stBase);
-      stH.style.transform = 'translateY(' + (-statFlyOut * 130).toFixed(1) + 'vh)';
+      stH.style.transform = window.innerWidth >= 768 ? 'translateY(' + (-statFlyOut * 130).toFixed(1) + 'vh)' : 'none';
     }
+    if (statsS) statsS.style.pointerEvents = stBase > 0.3 ? 'auto' : 'none';
     ['stat-0','stat-1','stat-2','stat-3','stat-4'].forEach((id, i) => {
       const el = document.getElementById(id);
       if (el) {
-        const op = cl((p - 0.905 - i*.006) / 0.030) * (1 - statFlyOut);
+        const op = (window.innerWidth >= 768 ? cl((p - 0.905 - i*.006) / 0.030) : cl((p - 0.895) / 0.010)) * (1 - statFlyOut);
         el.style.opacity = String(op);
         el.style.pointerEvents = op > 0.5 ? 'auto' : 'none';
-        const fly = cl((p - 0.935 - i * 0.006) / 0.022);
-        el.style.transform = 'translateY(' + (-fly * 135).toFixed(1) + 'vh)';
+        if (window.innerWidth >= 768) {
+          const fly = cl((p - 0.935 - i * 0.006) / 0.022);
+          el.style.transform = 'translateY(' + (-fly * 135).toFixed(1) + 'vh)';
+        } else {
+          el.style.transform = 'none';
+        }
       }
     });
 
@@ -1019,12 +1930,25 @@ class Component extends DCLogic {
     const mp5 = cl((p - 0.620) / 0.088);
     const mp6 = cl((p - 0.830) / 0.090);
     const cover = { x:-PAD, y:-PAD, w:w+PAD*2, h:h+PAD*2, rx:0 };
-    const KF1A  = { x:0.03*w, y:0.05*h, w:0.54*w, h:0.52*h, rx:40 };
-    const KF1B  = { x:0.43*w, y:0.53*h, w:0.54*w, h:0.42*h, rx:40 };
-    const KF2A  = { x:0.02*w, y:0.21*h, w:0.46*w, h:0.73*h, rx:40 };
-    const KF2B  = { x:0.52*w, y:0.21*h, w:0.46*w, h:0.73*h, rx:40 };
-    const KF3A  = { x:0.02*w, y:0.21*h, w:0.96*w, h:0.34*h, rx:40 };
-    const KF3B  = { x:0.02*w, y:0.58*h, w:0.96*w, h:0.34*h, rx:40 };
+    const mob = window.innerWidth < 768;
+    const KF1A  = mob
+      ? { x:0.05*w, y:0.05*h, w:0.90*w, h:0.52*h, rx:40 }
+      : { x:0.03*w, y:0.05*h, w:0.54*w, h:0.52*h, rx:40 };
+    const KF1B  = mob
+      ? { x:0.17*w, y:0.53*h, w:0.78*w, h:0.42*h, rx:40 }
+      : { x:0.43*w, y:0.53*h, w:0.54*w, h:0.42*h, rx:40 };
+    const KF2A  = mob
+      ? { x:0.05*w, y:0.02*h, w:0.90*w, h:0.47*h, rx:22 }
+      : { x:0.02*w, y:0.21*h, w:0.46*w, h:0.73*h, rx:40 };
+    const KF2B  = mob
+      ? { x:0.05*w, y:0.51*h, w:0.90*w, h:0.47*h, rx:22 }
+      : { x:0.52*w, y:0.21*h, w:0.46*w, h:0.73*h, rx:40 };
+    const KF3A  = mob
+      ? { x:0.05*w, y:0.02*h, w:0.90*w, h:0.53*h, rx:22 }
+      : { x:0.02*w, y:0.21*h, w:0.96*w, h:0.34*h, rx:40 };
+    const KF3B  = mob
+      ? { x:0.05*w, y:0.59*h, w:0.90*w, h:0.39*h, rx:22 }
+      : { x:0.02*w, y:0.58*h, w:0.96*w, h:0.34*h, rx:40 };
     const lr = (a, b, e) => ({ x:a.x+(b.x-a.x)*e, y:a.y+(b.y-a.y)*e, w:a.w+(b.w-a.w)*e, h:a.h+(b.h-a.h)*e, rx:a.rx+(b.rx-a.rx)*e });
     const GCOLS = 4;
     const gx0 = 0.02*w, gw = 0.96*w, gapX = 0.0173*w;
@@ -1044,23 +1968,58 @@ class Component extends DCLogic {
       return             { x:0.67*w, y:0.62*h, w:0.31*w, h:0.35*h, rx:28 };
     };
     const rectToStat = (i) => { if(i<3)return 0; if(i<5)return 1; if(i<7)return 2; if(i<10)return 3; return 4; };
+    // Mobile section layouts — distinct stacked shapes that drive the liquid morph between sections
+    const gridCellMob = (i) => {
+      const cols = 2, gx = 0.05*w, gwid = 0.90*w, gpX = 0.05*w;
+      const cw = (gwid - gpX) / cols;
+      const gyy = 0.03*h, ghei = 0.94*h, gpY = 0.04*h, rows = 3;
+      const ch = (ghei - (rows-1)*gpY) / rows;
+      const col = i % cols, row = Math.floor(i / cols);
+      return { x: gx+col*(cw+gpX), y: gyy+row*(ch+gpY), w: cw, h: ch, rx: 16 };
+    };
+    const faqBarMob = (i) => {
+      const gyy = 0.02*h, n = 6, gp = 0.022*h;
+      const bh = (0.96*h - (n-1)*gp) / n;
+      return { x:0.05*w, y: gyy + i*(bh+gp), w:0.90*w, h:bh, rx:14 };
+    };
+    const statCardMob = (i) => {
+      const gyy = 0.02*h, n = 5, gp = 0.02*h;
+      const chh = (0.96*h - (n-1)*gp) / n;
+      return { x:0.05*w, y: gyy + i*(chh+gp), w:0.90*w, h:chh, rx:18 };
+    };
     const rects = this._morphRects;
     const setR = (el, r) => {
+      const rxv = mob ? Math.min(r.rx, 22) : r.rx;
       el.setAttribute('x', r.x.toFixed(2)); el.setAttribute('y', r.y.toFixed(2));
       el.setAttribute('width', Math.max(0,r.w).toFixed(2)); el.setAttribute('height', Math.max(0,r.h).toFixed(2));
-      el.setAttribute('rx', r.rx.toFixed(2));
+      el.setAttribute('rx', rxv.toFixed(2));
     };
     const collapse = { x:w*0.5, y:h*0.5, w:0, h:0, rx:0 };
     let act = 0;
     if (mp6 > 0) {
       const e = ease(mp6); act = Math.sin(Math.PI * mp6);
-      for (let i = 0; i < rects.length; i++) setR(rects[i], i < 11 ? lr(faqBar(i), statCard(rectToStat(i)), e) : collapse);
+      if (mob) {
+        for (let i = 0; i < 6; i++) setR(rects[i], lr(faqBarMob(i), i < 5 ? statCardMob(i) : collapse, e));
+        for (let i = 6; i < rects.length; i++) setR(rects[i], collapse);
+      } else {
+        for (let i = 0; i < rects.length; i++) setR(rects[i], i < 11 ? lr(faqBar(i), statCard(rectToStat(i)), e) : collapse);
+      }
     } else if (mp5 > 0) {
       const e = ease(mp5); act = Math.sin(Math.PI * mp5);
-      for (let i = 0; i < rects.length; i++) setR(rects[i], i < 11 ? lr(gridCell(i), faqBar(i), e) : collapse);
+      if (mob) {
+        for (let i = 0; i < 6; i++) setR(rects[i], lr(gridCellMob(i), faqBarMob(i), e));
+        for (let i = 6; i < rects.length; i++) setR(rects[i], collapse);
+      } else {
+        for (let i = 0; i < rects.length; i++) setR(rects[i], i < 11 ? lr(gridCell(i), faqBar(i), e) : collapse);
+      }
     } else if (mp4 > 0) {
       const e = ease(mp4); act = Math.sin(Math.PI * mp4);
-      for (let i = 0; i < rects.length; i++) setR(rects[i], lr(Math.floor(i/GCOLS) < 2 ? KF3A : KF3B, gridCell(i), e));
+      if (mob) {
+        for (let i = 0; i < 6; i++) setR(rects[i], lr(i < 3 ? KF3A : KF3B, gridCellMob(i), e));
+        for (let i = 6; i < rects.length; i++) setR(rects[i], collapse);
+      } else {
+        for (let i = 0; i < rects.length; i++) setR(rects[i], lr(Math.floor(i/GCOLS) < 2 ? KF3A : KF3B, gridCell(i), e));
+      }
     } else {
       let A, B;
       if (mp3 > 0) { const e=ease(mp3); A=lr(KF2A,KF3A,e); B=lr(KF2B,KF3B,e); act=Math.sin(Math.PI*mp3); }
@@ -1069,7 +2028,7 @@ class Component extends DCLogic {
       setR(rects[0],A); setR(rects[1],B);
       for (let i=2; i<rects.length; i++) setR(rects[i],collapse);
     }
-    const blurVal=1.5+act*21, strength=12+act*16, offset=-4-act*8;
+    const blurVal=1.5+act*(mob?10:21), strength=12+act*16, offset=-4-act*8;
     const blurEl = document.getElementById('lqp-blur');
     if (blurEl) blurEl.setAttribute('stdDeviation', blurVal.toFixed(1));
     const cm = document.getElementById('lqp-cm');
