@@ -47,6 +47,39 @@
     }
     body.pe-state #pe-overlay { opacity: 1 !important; pointer-events: auto !important; }
     body.pe-state #pe-stage { opacity: 1 !important; }
+    /* ===== Global Staffing page swap (mirrors PE) ===== */
+    body.gs-swapping #home-main,
+    body.gs-swapping #mission-overlay,
+    body.gs-swapping #gs-overlay,
+    body.gs-swapping #gs-stage {
+      transition: opacity 0.55s cubic-bezier(0.4,0,0.2,1), filter 0.55s cubic-bezier(0.4,0,0.2,1) !important;
+    }
+    body.gs-swapping #left-aside {
+      animation: nav-swap 1.05s cubic-bezier(0.4,0,0.2,1) both !important;
+    }
+    body.gs-state #home-main,
+    body.gs-state #mission-overlay {
+      opacity: 0 !important; filter: blur(18px) !important; pointer-events: none !important;
+    }
+    body.gs-state #gs-overlay { opacity: 1 !important; pointer-events: auto !important; }
+    body.gs-state #gs-stage { opacity: 1 !important; }
+    /* ===== Our Expertise page swap (mirrors PE/GS) ===== */
+    body.oe-swapping #home-main,
+    body.oe-swapping #mission-overlay,
+    body.oe-swapping #oe-overlay,
+    body.oe-swapping #oe-stage {
+      transition: opacity 0.55s cubic-bezier(0.4,0,0.2,1), filter 0.55s cubic-bezier(0.4,0,0.2,1) !important;
+    }
+    body.oe-swapping #left-aside {
+      animation: nav-swap 1.05s cubic-bezier(0.4,0,0.2,1) both !important;
+    }
+    body.oe-state #home-main,
+    body.oe-state #mission-overlay {
+      opacity: 0 !important; filter: blur(18px) !important; pointer-events: none !important;
+    }
+    body.oe-state #oe-overlay { opacity: 1 !important; pointer-events: auto !important; }
+    body.oe-state #oe-stage { opacity: 1 !important; }
+    .oe-scrollbar-hide::-webkit-scrollbar { display: none; }
     @keyframes btn-grow {
       from { clip-path: inset(0% 100% 0% 0%); }
       to   { clip-path: inset(0% 0% 0% 0%); }
@@ -152,6 +185,8 @@
     #disc-scroll { display: contents; }
     .pe-sec { display: contents; }
     #pe-overlay::-webkit-scrollbar { display: none; }
+    #gs-overlay::-webkit-scrollbar { display: none; }
+    #oe-overlay::-webkit-scrollbar { display: none; }
 
     /* ─── Mobile navigation ─────────────────────────────────────────── */
     #mobile-header { display: none; }
@@ -371,8 +406,8 @@
       }
       /* PE subpage — mobile: pinned sections w/ internal scroll + liquid morph between (homepage model) */
       #pe-stage {
-        top: 60px !important;
-        height: calc(100vh - 60px) !important;
+        top: 0 !important;
+        height: 100% !important;
       }
       /* Hero: glass panel, both top corners rounded, flush sides, below header */
       #pe-hero-frame {
@@ -474,6 +509,105 @@
       }
       /* CTA finale stays full-bleed pinned */
       #pe-cta-content { padding-left: 24px !important; padding-right: 24px !important; }
+
+      /* ─── Global Staffing subpage (mobile) — mirrors PE model ─── */
+      #gs-overlay { left: 0 !important; }
+      #gs-stage { top: 0 !important; height: 100% !important; }
+      #gs-hero-frame {
+        border-right: 1px solid rgba(255,255,255,0.12) !important;
+        border-bottom: none !important;
+        border-top-left-radius: 26px !important;
+        border-top-right-radius: 26px !important;
+        border-bottom-left-radius: 0 !important;
+      }
+      #gs-hero-layer { padding-left: 26px !important; padding-right: 26px !important; }
+      .gs-hl {
+        position: relative !important;
+        left: auto !important; top: auto !important;
+        width: 100% !important; height: auto !important;
+        flex-shrink: 0 !important;
+        justify-content: center !important;
+        margin: 2px 0 6px !important;
+        gap: 10px !important;
+      }
+      .gs-hl h2 { font-size: clamp(30px, 8vw, 40px) !important; line-height: 1.05 !important; }
+      .gs-hl p { font-size: clamp(14px, 3.6vw, 17px) !important; line-height: 1.5 !important; max-width: none !important; }
+      .gs-card, .gs-bar, #gs-radar-card {
+        position: relative !important;
+        left: auto !important; top: auto !important; right: auto !important; bottom: auto !important;
+        width: 100% !important; height: auto !important;
+        flex-shrink: 0 !important;
+        box-sizing: border-box !important;
+        border-radius: 22px !important;
+        margin: 0 !important;
+      }
+      .gs-card { padding: 20px 22px !important; justify-content: flex-start !important; gap: 12px !important; }
+      .gs-bar {
+        padding: 18px 20px !important;
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 6px !important;
+      }
+      .gs-bar h3 { flex: none !important; width: 100% !important; order: 1 !important; }
+      .gs-bar p { flex: none !important; width: 100% !important; order: 2 !important; }
+      .gs-bar > span:first-child { order: 0 !important; }
+      .gs-card h3 { font-size: clamp(17px, 4.6vw, 22px) !important; line-height: 1.2 !important; }
+      .gs-card p, .gs-bar p {
+        font-size: clamp(13px, 3.5vw, 15px) !important; line-height: 1.55 !important;
+        display: block !important; overflow: visible !important;
+      }
+      .gs-bar h3 { font-size: clamp(19px, 5.4vw, 26px) !important; }
+      #gs-s3-foot { position: relative !important; left:auto !important; top:auto !important; width:100% !important; height:auto !important; flex-shrink:0 !important; margin-top: 6px !important; }
+      #gs-radar-card { padding: 20px 16px !important; flex: 1 1 auto !important; min-height: 0 !important; }
+      #gs-radar-holder { min-height: 0 !important; }
+      #gs-radar-holder svg { max-width: none !important; }
+      #gs-faq-clip {
+        position: relative !important;
+        left: auto !important; top: auto !important; right: auto !important; bottom: auto !important;
+        width: 100% !important; height: auto !important;
+        overflow: visible !important;
+        flex-shrink: 0 !important;
+      }
+      #gs-faq-items { position: relative !important; top: auto !important; left: auto !important; right: auto !important; }
+      #gs-cta-content { padding-left: 24px !important; padding-right: 24px !important; }
+
+      /* Our Expertise subpage (mobile) - mirrors PE/GS model */
+      #oe-overlay { left: 0 !important; }
+      #oe-stage { top: 0 !important; height: 100% !important; }
+      #oe-hero-frame {
+        border-right: 1px solid rgba(255,255,255,0.12) !important;
+        border-bottom: none !important;
+        border-top-left-radius: 26px !important;
+        border-top-right-radius: 26px !important;
+        border-bottom-left-radius: 0 !important;
+      }
+      #oe-hero-layer { padding-left: 26px !important; padding-right: 26px !important; }
+      .oe-hl {
+        position: relative !important;
+        left: auto !important; top: auto !important;
+        width: 100% !important; height: auto !important;
+        flex-shrink: 0 !important;
+        justify-content: center !important;
+        margin: 2px 0 10px !important;
+        gap: 8px !important;
+      }
+      .oe-hl h2 { font-size: clamp(24px, 6.4vw, 32px) !important; line-height: 1.12 !important; max-width: none !important; }
+      .oe-card, .oe-testi {
+        position: relative !important;
+        left: auto !important; top: auto !important; right: auto !important; bottom: auto !important;
+        width: 100% !important; height: auto !important;
+        flex-shrink: 0 !important;
+        box-sizing: border-box !important;
+        border-radius: 22px !important;
+        margin: 0 0 12px !important;
+      }
+      .oe-card { padding: 18px 20px !important; max-height: none !important; }
+      .oe-card[id*="-img"] { min-height: 160px !important; padding: 24px 20px !important; }
+      .oe-card h3 { font-size: clamp(15px, 4.2vw, 18px) !important; }
+      .oe-card p, .oe-card li { font-size: clamp(13px, 3.5vw, 15px) !important; line-height: 1.55 !important; }
+      .oe-card .oe-scrollbar-hide { max-height: 34vh !important; }
+      .oe-testi { flex-direction: column !important; align-items: flex-start !important; gap: 10px !important; padding: 18px 20px !important; margin-bottom: 0 !important; }
+      .oe-testi > div:last-child { text-align: left !important; max-width: none !important; }
     }
   </style>
 </helmet>
@@ -508,10 +642,10 @@
         <span style="font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(24px,6.5vw,34px); color:#fff;">Services</span>
         <div style="display:flex; flex-direction:column; gap:6px; padding-left:16px;">
           <a href="#" class="mob-sub-link" onclick="{{ onMobilePE }}">Product Engineering</a>
-          <a href="#" class="mob-sub-link" onclick="{{ onMobileMenuClose }}">Global Staffing</a>
+          <a href="#" class="mob-sub-link" onclick="{{ onMobileGS }}">Global Staffing</a>
         </div>
       </div>
-      <a href="#" class="mob-link" onclick="{{ onMobileMenuClose }}">Our Expertise</a>
+      <a href="#" class="mob-link" onclick="{{ onMobileOE }}">Our Expertise</a>
       <a href="#" class="mob-link" onclick="{{ onMobileMenuClose }}">About Us</a>
       <a href="#" class="mob-link" onclick="{{ onMobileMenuClose }}">VC Partnerships</a>
       <a href="#" class="mob-link" onclick="{{ onMobileMenuClose }}">Blog</a>
@@ -588,10 +722,10 @@
             <a href="#" class="nav-link" style="font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(17px,1.4vw,24px); color:#fff; text-decoration:none; white-space:nowrap; transition:opacity .2s ease, font-size 0.75s cubic-bezier(0.22,1,0.36,1);" style-hover="opacity:0.6;">Services</a>
             <div class="nav-submenu">
               <a href="#" class="nav-sublink" onclick="{{ onPE }}">Product Engineering</a>
-              <a href="#" class="nav-sublink">Global Staffing</a>
+              <a href="#" class="nav-sublink" onclick="{{ onGS }}">Global Staffing</a>
             </div>
           </div>
-          <a href="#" class="nav-link" style="font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(17px,1.4vw,24px); color:#fff; text-decoration:none; white-space:nowrap; transition:opacity .2s ease, font-size 0.75s cubic-bezier(0.22,1,0.36,1); animation:nav-enter 0.9s cubic-bezier(0.16,1,0.3,1) 0.48s both" style-hover="opacity:0.6;">Our Expertise</a>
+          <a href="#" class="nav-link" onclick="{{ onOE }}" style="font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(17px,1.4vw,24px); color:#fff; text-decoration:none; white-space:nowrap; transition:opacity .2s ease, font-size 0.75s cubic-bezier(0.22,1,0.36,1); animation:nav-enter 0.9s cubic-bezier(0.16,1,0.3,1) 0.48s both" style-hover="opacity:0.6;">Our Expertise</a>
           <a href="#" class="nav-link" style="font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(17px,1.4vw,24px); color:#fff; text-decoration:none; white-space:nowrap; transition:opacity .2s ease, font-size 0.75s cubic-bezier(0.22,1,0.36,1); animation:nav-enter 0.9s cubic-bezier(0.16,1,0.3,1) 0.61s both" style-hover="opacity:0.6;">About Us</a>
           <a href="#" class="nav-link" style="font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(17px,1.4vw,24px); color:#fff; text-decoration:none; white-space:nowrap; transition:opacity .2s ease, font-size 0.75s cubic-bezier(0.22,1,0.36,1); animation:nav-enter 0.9s cubic-bezier(0.16,1,0.3,1) 0.74s both" style-hover="opacity:0.6;">VC Partnerships</a>
           <a href="#" class="nav-link" style="font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(17px,1.4vw,24px); color:#fff; text-decoration:none; white-space:nowrap; transition:opacity .2s ease, font-size 0.75s cubic-bezier(0.22,1,0.36,1); animation:nav-enter 0.9s cubic-bezier(0.16,1,0.3,1) 0.87s both" style-hover="opacity:0.6;">Blog</a>
@@ -1143,7 +1277,7 @@
             <div id="pe-faq-hl" style="position:absolute; left:2%; top:4%; width:96%; height:12%; display:flex; flex-direction:column; justify-content:center; opacity:0; pointer-events:none; z-index:3;">
               <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(28px,3.2vw,56px); line-height:1.0; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.35);">Common Questions About AI &amp; Product Development</h2>
             </div>
-            <div id="pe-faq-clip" style="position:absolute; left:2%; top:17%; width:96%; height:81%; overflow:hidden; pointer-events:auto;">
+            <div id="pe-faq-clip" style="position:absolute; left:2%; top:17%; width:96%; height:81%; overflow:hidden; pointer-events:none;">
               <div id="pe-faq-items" style="position:absolute; top:0; left:0; right:0; display:flex; flex-direction:column; gap:clamp(8px,1.1vh,13px);">
                 <div class="faq-item" data-idx="0" style="padding:clamp(16px,1.7vw,24px) clamp(20px,2.2vw,32px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.12); border-radius:18px; cursor:pointer; opacity:0;"><div class="faq-header" style="display:flex; align-items:center; justify-content:space-between; gap:20px;"><span style="font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(15px,1.3vw,21px); line-height:1.3;">How involved do I need to be during a project?</span><span class="faq-chevron" style="color:#C7FFE0; font-size:clamp(18px,1.5vw,24px); flex-shrink:0;">&#x203A;</span></div><div class="faq-body"><p style="margin:clamp(10px,1.2vh,16px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.80); font-size:clamp(13px,1.05vw,17px); line-height:1.65; text-wrap:pretty;">Our process is collaborative but lightweight. You set priorities; we execute with transparency, predictable communication, and minimal friction.</p></div></div>
                 <div class="faq-item" data-idx="1" style="padding:clamp(16px,1.7vw,24px) clamp(20px,2.2vw,32px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.12); border-radius:18px; cursor:pointer; opacity:0;"><div class="faq-header" style="display:flex; align-items:center; justify-content:space-between; gap:20px;"><span style="font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(15px,1.3vw,21px); line-height:1.3;">How do you validate whether my idea is technically feasible before investing?</span><span class="faq-chevron" style="color:#C7FFE0; font-size:clamp(18px,1.5vw,24px); flex-shrink:0;">&#x203A;</span></div><div class="faq-body"><p style="margin:clamp(10px,1.2vh,16px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.80); font-size:clamp(13px,1.05vw,17px); line-height:1.65; text-wrap:pretty;">We adapt quickly. Our model is flexible, allowing us to adjust the roadmap and deliverables while keeping alignment with your business goals. All ideas are evaluated by our technical team, as our main priority is to maintain high quality in our deliveries.</p></div></div>
@@ -1178,6 +1312,596 @@
           </div><!-- /disc-scroll -->
         </div><!-- /pe-stage -->
         <div id="pe-spacer" style="height:1200vh; flex-shrink:0;"></div>
+      </div>
+
+      <!-- ══════════ GLOBAL STAFFING PAGE (glass card, animates in) ══════════ -->
+      <div id="gs-overlay" style="position:absolute; left:clamp(280px,24vw,400px); top:0; right:0; bottom:0; display:flex; flex-direction:column; align-items:stretch; overflow-y:auto; scrollbar-width:none; pointer-events:none; opacity:0; z-index:24; transition:opacity 0.5s ease;">
+        <div id="gs-stage" style="position:sticky; top:0; height:100vh; overflow:hidden; flex-shrink:0; opacity:0;">
+
+          <!-- SVG goo morph mask -->
+          <svg id="gs-disc-svg" style="position:absolute; inset:0; width:100%; height:100%; z-index:0; pointer-events:none;">
+            <defs>
+              <filter id="gs-goo-f" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur id="gs-gb" in="SourceGraphic" stdDeviation="1.5" result="b"></feGaussianBlur>
+                <feColorMatrix id="gs-cm" in="b" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 12 -4" result="g"></feColorMatrix>
+              </filter>
+              <mask id="gs-disc-msk" maskUnits="userSpaceOnUse" x="-200" y="-200" width="20000" height="20000">
+                <g filter="url(#gs-goo-f)" id="gs-disc-blobs"></g>
+              </mask>
+            </defs>
+          </svg>
+
+          <!-- Glass panel masked by goo -->
+          <div id="gs-disc-glass" style="position:absolute; inset:0; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); overflow:hidden; -webkit-mask:url(#gs-disc-msk); mask:url(#gs-disc-msk);"><div style="position:absolute;inset:0;pointer-events:none;opacity:0.055;filter:url(#panel-noise);background:#ffffff;"></div></div>
+
+          <!-- Hero frame -->
+          <div id="gs-hero-frame" style="position:absolute; inset:0; border-left:1px solid rgba(255,255,255,0.12); border-top:1px solid rgba(255,255,255,0.12); border-bottom:1px solid rgba(255,255,255,0.12); border-top-left-radius:44px; border-bottom-left-radius:44px; pointer-events:none; z-index:1;"></div>
+
+          <!-- HERO content layer -->
+          <div id="gs-hero-layer" style="position:absolute; inset:0; display:flex; flex-direction:column; justify-content:center; padding-left:clamp(48px,6.5vw,140px); padding-right:clamp(40px,5vw,90px); z-index:3; will-change:opacity,filter;">
+          <div style="max-width:920px;">
+            <span class="pe-el" style="display:inline-block; font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(11px,0.9vw,15px); letter-spacing:0.26em; text-transform:uppercase; color:rgba(199,255,224,0.55); opacity:0; transform:translateY(22px); transition:opacity 0.8s cubic-bezier(0.16,1,0.3,1) 0.18s, transform 0.8s cubic-bezier(0.16,1,0.3,1) 0.18s;">Services</span>
+            <h1 class="pe-el" style="margin:clamp(12px,1.6vh,20px) 0 0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(40px,5.4vw,92px); line-height:1.03; letter-spacing:-0.01em; text-wrap:balance; text-shadow:0 4px 32px rgba(31,98,255,0.40); opacity:0; transform:translateY(26px); transition:opacity 0.85s cubic-bezier(0.16,1,0.3,1) 0.28s, transform 0.85s cubic-bezier(0.16,1,0.3,1) 0.28s;">Global Staffing</h1>
+            <p class="pe-el" style="margin:clamp(14px,1.8vh,22px) 0 0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#9DEBC2; font-size:clamp(19px,2vw,32px); line-height:1.15; letter-spacing:-0.01em; opacity:0; transform:translateY(26px); transition:opacity 0.85s cubic-bezier(0.16,1,0.3,1) 0.36s, transform 0.85s cubic-bezier(0.16,1,0.3,1) 0.36s;">Empower your team with global talent.</p>
+            <p class="pe-el" style="margin:clamp(18px,2.4vh,30px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:#C7FFE0; font-size:clamp(15px,1.45vw,23px); line-height:1.5; text-wrap:pretty; opacity:0; transform:translateY(26px); transition:opacity 0.85s cubic-bezier(0.16,1,0.3,1) 0.44s, transform 0.85s cubic-bezier(0.16,1,0.3,1) 0.44s;">At DevSavant, we make scaling your business simple, strategic, and impactful. Our Staff Augmentation service connects you with exceptional LATAM professionals who integrate seamlessly into your team. Whether you&rsquo;re expanding development capacity, accelerating timelines, or reinforcing operations, we deliver high-impact talent&mdash;fast.</p>
+            <p class="pe-el" style="margin:clamp(12px,1.6vh,20px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:#C7FFE0; font-size:clamp(15px,1.45vw,23px); line-height:1.5; text-wrap:pretty; opacity:0; transform:translateY(26px); transition:opacity 0.85s cubic-bezier(0.16,1,0.3,1) 0.52s, transform 0.85s cubic-bezier(0.16,1,0.3,1) 0.52s;">You&rsquo;ll receive fully vetted candidates within two weeks, selected not just for what they know, but for how they think, act, and grow. You remain in full control of management and performance, while we ensure you&rsquo;re equipped with professionals primed for long-term success in dynamic and high-trust environments.</p>
+            <div class="pe-el" style="display:flex; align-items:center; gap:clamp(20px,2.4vw,38px); flex-wrap:wrap; margin-top:clamp(24px,3.4vh,44px); opacity:0; transform:translateY(26px); transition:opacity 0.85s cubic-bezier(0.16,1,0.3,1) 0.62s, transform 0.85s cubic-bezier(0.16,1,0.3,1) 0.62s;">
+              <a href="#" style="display:inline-flex; align-items:center; gap:14px; background:#CCFFCE; color:#18282C; font-family:'Inter',sans-serif; font-weight:700; text-transform:uppercase; font-size:clamp(15px,1.4vw,22px); letter-spacing:0.045em; padding:13px 26px; text-decoration:none; box-shadow:0 0 44px rgba(150,255,170,0.28); transition:transform .2s ease, box-shadow .2s ease;" style-hover="transform:translateY(-2px); box-shadow:0 0 60px rgba(150,255,170,0.45);">Build Your Team <span style="font-weight:700;font-size:1.05em;">&#8594;</span></a>
+              <a href="#" onclick="{{ onHome }}" style="font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.6); font-size:clamp(13px,1.1vw,17px); text-decoration:none; letter-spacing:0.04em; display:inline-flex; align-items:center; gap:8px; transition:color .2s ease;" style-hover="color:#C7FFE0;"><span style="font-size:1.1em;">&#8592;</span> Back to Home</a>
+            </div>
+          </div>
+          </div><!-- /gs-hero-layer -->
+
+          <div id="gs-scroll">
+
+            <!-- ══════════ SECTION 1 · WHY GLOBAL TALENT WORKS BETTER ══════════ -->
+            <div class="pe-sec" id="gs-sec-1">
+              <div class="gs-hl" id="gs-s1-hl" style="position:absolute; left:2%; top:4%; width:96%; height:18%; display:flex; flex-direction:column; justify-content:center; gap:clamp(8px,1.2vh,16px); opacity:0; pointer-events:none; z-index:2;">
+                <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(30px,3.6vw,64px); line-height:1.0; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.35);">Why Global Talent Works Better</h2>
+                <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:#C7FFE0; font-size:clamp(14px,1.15vw,20px); line-height:1.5; text-wrap:pretty; max-width:760px;">Why global talent is better for startups.</p>
+              </div>
+              <div class="gs-card" id="gs-s1-c1" style="position:absolute; left:2%; top:24%; width:47%; height:34%; padding:clamp(18px,1.8vw,32px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; display:flex; flex-direction:column; gap:clamp(8px,1vh,14px); opacity:0; pointer-events:none; z-index:2; box-sizing:border-box;">
+                <div style="display:flex; align-items:flex-start; justify-content:space-between;">
+                  <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"></circle><path d="M18.09 10.37A6 6 0 1 1 10.34 18"></path><path d="M7 6h1v4"></path><path d="m16.71 13.88.7.71-2.82 2.82"></path></svg>
+                  <span style="font-family:'Space Grotesk',sans-serif; font-weight:500; font-size:clamp(40px,4.5vw,76px); line-height:1; color:rgba(255,255,255,0.06); letter-spacing:-0.03em; user-select:none;">01</span>
+                </div>
+                <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(15px,1.5vw,24px); line-height:1.2;">Global Cost Efficiency</h3>
+                <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.72); font-size:clamp(12px,0.9vw,15px); line-height:1.6; text-wrap:pretty;">Build stronger teams while optimizing your budget. Access competitive talent across LATAM and Asia without sacrificing experience, quality, or performance.</p>
+              </div>
+              <div class="gs-card" id="gs-s1-c2" style="position:absolute; left:51%; top:24%; width:47%; height:34%; padding:clamp(18px,1.8vw,32px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; display:flex; flex-direction:column; gap:clamp(8px,1vh,14px); opacity:0; pointer-events:none; z-index:2; box-sizing:border-box;">
+                <div style="display:flex; align-items:flex-start; justify-content:space-between;">
+                  <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M18 21a8 8 0 0 0-16 0"></path><circle cx="10" cy="8" r="5"></circle><path d="M22 20c0-3.37-2-6.5-4-8a5 5 0 0 0-.45-8.3"></path></svg>
+                  <span style="font-family:'Space Grotesk',sans-serif; font-weight:500; font-size:clamp(40px,4.5vw,76px); line-height:1; color:rgba(255,255,255,0.06); letter-spacing:-0.03em; user-select:none;">02</span>
+                </div>
+                <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(15px,1.5vw,24px); line-height:1.2;">Cultural and Operational Alignment</h3>
+                <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.72); font-size:clamp(12px,0.9vw,15px); line-height:1.6; text-wrap:pretty;">Every professional is vetted for communication, ownership, autonomy, and alignment with US startup culture. This ensures seamless collaboration and smooth integration from day one.</p>
+              </div>
+              <div class="gs-card" id="gs-s1-c3" style="position:absolute; left:2%; top:62%; width:47%; height:34%; padding:clamp(18px,1.8vw,32px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; display:flex; flex-direction:column; gap:clamp(8px,1vh,14px); opacity:0; pointer-events:none; z-index:2; box-sizing:border-box;">
+                <div style="display:flex; align-items:flex-start; justify-content:space-between;">
+                  <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                  <span style="font-family:'Space Grotesk',sans-serif; font-weight:500; font-size:clamp(40px,4.5vw,76px); line-height:1; color:rgba(255,255,255,0.06); letter-spacing:-0.03em; user-select:none;">03</span>
+                </div>
+                <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(15px,1.5vw,24px); line-height:1.2;">Time Zone Coverage for Your Workflow</h3>
+                <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.72); font-size:clamp(12px,0.9vw,15px); line-height:1.6; text-wrap:pretty;">Combine nearshore talent in LATAM for real-time collaboration with extended hour coverage in Asia for faster delivery cycles, continuous progress, and stronger support operations.</p>
+              </div>
+              <div class="gs-card" id="gs-s1-c4" style="position:absolute; left:51%; top:62%; width:47%; height:34%; padding:clamp(18px,1.8vw,32px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; display:flex; flex-direction:column; gap:clamp(8px,1vh,14px); opacity:0; pointer-events:none; z-index:2; box-sizing:border-box;">
+                <div style="display:flex; align-items:flex-start; justify-content:space-between;">
+                  <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"></path><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"></path><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"></path></svg>
+                  <span style="font-family:'Space Grotesk',sans-serif; font-weight:500; font-size:clamp(40px,4.5vw,76px); line-height:1; color:rgba(255,255,255,0.06); letter-spacing:-0.03em; user-select:none;">04</span>
+                </div>
+                <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(15px,1.5vw,24px); line-height:1.2;">Scalable Teams at Every Stage</h3>
+                <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.72); font-size:clamp(12px,0.9vw,15px); line-height:1.6; text-wrap:pretty;">Quickly ramp up engineering, QA, data, AI, and support teams with specialists used to working in fast-paced, high-trust environments. Add capacity in days, stay ahead of your roadmap, and scale with confidence.</p>
+              </div>
+            </div><!-- /gs-sec-1 -->
+
+            <!-- ══════════ SECTION 2 · WHY DEVSAVANT ══════════ -->
+            <div class="pe-sec" id="gs-sec-2">
+              <div class="gs-hl" id="gs-s2-hl" style="position:absolute; left:2%; top:4%; width:96%; height:16%; display:flex; flex-direction:column; justify-content:center; gap:clamp(6px,1vh,12px); opacity:0; pointer-events:none; z-index:2;">
+                <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(30px,3.6vw,64px); line-height:1.0; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.35);">Why DevSavant?</h2>
+              </div>
+              <div class="gs-card" id="gs-s2-c1" style="position:absolute; left:2%; top:24%; width:47.5%; height:34%; padding:clamp(20px,2vw,38px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; display:flex; flex-direction:column; justify-content:center; gap:clamp(10px,1.4vh,18px); opacity:0; pointer-events:none; z-index:2; box-sizing:border-box;">
+                <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path><path d="m8.5 11 2 2 3.5-3.5"></path></svg>
+                <div style="display:flex; flex-direction:column; gap:clamp(6px,0.9vh,12px);">
+                  <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(20px,2vw,32px); line-height:1.12;">Vetting Beyond Skills</h3>
+                  <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.74); font-size:clamp(14px,1.05vw,18px); line-height:1.55; text-wrap:pretty;">Our recruitment goes deep&mdash;carefully vetted against our 6-step framework, the Startup Profiles program, we deliver top talent in just 2 weeks.</p>
+                </div>
+              </div>
+              <div class="gs-card" id="gs-s2-c2" style="position:absolute; left:50.5%; top:24%; width:47.5%; height:34%; padding:clamp(20px,2vw,38px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; display:flex; flex-direction:column; justify-content:center; gap:clamp(10px,1.4vh,18px); opacity:0; pointer-events:none; z-index:2; box-sizing:border-box;">
+                <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12V8H6a2 2 0 0 1-2-2c0-1.1.9-2 2-2h12v4"></path><path d="M4 6v12c0 1.1.9 2 2 2h14v-4"></path><path d="M18 12a2 2 0 0 0 0 4h4v-4Z"></path></svg>
+                <div style="display:flex; flex-direction:column; gap:clamp(6px,0.9vh,12px);">
+                  <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(20px,2vw,32px); line-height:1.12;">Clear, Transparent Pricing</h3>
+                  <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.74); font-size:clamp(14px,1.05vw,18px); line-height:1.55; text-wrap:pretty;">You pay a fixed monthly rate that includes compensation, a flat service fee, and a modest margin. No surprises. Cost-saving of circa 50% vs US hires.</p>
+                </div>
+              </div>
+              <div class="gs-card" id="gs-s2-c3" style="position:absolute; left:2%; top:62%; width:47.5%; height:34%; padding:clamp(20px,2vw,38px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; display:flex; flex-direction:column; justify-content:center; gap:clamp(10px,1.4vh,18px); opacity:0; pointer-events:none; z-index:2; box-sizing:border-box;">
+                <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 16V7a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v9m16 0H4m16 0 1.28 2.55a1 1 0 0 1-.9 1.45H3.62a1 1 0 0 1-.9-1.45L4 16"></path></svg>
+                <div style="display:flex; flex-direction:column; gap:clamp(6px,0.9vh,12px);">
+                  <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(20px,2vw,32px); line-height:1.12;">Workstation Ready</h3>
+                  <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.74); font-size:clamp(14px,1.05vw,18px); line-height:1.55; text-wrap:pretty;">Collaborators are equipped with high-performance laptops, and optional MDM security for added protection.</p>
+                </div>
+              </div>
+              <div class="gs-card" id="gs-s2-c4" style="position:absolute; left:50.5%; top:62%; width:47.5%; height:34%; padding:clamp(20px,2vw,38px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; display:flex; flex-direction:column; justify-content:center; gap:clamp(10px,1.4vh,18px); opacity:0; pointer-events:none; z-index:2; box-sizing:border-box;">
+                <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"></path></svg>
+                <div style="display:flex; flex-direction:column; gap:clamp(6px,0.9vh,12px);">
+                  <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(20px,2vw,32px); line-height:1.12;">Constant Communication</h3>
+                  <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.74); font-size:clamp(14px,1.05vw,18px); line-height:1.55; text-wrap:pretty;">Our team stays in close contact with you, providing regular updates, check-ins, and support to ensure a seamless integration. 75% retention rate (turnover costs a business min 50% of the FT salary).</p>
+                </div>
+              </div>
+            </div><!-- /gs-sec-2 -->
+
+            <!-- ══════════ SECTION 3 · STARTUP PROFILES PROGRAM ══════════ -->
+            <div class="pe-sec" id="gs-sec-3">
+              <div class="gs-hl" id="gs-s3-hl" style="position:absolute; left:2%; top:3%; width:96%; height:17%; display:flex; flex-direction:column; justify-content:center; gap:clamp(6px,1vh,12px); opacity:0; pointer-events:none; z-index:2;">
+                <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(28px,3.3vw,58px); line-height:1.0; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.35);">Meet The Startup Profiles Program</h2>
+                <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:#C7FFE0; font-size:clamp(13px,1.05vw,18px); line-height:1.5; text-wrap:pretty; max-width:980px;">At the heart of our talent acquisition process is DevSavant&rsquo;s Startup Profiles program, a proprietary framework that sources collaborators with the skills, mindset, and behaviors that elevate your team. Every candidate is evaluated across five critical behavioral rubrics:</p>
+              </div>
+              <div class="gs-bar" id="gs-rub-0" style="position:absolute; left:2%; top:22%; width:96%; height:11.5%; padding:clamp(12px,1.3vw,20px) clamp(20px,2.2vw,34px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:18px; display:flex; align-items:center; gap:clamp(16px,2vw,34px); opacity:0; pointer-events:none; z-index:2; box-sizing:border-box;">
+                <span style="flex-shrink:0; font-family:'Space Grotesk',sans-serif; font-weight:500; font-size:clamp(24px,2.4vw,40px); line-height:1; color:rgba(157,235,194,0.30);">1</span>
+                <h3 style="flex:0 0 30%; margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#9DEBC2; font-size:clamp(16px,1.6vw,26px); line-height:1.12;">Adaptability</h3>
+                <p style="flex:1; margin:0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.74); font-size:clamp(12px,1vw,17px); line-height:1.5; text-wrap:pretty;">Ability to stay effective in changing conditions, shift priorities with ease, and remain resilient under pressure.</p>
+              </div>
+              <div class="gs-bar" id="gs-rub-1" style="position:absolute; left:2%; top:35.3%; width:96%; height:11.5%; padding:clamp(12px,1.3vw,20px) clamp(20px,2.2vw,34px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:18px; display:flex; align-items:center; gap:clamp(16px,2vw,34px); opacity:0; pointer-events:none; z-index:2; box-sizing:border-box;">
+                <span style="flex-shrink:0; font-family:'Space Grotesk',sans-serif; font-weight:500; font-size:clamp(24px,2.4vw,40px); line-height:1; color:rgba(157,235,194,0.30);">2</span>
+                <h3 style="flex:0 0 30%; margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#9DEBC2; font-size:clamp(16px,1.6vw,26px); line-height:1.12;">Continuous Learning</h3>
+                <p style="flex:1; margin:0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.74); font-size:clamp(12px,1vw,17px); line-height:1.5; text-wrap:pretty;">Demonstrates curiosity, actively seeks feedback, and pursues opportunities to grow and upskill.</p>
+              </div>
+              <div class="gs-bar" id="gs-rub-2" style="position:absolute; left:2%; top:48.6%; width:96%; height:11.5%; padding:clamp(12px,1.3vw,20px) clamp(20px,2.2vw,34px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:18px; display:flex; align-items:center; gap:clamp(16px,2vw,34px); opacity:0; pointer-events:none; z-index:2; box-sizing:border-box;">
+                <span style="flex-shrink:0; font-family:'Space Grotesk',sans-serif; font-weight:500; font-size:clamp(24px,2.4vw,40px); line-height:1; color:rgba(157,235,194,0.30);">3</span>
+                <h3 style="flex:0 0 30%; margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#9DEBC2; font-size:clamp(16px,1.6vw,26px); line-height:1.12;">Initiative &amp; Autonomy</h3>
+                <p style="flex:1; margin:0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.74); font-size:clamp(12px,1vw,17px); line-height:1.5; text-wrap:pretty;">Takes ownership, anticipates problems, and contributes proactively without needing constant direction.</p>
+              </div>
+              <div class="gs-bar" id="gs-rub-3" style="position:absolute; left:2%; top:61.9%; width:96%; height:11.5%; padding:clamp(12px,1.3vw,20px) clamp(20px,2.2vw,34px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:18px; display:flex; align-items:center; gap:clamp(16px,2vw,34px); opacity:0; pointer-events:none; z-index:2; box-sizing:border-box;">
+                <span style="flex-shrink:0; font-family:'Space Grotesk',sans-serif; font-weight:500; font-size:clamp(24px,2.4vw,40px); line-height:1; color:rgba(157,235,194,0.30);">4</span>
+                <h3 style="flex:0 0 30%; margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#9DEBC2; font-size:clamp(16px,1.6vw,26px); line-height:1.12;">Communication</h3>
+                <p style="flex:1; margin:0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.74); font-size:clamp(12px,1vw,17px); line-height:1.5; text-wrap:pretty;">Communicates clearly and purposefully&mdash;whether collaborating with peers or reporting to stakeholders.</p>
+              </div>
+              <div class="gs-bar" id="gs-rub-4" style="position:absolute; left:2%; top:75.2%; width:96%; height:11.5%; padding:clamp(12px,1.3vw,20px) clamp(20px,2.2vw,34px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:18px; display:flex; align-items:center; gap:clamp(16px,2vw,34px); opacity:0; pointer-events:none; z-index:2; box-sizing:border-box;">
+                <span style="flex-shrink:0; font-family:'Space Grotesk',sans-serif; font-weight:500; font-size:clamp(24px,2.4vw,40px); line-height:1; color:rgba(157,235,194,0.30);">5</span>
+                <h3 style="flex:0 0 30%; margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#9DEBC2; font-size:clamp(16px,1.6vw,26px); line-height:1.12;">People Development</h3>
+                <p style="flex:1; margin:0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.74); font-size:clamp(12px,1vw,17px); line-height:1.5; text-wrap:pretty;">Shares knowledge, supports peers, and contributes to a positive team culture by helping others succeed.</p>
+              </div>
+              <div id="gs-s3-foot" style="position:absolute; left:2%; top:88%; width:96%; height:11%; display:flex; align-items:center; opacity:0; pointer-events:none; z-index:2;">
+                <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.62); font-size:clamp(11px,0.92vw,15px); line-height:1.5; text-wrap:pretty;">What truly sets DevSavant talent apart is their <span style="color:#C7FFE0;">mindset</span> &mdash; a clear Growth Mindset and intrinsic <span style="color:#C7FFE0;">Drive</span> to keep going through ambiguity and adversity. It&rsquo;s why our collaborators consistently contribute beyond the job description.</p>
+              </div>
+            </div><!-- /gs-sec-3 -->
+
+            <!-- ══════════ SECTION 4 · THE STARTUP PROFILES DIFFERENCE ══════════ -->
+            <div class="pe-sec" id="gs-sec-4">
+              <div class="gs-hl" id="gs-s4-hl" style="position:absolute; left:2%; top:4%; width:96%; height:14%; display:flex; flex-direction:column; justify-content:center; gap:clamp(6px,1vh,12px); opacity:0; pointer-events:none; z-index:2;">
+                <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(28px,3.4vw,60px); line-height:1.0; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.35);">The Startup Profiles Difference</h2>
+              </div>
+              <div class="gs-card" id="gs-radar-card" style="position:absolute; left:2%; top:22%; width:96%; height:75%; padding:clamp(20px,2vw,40px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; display:flex; flex-direction:column; align-items:center; gap:clamp(8px,1.4vh,20px); opacity:0; pointer-events:none; z-index:2; box-sizing:border-box;">
+                <div style="display:flex; align-items:center; justify-content:center; gap:clamp(20px,3vw,52px); flex-wrap:wrap;">
+                  <span style="display:inline-flex; align-items:center; gap:10px; font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(12px,1vw,17px); color:#C7FFE0;"><span style="width:14px; height:14px; border-radius:50%; background:#8FE9BE; display:inline-block;"></span>Startup Profiles</span>
+                  <span style="display:inline-flex; align-items:center; gap:10px; font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(12px,1vw,17px); color:#C7FFE0;"><span style="width:14px; height:14px; border-radius:50%; background:#1E9E76; display:inline-block;"></span>Baseline Profiles</span>
+                </div>
+                <div id="gs-radar-holder" style="flex:1; width:100%; min-height:0; display:flex; align-items:center; justify-content:center;"></div>
+              </div>
+            </div><!-- /gs-sec-4 -->
+
+            <!-- ══════════ SECTION 5 · OUR PROCESS ══════════ -->
+            <div class="pe-sec" id="gs-sec-5">
+              <div class="gs-hl" id="gs-s5-hl" style="position:absolute; left:2%; top:4%; width:96%; height:18%; display:flex; flex-direction:column; justify-content:center; gap:clamp(6px,1vh,12px); opacity:0; pointer-events:none; z-index:2;">
+                <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(30px,3.6vw,64px); line-height:1.0; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.35);">Our Process</h2>
+                <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:#C7FFE0; font-size:clamp(14px,1.15vw,20px); line-height:1.5; text-wrap:pretty; max-width:820px;">How we deliver top LATAM talent &mdash; a proven process that ensures you get the best results, every time.</p>
+              </div>
+              <div class="gs-card" id="gs-s5-c1" style="position:absolute; left:2%; top:24%; width:47%; height:34%; padding:clamp(18px,1.8vw,32px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; display:flex; flex-direction:column; gap:clamp(8px,1vh,14px); opacity:0; pointer-events:none; z-index:2; box-sizing:border-box;">
+                <div style="display:flex; align-items:flex-start; justify-content:space-between;">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect width="8" height="4" x="8" y="2" rx="1"></rect><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><path d="M9 14h6"></path><path d="M9 18h4"></path></svg>
+                  <span style="font-family:'Space Grotesk',sans-serif; font-weight:500; font-size:clamp(36px,4vw,66px); line-height:1; color:rgba(255,255,255,0.06); letter-spacing:-0.03em; user-select:none;">1</span>
+                </div>
+                <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(17px,1.7vw,28px); line-height:1.14;">Needs Analysis</h3>
+                <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.72); font-size:clamp(12px,0.92vw,16px); line-height:1.55; text-wrap:pretty;">We collaborate with you to understand your goals, technical requirements, and team dynamics.</p>
+              </div>
+              <div class="gs-card" id="gs-s5-c2" style="position:absolute; left:51%; top:24%; width:47%; height:34%; padding:clamp(18px,1.8vw,32px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; display:flex; flex-direction:column; gap:clamp(8px,1vh,14px); opacity:0; pointer-events:none; z-index:2; box-sizing:border-box;">
+                <div style="display:flex; align-items:flex-start; justify-content:space-between;">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
+                  <span style="font-family:'Space Grotesk',sans-serif; font-weight:500; font-size:clamp(36px,4vw,66px); line-height:1; color:rgba(255,255,255,0.06); letter-spacing:-0.03em; user-select:none;">2</span>
+                </div>
+                <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(17px,1.7vw,28px); line-height:1.14;">Talent Sourcing</h3>
+                <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.72); font-size:clamp(12px,0.92vw,16px); line-height:1.55; text-wrap:pretty;">We tap into our curated LATAM network and apply our Startup Profiles and mindset filters to shortlist ideal candidates.</p>
+              </div>
+              <div class="gs-card" id="gs-s5-c3" style="position:absolute; left:2%; top:62%; width:47%; height:34%; padding:clamp(18px,1.8vw,32px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; display:flex; flex-direction:column; gap:clamp(8px,1vh,14px); opacity:0; pointer-events:none; z-index:2; box-sizing:border-box;">
+                <div style="display:flex; align-items:flex-start; justify-content:space-between;">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="m22 11-3 3-1.5-1.5"></path></svg>
+                  <span style="font-family:'Space Grotesk',sans-serif; font-weight:500; font-size:clamp(36px,4vw,66px); line-height:1; color:rgba(255,255,255,0.06); letter-spacing:-0.03em; user-select:none;">3</span>
+                </div>
+                <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(17px,1.7vw,28px); line-height:1.14;">Onboarding</h3>
+                <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.72); font-size:clamp(12px,0.92vw,16px); line-height:1.55; text-wrap:pretty;">We take care of contracts, equipment, and onboarding logistics for a smooth launch.</p>
+              </div>
+              <div class="gs-card" id="gs-s5-c4" style="position:absolute; left:51%; top:62%; width:47%; height:34%; padding:clamp(18px,1.8vw,32px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; display:flex; flex-direction:column; gap:clamp(8px,1vh,14px); opacity:0; pointer-events:none; z-index:2; box-sizing:border-box;">
+                <div style="display:flex; align-items:flex-start; justify-content:space-between;">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>
+                  <span style="font-family:'Space Grotesk',sans-serif; font-weight:500; font-size:clamp(36px,4vw,66px); line-height:1; color:rgba(255,255,255,0.06); letter-spacing:-0.03em; user-select:none;">4</span>
+                </div>
+                <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(17px,1.7vw,28px); line-height:1.14;">Ongoing Support</h3>
+                <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.72); font-size:clamp(12px,0.92vw,16px); line-height:1.55; text-wrap:pretty;">You lead your team&rsquo;s day-to-day. We stay available to help if adjustments or additional talent are needed.</p>
+              </div>
+            </div><!-- /gs-sec-5 -->
+
+            <!-- ══════════ SECTION 6 · BACKED BY PEOPLE, PROVEN BY DATA ══════════ -->
+            <div class="pe-sec" id="gs-sec-6">
+              <div class="gs-hl" id="gs-s6-hl" style="position:absolute; left:2%; top:5%; width:96%; height:18%; display:flex; flex-direction:column; justify-content:center; gap:clamp(6px,1vh,12px); opacity:0; pointer-events:none; z-index:2;">
+                <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(30px,3.6vw,64px); line-height:1.0; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.35);">Backed by People, Proven by Data</h2>
+              </div>
+              <div class="gs-card" id="gs-s6-c1" style="position:absolute; left:2%; top:30%; width:31.3%; height:60%; padding:clamp(24px,2.4vw,44px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; display:flex; flex-direction:column; justify-content:center; gap:clamp(10px,1.6vh,20px); opacity:0; pointer-events:none; z-index:2; box-sizing:border-box;">
+                <span style="font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(40px,4.4vw,84px); line-height:1; letter-spacing:-0.02em;">+500</span>
+                <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#9DEBC2; font-size:clamp(17px,1.6vw,26px); line-height:1.15;">Successful Hires</h3>
+                <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.72); font-size:clamp(13px,1vw,17px); line-height:1.55; text-wrap:pretty;">Trusted by B2B SaaS companies to scale with top LATAM talent.</p>
+              </div>
+              <div class="gs-card" id="gs-s6-c2" style="position:absolute; left:34.35%; top:30%; width:31.3%; height:60%; padding:clamp(24px,2.4vw,44px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; display:flex; flex-direction:column; justify-content:center; gap:clamp(10px,1.6vh,20px); opacity:0; pointer-events:none; z-index:2; box-sizing:border-box;">
+                <span style="font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(40px,4.4vw,84px); line-height:1; letter-spacing:-0.02em;">20 Months</span>
+                <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#9DEBC2; font-size:clamp(17px,1.6vw,26px); line-height:1.15;">Average Tenure</h3>
+                <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.72); font-size:clamp(13px,1vw,17px); line-height:1.55; text-wrap:pretty;">Our collaborators stay longer because we focus on fit, performance, and retention.</p>
+              </div>
+              <div class="gs-card" id="gs-s6-c3" style="position:absolute; left:66.7%; top:30%; width:31.3%; height:60%; padding:clamp(24px,2.4vw,44px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; display:flex; flex-direction:column; justify-content:center; gap:clamp(10px,1.6vh,20px); opacity:0; pointer-events:none; z-index:2; box-sizing:border-box;">
+                <span style="font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(40px,4.4vw,84px); line-height:1; letter-spacing:-0.02em;">Up to 50%</span>
+                <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#9DEBC2; font-size:clamp(17px,1.6vw,26px); line-height:1.15;">Cost Savings</h3>
+                <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.72); font-size:clamp(13px,1vw,17px); line-height:1.55; text-wrap:pretty;">Compared to U.S.-based labor costs while maintaining exceptional quality.</p>
+              </div>
+            </div><!-- /gs-sec-6 -->
+
+            <!-- ══════════ SECTION 7 · GLOBAL STAFFING FAQS ══════════ -->
+            <div class="pe-sec" id="gs-sec-7">
+              <div class="gs-hl" id="gs-faq-hl" style="position:absolute; left:2%; top:4%; width:96%; height:11%; display:flex; flex-direction:column; justify-content:center; opacity:0; pointer-events:none; z-index:3;">
+                <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(28px,3.2vw,56px); line-height:1.0; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.35);">Global Staffing FAQs</h2>
+              </div>
+              <div id="gs-faq-clip" style="position:absolute; left:2%; top:16%; width:96%; height:82%; overflow:hidden; pointer-events:none; z-index:4;">
+                <div id="gs-faq-items" style="position:absolute; top:0; left:0; right:0; display:flex; flex-direction:column; gap:clamp(8px,1.0vh,12px);">
+                  <div class="faq-item" data-idx="0" style="padding:clamp(14px,1.5vw,22px) clamp(20px,2.2vw,32px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.12); border-radius:18px; cursor:pointer; opacity:0;"><div class="faq-header" style="display:flex; align-items:center; justify-content:space-between; gap:20px;"><span style="font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(15px,1.25vw,20px); line-height:1.3;">Do the engineers work in my timezone?</span><span class="faq-chevron" style="color:#C7FFE0; font-size:clamp(18px,1.5vw,24px); flex-shrink:0;">&#x203A;</span></div><div class="faq-body"><p style="margin:clamp(10px,1.2vh,16px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.80); font-size:clamp(13px,1.05vw,17px); line-height:1.65; text-wrap:pretty;">Yes. We align talent by timezone and availability. LATAM offers strong real-time overlap for U.S. teams, and Asia provides extended coverage for follow-the-sun execution when needed.</p></div></div>
+                  <div class="faq-item" data-idx="1" style="padding:clamp(14px,1.5vw,22px) clamp(20px,2.2vw,32px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.12); border-radius:18px; cursor:pointer; opacity:0;"><div class="faq-header" style="display:flex; align-items:center; justify-content:space-between; gap:20px;"><span style="font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(15px,1.25vw,20px); line-height:1.3;">What roles can you help us hire?</span><span class="faq-chevron" style="color:#C7FFE0; font-size:clamp(18px,1.5vw,24px); flex-shrink:0;">&#x203A;</span></div><div class="faq-body"><p style="margin:clamp(10px,1.2vh,16px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.80); font-size:clamp(13px,1.05vw,17px); line-height:1.65; text-wrap:pretty;">We support a wide range of technical and non-technical roles, including software engineers, AI and ML engineers, data specialists, QA engineers, DevOps engineers, UX and UI designers, product managers, billing analysts, accountants, and technical project managers.</p></div></div>
+                  <div class="faq-item" data-idx="2" style="padding:clamp(14px,1.5vw,22px) clamp(20px,2.2vw,32px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.12); border-radius:18px; cursor:pointer; opacity:0;"><div class="faq-header" style="display:flex; align-items:center; justify-content:space-between; gap:20px;"><span style="font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(15px,1.25vw,20px); line-height:1.3;">How does DevSavant ensure the quality of candidates?</span><span class="faq-chevron" style="color:#C7FFE0; font-size:clamp(18px,1.5vw,24px); flex-shrink:0;">&#x203A;</span></div><div class="faq-body"><p style="margin:clamp(10px,1.2vh,16px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.80); font-size:clamp(13px,1.05vw,17px); line-height:1.65; text-wrap:pretty;">Through a rigorous multi-step vetting process that evaluates technical expertise, communication, cultural alignment, and power skills. We use our proprietary Startup Profiles framework to identify professionals with the mindset and behaviors needed for high performance.</p></div></div>
+                  <div class="faq-item" data-idx="3" style="padding:clamp(14px,1.5vw,22px) clamp(20px,2.2vw,32px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.12); border-radius:18px; cursor:pointer; opacity:0;"><div class="faq-header" style="display:flex; align-items:center; justify-content:space-between; gap:20px;"><span style="font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(15px,1.25vw,20px); line-height:1.3;">What skills does DevSavant assess during the vetting process?</span><span class="faq-chevron" style="color:#C7FFE0; font-size:clamp(18px,1.5vw,24px); flex-shrink:0;">&#x203A;</span></div><div class="faq-body"><p style="margin:clamp(10px,1.2vh,16px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.80); font-size:clamp(13px,1.05vw,17px); line-height:1.65; text-wrap:pretty;">We evaluate technical strength along with key behavioral competencies such as adaptability, continuous learning, communication, initiative, autonomy, mentorship, growth mindset, and drive. These ensure candidates thrive in fast-paced environments.</p></div></div>
+                  <div class="faq-item" data-idx="4" style="padding:clamp(14px,1.5vw,22px) clamp(20px,2.2vw,32px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.12); border-radius:18px; cursor:pointer; opacity:0;"><div class="faq-header" style="display:flex; align-items:center; justify-content:space-between; gap:20px;"><span style="font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(15px,1.25vw,20px); line-height:1.3;">Can I interview candidates before they join my team?</span><span class="faq-chevron" style="color:#C7FFE0; font-size:clamp(18px,1.5vw,24px); flex-shrink:0;">&#x203A;</span></div><div class="faq-body"><p style="margin:clamp(10px,1.2vh,16px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.80); font-size:clamp(13px,1.05vw,17px); line-height:1.65; text-wrap:pretty;">Yes. After our initial vetting, we present a curated shortlist, and you interview the candidates directly. This allows you to confirm technical depth, communication, and cultural fit before making a final decision.</p></div></div>
+                  <div class="faq-item" data-idx="5" style="padding:clamp(14px,1.5vw,22px) clamp(20px,2.2vw,32px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.12); border-radius:18px; cursor:pointer; opacity:0;"><div class="faq-header" style="display:flex; align-items:center; justify-content:space-between; gap:20px;"><span style="font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(15px,1.25vw,20px); line-height:1.3;">How does DevSavant align candidates with my specific needs?</span><span class="faq-chevron" style="color:#C7FFE0; font-size:clamp(18px,1.5vw,24px); flex-shrink:0;">&#x203A;</span></div><div class="faq-body"><p style="margin:clamp(10px,1.2vh,16px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.80); font-size:clamp(13px,1.05vw,17px); line-height:1.65; text-wrap:pretty;">We take time to understand your product, tech stack, culture, team structure, and expectations. This allows us to match you with professionals whose experience and work style align with your long-term goals.</p></div></div>
+                  <div class="faq-item" data-idx="6" style="padding:clamp(14px,1.5vw,22px) clamp(20px,2.2vw,32px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.12); border-radius:18px; cursor:pointer; opacity:0;"><div class="faq-header" style="display:flex; align-items:center; justify-content:space-between; gap:20px;"><span style="font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(15px,1.25vw,20px); line-height:1.3;">How fast can we start interviewing candidates?</span><span class="faq-chevron" style="color:#C7FFE0; font-size:clamp(18px,1.5vw,24px); flex-shrink:0;">&#x203A;</span></div><div class="faq-body"><p style="margin:clamp(10px,1.2vh,16px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.80); font-size:clamp(13px,1.05vw,17px); line-height:1.65; text-wrap:pretty;">Most clients begin interviewing within one to two weeks. For urgent roles, we can accelerate the sourcing and vetting process, depending on the role&rsquo;s complexity and required seniority.</p></div></div>
+                  <div class="faq-item" data-idx="7" style="padding:clamp(14px,1.5vw,22px) clamp(20px,2.2vw,32px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.12); border-radius:18px; cursor:pointer; opacity:0;"><div class="faq-header" style="display:flex; align-items:center; justify-content:space-between; gap:20px;"><span style="font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(15px,1.25vw,20px); line-height:1.3;">What happens after a candidate is onboarded?</span><span class="faq-chevron" style="color:#C7FFE0; font-size:clamp(18px,1.5vw,24px); flex-shrink:0;">&#x203A;</span></div><div class="faq-body"><p style="margin:clamp(10px,1.2vh,16px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.80); font-size:clamp(13px,1.05vw,17px); line-height:1.65; text-wrap:pretty;">Our support continues well beyond hiring. We conduct regular check-ins, gather feedback, address integration or performance challenges, and ensure both you and the collaborator have what you need for long-term success.</p></div></div>
+                  <div class="faq-item" data-idx="8" style="padding:clamp(14px,1.5vw,22px) clamp(20px,2.2vw,32px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.12); border-radius:18px; cursor:pointer; opacity:0;"><div class="faq-header" style="display:flex; align-items:center; justify-content:space-between; gap:20px;"><span style="font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(15px,1.25vw,20px); line-height:1.3;">What if a collaborator is not performing as expected?</span><span class="faq-chevron" style="color:#C7FFE0; font-size:clamp(18px,1.5vw,24px); flex-shrink:0;">&#x203A;</span></div><div class="faq-body"><p style="margin:clamp(10px,1.2vh,16px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.80); font-size:clamp(13px,1.05vw,17px); line-height:1.65; text-wrap:pretty;">We step in immediately to assess the situation, provide coaching or corrective action, and replace the collaborator if necessary. Our priority is ensuring your team&rsquo;s performance and continuity.</p></div></div>
+                  <div class="faq-item" data-idx="9" style="padding:clamp(14px,1.5vw,22px) clamp(20px,2.2vw,32px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.12); border-radius:18px; cursor:pointer; opacity:0;"><div class="faq-header" style="display:flex; align-items:center; justify-content:space-between; gap:20px;"><span style="font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(15px,1.25vw,20px); line-height:1.3;">How does DevSavant handle contracts, compliance, and payments?</span><span class="faq-chevron" style="color:#C7FFE0; font-size:clamp(18px,1.5vw,24px); flex-shrink:0;">&#x203A;</span></div><div class="faq-body"><p style="margin:clamp(10px,1.2vh,16px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.80); font-size:clamp(13px,1.05vw,17px); line-height:1.65; text-wrap:pretty;">We manage all contractual and administrative processes, including compliance with local regulations. You receive a simple monthly invoice while we handle the rest.</p></div></div>
+                  <div class="faq-item" data-idx="10" style="padding:clamp(14px,1.5vw,22px) clamp(20px,2.2vw,32px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.12); border-radius:18px; cursor:pointer; opacity:0;"><div class="faq-header" style="display:flex; align-items:center; justify-content:space-between; gap:20px;"><span style="font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(15px,1.25vw,20px); line-height:1.3;">Do you offer flexible engagement models?</span><span class="faq-chevron" style="color:#C7FFE0; font-size:clamp(18px,1.5vw,24px); flex-shrink:0;">&#x203A;</span></div><div class="faq-body"><p style="margin:clamp(10px,1.2vh,16px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.80); font-size:clamp(13px,1.05vw,17px); line-height:1.65; text-wrap:pretty;">Yes. The Global Staffing model gives you flexibility to grow or reduce capacity as your roadmap and priorities evolve.</p></div></div>
+                </div>
+              </div>
+            </div><!-- /gs-sec-7 -->
+
+            <!-- ══════════ GS CTA finale ══════════ -->
+            <div id="gs-cta-content" style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:flex-start; justify-content:center; padding-left:clamp(48px,6.5vw,140px); padding-right:clamp(32px,5vw,80px); gap:clamp(24px,3.4vh,44px); opacity:0; pointer-events:none; z-index:30;">
+              <h1 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(48px,6.6vw,112px); line-height:1.0; letter-spacing:-0.02em; text-shadow:0 4px 48px rgba(10,200,120,0.35);">Ready to Scale Your Team?</h1>
+              <div style="display:flex; align-items:center; gap:clamp(16px,2vw,28px); flex-wrap:wrap;">
+                <a href="#" style="display:inline-flex; align-items:center; gap:14px; background:#CCFFCE; color:#18282C; font-family:'Inter',sans-serif; font-weight:700; text-transform:uppercase; font-size:clamp(14px,1.2vw,20px); letter-spacing:0.05em; padding:clamp(13px,1.5vh,18px) clamp(28px,2.8vw,44px); text-decoration:none; box-shadow:0 0 52px rgba(150,255,170,0.32); transition:transform .2s ease,box-shadow .2s ease;" style-hover="transform:translateY(-3px);box-shadow:0 0 72px rgba(150,255,170,0.50);">Schedule a Call <span style="font-weight:700;font-size:1.1em;">&#8594;</span></a>
+              </div>
+              <div style="display:flex; align-items:center; gap:clamp(24px,3.5vw,52px); margin-top:clamp(6px,1.2vh,16px);">
+                <a href="#" style="display:flex; flex-direction:column; align-items:center; gap:10px; text-decoration:none; opacity:0.70; transition:opacity .2s;" style-hover="opacity:1;">
+                  <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="rgba(199,255,224,0.10)"/><path d="M10 13h3v9h-3v-9zm1.5-4.5a1.5 1.5 0 110 3 1.5 1.5 0 010-3zM15 13h2.9v1.3h.04C18.44 13.5 19.5 13 20.7 13c3 0 3.3 2 3.3 4.5V22h-3v-4c0-1 0-2.3-1.4-2.3-1.4 0-1.6 1.1-1.6 2.2V22h-3v-9z" fill="#C7FFE0"/></svg>
+                </a>
+                <a href="#" style="display:flex; flex-direction:column; align-items:center; gap:10px; text-decoration:none; opacity:0.70; transition:opacity .2s;" style-hover="opacity:1;">
+                  <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="rgba(199,255,224,0.10)"/><path d="M16 8a6 6 0 016 6c0 4-6 10-6 10S10 18 10 14a6 6 0 016-6zm0 4a2 2 0 100 4 2 2 0 000-4z" fill="#C7FFE0"/></svg>
+                </a>
+                <a href="mailto:hello@devsavant.com" style="display:flex; flex-direction:column; align-items:center; gap:10px; text-decoration:none; opacity:0.70; transition:opacity .2s;" style-hover="opacity:1;">
+                  <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="rgba(199,255,224,0.10)"/><rect x="8" y="10" width="16" height="12" rx="2" stroke="#C7FFE0" stroke-width="1.5" fill="none"/><path d="M8 12l8 6 8-6" stroke="#C7FFE0" stroke-width="1.5" stroke-linecap="round"/></svg>
+                </a>
+                <a href="tel:+1" style="display:flex; flex-direction:column; align-items:center; gap:10px; text-decoration:none; opacity:0.70; transition:opacity .2s;" style-hover="opacity:1;">
+                  <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="rgba(199,255,224,0.10)"/><path d="M12 10h2l1 4-1.5 1.5c1 2 2.5 3.5 4.5 4.5L19.5 18l4 1v2c0 1-1 2-2 2C12 22 10 12 10 12c0-1 1-2 2-2z" fill="#C7FFE0"/></svg>
+                </a>
+              </div>
+              <a href="#" style="font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.35); font-size:clamp(11px,0.85vw,14px); text-decoration:underline; letter-spacing:0.05em; transition:color .2s;" style-hover="color:rgba(199,255,224,0.70);">Privacy Policy</a>
+            </div>
+
+          </div><!-- /gs-scroll -->
+        </div><!-- /gs-stage -->
+        <div id="gs-spacer" style="height:1500vh; flex-shrink:0;"></div>
+      </div>
+
+
+      <!-- ══════════ OUR EXPERTISE PAGE (glass card, animates in) ══════════ -->
+      <div id="oe-overlay" style="position:absolute; left:clamp(280px,24vw,400px); top:0; right:0; bottom:0; display:flex; flex-direction:column; align-items:stretch; overflow-y:auto; scrollbar-width:none; pointer-events:none; opacity:0; z-index:24; transition:opacity 0.5s ease;">
+        <div id="oe-stage" style="position:sticky; top:0; height:100vh; overflow:hidden; flex-shrink:0; opacity:0;">
+
+          <!-- SVG goo morph mask -->
+          <svg id="oe-disc-svg" style="position:absolute; inset:0; width:100%; height:100%; z-index:0; pointer-events:none;">
+            <defs>
+              <filter id="oe-goo-f" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur id="oe-gb" in="SourceGraphic" stdDeviation="1.5" result="b"></feGaussianBlur>
+                <feColorMatrix id="oe-cm" in="b" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 12 -4" result="g"></feColorMatrix>
+              </filter>
+              <mask id="oe-disc-msk" maskUnits="userSpaceOnUse" x="-200" y="-200" width="20000" height="20000">
+                <g filter="url(#oe-goo-f)" id="oe-disc-blobs"></g>
+              </mask>
+            </defs>
+          </svg>
+
+          <!-- Glass panel masked by goo -->
+          <div id="oe-disc-glass" style="position:absolute; inset:0; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); overflow:hidden; -webkit-mask:url(#oe-disc-msk); mask:url(#oe-disc-msk);"><div style="position:absolute;inset:0;pointer-events:none;opacity:0.055;filter:url(#panel-noise);background:#ffffff;"></div></div>
+
+          <!-- Hero frame -->
+          <div id="oe-hero-frame" style="position:absolute; inset:0; border-left:1px solid rgba(255,255,255,0.12); border-top:1px solid rgba(255,255,255,0.12); border-bottom:1px solid rgba(255,255,255,0.12); border-top-left-radius:44px; border-bottom-left-radius:44px; pointer-events:none; z-index:1;"></div>
+
+          <!-- HERO content layer -->
+          <div id="oe-hero-layer" style="position:absolute; inset:0; display:flex; flex-direction:column; justify-content:center; padding-left:clamp(48px,6.5vw,140px); padding-right:clamp(40px,5vw,90px); z-index:3; will-change:opacity,filter;">
+          <div style="max-width:920px;">
+            <span class="pe-el" style="display:inline-block; font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(11px,0.9vw,15px); letter-spacing:0.26em; text-transform:uppercase; color:rgba(199,255,224,0.55); opacity:0; transform:translateY(22px); transition:opacity 0.8s cubic-bezier(0.16,1,0.3,1) 0.18s, transform 0.8s cubic-bezier(0.16,1,0.3,1) 0.18s;">Our Expertise</span>
+            <h1 class="pe-el" style="margin:clamp(12px,1.6vh,20px) 0 0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(40px,5.4vw,92px); line-height:1.03; letter-spacing:-0.01em; text-wrap:balance; text-shadow:0 4px 32px rgba(31,98,255,0.40); opacity:0; transform:translateY(26px); transition:opacity 0.85s cubic-bezier(0.16,1,0.3,1) 0.28s, transform 0.85s cubic-bezier(0.16,1,0.3,1) 0.28s;">Real Stories of Impact and Innovation</h1>
+            <div class="pe-el" style="display:flex; align-items:center; gap:clamp(20px,2.4vw,38px); flex-wrap:wrap; margin-top:clamp(24px,3.4vh,44px); opacity:0; transform:translateY(26px); transition:opacity 0.85s cubic-bezier(0.16,1,0.3,1) 0.62s, transform 0.85s cubic-bezier(0.16,1,0.3,1) 0.62s;">
+              <a href="#" style="display:inline-flex; align-items:center; gap:14px; background:#CCFFCE; color:#18282C; font-family:'Inter',sans-serif; font-weight:700; text-transform:uppercase; font-size:clamp(15px,1.4vw,22px); letter-spacing:0.045em; padding:13px 26px; text-decoration:none; box-shadow:0 0 44px rgba(150,255,170,0.28); transition:transform .2s ease, box-shadow .2s ease;" style-hover="transform:translateY(-2px); box-shadow:0 0 60px rgba(150,255,170,0.45);">Contact Us <span style="font-weight:700;font-size:1.05em;">&#8594;</span></a>
+              <a href="#" onclick="{{ onHome }}" style="font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.6); font-size:clamp(13px,1.1vw,17px); text-decoration:none; letter-spacing:0.04em; display:inline-flex; align-items:center; gap:8px; transition:color .2s ease;" style-hover="color:#C7FFE0;"><span style="font-size:1.1em;">&#8592;</span> Back to Home</a>
+            </div>
+          </div>
+          </div><!-- /oe-hero-layer -->
+
+          <div id="oe-scroll">
+
+<div class="pe-sec" id="oe-sec-1">
+  <div class="oe-hl" id="oe-s1-hl" style="position:absolute; left:2%; top:3%; width:96%; height:10%; display:flex; flex-direction:column; justify-content:center; gap:clamp(6px,0.8vh,10px); opacity:0; pointer-events:none; z-index:2;">
+    <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(10px,0.85vw,14px); letter-spacing:0.24em; text-transform:uppercase; color:rgba(199,255,224,0.55);">Global Staffing</span>
+    <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(22px,2.5vw,42px); line-height:1.08; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.30); text-wrap:balance; max-width:1100px;">Fulcrum / Scaling an Engineering Team</h2>
+  </div>
+  <div class="oe-card" id="oe-s1-img" style="position:absolute; left:2%; top:16%; width:44%; height:64%; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1.5px dashed rgba(199,255,224,0.25); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; opacity:0; pointer-events:none; z-index:2;">
+    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.55;"><rect x="3" y="3" width="18" height="18" rx="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><path d="M21 15l-5-5L5 21"></path></svg>
+    <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(11px,0.85vw,14px); letter-spacing:0.08em; text-transform:uppercase; color:rgba(199,255,224,0.4); text-align:center; padding:0 20px;">Fulcrum image placeholder</span>
+  </div>
+  <div class="oe-card" id="oe-s1-prob" style="position:absolute; left:48%; top:16%; width:50%; height:20.400000000000002%; padding:clamp(16px,1.6vw,26px) clamp(20px,2vw,30px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; opacity:0; pointer-events:none; z-index:2;">
+    <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#9DEBC2; font-size:clamp(14px,1.1vw,19px); line-height:1.2; flex-shrink:0;">The Problem</h3>
+    <div class="oe-scrollbar-hide" style="flex:1; min-height:0; overflow-y:auto; scrollbar-width:none;"><p style="margin:clamp(8px,1vh,12px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.78); font-size:clamp(12.5px,0.95vw,15.5px); line-height:1.58; text-wrap:pretty;">Fulcrum, a rapidly growing B2B SaaS company in the US, faced an urgent need to scale their engineering team with skilled professionals who could align seamlessly with their in-house teams. However, finding top-tier talent within budget was challenging, and traditional offshore options had proven difficult due to time zone and communication issues. Fulcrum required a nearshore outsourcing partner who could deliver both technical expertise and cultural alignment.</p></div>
+  </div>
+  <div class="oe-card" id="oe-s1-sol" style="position:absolute; left:48%; top:37.800000000000004%; width:50%; height:20.400000000000002%; padding:clamp(16px,1.6vw,26px) clamp(20px,2vw,30px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; opacity:0; pointer-events:none; z-index:2;">
+    <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#9DEBC2; font-size:clamp(14px,1.1vw,19px); line-height:1.2; flex-shrink:0;">Our Solution</h3>
+    <div class="oe-scrollbar-hide" style="flex:1; min-height:0; overflow-y:auto; scrollbar-width:none;"><p style="margin:clamp(8px,1vh,12px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.78); font-size:clamp(12.5px,0.95vw,15.5px); line-height:1.58; text-wrap:pretty;">DevSavant adopted a consultative approach to understand Fulcrum's unique goals, team dynamics, and technical requirements. Leveraging our specialized Talent Acquisition process, we identified and recruited highly skilled LATAM-based talent in alignment with Fulcrum's timelines and budget constraints. By focusing on cultural fit and technical expertise, we ensured a smooth integration of our staff into Fulcrum's operations. This success extended beyond the engineering team as Fulcrum entrusted us with scaling additional teams in Customer Support, Operations, and Finance, establishing a truly comprehensive partnership.</p></div>
+  </div>
+  <div class="oe-card" id="oe-s1-res" style="position:absolute; left:48%; top:59.6%; width:50%; height:20.400000000000002%; padding:clamp(16px,1.6vw,26px) clamp(20px,2vw,30px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; opacity:0; pointer-events:none; z-index:2;">
+    <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#9DEBC2; font-size:clamp(14px,1.1vw,19px); line-height:1.2; flex-shrink:0;">The Results</h3>
+    <div class="oe-scrollbar-hide" style="flex:1; min-height:0; overflow-y:auto; scrollbar-width:none;"><p style="margin:clamp(8px,1vh,12px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.78); font-size:clamp(12.5px,0.95vw,15.5px); line-height:1.58; text-wrap:pretty;">The collaboration with DevSavant enabled Fulcrum to achieve accelerated growth and operational efficiency with a flexible, scalable workforce. Our nearshore team quickly became an integral part of their business, seamlessly supporting Fulcrum's objectives with agility and alignment. Our partnership has evolved into a symbiotic relationship, positioning DevSavant not just as a staffing provider but as an essential extension of the Fulcrum team.</p><p style="margin:clamp(10px,1.2vh,14px) 0 0; font-family:'Inter',sans-serif; font-weight:600; color:#E0FFEE; font-size:clamp(12.5px,0.95vw,15.5px); line-height:1.5;">Our team now represents 31% of Fulcrum’s total workforce.</p></div>
+  </div>
+  <div class="oe-testi" id="oe-s1-testi" style="position:absolute; left:2%; top:83%; width:96%; height:14%; padding:clamp(14px,1.5vw,22px) clamp(20px,2.2vw,32px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:18px; display:flex; align-items:center; gap:clamp(16px,2vw,30px); opacity:0; pointer-events:none; z-index:2; box-sizing:border-box;">
+    <div style="flex-shrink:0; font-family:'Space Grotesk',sans-serif; font-weight:500; font-size:clamp(13px,1.05vw,17px); color:#C7FFE0; letter-spacing:0.04em; background:rgba(199,255,224,0.08); border:1px solid rgba(199,255,224,0.18); border-radius:8px; padding:5px 14px; white-space:nowrap;">Fulcrum</div>
+    <p style="flex:1; margin:0; font-family:'Space Grotesk',sans-serif; font-weight:400; color:#E0FFEE; font-size:clamp(12.5px,1.05vw,17px); line-height:1.45; text-wrap:pretty;">&ldquo;Nearshore staffing solutions come with challenges. But the time zones, similar cultures, and highly fluent English speakers allow us to partner so tightly to operate without any distinction between our staff and DevSavant’s.&rdquo;</p>
+    <div style="flex-shrink:0; display:flex; flex-direction:column; gap:2px; text-align:right; max-width:220px;">
+      <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(12px,0.95vw,15px); color:#E0FFEE;">Jim Baker</span>
+      <span style="font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(10px,0.78vw,13px); color:rgba(199,255,224,0.55);">Director, Reliability and Release Engineering, Fulcrum</span>
+    </div>
+  </div>
+</div><!-- /oe-sec-1 -->
+
+<div class="pe-sec" id="oe-sec-2">
+  <div class="oe-hl" id="oe-s2-hl" style="position:absolute; left:2%; top:3%; width:96%; height:10%; display:flex; flex-direction:column; justify-content:center; gap:clamp(6px,0.8vh,10px); opacity:0; pointer-events:none; z-index:2;">
+    <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(10px,0.85vw,14px); letter-spacing:0.24em; text-transform:uppercase; color:rgba(199,255,224,0.55);">Product Engineering</span>
+    <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(22px,2.5vw,42px); line-height:1.08; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.30); text-wrap:balance; max-width:1100px;">IntelePeer / Data Warehousing</h2>
+  </div>
+  <div class="oe-card" id="oe-s2-img" style="position:absolute; left:2%; top:16%; width:44%; height:64%; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1.5px dashed rgba(199,255,224,0.25); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; opacity:0; pointer-events:none; z-index:2;">
+    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.55;"><rect x="3" y="3" width="18" height="18" rx="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><path d="M21 15l-5-5L5 21"></path></svg>
+    <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(11px,0.85vw,14px); letter-spacing:0.08em; text-transform:uppercase; color:rgba(199,255,224,0.4); text-align:center; padding:0 20px;">IntelePeer image placeholder</span>
+  </div>
+  <div class="oe-card" id="oe-s2-prob" style="position:absolute; left:48%; top:16%; width:50%; height:20.400000000000002%; padding:clamp(16px,1.6vw,26px) clamp(20px,2vw,30px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; opacity:0; pointer-events:none; z-index:2;">
+    <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#9DEBC2; font-size:clamp(14px,1.1vw,19px); line-height:1.2; flex-shrink:0;">The Problem</h3>
+    <div class="oe-scrollbar-hide" style="flex:1; min-height:0; overflow-y:auto; scrollbar-width:none;"><p style="margin:clamp(8px,1vh,12px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.78); font-size:clamp(12.5px,0.95vw,15.5px); line-height:1.58; text-wrap:pretty;">IntelePeer, a leading player in the Communication Platform as a Service (CPaaS) industry, faced challenges with handling and processing massive volumes of data generated by millions of users. They needed a robust, scalable solution to efficiently filter and classify data from multiple sources, while ensuring data security, quality, and integrity. This system would be critical for enhancing analytics and reporting across the organization.</p></div>
+  </div>
+  <div class="oe-card" id="oe-s2-sol" style="position:absolute; left:48%; top:37.800000000000004%; width:50%; height:20.400000000000002%; padding:clamp(16px,1.6vw,26px) clamp(20px,2vw,30px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; opacity:0; pointer-events:none; z-index:2;">
+    <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#9DEBC2; font-size:clamp(14px,1.1vw,19px); line-height:1.2; flex-shrink:0;">Our Solution</h3>
+    <div class="oe-scrollbar-hide" style="flex:1; min-height:0; overflow-y:auto; scrollbar-width:none;"><p style="margin:clamp(8px,1vh,12px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.78); font-size:clamp(12.5px,0.95vw,15.5px); line-height:1.58; text-wrap:pretty;">DevSavant collaborated closely with IntelePeer to design a tailor-made data warehousing solution that met their stringent requirements. Utilizing Google Cloud Platform (GCP) as a SaaS solution, we developed a scalable Data Warehouse and supporting Data Marts. Our solution incorporated business rules directly into the ETL processes, automated workflows, and ensured seamless data handling from ingestion to reporting. The deployment involved a suite of cutting-edge tools, including Talend, Airflow, Docker, and Python integrations, enabling quick processing across complex data streams while ensuring security and reliability.</p></div>
+  </div>
+  <div class="oe-card" id="oe-s2-res" style="position:absolute; left:48%; top:59.6%; width:50%; height:20.400000000000002%; padding:clamp(16px,1.6vw,26px) clamp(20px,2vw,30px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; opacity:0; pointer-events:none; z-index:2;">
+    <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#9DEBC2; font-size:clamp(14px,1.1vw,19px); line-height:1.2; flex-shrink:0;">The Results</h3>
+    <div class="oe-scrollbar-hide" style="flex:1; min-height:0; overflow-y:auto; scrollbar-width:none;"><p style="margin:clamp(8px,1vh,12px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.78); font-size:clamp(12.5px,0.95vw,15.5px); line-height:1.58; text-wrap:pretty;">IntelePeer now has a stable, high-performance Data Warehouse capable of securely storing petabytes of data with minimal maintenance. The scalable design supports any future business needs and continues to enhance IntelePeer's analytics capabilities, providing reliable, real-time insights across various departments. This solution has allowed IntelePeer to streamline data processing and reporting, resulting in increased operational efficiency and robust data governance.</p></div>
+  </div>
+  <div class="oe-testi" id="oe-s2-testi" style="position:absolute; left:2%; top:83%; width:96%; height:14%; padding:clamp(14px,1.5vw,22px) clamp(20px,2.2vw,32px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:18px; display:flex; align-items:center; gap:clamp(16px,2vw,30px); opacity:0; pointer-events:none; z-index:2; box-sizing:border-box;">
+    <div style="flex-shrink:0; font-family:'Space Grotesk',sans-serif; font-weight:500; font-size:clamp(13px,1.05vw,17px); color:#C7FFE0; letter-spacing:0.04em; background:rgba(199,255,224,0.08); border:1px solid rgba(199,255,224,0.18); border-radius:8px; padding:5px 14px; white-space:nowrap;">IntelePeer</div>
+    <p style="flex:1; margin:0; font-family:'Space Grotesk',sans-serif; font-weight:400; color:#E0FFEE; font-size:clamp(12.5px,1.05vw,17px); line-height:1.45; text-wrap:pretty;">&ldquo;I like that DevSavant has established a team of thinkers. Other providers are not thinkers, they are doers… We need partners, not doers.&rdquo;</p>
+    <div style="flex-shrink:0; display:flex; flex-direction:column; gap:2px; text-align:right; max-width:220px;">
+      <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(12px,0.95vw,15px); color:#E0FFEE;">Joey Neff</span>
+      <span style="font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(10px,0.78vw,13px); color:rgba(199,255,224,0.55);">VP Application Software Development, IntelePeer</span>
+    </div>
+  </div>
+</div><!-- /oe-sec-2 -->
+
+<div class="pe-sec" id="oe-sec-3">
+  <div class="oe-hl" id="oe-s3-hl" style="position:absolute; left:2%; top:4%; width:96%; height:12%; display:flex; flex-direction:column; justify-content:center; gap:clamp(6px,0.8vh,10px); opacity:0; pointer-events:none; z-index:2;">
+    <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(10px,0.85vw,14px); letter-spacing:0.24em; text-transform:uppercase; color:rgba(199,255,224,0.55);">Global Staffing</span>
+    <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(22px,2.5vw,42px); line-height:1.08; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.30); text-wrap:balance; max-width:1100px;">Conversica / ETL Pipeline for Dynamic Massive Lead Ingestion</h2>
+  </div>
+  <div class="oe-card" id="oe-s3-img" style="position:absolute; left:2%; top:20%; width:44%; height:74%; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1.5px dashed rgba(199,255,224,0.25); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; opacity:0; pointer-events:none; z-index:2;">
+    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.55;"><rect x="3" y="3" width="18" height="18" rx="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><path d="M21 15l-5-5L5 21"></path></svg>
+    <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(11px,0.85vw,14px); letter-spacing:0.08em; text-transform:uppercase; color:rgba(199,255,224,0.4); text-align:center; padding:0 20px;">Conversica image placeholder</span>
+  </div>
+  <div class="oe-card" id="oe-s3-prob" style="position:absolute; left:48%; top:20%; width:50%; height:23.666666666666668%; padding:clamp(16px,1.6vw,26px) clamp(20px,2vw,30px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; opacity:0; pointer-events:none; z-index:2;">
+    <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#9DEBC2; font-size:clamp(14px,1.1vw,19px); line-height:1.2; flex-shrink:0;">The Problem</h3>
+    <div class="oe-scrollbar-hide" style="flex:1; min-height:0; overflow-y:auto; scrollbar-width:none;"><p style="margin:clamp(8px,1vh,12px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.78); font-size:clamp(12.5px,0.95vw,15.5px); line-height:1.58; text-wrap:pretty;">Conversica, a leader in AI-driven sales and marketing solutions, required a high-volume ETL solution to manage massive lead ingestion from clients’ Dynamics instances. The existing process, with limited retrieval capabilities, struggled to efficiently integrate vast amounts of data, resulting in delayed updates and onboarding friction. Conversica needed a scalable, flexible ETL pipeline that could ingest, transform, and load leads, contacts, and accounts in near real-time, while being adaptable to future integrations with other CRM and ERP systems.</p></div>
+  </div>
+  <div class="oe-card" id="oe-s3-sol" style="position:absolute; left:48%; top:45.16666666666667%; width:50%; height:23.666666666666668%; padding:clamp(16px,1.6vw,26px) clamp(20px,2vw,30px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; opacity:0; pointer-events:none; z-index:2;">
+    <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#9DEBC2; font-size:clamp(14px,1.1vw,19px); line-height:1.2; flex-shrink:0;">Our Solution</h3>
+    <div class="oe-scrollbar-hide" style="flex:1; min-height:0; overflow-y:auto; scrollbar-width:none;"><p style="margin:clamp(8px,1vh,12px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.78); font-size:clamp(12.5px,0.95vw,15.5px); line-height:1.58; text-wrap:pretty;">To meet Conversica’s needs, DevSavant proposed the development of a scalable and reusable ETL pipeline leveraging an iPaaS solution, Workato. This approach offered enhanced visibility, maintainability, and flexibility compared to traditional monolithic, scheduled processes. We built an integration system that bridges the ETL pipeline with Conversica’s monolithic architecture, handling massive data ingestion with ease. Key technologies included Workato for automation, AWS CloudFront and API Gateway for scalable deployment, and a robust infrastructure using Terraform, Gitlab CI/CD, and a mix of PHP, Ruby, and Python for backend processing.</p></div>
+  </div>
+  <div class="oe-card" id="oe-s3-res" style="position:absolute; left:48%; top:70.33333333333334%; width:50%; height:23.666666666666668%; padding:clamp(16px,1.6vw,26px) clamp(20px,2vw,30px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; opacity:0; pointer-events:none; z-index:2;">
+    <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#9DEBC2; font-size:clamp(14px,1.1vw,19px); line-height:1.2; flex-shrink:0;">The Results</h3>
+    <div class="oe-scrollbar-hide" style="flex:1; min-height:0; overflow-y:auto; scrollbar-width:none;"><p style="margin:clamp(8px,1vh,12px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.78); font-size:clamp(12.5px,0.95vw,15.5px); line-height:1.58; text-wrap:pretty;">The new ETL pipeline increased data retrieval frequency from twice daily to every five minutes, providing Conversica with up-to-date customer information to improve service delivery. The improved onboarding process reduced friction for new clients, while the flexible design of the ETL pipeline allows for quick adaptation to new systems, reducing future development costs. This streamlined data management has enabled Conversica to efficiently handle massive lead ingestion and maintain a high standard of service.</p></div>
+  </div>
+</div><!-- /oe-sec-3 -->
+
+<div class="pe-sec" id="oe-sec-4">
+  <div class="oe-hl" id="oe-s4-hl" style="position:absolute; left:2%; top:4%; width:96%; height:12%; display:flex; flex-direction:column; justify-content:center; gap:clamp(6px,0.8vh,10px); opacity:0; pointer-events:none; z-index:2;">
+    <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(10px,0.85vw,14px); letter-spacing:0.24em; text-transform:uppercase; color:rgba(199,255,224,0.55);">Product Engineering</span>
+    <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(22px,2.5vw,42px); line-height:1.08; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.30); text-wrap:balance; max-width:1100px;">Impartner / Data Lifecycle Project</h2>
+  </div>
+  <div class="oe-card" id="oe-s4-img" style="position:absolute; left:2%; top:20%; width:44%; height:74%; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1.5px dashed rgba(199,255,224,0.25); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; opacity:0; pointer-events:none; z-index:2;">
+    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.55;"><rect x="3" y="3" width="18" height="18" rx="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><path d="M21 15l-5-5L5 21"></path></svg>
+    <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(11px,0.85vw,14px); letter-spacing:0.08em; text-transform:uppercase; color:rgba(199,255,224,0.4); text-align:center; padding:0 20px;">Impartner image placeholder</span>
+  </div>
+  <div class="oe-card" id="oe-s4-prob" style="position:absolute; left:48%; top:20%; width:50%; height:23.666666666666668%; padding:clamp(16px,1.6vw,26px) clamp(20px,2vw,30px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; opacity:0; pointer-events:none; z-index:2;">
+    <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#9DEBC2; font-size:clamp(14px,1.1vw,19px); line-height:1.2; flex-shrink:0;">The Problem</h3>
+    <div class="oe-scrollbar-hide" style="flex:1; min-height:0; overflow-y:auto; scrollbar-width:none;"><p style="margin:clamp(8px,1vh,12px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.78); font-size:clamp(12.5px,0.95vw,15.5px); line-height:1.58; text-wrap:pretty;">Impartner, a leading provider of Partner Relationship Management (PRM) solutions, faced significant challenges in managing and optimizing its sales data. Key issues included:</p><ul style="margin:clamp(8px,1vh,12px) 0 0; padding-left:18px; display:flex; flex-direction:column; gap:5px;" class="oe-scrollbar-hide"><li style="font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.78); font-size:clamp(12.5px,0.95vw,15.5px); line-height:1.5; text-wrap:pretty;">Inconsistent and duplicated account records.</li><li style="font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.78); font-size:clamp(12.5px,0.95vw,15.5px); line-height:1.5; text-wrap:pretty;">Difficulties with standardization and classification of data.</li><li style="font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.78); font-size:clamp(12.5px,0.95vw,15.5px); line-height:1.5; text-wrap:pretty;">Inefficiencies in enriching sales data for accuracy.</li><li style="font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.78); font-size:clamp(12.5px,0.95vw,15.5px); line-height:1.5; text-wrap:pretty;">Complexities with handling special characters, abbreviations, and common words in account names.</li></ul><p style="margin:clamp(8px,1vh,12px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.78); font-size:clamp(12.5px,0.95vw,15.5px); line-height:1.58; text-wrap:pretty;">These challenges hindered sales executives from accessing updated and accurate leads-related information, negatively impacting productivity and sales pipeline efficiency.</p></div>
+  </div>
+  <div class="oe-card" id="oe-s4-sol" style="position:absolute; left:48%; top:45.16666666666667%; width:50%; height:23.666666666666668%; padding:clamp(16px,1.6vw,26px) clamp(20px,2vw,30px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; opacity:0; pointer-events:none; z-index:2;">
+    <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#9DEBC2; font-size:clamp(14px,1.1vw,19px); line-height:1.2; flex-shrink:0;">Our Solution</h3>
+    <div class="oe-scrollbar-hide" style="flex:1; min-height:0; overflow-y:auto; scrollbar-width:none;"><p style="margin:clamp(8px,1vh,12px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.78); font-size:clamp(12.5px,0.95vw,15.5px); line-height:1.58; text-wrap:pretty;">DevSavant developed a comprehensive data lifecycle management system tailored to Impartner's needs. The solution addressed every stage of the data lifecycle, including cleaning, linking, enriching, and classifying records. Highlights of the solution included:</p><ul style="margin:clamp(8px,1vh,12px) 0 0; padding-left:18px; display:flex; flex-direction:column; gap:5px;" class="oe-scrollbar-hide"><li style="font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.78); font-size:clamp(12.5px,0.95vw,15.5px); line-height:1.5; text-wrap:pretty;">Advanced data cleaning techniques to standardize and unify company names.</li><li style="font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.78); font-size:clamp(12.5px,0.95vw,15.5px); line-height:1.5; text-wrap:pretty;">Deployment of advanced Regular Expressions (Regex) for precise text matching.</li><li style="font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.78); font-size:clamp(12.5px,0.95vw,15.5px); line-height:1.5; text-wrap:pretty;">Implementation of Fuzzy Matching models and Distance Algorithms to identify and resolve data duplicities.</li><li style="font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.78); font-size:clamp(12.5px,0.95vw,15.5px); line-height:1.5; text-wrap:pretty;">Utilization of Clustering and NLP algorithms, such as Affinity Propagation and Latent Dirichlet Allocation (LDA), to classify and group similar records effectively.</li><li style="font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.78); font-size:clamp(12.5px,0.95vw,15.5px); line-height:1.5; text-wrap:pretty;">Integration of Deep Learning methods, including pre-trained Neural Networks (NNs) and Named Entity Recognition (NER) models, for data enrichment.</li></ul></div>
+  </div>
+  <div class="oe-card" id="oe-s4-res" style="position:absolute; left:48%; top:70.33333333333334%; width:50%; height:23.666666666666668%; padding:clamp(16px,1.6vw,26px) clamp(20px,2vw,30px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; opacity:0; pointer-events:none; z-index:2;">
+    <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#9DEBC2; font-size:clamp(14px,1.1vw,19px); line-height:1.2; flex-shrink:0;">The Results</h3>
+    <div class="oe-scrollbar-hide" style="flex:1; min-height:0; overflow-y:auto; scrollbar-width:none;"><p style="margin:clamp(8px,1vh,12px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.78); font-size:clamp(12.5px,0.95vw,15.5px); line-height:1.58; text-wrap:pretty;">The implementation of the data lifecycle system transformed Impartner's sales processes:</p><ul style="margin:clamp(8px,1vh,12px) 0 0; padding-left:18px; display:flex; flex-direction:column; gap:5px;" class="oe-scrollbar-hide"><li style="font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.78); font-size:clamp(12.5px,0.95vw,15.5px); line-height:1.5; text-wrap:pretty;">Sales executives gained access to clean, enriched, and accurate lead information, significantly improving sales pipeline efficiency.</li><li style="font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.78); font-size:clamp(12.5px,0.95vw,15.5px); line-height:1.5; text-wrap:pretty;">Data standardization reduced duplicity and inconsistencies, enabling faster decision-making.</li><li style="font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.78); font-size:clamp(12.5px,0.95vw,15.5px); line-height:1.5; text-wrap:pretty;">Overall productivity was boosted, streamlining the sales process and ensuring better resource allocation.</li></ul></div>
+  </div>
+</div><!-- /oe-sec-4 -->
+
+<div class="pe-sec" id="oe-sec-5">
+  <div class="oe-hl" id="oe-s5-hl" style="position:absolute; left:2%; top:4%; width:96%; height:12%; display:flex; flex-direction:column; justify-content:center; gap:clamp(6px,0.8vh,10px); opacity:0; pointer-events:none; z-index:2;">
+    <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(10px,0.85vw,14px); letter-spacing:0.24em; text-transform:uppercase; color:rgba(199,255,224,0.55);">Product Engineering</span>
+    <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(22px,2.5vw,42px); line-height:1.08; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.30); text-wrap:balance; max-width:1100px;">AI-Powered Reading Assessment (EdTech | PoC in 4 Weeks)</h2>
+  </div>
+  <div class="oe-card" id="oe-s5-img" style="position:absolute; left:2%; top:20%; width:44%; height:74%; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1.5px dashed rgba(199,255,224,0.25); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; opacity:0; pointer-events:none; z-index:2;">
+    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.55;"><rect x="3" y="3" width="18" height="18" rx="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><path d="M21 15l-5-5L5 21"></path></svg>
+    <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(11px,0.85vw,14px); letter-spacing:0.08em; text-transform:uppercase; color:rgba(199,255,224,0.4); text-align:center; padding:0 20px;">Reading Assessment image placeholder</span>
+  </div>
+  <div class="oe-card" id="oe-s5-prob" style="position:absolute; left:48%; top:20%; width:50%; height:23.666666666666668%; padding:clamp(16px,1.6vw,26px) clamp(20px,2vw,30px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; opacity:0; pointer-events:none; z-index:2;">
+    <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#9DEBC2; font-size:clamp(14px,1.1vw,19px); line-height:1.2; flex-shrink:0;">The Problem</h3>
+    <div class="oe-scrollbar-hide" style="flex:1; min-height:0; overflow-y:auto; scrollbar-width:none;"><p style="margin:clamp(8px,1vh,12px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.78); font-size:clamp(12.5px,0.95vw,15.5px); line-height:1.58; text-wrap:pretty;">A K–6 literacy platform needed to validate whether AI could automate fluency scoring and reduce teacher workload.</p></div>
+  </div>
+  <div class="oe-card" id="oe-s5-sol" style="position:absolute; left:48%; top:45.16666666666667%; width:50%; height:23.666666666666668%; padding:clamp(16px,1.6vw,26px) clamp(20px,2vw,30px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; opacity:0; pointer-events:none; z-index:2;">
+    <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#9DEBC2; font-size:clamp(14px,1.1vw,19px); line-height:1.2; flex-shrink:0;">Our Solution</h3>
+    <div class="oe-scrollbar-hide" style="flex:1; min-height:0; overflow-y:auto; scrollbar-width:none;"><p style="margin:clamp(8px,1vh,12px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.78); font-size:clamp(12.5px,0.95vw,15.5px); line-height:1.58; text-wrap:pretty;">We built a serverless, edge-first PoC with dual speech-recognition engines, real-time LLM feedback, and zero-PII storage.</p></div>
+  </div>
+  <div class="oe-card" id="oe-s5-res" style="position:absolute; left:48%; top:70.33333333333334%; width:50%; height:23.666666666666668%; padding:clamp(16px,1.6vw,26px) clamp(20px,2vw,30px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; opacity:0; pointer-events:none; z-index:2;">
+    <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#9DEBC2; font-size:clamp(14px,1.1vw,19px); line-height:1.2; flex-shrink:0;">The Results</h3>
+    <div class="oe-scrollbar-hide" style="flex:1; min-height:0; overflow-y:auto; scrollbar-width:none;"><p style="margin:clamp(8px,1vh,12px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.78); font-size:clamp(12.5px,0.95vw,15.5px); line-height:1.58; text-wrap:pretty;">Deployed to school Chromebooks with a validated, scalable cost model for rollout.</p></div>
+  </div>
+</div><!-- /oe-sec-5 -->
+
+<div class="pe-sec" id="oe-sec-6">
+  <div class="oe-hl" id="oe-s6-hl" style="position:absolute; left:2%; top:4%; width:96%; height:12%; display:flex; flex-direction:column; justify-content:center; gap:clamp(6px,0.8vh,10px); opacity:0; pointer-events:none; z-index:2;">
+    <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(10px,0.85vw,14px); letter-spacing:0.24em; text-transform:uppercase; color:rgba(199,255,224,0.55);">Product Engineering</span>
+    <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(22px,2.5vw,42px); line-height:1.08; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.30); text-wrap:balance; max-width:1100px;">Interactive Audiobook Companion (Venture-Backed | 8-Week MVP)</h2>
+  </div>
+  <div class="oe-card" id="oe-s6-img" style="position:absolute; left:2%; top:20%; width:44%; height:74%; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1.5px dashed rgba(199,255,224,0.25); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; opacity:0; pointer-events:none; z-index:2;">
+    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.55;"><rect x="3" y="3" width="18" height="18" rx="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><path d="M21 15l-5-5L5 21"></path></svg>
+    <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(11px,0.85vw,14px); letter-spacing:0.08em; text-transform:uppercase; color:rgba(199,255,224,0.4); text-align:center; padding:0 20px;">Audiobook Companion image placeholder</span>
+  </div>
+  <div class="oe-card" id="oe-s6-prob" style="position:absolute; left:48%; top:20%; width:50%; height:23.666666666666668%; padding:clamp(16px,1.6vw,26px) clamp(20px,2vw,30px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; opacity:0; pointer-events:none; z-index:2;">
+    <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#9DEBC2; font-size:clamp(14px,1.1vw,19px); line-height:1.2; flex-shrink:0;">The Problem</h3>
+    <div class="oe-scrollbar-hide" style="flex:1; min-height:0; overflow-y:auto; scrollbar-width:none;"><p style="margin:clamp(8px,1vh,12px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.78); font-size:clamp(12.5px,0.95vw,15.5px); line-height:1.58; text-wrap:pretty;">A startup wanted to transform passive listening into an interactive learning experience.</p></div>
+  </div>
+  <div class="oe-card" id="oe-s6-sol" style="position:absolute; left:48%; top:45.16666666666667%; width:50%; height:23.666666666666668%; padding:clamp(16px,1.6vw,26px) clamp(20px,2vw,30px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; opacity:0; pointer-events:none; z-index:2;">
+    <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#9DEBC2; font-size:clamp(14px,1.1vw,19px); line-height:1.2; flex-shrink:0;">Our Solution</h3>
+    <div class="oe-scrollbar-hide" style="flex:1; min-height:0; overflow-y:auto; scrollbar-width:none;"><p style="margin:clamp(8px,1vh,12px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.78); font-size:clamp(12.5px,0.95vw,15.5px); line-height:1.58; text-wrap:pretty;">We delivered a native iOS MVP integrating AI personas, timestamped conversation anchors, and a production-ready architecture.</p></div>
+  </div>
+  <div class="oe-card" id="oe-s6-res" style="position:absolute; left:48%; top:70.33333333333334%; width:50%; height:23.666666666666668%; padding:clamp(16px,1.6vw,26px) clamp(20px,2vw,30px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; opacity:0; pointer-events:none; z-index:2;">
+    <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#9DEBC2; font-size:clamp(14px,1.1vw,19px); line-height:1.2; flex-shrink:0;">The Results</h3>
+    <div class="oe-scrollbar-hide" style="flex:1; min-height:0; overflow-y:auto; scrollbar-width:none;"><p style="margin:clamp(8px,1vh,12px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.78); font-size:clamp(12.5px,0.95vw,15.5px); line-height:1.58; text-wrap:pretty;">TestFlight launch prepared for user pilots and investment conversations.</p></div>
+  </div>
+</div><!-- /oe-sec-6 -->
+
+<div class="pe-sec" id="oe-sec-7">
+  <div class="oe-hl" id="oe-s7-hl" style="position:absolute; left:2%; top:4%; width:96%; height:12%; display:flex; flex-direction:column; justify-content:center; gap:clamp(6px,0.8vh,10px); opacity:0; pointer-events:none; z-index:2;">
+    <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(10px,0.85vw,14px); letter-spacing:0.24em; text-transform:uppercase; color:rgba(199,255,224,0.55);">Product Engineering</span>
+    <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(22px,2.5vw,42px); line-height:1.08; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.30); text-wrap:balance; max-width:1100px;">Self-Service AI Book Generation Platform (Founder-Led | 8 Weeks)</h2>
+  </div>
+  <div class="oe-card" id="oe-s7-img" style="position:absolute; left:2%; top:20%; width:44%; height:74%; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1.5px dashed rgba(199,255,224,0.25); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; opacity:0; pointer-events:none; z-index:2;">
+    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.55;"><rect x="3" y="3" width="18" height="18" rx="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><path d="M21 15l-5-5L5 21"></path></svg>
+    <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(11px,0.85vw,14px); letter-spacing:0.08em; text-transform:uppercase; color:rgba(199,255,224,0.4); text-align:center; padding:0 20px;">AI Book Generation image placeholder</span>
+  </div>
+  <div class="oe-card" id="oe-s7-prob" style="position:absolute; left:48%; top:20%; width:50%; height:23.666666666666668%; padding:clamp(16px,1.6vw,26px) clamp(20px,2vw,30px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; opacity:0; pointer-events:none; z-index:2;">
+    <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#9DEBC2; font-size:clamp(14px,1.1vw,19px); line-height:1.2; flex-shrink:0;">The Problem</h3>
+    <div class="oe-scrollbar-hide" style="flex:1; min-height:0; overflow-y:auto; scrollbar-width:none;"><p style="margin:clamp(8px,1vh,12px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.78); font-size:clamp(12.5px,0.95vw,15.5px); line-height:1.58; text-wrap:pretty;">A solo founder needed to turn a manual prototype into a self-serve product.</p></div>
+  </div>
+  <div class="oe-card" id="oe-s7-sol" style="position:absolute; left:48%; top:45.16666666666667%; width:50%; height:23.666666666666668%; padding:clamp(16px,1.6vw,26px) clamp(20px,2vw,30px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; opacity:0; pointer-events:none; z-index:2;">
+    <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#9DEBC2; font-size:clamp(14px,1.1vw,19px); line-height:1.2; flex-shrink:0;">Our Solution</h3>
+    <div class="oe-scrollbar-hide" style="flex:1; min-height:0; overflow-y:auto; scrollbar-width:none;"><p style="margin:clamp(8px,1vh,12px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.78); font-size:clamp(12.5px,0.95vw,15.5px); line-height:1.58; text-wrap:pretty;">We built a secure web platform with automated image generation, Stripe payments, and an admin CMS—built to protect user photos.</p></div>
+  </div>
+  <div class="oe-card" id="oe-s7-res" style="position:absolute; left:48%; top:70.33333333333334%; width:50%; height:23.666666666666668%; padding:clamp(16px,1.6vw,26px) clamp(20px,2vw,30px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; opacity:0; pointer-events:none; z-index:2;">
+    <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#9DEBC2; font-size:clamp(14px,1.1vw,19px); line-height:1.2; flex-shrink:0;">The Results</h3>
+    <div class="oe-scrollbar-hide" style="flex:1; min-height:0; overflow-y:auto; scrollbar-width:none;"><p style="margin:clamp(8px,1vh,12px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.78); font-size:clamp(12.5px,0.95vw,15.5px); line-height:1.58; text-wrap:pretty;">Predictable unit economics, privacy-compliant workflow, and zero engineering dependency for content updates.</p></div>
+  </div>
+</div><!-- /oe-sec-7 -->
+
+<div class="pe-sec" id="oe-sec-8">
+  <div class="oe-hl" id="oe-s8-hl" style="position:absolute; left:2%; top:4%; width:96%; height:12%; display:flex; flex-direction:column; justify-content:center; gap:clamp(6px,0.8vh,10px); opacity:0; pointer-events:none; z-index:2;">
+    <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(10px,0.85vw,14px); letter-spacing:0.24em; text-transform:uppercase; color:rgba(199,255,224,0.55);">Product Engineering</span>
+    <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(22px,2.5vw,42px); line-height:1.08; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.30); text-wrap:balance; max-width:1100px;">AI-Powered Support Automation (Growth-Stage SaaS | 9-Week Delivery)</h2>
+  </div>
+  <div class="oe-card" id="oe-s8-img" style="position:absolute; left:2%; top:20%; width:44%; height:74%; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1.5px dashed rgba(199,255,224,0.25); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; opacity:0; pointer-events:none; z-index:2;">
+    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.55;"><rect x="3" y="3" width="18" height="18" rx="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><path d="M21 15l-5-5L5 21"></path></svg>
+    <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(11px,0.85vw,14px); letter-spacing:0.08em; text-transform:uppercase; color:rgba(199,255,224,0.4); text-align:center; padding:0 20px;">Support Automation image placeholder</span>
+  </div>
+  <div class="oe-card" id="oe-s8-prob" style="position:absolute; left:48%; top:20%; width:50%; height:23.666666666666668%; padding:clamp(16px,1.6vw,26px) clamp(20px,2vw,30px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; opacity:0; pointer-events:none; z-index:2;">
+    <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#9DEBC2; font-size:clamp(14px,1.1vw,19px); line-height:1.2; flex-shrink:0;">The Problem</h3>
+    <div class="oe-scrollbar-hide" style="flex:1; min-height:0; overflow-y:auto; scrollbar-width:none;"><p style="margin:clamp(8px,1vh,12px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.78); font-size:clamp(12.5px,0.95vw,15.5px); line-height:1.58; text-wrap:pretty;">A B2B SaaS company struggled with manual support triage across email, chat, and CSM channels.</p></div>
+  </div>
+  <div class="oe-card" id="oe-s8-sol" style="position:absolute; left:48%; top:45.16666666666667%; width:50%; height:23.666666666666668%; padding:clamp(16px,1.6vw,26px) clamp(20px,2vw,30px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; opacity:0; pointer-events:none; z-index:2;">
+    <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#9DEBC2; font-size:clamp(14px,1.1vw,19px); line-height:1.2; flex-shrink:0;">Our Solution</h3>
+    <div class="oe-scrollbar-hide" style="flex:1; min-height:0; overflow-y:auto; scrollbar-width:none;"><p style="margin:clamp(8px,1vh,12px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.78); font-size:clamp(12.5px,0.95vw,15.5px); line-height:1.58; text-wrap:pretty;">We created an AI-assisted routing engine integrated with Zendesk, including structured data collection and tiered SLAs.</p></div>
+  </div>
+  <div class="oe-card" id="oe-s8-res" style="position:absolute; left:48%; top:70.33333333333334%; width:50%; height:23.666666666666668%; padding:clamp(16px,1.6vw,26px) clamp(20px,2vw,30px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; opacity:0; pointer-events:none; z-index:2;">
+    <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#9DEBC2; font-size:clamp(14px,1.1vw,19px); line-height:1.2; flex-shrink:0;">The Results</h3>
+    <div class="oe-scrollbar-hide" style="flex:1; min-height:0; overflow-y:auto; scrollbar-width:none;"><p style="margin:clamp(8px,1vh,12px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.78); font-size:clamp(12.5px,0.95vw,15.5px); line-height:1.58; text-wrap:pretty;">Standardized processes, lower onboarding complexity, and reduced manual triage.</p></div>
+  </div>
+</div><!-- /oe-sec-8 -->
+
+<div class="pe-sec" id="oe-sec-9">
+  <div class="oe-hl" id="oe-s9-hl" style="position:absolute; left:2%; top:4%; width:96%; height:12%; display:flex; flex-direction:column; justify-content:center; gap:clamp(6px,0.8vh,10px); opacity:0; pointer-events:none; z-index:2;">
+    <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(10px,0.85vw,14px); letter-spacing:0.24em; text-transform:uppercase; color:rgba(199,255,224,0.55);">Product Engineering</span>
+    <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(22px,2.5vw,42px); line-height:1.08; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.30); text-wrap:balance; max-width:1100px;">Cross-Platform AI Conversation Manager (Internal Product | Ongoing)</h2>
+  </div>
+  <div class="oe-card" id="oe-s9-img" style="position:absolute; left:2%; top:20%; width:44%; height:74%; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1.5px dashed rgba(199,255,224,0.25); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; opacity:0; pointer-events:none; z-index:2;">
+    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.55;"><rect x="3" y="3" width="18" height="18" rx="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><path d="M21 15l-5-5L5 21"></path></svg>
+    <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(11px,0.85vw,14px); letter-spacing:0.08em; text-transform:uppercase; color:rgba(199,255,224,0.4); text-align:center; padding:0 20px;">Conversation Manager image placeholder</span>
+  </div>
+  <div class="oe-card" id="oe-s9-prob" style="position:absolute; left:48%; top:20%; width:50%; height:23.666666666666668%; padding:clamp(16px,1.6vw,26px) clamp(20px,2vw,30px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; opacity:0; pointer-events:none; z-index:2;">
+    <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#9DEBC2; font-size:clamp(14px,1.1vw,19px); line-height:1.2; flex-shrink:0;">The Problem</h3>
+    <div class="oe-scrollbar-hide" style="flex:1; min-height:0; overflow-y:auto; scrollbar-width:none;"><p style="margin:clamp(8px,1vh,12px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.78); font-size:clamp(12.5px,0.95vw,15.5px); line-height:1.58; text-wrap:pretty;">Users lacked unified search across ChatGPT, Claude, Gemini, DeepSeek, and Grok.</p></div>
+  </div>
+  <div class="oe-card" id="oe-s9-sol" style="position:absolute; left:48%; top:45.16666666666667%; width:50%; height:23.666666666666668%; padding:clamp(16px,1.6vw,26px) clamp(20px,2vw,30px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; opacity:0; pointer-events:none; z-index:2;">
+    <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#9DEBC2; font-size:clamp(14px,1.1vw,19px); line-height:1.2; flex-shrink:0;">Our Solution</h3>
+    <div class="oe-scrollbar-hide" style="flex:1; min-height:0; overflow-y:auto; scrollbar-width:none;"><p style="margin:clamp(8px,1vh,12px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.78); font-size:clamp(12.5px,0.95vw,15.5px); line-height:1.58; text-wrap:pretty;">We built a Chrome extension with local-only indexing, multi-platform integrations, and advanced search capabilities—fully GDPR-aligned.</p></div>
+  </div>
+  <div class="oe-card" id="oe-s9-res" style="position:absolute; left:48%; top:70.33333333333334%; width:50%; height:23.666666666666668%; padding:clamp(16px,1.6vw,26px) clamp(20px,2vw,30px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; opacity:0; pointer-events:none; z-index:2;">
+    <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#9DEBC2; font-size:clamp(14px,1.1vw,19px); line-height:1.2; flex-shrink:0;">The Results</h3>
+    <div class="oe-scrollbar-hide" style="flex:1; min-height:0; overflow-y:auto; scrollbar-width:none;"><p style="margin:clamp(8px,1vh,12px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.78); font-size:clamp(12.5px,0.95vw,15.5px); line-height:1.58; text-wrap:pretty;">Production release on Chrome Web Store with sustainable freemium model.</p></div>
+  </div>
+</div><!-- /oe-sec-9 -->
+
+<div class="pe-sec" id="oe-sec-10">
+  <div class="oe-hl" id="oe-s10-hl" style="position:absolute; left:2%; top:4%; width:96%; height:12%; display:flex; flex-direction:column; justify-content:center; gap:clamp(6px,0.8vh,10px); opacity:0; pointer-events:none; z-index:2;">
+    <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(10px,0.85vw,14px); letter-spacing:0.24em; text-transform:uppercase; color:rgba(199,255,224,0.55);">Product Engineering</span>
+    <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(22px,2.5vw,42px); line-height:1.08; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.30); text-wrap:balance; max-width:1100px;">Automated Financial Reporting Dashboard (Private Equity | 1-Week Sprint)</h2>
+  </div>
+  <div class="oe-card" id="oe-s10-img" style="position:absolute; left:2%; top:20%; width:44%; height:74%; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1.5px dashed rgba(199,255,224,0.25); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; opacity:0; pointer-events:none; z-index:2;">
+    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.55;"><rect x="3" y="3" width="18" height="18" rx="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><path d="M21 15l-5-5L5 21"></path></svg>
+    <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(11px,0.85vw,14px); letter-spacing:0.08em; text-transform:uppercase; color:rgba(199,255,224,0.4); text-align:center; padding:0 20px;">Financial Reporting image placeholder</span>
+  </div>
+  <div class="oe-card" id="oe-s10-prob" style="position:absolute; left:48%; top:20%; width:50%; height:23.666666666666668%; padding:clamp(16px,1.6vw,26px) clamp(20px,2vw,30px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; opacity:0; pointer-events:none; z-index:2;">
+    <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#9DEBC2; font-size:clamp(14px,1.1vw,19px); line-height:1.2; flex-shrink:0;">The Problem</h3>
+    <div class="oe-scrollbar-hide" style="flex:1; min-height:0; overflow-y:auto; scrollbar-width:none;"><p style="margin:clamp(8px,1vh,12px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.78); font-size:clamp(12.5px,0.95vw,15.5px); line-height:1.58; text-wrap:pretty;">A PE firm needed to eliminate hours of manual Excel work for consolidated reporting.</p></div>
+  </div>
+  <div class="oe-card" id="oe-s10-sol" style="position:absolute; left:48%; top:45.16666666666667%; width:50%; height:23.666666666666668%; padding:clamp(16px,1.6vw,26px) clamp(20px,2vw,30px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; opacity:0; pointer-events:none; z-index:2;">
+    <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#9DEBC2; font-size:clamp(14px,1.1vw,19px); line-height:1.2; flex-shrink:0;">Our Solution</h3>
+    <div class="oe-scrollbar-hide" style="flex:1; min-height:0; overflow-y:auto; scrollbar-width:none;"><p style="margin:clamp(8px,1vh,12px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.78); font-size:clamp(12.5px,0.95vw,15.5px); line-height:1.58; text-wrap:pretty;">We delivered a Power BI dashboard integrated directly with their accounting system through their Azure environment.</p></div>
+  </div>
+  <div class="oe-card" id="oe-s10-res" style="position:absolute; left:48%; top:70.33333333333334%; width:50%; height:23.666666666666668%; padding:clamp(16px,1.6vw,26px) clamp(20px,2vw,30px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; opacity:0; pointer-events:none; z-index:2;">
+    <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#9DEBC2; font-size:clamp(14px,1.1vw,19px); line-height:1.2; flex-shrink:0;">The Results</h3>
+    <div class="oe-scrollbar-hide" style="flex:1; min-height:0; overflow-y:auto; scrollbar-width:none;"><p style="margin:clamp(8px,1vh,12px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.78); font-size:clamp(12.5px,0.95vw,15.5px); line-height:1.58; text-wrap:pretty;">Report generation time reduced from hours to minutes, with zero manual errors.</p></div>
+  </div>
+</div><!-- /oe-sec-10 -->
+
+
+            <!-- ══════════ OE CTA finale (verbatim from Global Staffing) ══════════ -->
+            <div id="oe-cta-content" style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:flex-start; justify-content:center; padding-left:clamp(48px,6.5vw,140px); padding-right:clamp(32px,5vw,80px); gap:clamp(24px,3.4vh,44px); opacity:0; pointer-events:none; z-index:30;">
+              <h1 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(48px,6.6vw,112px); line-height:1.0; letter-spacing:-0.02em; text-shadow:0 4px 48px rgba(10,200,120,0.35);">Ready to Scale Your Team?</h1>
+              <div style="display:flex; align-items:center; gap:clamp(16px,2vw,28px); flex-wrap:wrap;">
+                <a href="#" style="display:inline-flex; align-items:center; gap:14px; background:#CCFFCE; color:#18282C; font-family:'Inter',sans-serif; font-weight:700; text-transform:uppercase; font-size:clamp(14px,1.2vw,20px); letter-spacing:0.05em; padding:clamp(13px,1.5vh,18px) clamp(28px,2.8vw,44px); text-decoration:none; box-shadow:0 0 52px rgba(150,255,170,0.32); transition:transform .2s ease,box-shadow .2s ease;" style-hover="transform:translateY(-3px);box-shadow:0 0 72px rgba(150,255,170,0.50);">Schedule a Call <span style="font-weight:700;font-size:1.1em;">&#8594;</span></a>
+              </div>
+              <div style="display:flex; align-items:center; gap:clamp(24px,3.5vw,52px); margin-top:clamp(6px,1.2vh,16px);">
+                <a href="#" style="display:flex; flex-direction:column; align-items:center; gap:10px; text-decoration:none; opacity:0.70; transition:opacity .2s;" style-hover="opacity:1;">
+                  <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="rgba(199,255,224,0.10)"/><path d="M10 13h3v9h-3v-9zm1.5-4.5a1.5 1.5 0 110 3 1.5 1.5 0 010-3zM15 13h2.9v1.3h.04C18.44 13.5 19.5 13 20.7 13c3 0 3.3 2 3.3 4.5V22h-3v-4c0-1 0-2.3-1.4-2.3-1.4 0-1.6 1.1-1.6 2.2V22h-3v-9z" fill="#C7FFE0"/></svg>
+                </a>
+                <a href="#" style="display:flex; flex-direction:column; align-items:center; gap:10px; text-decoration:none; opacity:0.70; transition:opacity .2s;" style-hover="opacity:1;">
+                  <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="rgba(199,255,224,0.10)"/><path d="M16 8a6 6 0 016 6c0 4-6 10-6 10S10 18 10 14a6 6 0 016-6zm0 4a2 2 0 100 4 2 2 0 000-4z" fill="#C7FFE0"/></svg>
+                </a>
+                <a href="mailto:hello@devsavant.com" style="display:flex; flex-direction:column; align-items:center; gap:10px; text-decoration:none; opacity:0.70; transition:opacity .2s;" style-hover="opacity:1;">
+                  <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="rgba(199,255,224,0.10)"/><rect x="8" y="10" width="16" height="12" rx="2" stroke="#C7FFE0" stroke-width="1.5" fill="none"/><path d="M8 12l8 6 8-6" stroke="#C7FFE0" stroke-width="1.5" stroke-linecap="round"/></svg>
+                </a>
+                <a href="tel:+1" style="display:flex; flex-direction:column; align-items:center; gap:10px; text-decoration:none; opacity:0.70; transition:opacity .2s;" style-hover="opacity:1;">
+                  <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="rgba(199,255,224,0.10)"/><path d="M12 10h2l1 4-1.5 1.5c1 2 2.5 3.5 4.5 4.5L19.5 18l4 1v2c0 1-1 2-2 2C12 22 10 12 10 12c0-1 1-2 2-2z" fill="#C7FFE0"/></svg>
+                </a>
+              </div>
+              <a href="#" style="font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.35); font-size:clamp(11px,0.85vw,14px); text-decoration:underline; letter-spacing:0.05em; transition:color .2s;" style-hover="color:rgba(199,255,224,0.70);">Privacy Policy</a>
+            </div>
+
+          </div><!-- /oe-scroll -->
+        </div><!-- /oe-stage -->
+        <div id="oe-spacer" style="height:1900vh; flex-shrink:0;"></div>
       </div>
 
       <!-- ══════════ CTA content ══════════ -->
@@ -1259,6 +1983,18 @@ class Component extends DCLogic {
         if (e && e.preventDefault) e.preventDefault();
         document.getElementById('mobile-menu')?.classList.remove('open');
         this._showPE();
+      },
+      onGS:   (e) => { if (e) e.preventDefault(); this._showGS(); },
+      onMobileGS: (e) => {
+        if (e && e.preventDefault) e.preventDefault();
+        document.getElementById('mobile-menu')?.classList.remove('open');
+        this._showGS();
+      },
+      onOE:   (e) => { if (e) e.preventDefault(); this._showOE(); },
+      onMobileOE: (e) => {
+        if (e && e.preventDefault) e.preventDefault();
+        document.getElementById('mobile-menu')?.classList.remove('open');
+        this._showOE();
       }
     };
   }
@@ -1316,6 +2052,7 @@ class Component extends DCLogic {
     if (!clip || clip._faqWired) return;
     clip._faqWired = true;
     const isPE = (clip.id === 'pe-faq-clip');
+    const isGS = (clip.id === 'gs-faq-clip');
     const easeIO = (t) => t < 0.5 ? 2*t*t : 1 - Math.pow(-2*t+2, 2)/2;
     // rAF-driven height animation (CSS transitions are frozen on this morph-heavy page)
     const animateMaxH = (b, from, to) => {
@@ -1327,6 +2064,7 @@ class Component extends DCLogic {
         const v = from + (to - from) * easeIO(k);
         b.style.setProperty('max-height', v.toFixed(1) + 'px', 'important');
         if (isPE && this._applyPEScroll) this._applyPEScroll();
+        else if (isGS && this._applyGSScroll) this._applyGSScroll();
         else if (this._applyScroll) this._applyScroll();
         if (k < 1) { b._mhRAF = requestAnimationFrame(step); }
         else { b._mhRAF = 0; }
@@ -1522,6 +2260,8 @@ class Component extends DCLogic {
 
   _showPE() {
     if (this._peActive) return;
+    if (this._gsActive) { this._gsActive = false; document.body.classList.remove('gs-state'); const g0 = document.getElementById('gs-overlay'); if (g0) g0.scrollTop = 0; }
+    if (this._oeActive) { this._oeActive = false; document.body.classList.remove('oe-state'); const o0 = document.getElementById('oe-overlay'); if (o0) o0.scrollTop = 0; }
     this._peActive = true;
     if (this._scrollEl) { this._scrollEl.scrollTop = 0; this._scrollEl.style.overflowY = 'hidden'; }
     this._scrollProg = 0;
@@ -1548,18 +2288,22 @@ class Component extends DCLogic {
   }
 
   _showHome() {
-    if (!this._peActive) return;
+    if (!this._peActive && !this._gsActive && !this._oeActive) return;
     this._peActive = false;
+    this._gsActive = false;
+    this._oeActive = false;
     const b = document.body;
     // Select Home in the nav
     document.querySelectorAll('.nav-link').forEach(a => a.classList.remove('active'));
     const home = document.querySelector('.nav-link');
     if (home) home.classList.add('active');
-    // Remove PE state (home returns to its default/scroll look) + run the swap
-    b.classList.remove('pe-state', 'pe-swapping');
+    // Remove PE/GS/OE state (home returns to its default/scroll look) + run the swap
+    b.classList.remove('pe-state', 'gs-state', 'oe-state', 'pe-swapping', 'gs-swapping', 'oe-swapping');
     void b.offsetWidth;
     b.classList.add('pe-swapping');
     const peOvlR = document.getElementById('pe-overlay'); if (peOvlR) peOvlR.scrollTop = 0;
+    const gsOvlR = document.getElementById('gs-overlay'); if (gsOvlR) gsOvlR.scrollTop = 0;
+    const oeOvlR = document.getElementById('oe-overlay'); if (oeOvlR) oeOvlR.scrollTop = 0;
     if (this._scrollEl) { this._scrollEl.style.overflowY = 'auto'; this._scrollEl.scrollTop = 0; }
     this._scrollProg = 0;
     this._applyScroll();
@@ -1578,18 +2322,7 @@ class Component extends DCLogic {
     if (!sc) return;
     const cl = (t) => Math.max(0, Math.min(1, t));
     const hl = document.getElementById('pe-hero-layer');
-    // Mobile: sections flow naturally (homepage-style), all content visible, no pinned morph
-    if (window.innerWidth < 768) {
-      if (hl) { hl.style.opacity = '1'; hl.style.filter = ''; hl.style.pointerEvents = 'auto'; }
-      const fr = document.getElementById('pe-hero-frame'); if (fr) fr.style.opacity = '1';
-      ['disc-hl','disc-c1','disc-c2','disc-c3','disc-c4','build-hl','build-c1','build-c2','build-c3','scale-hl','scale-c1','scale-c2','why-hl','why-c1','why-c2','why-c3','why-c4','why-c5','why-c6','what-hl','what-c1','what-c2','what-c3','what-c4','what-cta','pe-faq-hl','pe-cta-content'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) { el.style.opacity = '1'; el.style.pointerEvents = 'auto'; el.style.filter = ''; }
-      });
-      document.querySelectorAll('#pe-faq-items .faq-item').forEach(el => { el.style.opacity = '1'; });
-      const dg = document.getElementById('pe-disc-glass'); if (dg) dg.style.opacity = '0';
-      return;
-    }
+    const mob = window.innerWidth < 768;
     const max = (sc.scrollHeight - sc.clientHeight) || 1;
     const p = sc.scrollTop / max;
     // Hero content fades + blurs out
@@ -1667,6 +2400,38 @@ class Component extends DCLogic {
       ctaContentEl.style.opacity = String(ctaContentOp);
       ctaContentEl.style.pointerEvents = ctaContentOp > 0.3 ? 'auto' : 'none';
       ctaContentEl.style.filter = ctaContentOp < 1 ? 'blur(' + ((1 - ctaContentOp) * 12).toFixed(1) + 'px)' : '';
+    }
+    // Mobile: sections are pinned and scroll INTERNALLY (tall stacked content).
+    // Because internal scroll freezes the outer scroll progress, the narrow
+    // desktop crossfade band would leave content half-faded while you read it.
+    // So override: each section fades fully in over a short lead-in, then holds
+    // at full opacity across its whole band — and only captures scroll once it's
+    // fully opaque, so internal scrolling always happens at opacity 1.
+    if (mob) {
+      const F = 0.028;
+      const bands = [
+        { start: 0.10, end: 0.24, sec: 'sec-disc',  ids: ['disc-hl','disc-c1','disc-c2','disc-c3','disc-c4'] },
+        { start: 0.24, end: 0.38, sec: 'sec-build', ids: ['build-hl','build-c1','build-c2','build-c3'] },
+        { start: 0.38, end: 0.52, sec: 'sec-scale', ids: ['scale-hl','scale-c1','scale-c2'] },
+        { start: 0.52, end: 0.66, sec: 'sec-why',   ids: ['why-hl','why-c1','why-c2','why-c3','why-c4','why-c5','why-c6'] },
+        { start: 0.66, end: 0.80, sec: 'sec-what',  ids: ['what-hl','what-c1','what-c2','what-c3','what-c4','what-cta'] },
+        { start: 0.80, end: 0.90, sec: 'sec-faq',   ids: ['pe-faq-hl'], faq: true },
+      ];
+      let held = 0;
+      bands.forEach(b => {
+        const op = cl((p - b.start) / F) * (1 - cl((p - (b.end - F)) / F));
+        held = Math.max(held, op);
+        const active = op > 0.985; // only grab scroll once fully faded in
+        b.ids.forEach(id => { const el = document.getElementById(id); if (el) { el.style.opacity = String(op); el.style.pointerEvents = active ? 'auto' : 'none'; } });
+        const secEl = document.getElementById(b.sec);
+        if (secEl) secEl.style.pointerEvents = active ? 'auto' : 'none';
+        if (b.faq) {
+          document.querySelectorAll('#pe-faq-items .faq-item').forEach(el => { el.style.opacity = String(op); });
+          const clipEl = document.getElementById('pe-faq-clip');
+          if (clipEl) clipEl.style.pointerEvents = active ? 'auto' : 'none';
+        }
+      });
+      if (discGlassEl) discGlassEl.style.opacity = String((1 - Math.max(held, ctaContentOp)) * (1 - ctaGlassOp));
     }
   }
 
@@ -1765,6 +2530,417 @@ class Component extends DCLogic {
     const blurEl = document.getElementById('pe-gb'), cmEl = document.getElementById('pe-cm');
     if (blurEl) blurEl.setAttribute('stdDeviation', (1.5 + act*21).toFixed(1));
     if (cmEl) cmEl.setAttribute('values', '1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 ' + (12+act*16).toFixed(0) + ' ' + (-4-act*8).toFixed(0));
+  }
+
+  // ─── Global Staffing view (seamless in-page nav, mirrors PE) ───────
+
+  _onGSScroll = () => {
+    if (this._gsScrollRAF) return;
+    this._gsScrollRAF = requestAnimationFrame(() => { this._gsScrollRAF = 0; this._applyGSScroll(); });
+  };
+
+  _showGS() {
+    if (this._gsActive) return;
+    if (this._peActive) { this._peActive = false; document.body.classList.remove('pe-state'); const p0 = document.getElementById('pe-overlay'); if (p0) p0.scrollTop = 0; }
+    if (this._oeActive) { this._oeActive = false; document.body.classList.remove('oe-state'); const o0 = document.getElementById('oe-overlay'); if (o0) o0.scrollTop = 0; }
+    this._gsActive = true;
+    if (this._scrollEl) { this._scrollEl.scrollTop = 0; this._scrollEl.style.overflowY = 'hidden'; }
+    this._scrollProg = 0;
+    const b = document.body;
+    document.querySelectorAll('.nav-link').forEach(a => a.classList.remove('active'));
+    const svc = document.querySelector('.nav-item-services .nav-link');
+    if (svc) svc.classList.add('active');
+    b.classList.remove('gs-swapping');
+    void b.offsetWidth;
+    b.classList.add('gs-state', 'gs-swapping');
+    clearTimeout(this._gsTimer);
+    this._gsTimer = setTimeout(() => { if (this._gsActive) document.body.classList.remove('gs-swapping'); }, 1150);
+    const gsOvl = document.getElementById('gs-overlay');
+    if (gsOvl) gsOvl.scrollTop = 0;
+    if (gsOvl && !this._gsScrollListenerAdded) {
+      gsOvl.addEventListener('scroll', this._onGSScroll, { passive: true });
+      this._gsScrollListenerAdded = true;
+    }
+    setTimeout(() => { this._setupGSMorph(); this._initFaqAccordion('gs-faq-clip'); this._applyGSScroll(); }, 300);
+  }
+
+  _setupGSMorph() {
+    if (this._gsReady) return;
+    const blobsEl = document.getElementById('gs-disc-blobs');
+    if (!blobsEl) { setTimeout(() => this._setupGSMorph(), 100); return; }
+    const SVGNS = 'http://www.w3.org/2000/svg';
+    this._gsRects = [];
+    for (let i = 0; i < 6; i++) {
+      const r = document.createElementNS(SVGNS, 'rect');
+      r.setAttribute('fill', 'white'); blobsEl.appendChild(r); this._gsRects.push(r);
+    }
+    this._gsReady = true;
+    this._renderRadar();
+    this._applyGSMorph(0, 0, 0, 0, 0, 0, 0);
+  }
+
+  _renderRadar() {
+    const holder = document.getElementById('gs-radar-holder');
+    if (!holder || holder._done) return;
+    const labels = ['Adaptability','Continuous Learning','Communication','Initiative & Autonomy','People Development','Technical Skills','English Skills'];
+    const startup  = [4, 3.7, 3.2, 3.5, 3.4, 4, 4];
+    const baseline = [3, 2.8, 2.0, 2.6, 2.3, 3.2, 2.7];
+    const mob = window.innerWidth < 768;
+    const MAX = 4, N = 7, cx = mob ? 300 : 400, cy = mob ? 300 : 274, R = mob ? 170 : 190;
+    const vbW = mob ? 600 : 800, vbH = mob ? 600 : 548;
+    const ang = (i) => (-90 + i * (360 / N)) * Math.PI / 180;
+    const pt = (i, v) => { const r = R * (v / MAX); return [cx + r * Math.cos(ang(i)), cy + r * Math.sin(ang(i))]; };
+    let svg = '<svg viewBox="0 0 ' + vbW + ' ' + vbH + '" style="width:100%;height:100%;max-width:840px;font-family:Inter,sans-serif;" preserveAspectRatio="xMidYMid meet">';
+    for (let l = 1; l <= MAX; l++) {
+      let pts = [];
+      for (let i = 0; i < N; i++) { const r = R * (l / MAX); pts.push((cx + r * Math.cos(ang(i))).toFixed(1) + ',' + (cy + r * Math.sin(ang(i))).toFixed(1)); }
+      svg += '<polygon points="' + pts.join(' ') + '" fill="none" stroke="rgba(199,255,224,0.12)" stroke-width="1"/>';
+    }
+    for (let i = 0; i < N; i++) {
+      const [x, y] = pt(i, MAX);
+      svg += '<line x1="' + cx + '" y1="' + cy + '" x2="' + x.toFixed(1) + '" y2="' + y.toFixed(1) + '" stroke="rgba(199,255,224,0.15)" stroke-dasharray="3 4" stroke-width="1"/>';
+      const lr = R + 30, lx = cx + lr * Math.cos(ang(i)), ly = cy + lr * Math.sin(ang(i));
+      const dx = Math.cos(ang(i)), anchor = dx > 0.25 ? 'start' : dx < -0.25 ? 'end' : 'middle';
+      const words = labels[i].split(' ');
+      let lines = [labels[i]];
+      if (labels[i].length > 13 && words.length > 1) { const mid = Math.ceil(words.length / 2); lines = [words.slice(0, mid).join(' '), words.slice(mid).join(' ')]; }
+      const lh = 20, y0 = ly - (lines.length - 1) * lh / 2;
+      svg += '<text x="' + lx.toFixed(1) + '" y="' + y0.toFixed(1) + '" text-anchor="' + anchor + '" fill="#C7FFE0" font-size="18" dominant-baseline="middle">';
+      lines.forEach((ln, k) => { svg += '<tspan x="' + lx.toFixed(1) + '" dy="' + (k === 0 ? 0 : lh) + '">' + ln + '</tspan>'; });
+      svg += '</text>';
+    }
+    for (let l = 0; l <= MAX; l++) { const r = R * (l / MAX); svg += '<text x="' + (cx + 9) + '" y="' + (cy - r).toFixed(1) + '" fill="rgba(199,255,224,0.42)" font-size="13" dominant-baseline="middle">' + l + '</text>'; }
+    const poly = (arr) => { let pts = []; for (let i = 0; i < N; i++) { const [x, y] = pt(i, arr[i]); pts.push(x.toFixed(1) + ',' + y.toFixed(1)); } return pts.join(' '); };
+    svg += '<polygon points="' + poly(startup) + '" fill="rgba(143,233,190,0.40)" stroke="#8FE9BE" stroke-width="2" stroke-linejoin="round"/>';
+    svg += '<polygon points="' + poly(baseline) + '" fill="rgba(30,158,118,0.55)" stroke="#1E9E76" stroke-width="2" stroke-linejoin="round"/>';
+    svg += '</svg>';
+    holder.innerHTML = svg;
+    holder._done = true;
+  }
+
+  _applyGSScroll() {
+    const sc = document.getElementById('gs-overlay');
+    if (!sc) return;
+    const cl = (t) => Math.max(0, Math.min(1, t));
+    const hl = document.getElementById('gs-hero-layer');
+    const mob = window.innerWidth < 768;
+    const max = (sc.scrollHeight - sc.clientHeight) || 1;
+    const p = sc.scrollTop / max;
+    const heroFade = cl((p - 0.04) / 0.06);
+    if (hl) {
+      hl.style.opacity = String(1 - heroFade);
+      hl.style.filter = heroFade > 0 ? 'blur(' + (heroFade * 14).toFixed(1) + 'px)' : '';
+      hl.style.pointerEvents = heroFade > 0.5 ? 'none' : 'auto';
+    }
+    const S = [0.03, 0.13, 0.23, 0.33, 0.43, 0.53, 0.63], TW = 0.05;
+    const e = S.map(s => cl((p - s) / TW));
+    this._applyGSMorph(e[0], e[1], e[2], e[3], e[4], e[5], e[6]);
+    const frame = document.getElementById('gs-hero-frame');
+    if (frame) frame.style.opacity = String(1 - cl(e[0] / 0.3));
+    const secDefs = [
+      ['gs-s1-hl','gs-s1-c1','gs-s1-c2','gs-s1-c3','gs-s1-c4'],
+      ['gs-s2-hl','gs-s2-c1','gs-s2-c2','gs-s2-c3','gs-s2-c4'],
+      ['gs-s3-hl','gs-rub-0','gs-rub-1','gs-rub-2','gs-rub-3','gs-rub-4','gs-s3-foot'],
+      ['gs-s4-hl','gs-radar-card'],
+      ['gs-s5-hl','gs-s5-c1','gs-s5-c2','gs-s5-c3','gs-s5-c4'],
+      ['gs-s6-hl','gs-s6-c1','gs-s6-c2','gs-s6-c3']
+    ];
+    const nextStart = [S[1], S[2], S[3], S[4], S[5], S[6]];
+    secDefs.forEach((ids, i) => {
+      const inS = S[i] + 0.03, outS = nextStart[i] - 0.01;
+      const op = cl((p - inS) / 0.03) * (1 - cl((p - outS) / 0.025));
+      ids.forEach(id => { const el = document.getElementById(id); if (el) { el.style.opacity = String(op); el.style.pointerEvents = op > 0.5 ? 'auto' : 'none'; } });
+    });
+    // FAQ — wide hold (0.73→0.86) so items are fully interactive
+    const faqIn = 0.69, faqFull = 0.73, faqOut = 0.86;
+    const fOp = cl((p - faqIn) / 0.04) * (1 - cl((p - faqOut) / 0.035));
+    const faqHl = document.getElementById('gs-faq-hl');
+    if (faqHl) { faqHl.style.opacity = String(fOp); faqHl.style.pointerEvents = 'none'; }
+    const faqClip = document.getElementById('gs-faq-clip');
+    if (faqClip) faqClip.style.pointerEvents = fOp > 0.3 ? 'auto' : 'none';
+    document.querySelectorAll('#gs-faq-items .faq-item').forEach(el => { el.style.opacity = String(fOp); });
+    const faqItemsEl = document.getElementById('gs-faq-items'), faqClipEl = document.getElementById('gs-faq-clip');
+    if (faqItemsEl && faqClipEl && !mob) {
+      const ov = Math.max(0, faqItemsEl.offsetHeight - faqClipEl.offsetHeight);
+      faqItemsEl.style.transform = 'translateY(' + (-cl((p - faqFull) / (faqOut - faqFull)) * ov).toFixed(1) + 'px)';
+    } else if (faqItemsEl) { faqItemsEl.style.transform = 'none'; }
+    // CTA finale
+    const ctaGlassOp = cl((p - 0.90) / 0.04);
+    const ctaContentOp = cl((p - 0.93) / 0.045);
+    const ctaGlassEl = document.getElementById('cta-glass');
+    if (ctaGlassEl) { ctaGlassEl.style.opacity = String(ctaGlassOp); ctaGlassEl.style.pointerEvents = ctaGlassOp > 0.05 ? 'auto' : 'none'; }
+    if (this._bg) this._bg.style.filter = ctaGlassOp > 0 ? 'blur(' + (ctaGlassOp * 18).toFixed(1) + 'px)' : '';
+    const discGlassEl = document.getElementById('gs-disc-glass');
+    if (discGlassEl) discGlassEl.style.opacity = String(1 - ctaGlassOp);
+    const ctaContentEl = document.getElementById('gs-cta-content');
+    if (ctaContentEl) {
+      ctaContentEl.style.opacity = String(ctaContentOp);
+      ctaContentEl.style.pointerEvents = ctaContentOp > 0.3 ? 'auto' : 'none';
+      ctaContentEl.style.filter = ctaContentOp < 1 ? 'blur(' + ((1 - ctaContentOp) * 12).toFixed(1) + 'px)' : '';
+    }
+    if (mob) {
+      const F = 0.028;
+      const bands = [
+        { s: 0.07, en: 0.185, sec: 'gs-sec-1', ids: secDefs[0] },
+        { s: 0.185, en: 0.30, sec: 'gs-sec-2', ids: secDefs[1] },
+        { s: 0.30, en: 0.415, sec: 'gs-sec-3', ids: secDefs[2] },
+        { s: 0.415, en: 0.53, sec: 'gs-sec-4', ids: secDefs[3] },
+        { s: 0.53, en: 0.645, sec: 'gs-sec-5', ids: secDefs[4] },
+        { s: 0.645, en: 0.76, sec: 'gs-sec-6', ids: secDefs[5] },
+        { s: 0.76, en: 0.895, sec: 'gs-sec-7', ids: ['gs-faq-hl'], faq: true }
+      ];
+      let held = 0;
+      bands.forEach(b => {
+        const op = cl((p - b.s) / F) * (1 - cl((p - (b.en - F)) / F));
+        held = Math.max(held, op);
+        const active = op > 0.985;
+        b.ids.forEach(id => { const el = document.getElementById(id); if (el) { el.style.opacity = String(op); el.style.pointerEvents = active ? 'auto' : 'none'; } });
+        const secEl = document.getElementById(b.sec);
+        if (secEl) secEl.style.pointerEvents = active ? 'auto' : 'none';
+        if (b.faq) {
+          document.querySelectorAll('#gs-faq-items .faq-item').forEach(el => { el.style.opacity = String(op); });
+          const clipEl = document.getElementById('gs-faq-clip');
+          if (clipEl) clipEl.style.pointerEvents = active ? 'auto' : 'none';
+        }
+      });
+      if (discGlassEl) discGlassEl.style.opacity = String((1 - Math.max(held, ctaContentOp)) * (1 - ctaGlassOp));
+    }
+  }
+
+  _applyGSMorph(e1, e2, e3, e4, e5, e6, e7) {
+    if (!this._gsRects) return;
+    const panel = document.getElementById('gs-stage');
+    const w = (panel && panel.offsetWidth) || window.innerWidth;
+    const h = (panel && panel.offsetHeight) || window.innerHeight;
+    if (!w || !h) return;
+    const mob = window.innerWidth < 768;
+    const cl = (t) => Math.max(0, Math.min(1, t));
+    const ease = (t) => t < 0.5 ? 2*t*t : 1 - Math.pow(-2*t+2, 2)/2;
+    const lr = (a, b, t) => ({ x:a.x+(b.x-a.x)*t, y:a.y+(b.y-a.y)*t, w:a.w+(b.w-a.w)*t, h:a.h+(b.h-a.h)*t, rx:a.rx+(b.rx-a.rx)*t });
+    const setR = (el, r) => {
+      el.setAttribute('x', r.x.toFixed(1)); el.setAttribute('y', r.y.toFixed(1));
+      el.setAttribute('width', Math.max(0,r.w).toFixed(1)); el.setAttribute('height', Math.max(0,r.h).toFixed(1));
+      el.setAttribute('rx', (mob ? Math.min(r.rx,22) : r.rx).toFixed(1));
+    };
+    const coll = { x:w*0.5, y:h*0.5, w:2, h:2, rx:40 };
+    let cover = { x:0, y:0, w:w+60, h:h, rx:44 };
+    const grid = (i) => { const P = [[0.02,0.24],[0.51,0.24],[0.02,0.62],[0.51,0.62]][i]; return { x:P[0]*w, y:P[1]*h, w:0.47*w, h:0.34*h, rx:40 }; };
+    const bar = (i) => ({ x:0.02*w, y:(0.22+i*0.133)*h, w:0.96*w, h:0.115*h, rx:18 });
+    const radar = { x:0.02*w, y:0.22*h, w:0.96*w, h:0.75*h, rx:40 };
+    const stat = (i) => ({ x:[0.02,0.3435,0.667][i]*w, y:0.30*h, w:0.313*w, h:0.60*h, rx:40 });
+    const items = document.querySelectorAll('#gs-faq-items .faq-item');
+    const fbFallback = (i) => ({ x:0.02*w, y:(0.16*h)+i*(0.10*h+0.018*h), w:0.96*w, h:0.10*h, rx:18 });
+    const measure = (i) => {
+      const it = items[i];
+      if (!it || !panel) return fbFallback(i);
+      const sr = panel.getBoundingClientRect(); const b = it.getBoundingClientRect();
+      if (!b.height) return fbFallback(i);
+      return { x:b.left-sr.left, y:b.top-sr.top, w:b.width, h:b.height, rx:18 };
+    };
+    let L1 = [grid(0),grid(1),grid(2),grid(3),coll,coll];
+    let L2 = [grid(0),grid(1),grid(2),grid(3),coll,coll];
+    let L3 = [bar(0),bar(1),bar(2),bar(3),bar(4),coll];
+    let L4 = [radar,coll,coll,coll,coll,coll];
+    let L5 = [grid(0),grid(1),grid(2),grid(3),coll,coll];
+    let L6 = [stat(0),stat(1),stat(2),coll,coll,coll];
+    let L7 = [measure(0),measure(1),measure(2),measure(3),measure(4),measure(5)];
+    if (mob) {
+      const M = 0.04, FW = 0.92;
+      cover = { x:0, y:0, w:w, h:h+80, rx:26 };
+      const st4 = (i) => ({ x:M*w, y:(0.10+i*0.215)*h, w:FW*w, h:0.19*h, rx:22 });
+      const st5 = (i) => ({ x:M*w, y:(0.05+i*0.188)*h, w:FW*w, h:0.16*h, rx:20 });
+      const radM = { x:M*w, y:0.12*h, w:FW*w, h:0.74*h, rx:22 };
+      const st3 = (i) => ({ x:M*w, y:(0.09+i*0.29)*h, w:FW*w, h:0.26*h, rx:22 });
+      L1 = [st4(0),st4(1),st4(2),st4(3),coll,coll];
+      L2 = [st4(0),st4(1),st4(2),st4(3),coll,coll];
+      L3 = [st5(0),st5(1),st5(2),st5(3),st5(4),coll];
+      L4 = [radM,coll,coll,coll,coll,coll];
+      L5 = [st4(0),st4(1),st4(2),st4(3),coll,coll];
+      L6 = [st3(0),st3(1),st3(2),coll,coll,coll];
+    }
+    const E = [ease(cl(e1)),ease(cl(e2)),ease(cl(e3)),ease(cl(e4)),ease(cl(e5)),ease(cl(e6)),ease(cl(e7))];
+    const secs = [L1,L2,L3,L4,L5,L6,L7];
+    for (let r = 0; r < 6; r++) {
+      let cur = cover;
+      for (let s = 0; s < 7; s++) { cur = lr(cur, secs[s][r], E[s]); }
+      setR(this._gsRects[r], cur);
+    }
+    const act = Math.max.apply(null, E.map(x => Math.sin(Math.PI * x)));
+    const blurEl = document.getElementById('gs-gb'), cmEl = document.getElementById('gs-cm');
+    if (blurEl) blurEl.setAttribute('stdDeviation', (1.5 + act*21).toFixed(1));
+    if (cmEl) cmEl.setAttribute('values', '1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 ' + (12+act*16).toFixed(0) + ' ' + (-4-act*8).toFixed(0));
+  }
+
+  // ─── Our Expertise view (seamless in-page nav, mirrors PE/GS) ──────
+
+  _onOEScroll = () => {
+    if (this._oeScrollRAF) return;
+    this._oeScrollRAF = requestAnimationFrame(() => { this._oeScrollRAF = 0; this._applyOEScroll(); });
+  };
+
+  _showOE() {
+    if (this._oeActive) return;
+    if (this._peActive) { this._peActive = false; document.body.classList.remove('pe-state'); const p0 = document.getElementById('pe-overlay'); if (p0) p0.scrollTop = 0; }
+    if (this._gsActive) { this._gsActive = false; document.body.classList.remove('gs-state'); const g0 = document.getElementById('gs-overlay'); if (g0) g0.scrollTop = 0; }
+    this._oeActive = true;
+    if (this._scrollEl) { this._scrollEl.scrollTop = 0; this._scrollEl.style.overflowY = 'hidden'; }
+    this._scrollProg = 0;
+    const b = document.body;
+    document.querySelectorAll('.nav-link').forEach(a => a.classList.remove('active'));
+    const links = [...document.querySelectorAll('#main-nav .nav-link')];
+    const oeLink = links.find(a => a.textContent.trim() === 'Our Expertise');
+    if (oeLink) oeLink.classList.add('active');
+    b.classList.remove('oe-swapping');
+    void b.offsetWidth;
+    b.classList.add('oe-state', 'oe-swapping');
+    clearTimeout(this._oeTimer);
+    this._oeTimer = setTimeout(() => { if (this._oeActive) document.body.classList.remove('oe-swapping'); }, 1150);
+    const oeOvl = document.getElementById('oe-overlay');
+    if (oeOvl) oeOvl.scrollTop = 0;
+    if (oeOvl && !this._oeScrollListenerAdded) {
+      oeOvl.addEventListener('scroll', this._onOEScroll, { passive: true });
+      this._oeScrollListenerAdded = true;
+    }
+    setTimeout(() => { this._setupOEMorph(); this._applyOEScroll(); }, 300);
+  }
+
+  _setupOEMorph() {
+    if (this._oeReady) return;
+    const blobsEl = document.getElementById('oe-disc-blobs');
+    if (!blobsEl) { setTimeout(() => this._setupOEMorph(), 100); return; }
+    const SVGNS = 'http://www.w3.org/2000/svg';
+    this._oeRects = [];
+    for (let i = 0; i < 5; i++) {
+      const r = document.createElementNS(SVGNS, 'rect');
+      r.setAttribute('fill', 'white'); blobsEl.appendChild(r); this._oeRects.push(r);
+    }
+    this._oeReady = true;
+    this._applyOEMorph(new Array(10).fill(0));
+  }
+
+  _oeHasTesti(i) { return i === 0 || i === 1; }
+
+  _oeGeom(i, w, h, mob) {
+    const t = this._oeHasTesti(i);
+    if (!mob) {
+      const areaTop = t ? 16 : 20, areaBottom = t ? 80 : 94, gap = t ? 1.4 : 1.5;
+      const span = areaBottom - areaTop;
+      const cardH = (span - 2 * gap) / 3;
+      const c1y = areaTop, c2y = areaTop + cardH + gap, c3y = areaTop + 2 * (cardH + gap);
+      const img = { x: 0.02 * w, y: (areaTop / 100) * h, w: 0.44 * w, h: (span / 100) * h, rx: 40 };
+      const mkCard = (y) => ({ x: 0.48 * w, y: (y / 100) * h, w: 0.50 * w, h: (cardH / 100) * h, rx: 40 });
+      const testi = t ? { x: 0.02 * w, y: 0.83 * h, w: 0.96 * w, h: 0.14 * h, rx: 18 } : { x: w * 0.5, y: h * 0.5, w: 2, h: 2, rx: 18 };
+      return { img, prob: mkCard(c1y), sol: mkCard(c2y), res: mkCard(c3y), testi };
+    }
+    // Mobile: stacked full-width bands
+    const M = 0.04 * w, FW = 0.92 * w;
+    let y0 = 0.10 * h;
+    const imgH = 0.24 * h, cardH = t ? 0.135 * h : 0.155 * h, gapPx = 0.018 * h;
+    const img = { x: M, y: y0, w: FW, h: imgH, rx: 22 };
+    let cy = y0 + imgH + gapPx;
+    const prob = { x: M, y: cy, w: FW, h: cardH, rx: 20 }; cy += cardH + gapPx;
+    const sol = { x: M, y: cy, w: FW, h: cardH, rx: 20 }; cy += cardH + gapPx;
+    const res = { x: M, y: cy, w: FW, h: cardH, rx: 20 }; cy += cardH + gapPx;
+    const testi = t ? { x: M, y: cy, w: FW, h: 0.16 * h, rx: 18 } : { x: w * 0.5, y: h * 0.5, w: 2, h: 2, rx: 18 };
+    return { img, prob, sol, res, testi };
+  }
+
+  _applyOEScroll() {
+    const sc = document.getElementById('oe-overlay');
+    if (!sc) return;
+    const cl = (t) => Math.max(0, Math.min(1, t));
+    const hl = document.getElementById('oe-hero-layer');
+    const mob = window.innerWidth < 768;
+    const max = (sc.scrollHeight - sc.clientHeight) || 1;
+    const p = sc.scrollTop / max;
+    const heroFade = cl((p - 0.025) / 0.035);
+    if (hl) {
+      hl.style.opacity = String(1 - heroFade);
+      hl.style.filter = heroFade > 0 ? 'blur(' + (heroFade * 14).toFixed(1) + 'px)' : '';
+      hl.style.pointerEvents = heroFade > 0.5 ? 'none' : 'auto';
+    }
+    const N = 10;
+    const S = []; for (let i = 0; i < N; i++) S.push(0.035 + i * 0.081);
+    const TW = 0.05;
+    const e = S.map(s => cl((p - s) / TW));
+    this._applyOEMorph(e);
+    const frame = document.getElementById('oe-hero-frame');
+    if (frame) frame.style.opacity = String(1 - cl(e[0] / 0.3));
+    for (let i = 0; i < N; i++) {
+      const n = i + 1;
+      const t = this._oeHasTesti(i);
+      const ids = ['oe-s' + n + '-hl', 'oe-s' + n + '-img', 'oe-s' + n + '-prob', 'oe-s' + n + '-sol', 'oe-s' + n + '-res'];
+      if (t) ids.push('oe-s' + n + '-testi');
+      const inS = S[i] + 0.028, outS = (i < N - 1 ? S[i + 1] : 0.90) - 0.012;
+      const op = cl((p - inS) / 0.03) * (1 - cl((p - outS) / 0.025));
+      ids.forEach(id => { const el = document.getElementById(id); if (el) { el.style.opacity = String(op); el.style.pointerEvents = op > 0.5 ? 'auto' : 'none'; } });
+    }
+    // CTA finale
+    const ctaGlassOp = cl((p - 0.90) / 0.04);
+    const ctaContentOp = cl((p - 0.93) / 0.045);
+    const ctaGlassEl = document.getElementById('cta-glass');
+    if (ctaGlassEl) { ctaGlassEl.style.opacity = String(ctaGlassOp); ctaGlassEl.style.pointerEvents = ctaGlassOp > 0.05 ? 'auto' : 'none'; }
+    if (this._bg) this._bg.style.filter = ctaGlassOp > 0 ? 'blur(' + (ctaGlassOp * 18).toFixed(1) + 'px)' : '';
+    const discGlassEl = document.getElementById('oe-disc-glass');
+    if (discGlassEl) discGlassEl.style.opacity = String(1 - ctaGlassOp);
+    const ctaContentEl = document.getElementById('oe-cta-content');
+    if (ctaContentEl) {
+      ctaContentEl.style.opacity = String(ctaContentOp);
+      ctaContentEl.style.pointerEvents = 'none';
+      const ctaInteractive = ctaContentOp > 0.3;
+      ctaContentEl.querySelectorAll(':scope > a, :scope > div').forEach((el) => { el.style.pointerEvents = ctaInteractive ? 'auto' : 'none'; });
+      ctaContentEl.style.filter = ctaContentOp < 1 ? 'blur(' + ((1 - ctaContentOp) * 12).toFixed(1) + 'px)' : '';
+    }
+    if (mob) {
+      const F = 0.022;
+      let held = 0;
+      for (let i = 0; i < N; i++) {
+        const n = i + 1;
+        const t = this._oeHasTesti(i);
+        const ids = ['oe-s' + n + '-hl', 'oe-s' + n + '-img', 'oe-s' + n + '-prob', 'oe-s' + n + '-sol', 'oe-s' + n + '-res'];
+        if (t) ids.push('oe-s' + n + '-testi');
+        const s = S[i], en = (i < N - 1 ? S[i + 1] : 0.90);
+        const op = cl((p - s) / F) * (1 - cl((p - (en - F)) / F));
+        held = Math.max(held, op);
+        const active = op > 0.985;
+        ids.forEach(id => { const el = document.getElementById(id); if (el) { el.style.opacity = String(op); el.style.pointerEvents = active ? 'auto' : 'none'; } });
+      }
+      if (discGlassEl) discGlassEl.style.opacity = String((1 - Math.max(held, ctaContentOp)) * (1 - ctaGlassOp));
+    }
+  }
+
+  _applyOEMorph(E) {
+    if (!this._oeRects) return;
+    const panel = document.getElementById('oe-stage');
+    const w = (panel && panel.offsetWidth) || window.innerWidth;
+    const h = (panel && panel.offsetHeight) || window.innerHeight;
+    if (!w || !h) return;
+    const mob = window.innerWidth < 768;
+    const cl = (t) => Math.max(0, Math.min(1, t));
+    const ease = (t) => t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+    const lr = (a, b, t) => ({ x: a.x + (b.x - a.x) * t, y: a.y + (b.y - a.y) * t, w: a.w + (b.w - a.w) * t, h: a.h + (b.h - a.h) * t, rx: a.rx + (b.rx - a.rx) * t });
+    const setR = (el, r) => {
+      el.setAttribute('x', r.x.toFixed(1)); el.setAttribute('y', r.y.toFixed(1));
+      el.setAttribute('width', Math.max(0, r.w).toFixed(1)); el.setAttribute('height', Math.max(0, r.h).toFixed(1));
+      el.setAttribute('rx', (mob ? Math.min(r.rx, 22) : r.rx).toFixed(1));
+    };
+    const coll = { x: w * 0.5, y: h * 0.5, w: 2, h: 2, rx: 40 };
+    const cover = mob ? { x: 0, y: 0, w: w, h: h + 80, rx: 26 } : { x: 0, y: 0, w: w + 60, h: h, rx: 44 };
+    const N = 10;
+    const Eeased = E.map(v => ease(cl(v)));
+    const slots = ['img', 'prob', 'sol', 'res', 'testi'];
+    for (let s = 0; s < 5; s++) {
+      let cur = cover;
+      for (let i = 0; i < N; i++) {
+        const g = this._oeGeom(i, w, h, mob);
+        cur = lr(cur, g[slots[s]], Eeased[i]);
+      }
+      setR(this._oeRects[s], cur);
+    }
+    const act = Math.max.apply(null, Eeased.map(x => Math.sin(Math.PI * x)));
+    const blurEl = document.getElementById('oe-gb'), cmEl = document.getElementById('oe-cm');
+    if (blurEl) blurEl.setAttribute('stdDeviation', (1.5 + act * 21).toFixed(1));
+    if (cmEl) cmEl.setAttribute('values', '1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 ' + (12 + act * 16).toFixed(0) + ' ' + (-4 - act * 8).toFixed(0));
   }
 
   // ─── Scroll ────────────────────────────────────────────────────────
@@ -1891,7 +3067,12 @@ class Component extends DCLogic {
     if (this._bg) this._bg.style.filter = ctaGlassOp > 0 ? 'blur(' + (ctaGlassOp * 18).toFixed(1) + 'px)' : '';
     if (ctaContent) {
       ctaContent.style.opacity = String(ctaContentOp);
-      ctaContent.style.pointerEvents = ctaContentOp > 0.3 ? 'auto' : 'none';
+      // This container spans the full hero-sticky width (including the left nav column) via inset:0,
+      // so it must stay pointer-events:none itself — only its own clickable children go interactive,
+      // otherwise it silently blocks clicks on the left-side nav once opaque.
+      ctaContent.style.pointerEvents = 'none';
+      const ctaInteractive = ctaContentOp > 0.3;
+      ctaContent.querySelectorAll(':scope > a, :scope > div').forEach((el) => { el.style.pointerEvents = ctaInteractive ? 'auto' : 'none'; });
       ctaContent.style.filter = ctaContentOp < 1 ? 'blur(' + ((1 - ctaContentOp) * 12).toFixed(1) + 'px)' : '';
     }
   }
