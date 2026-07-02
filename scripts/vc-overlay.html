@@ -1,0 +1,130 @@
+
+      <!-- ══════════ VC PARTNERSHIPS PAGE (glass card, animates in) ══════════ -->
+      <div id="vc-overlay" style="position:absolute; left:clamp(280px,24vw,400px); top:0; right:0; bottom:0; display:flex; flex-direction:column; align-items:stretch; overflow-y:auto; scrollbar-width:none; pointer-events:none; opacity:0; z-index:24; transition:opacity 0.5s ease;">
+        <div id="vc-stage" style="position:sticky; top:0; height:100vh; overflow:hidden; flex-shrink:0; opacity:0;">
+
+          <!-- SVG goo morph mask -->
+          <svg id="vc-disc-svg" style="position:absolute; inset:0; width:100%; height:100%; z-index:0; pointer-events:none;">
+            <defs>
+              <filter id="vc-goo-f" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur id="vc-gb" in="SourceGraphic" stdDeviation="1.5" result="b"></feGaussianBlur>
+                <feColorMatrix id="vc-cm" in="b" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 12 -4" result="g"></feColorMatrix>
+              </filter>
+              <mask id="vc-disc-msk" maskUnits="userSpaceOnUse" x="-200" y="-200" width="20000" height="20000">
+                <g filter="url(#vc-goo-f)" id="vc-disc-blobs"></g>
+              </mask>
+            </defs>
+          </svg>
+
+          <!-- Glass panel masked by goo -->
+          <div id="vc-disc-glass" style="position:absolute; inset:0; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); overflow:hidden; -webkit-mask:url(#vc-disc-msk); mask:url(#vc-disc-msk);"><div style="position:absolute;inset:0;pointer-events:none;opacity:0.055;filter:url(#panel-noise);background:#ffffff;"></div></div>
+
+          <!-- Hero frame -->
+          <div id="vc-hero-frame" style="position:absolute; inset:0; border-left:1px solid rgba(255,255,255,0.12); border-top:1px solid rgba(255,255,255,0.12); border-bottom:1px solid rgba(255,255,255,0.12); border-top-left-radius:44px; border-bottom-left-radius:44px; pointer-events:none; z-index:1;"></div>
+
+          <!-- HERO content layer -->
+          <div id="vc-hero-layer" style="position:absolute; inset:0; display:flex; flex-direction:column; justify-content:center; padding-left:clamp(48px,6.5vw,140px); padding-right:clamp(40px,5vw,90px); z-index:3; will-change:opacity,filter;">
+          <div style="max-width:920px;">
+            <h1 class="pe-el" style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(40px,5.4vw,92px); line-height:1.03; letter-spacing:-0.01em; text-wrap:balance; text-shadow:0 4px 32px rgba(31,98,255,0.40); opacity:0; transform:translateY(26px); transition:opacity 0.85s cubic-bezier(0.16,1,0.3,1) 0.18s, transform 0.85s cubic-bezier(0.16,1,0.3,1) 0.18s;">VC Partnerships</h1>
+            <p class="pe-el" style="margin:clamp(18px,2.4vh,30px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:#C7FFE0; font-size:clamp(15px,1.45vw,23px); line-height:1.5; text-wrap:pretty; opacity:0; transform:translateY(26px); transition:opacity 0.85s cubic-bezier(0.16,1,0.3,1) 0.30s, transform 0.85s cubic-bezier(0.16,1,0.3,1) 0.30s;">DevSavant is the technical operating partner for VC and accelerator portfolios, helping founders move from idea to scale with speed and capital efficiency.</p>
+            <p class="pe-el" style="margin:clamp(12px,1.6vh,20px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:#C7FFE0; font-size:clamp(15px,1.45vw,23px); line-height:1.5; text-wrap:pretty; opacity:0; transform:translateY(26px); transition:opacity 0.85s cubic-bezier(0.16,1,0.3,1) 0.38s, transform 0.85s cubic-bezier(0.16,1,0.3,1) 0.38s;">We work alongside investors to support their portfolio companies with rapid prototyping, MVP development, product acceleration, and embedded engineering teams. By combining elite Global talent with startup-focused execution, we reduce product risk, extend runway, and ensure each company hits its next milestone faster and more efficiently.</p>
+            <div class="pe-el" style="display:flex; align-items:center; gap:clamp(28px,3.6vw,52px); flex-wrap:wrap; margin-top:clamp(22px,3vh,36px); opacity:0; transform:translateY(26px); transition:opacity 0.85s cubic-bezier(0.16,1,0.3,1) 0.46s, transform 0.85s cubic-bezier(0.16,1,0.3,1) 0.46s;">
+              <div style="display:flex; flex-direction:column; gap:2px;">
+                <span style="font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(20px,2vw,32px); letter-spacing:-0.01em;">$1 billion</span>
+                <span style="font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(11px,0.85vw,14px); color:rgba(199,255,224,0.55);">Invested globally</span>
+              </div>
+              <div style="display:flex; flex-direction:column; gap:2px;">
+                <span style="font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(20px,2vw,32px); letter-spacing:-0.01em;">200</span>
+                <span style="font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(11px,0.85vw,14px); color:rgba(199,255,224,0.55);">Firms advised</span>
+              </div>
+              <div style="display:flex; flex-direction:column; gap:2px;">
+                <span style="font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(20px,2vw,32px); letter-spacing:-0.01em;">50</span>
+                <span style="font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(11px,0.85vw,14px); color:rgba(199,255,224,0.55);">High-growth ventures</span>
+              </div>
+            </div>
+            <div class="pe-el" style="display:flex; align-items:center; gap:clamp(20px,2.4vw,38px); flex-wrap:wrap; margin-top:clamp(20px,2.8vh,36px); opacity:0; transform:translateY(26px); transition:opacity 0.85s cubic-bezier(0.16,1,0.3,1) 0.54s, transform 0.85s cubic-bezier(0.16,1,0.3,1) 0.54s;">
+              <a href="#" style="display:inline-flex; align-items:center; gap:14px; background:#CCFFCE; color:#18282C; font-family:'Inter',sans-serif; font-weight:700; text-transform:uppercase; font-size:clamp(15px,1.4vw,22px); letter-spacing:0.045em; padding:13px 26px; text-decoration:none; box-shadow:0 0 44px rgba(150,255,170,0.28); transition:transform .2s ease, box-shadow .2s ease;" style-hover="transform:translateY(-2px); box-shadow:0 0 60px rgba(150,255,170,0.45);">Learn more <span style="font-weight:700;font-size:1.05em;">&#8594;</span></a>
+              <a href="#" onclick="{{ onHome }}" style="font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.6); font-size:clamp(13px,1.1vw,17px); text-decoration:none; letter-spacing:0.04em; display:inline-flex; align-items:center; gap:8px; transition:color .2s ease;" style-hover="color:#C7FFE0;"><span style="font-size:1.1em;">&#8592;</span> Back to Home</a>
+            </div>
+          </div>
+          </div><!-- /vc-hero-layer -->
+
+          <div id="vc-scroll">
+
+            <!-- ══════════ SECTION 1 · SAVANT GROWTH, A SUCCESS STORY ══════════ -->
+            <div class="pe-sec" id="vc-sec-1">
+              <div class="vc-hl" id="vc-s1-hl" style="position:absolute; left:2%; top:4%; width:96%; height:12%; display:flex; flex-direction:column; justify-content:center; opacity:0; pointer-events:none; z-index:2;">
+                <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(28px,3.4vw,60px); line-height:1.05; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.35);">Savant Growth, a Success Story</h2>
+              </div>
+              <div class="vc-card" id="vc-s1-c1" style="position:absolute; left:2%; top:18%; width:96%; height:78%; padding:clamp(24px,2.6vw,44px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; opacity:0; pointer-events:none; z-index:2;">
+                <div class="vc-scrollbar-hide" style="flex:1; min-height:0; overflow-y:auto; scrollbar-width:none;">
+                  <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.80); font-size:clamp(14px,1.15vw,19px); line-height:1.6; text-wrap:pretty;">Savant Growth is a US-based growth equity fund known for scaling capital-efficient B2B tech companies into category leaders. Over three decades, its partners have invested nearly $1B across the US and Europe, driving consistent growth outcomes. A core part of this success has been their partnership with DevSavant, acting as their dedicated operating partner. Our team works directly with CEOs, CTOs, and CFOs across their portfolio to streamline operations, enhance product execution, and implement projects that accelerate growth.</p>
+                  <p style="margin:clamp(14px,1.6vh,20px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.80); font-size:clamp(14px,1.15vw,19px); line-height:1.6; text-wrap:pretty;">Together with Kennet Partners, Savant Growth leverages this operational and technical strength to run specialized investment programs that push companies toward global leadership. Their investment philosophy focuses on businesses using software, data, analytics, and AI to transform workflows and unlock the next wave of digital efficiency.</p>
+                </div>
+              </div>
+            </div><!-- /vc-sec-1 -->
+
+            <!-- ══════════ SECTION 2 · VC PARTNERSHIPS ══════════ -->
+            <div class="pe-sec" id="vc-sec-2">
+              <div class="vc-hl" id="vc-s2-hl" style="position:absolute; left:2%; top:6%; width:96%; height:12%; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; opacity:0; pointer-events:none; z-index:2;">
+                <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(30px,3.6vw,64px); line-height:1.0; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.35);">VC Partnerships</h2>
+              </div>
+              
+              <div class="vc-card vc-logo" id="vc-s2-c1" style="position:absolute; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1.5px dashed rgba(199,255,224,0.25); border-radius:32px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; opacity:0; pointer-events:none; z-index:2;">
+                <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.5;"><rect x="3" y="7" width="18" height="13" rx="2"></rect><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(11px,0.85vw,14px); letter-spacing:0.06em; text-transform:uppercase; color:rgba(199,255,224,0.45); text-align:center; padding:0 10px;">Savant Growth logo</span>
+              </div>
+              
+              <div class="vc-card vc-logo" id="vc-s2-c2" style="position:absolute; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1.5px dashed rgba(199,255,224,0.25); border-radius:32px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; opacity:0; pointer-events:none; z-index:2;">
+                <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.5;"><rect x="3" y="7" width="18" height="13" rx="2"></rect><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(11px,0.85vw,14px); letter-spacing:0.06em; text-transform:uppercase; color:rgba(199,255,224,0.45); text-align:center; padding:0 10px;">Kennet logo</span>
+              </div>
+              
+              <div class="vc-card vc-logo" id="vc-s2-c3" style="position:absolute; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1.5px dashed rgba(199,255,224,0.25); border-radius:32px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; opacity:0; pointer-events:none; z-index:2;">
+                <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.5;"><rect x="3" y="7" width="18" height="13" rx="2"></rect><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(11px,0.85vw,14px); letter-spacing:0.06em; text-transform:uppercase; color:rgba(199,255,224,0.45); text-align:center; padding:0 10px;">Clearlake logo</span>
+              </div>
+              
+              <div class="vc-card vc-logo" id="vc-s2-c4" style="position:absolute; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1.5px dashed rgba(199,255,224,0.25); border-radius:32px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; opacity:0; pointer-events:none; z-index:2;">
+                <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.5;"><rect x="3" y="7" width="18" height="13" rx="2"></rect><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(11px,0.85vw,14px); letter-spacing:0.06em; text-transform:uppercase; color:rgba(199,255,224,0.45); text-align:center; padding:0 10px;">Partner logo</span>
+              </div>
+            </div><!-- /vc-sec-2 -->
+
+            <!-- ══════════ SECTION 3 · PARTNER WITH US ══════════ -->
+            <div class="pe-sec" id="vc-sec-3">
+              <div class="vc-card vc-cta-panel" id="vc-s3-c1" style="position:absolute; left:2%; top:22%; width:96%; height:56%; padding:clamp(28px,3.2vw,56px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; gap:clamp(16px,2.2vh,26px); opacity:0; pointer-events:none; z-index:2;">
+                <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(28px,3.2vw,56px); line-height:1.05; letter-spacing:-0.01em;">Partner With Us</h2>
+                <p style="margin:0; max-width:820px; font-family:'Inter',sans-serif; font-weight:300; color:#C7FFE0; font-size:clamp(15px,1.25vw,21px); line-height:1.55; text-wrap:pretty;">Investors looking to accelerate the growth of their portfolio companies can rely on DevSavant as a strategic operating partner. We bring the technical depth, execution discipline, and founder-first mindset needed to scale efficiently.</p>
+                <p style="margin:0; max-width:680px; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.62); font-size:clamp(13px,1.05vw,17px); line-height:1.55; text-wrap:pretty;">Ready to explore how we can support your fund? Contact us and let&rsquo;s build your next success story.</p>
+              </div>
+            </div><!-- /vc-sec-3 -->
+
+            <!-- ══════════ VC CTA finale (verbatim from Global Staffing) ══════════ -->
+            <div id="vc-cta-content" style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:flex-start; justify-content:center; padding-left:clamp(48px,6.5vw,140px); padding-right:clamp(32px,5vw,80px); gap:clamp(24px,3.4vh,44px); opacity:0; pointer-events:none; z-index:30;">
+              <h1 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(48px,6.6vw,112px); line-height:1.0; letter-spacing:-0.02em; text-shadow:0 4px 48px rgba(10,200,120,0.35);">Ready to Scale Your Team?</h1>
+              <div style="display:flex; align-items:center; gap:clamp(16px,2vw,28px); flex-wrap:wrap;">
+                <a href="#" style="display:inline-flex; align-items:center; gap:14px; background:#CCFFCE; color:#18282C; font-family:'Inter',sans-serif; font-weight:700; text-transform:uppercase; font-size:clamp(14px,1.2vw,20px); letter-spacing:0.05em; padding:clamp(13px,1.5vh,18px) clamp(28px,2.8vw,44px); text-decoration:none; box-shadow:0 0 52px rgba(150,255,170,0.32); transition:transform .2s ease,box-shadow .2s ease;" style-hover="transform:translateY(-3px);box-shadow:0 0 72px rgba(150,255,170,0.50);">Schedule a Call <span style="font-weight:700;font-size:1.1em;">&#8594;</span></a>
+              </div>
+              <div style="display:flex; align-items:center; gap:clamp(24px,3.5vw,52px); margin-top:clamp(6px,1.2vh,16px);">
+                <a href="#" style="display:flex; flex-direction:column; align-items:center; gap:10px; text-decoration:none; opacity:0.70; transition:opacity .2s;" style-hover="opacity:1;">
+                  <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="rgba(199,255,224,0.10)"/><path d="M10 13h3v9h-3v-9zm1.5-4.5a1.5 1.5 0 110 3 1.5 1.5 0 010-3zM15 13h2.9v1.3h.04C18.44 13.5 19.5 13 20.7 13c3 0 3.3 2 3.3 4.5V22h-3v-4c0-1 0-2.3-1.4-2.3-1.4 0-1.6 1.1-1.6 2.2V22h-3v-9z" fill="#C7FFE0"/></svg>
+                </a>
+                <a href="#" style="display:flex; flex-direction:column; align-items:center; gap:10px; text-decoration:none; opacity:0.70; transition:opacity .2s;" style-hover="opacity:1;">
+                  <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="rgba(199,255,224,0.10)"/><path d="M16 8a6 6 0 016 6c0 4-6 10-6 10S10 18 10 14a6 6 0 016-6zm0 4a2 2 0 100 4 2 2 0 000-4z" fill="#C7FFE0"/></svg>
+                </a>
+                <a href="mailto:hello@devsavant.com" style="display:flex; flex-direction:column; align-items:center; gap:10px; text-decoration:none; opacity:0.70; transition:opacity .2s;" style-hover="opacity:1;">
+                  <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="rgba(199,255,224,0.10)"/><rect x="8" y="10" width="16" height="12" rx="2" stroke="#C7FFE0" stroke-width="1.5" fill="none"/><path d="M8 12l8 6 8-6" stroke="#C7FFE0" stroke-width="1.5" stroke-linecap="round"/></svg>
+                </a>
+                <a href="tel:+1" style="display:flex; flex-direction:column; align-items:center; gap:10px; text-decoration:none; opacity:0.70; transition:opacity .2s;" style-hover="opacity:1;">
+                  <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="rgba(199,255,224,0.10)"/><path d="M12 10h2l1 4-1.5 1.5c1 2 2.5 3.5 4.5 4.5L19.5 18l4 1v2c0 1-1 2-2 2C12 22 10 12 10 12c0-1 1-2 2-2z" fill="#C7FFE0"/></svg>
+                </a>
+              </div>
+              <a href="#" style="font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.35); font-size:clamp(11px,0.85vw,14px); text-decoration:underline; letter-spacing:0.05em; transition:color .2s;" style-hover="color:rgba(199,255,224,0.70);">Privacy Policy</a>
+            </div>
+
+          </div><!-- /vc-scroll -->
+        </div><!-- /vc-stage -->
+        <div id="vc-spacer" style="height:900vh; flex-shrink:0;"></div>
+      </div>
+

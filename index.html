@@ -80,6 +80,38 @@
     body.oe-state #oe-overlay { opacity: 1 !important; pointer-events: auto !important; }
     body.oe-state #oe-stage { opacity: 1 !important; }
     .oe-scrollbar-hide::-webkit-scrollbar { display: none; }
+    /* ===== About Us page swap (mirrors PE/GS/OE) ===== */
+    body.au-swapping #home-main,
+    body.au-swapping #mission-overlay,
+    body.au-swapping #au-overlay,
+    body.au-swapping #au-stage {
+      transition: opacity 0.55s cubic-bezier(0.4,0,0.2,1), filter 0.55s cubic-bezier(0.4,0,0.2,1) !important;
+    }
+    body.au-swapping #left-aside {
+      animation: nav-swap 1.05s cubic-bezier(0.4,0,0.2,1) both !important;
+    }
+    body.au-state #home-main,
+    body.au-state #mission-overlay {
+      opacity: 0 !important; filter: blur(18px) !important; pointer-events: none !important;
+    }
+    body.au-state #au-overlay { opacity: 1 !important; pointer-events: auto !important; }
+    body.au-state #au-stage { opacity: 1 !important; }
+    /* ===== VC Partnerships page swap (mirrors PE/GS/OE/AU) ===== */
+    body.vc-swapping #home-main,
+    body.vc-swapping #mission-overlay,
+    body.vc-swapping #vc-overlay,
+    body.vc-swapping #vc-stage {
+      transition: opacity 0.55s cubic-bezier(0.4,0,0.2,1), filter 0.55s cubic-bezier(0.4,0,0.2,1) !important;
+    }
+    body.vc-swapping #left-aside {
+      animation: nav-swap 1.05s cubic-bezier(0.4,0,0.2,1) both !important;
+    }
+    body.vc-state #home-main,
+    body.vc-state #mission-overlay {
+      opacity: 0 !important; filter: blur(18px) !important; pointer-events: none !important;
+    }
+    body.vc-state #vc-overlay { opacity: 1 !important; pointer-events: auto !important; }
+    body.vc-state #vc-stage { opacity: 1 !important; }
     @keyframes btn-grow {
       from { clip-path: inset(0% 100% 0% 0%); }
       to   { clip-path: inset(0% 0% 0% 0%); }
@@ -187,6 +219,8 @@
     #pe-overlay::-webkit-scrollbar { display: none; }
     #gs-overlay::-webkit-scrollbar { display: none; }
     #oe-overlay::-webkit-scrollbar { display: none; }
+    #au-overlay::-webkit-scrollbar { display: none; }
+    #vc-overlay::-webkit-scrollbar { display: none; }
 
     /* ─── Mobile navigation ─────────────────────────────────────────── */
     #mobile-header { display: none; }
@@ -570,6 +604,7 @@
       }
       #gs-faq-items { position: relative !important; top: auto !important; left: auto !important; right: auto !important; }
       #gs-cta-content { padding-left: 24px !important; padding-right: 24px !important; }
+      #oe-cta-content { padding-left: 24px !important; padding-right: 24px !important; }
 
       /* Our Expertise subpage (mobile) - mirrors PE/GS model */
       #oe-overlay { left: 0 !important; }
@@ -582,6 +617,7 @@
         border-bottom-left-radius: 0 !important;
       }
       #oe-hero-layer { padding-left: 26px !important; padding-right: 26px !important; }
+      #oe-hero-layer h1 { font-size: clamp(48px, 6.6vw, 108px) !important; }
       .oe-hl {
         position: relative !important;
         left: auto !important; top: auto !important;
@@ -608,6 +644,82 @@
       .oe-card .oe-scrollbar-hide { max-height: 34vh !important; }
       .oe-testi { flex-direction: column !important; align-items: flex-start !important; gap: 10px !important; padding: 18px 20px !important; margin-bottom: 0 !important; }
       .oe-testi > div:last-child { text-align: left !important; max-width: none !important; }
+
+      /* About Us subpage (mobile) - mirrors PE/GS/OE model */
+      #au-overlay { left: 0 !important; }
+      #au-stage { top: 0 !important; height: 100% !important; }
+      #au-hero-frame {
+        border-right: 1px solid rgba(255,255,255,0.12) !important;
+        border-bottom: none !important;
+        border-top-left-radius: 26px !important;
+        border-top-right-radius: 26px !important;
+        border-bottom-left-radius: 0 !important;
+      }
+      #au-hero-layer { padding-left: 26px !important; padding-right: 26px !important; }
+      #au-hero-layer h1 { font-size: clamp(48px, 6.6vw, 108px) !important; }
+      .au-hl {
+        position: relative !important;
+        left: auto !important; top: auto !important;
+        width: 100% !important; height: auto !important;
+        flex-shrink: 0 !important;
+        justify-content: center !important;
+        margin: 2px 0 10px !important;
+        gap: 8px !important;
+      }
+      .au-hl h2 { font-size: clamp(26px, 7vw, 34px) !important; line-height: 1.1 !important; }
+      .au-card {
+        position: relative !important;
+        left: auto !important; top: auto !important; right: auto !important; bottom: auto !important;
+        width: 100% !important; height: auto !important;
+        flex-shrink: 0 !important;
+        box-sizing: border-box !important;
+        border-radius: 24px !important;
+        margin: 0 0 12px !important;
+      }
+      .au-purpose { flex-direction: column !important; align-items: flex-start !important; gap: 18px !important; padding: 26px 24px !important; min-height: 340px !important; justify-content: center !important; }
+      .au-purpose h2 { font-size: clamp(32px, 9vw, 42px) !important; line-height: 1.08 !important; }
+      .au-purpose p { font-size: clamp(17px, 4.6vw, 21px) !important; line-height: 1.45 !important; }
+      .au-person { min-height: 340px !important; }
+      #au-sec-2 .au-card, #au-sec-4 .au-card { min-height: 150px !important; }
+      .au-card { max-height: 62vh !important; overflow-y: auto !important; -webkit-overflow-scrolling: touch !important; scrollbar-width: none !important; }
+      .au-card::-webkit-scrollbar { display: none !important; }
+      #au-cta-content { padding-left: 24px !important; padding-right: 24px !important; }
+
+      /* VC Partnerships subpage (mobile) - mirrors PE/GS/OE/AU model */
+      #vc-overlay { left: 0 !important; }
+      #vc-stage { top: 0 !important; height: 100% !important; }
+      #vc-hero-frame {
+        border-right: 1px solid rgba(255,255,255,0.12) !important;
+        border-bottom: none !important;
+        border-top-left-radius: 26px !important;
+        border-top-right-radius: 26px !important;
+        border-bottom-left-radius: 0 !important;
+      }
+      #vc-hero-layer { padding-left: 26px !important; padding-right: 26px !important; }
+      #vc-hero-layer h1 { font-size: clamp(48px, 6.6vw, 108px) !important; }
+      .vc-hl {
+        position: relative !important;
+        left: auto !important; top: auto !important;
+        width: 100% !important; height: auto !important;
+        flex-shrink: 0 !important;
+        justify-content: center !important;
+        margin: 2px 0 10px !important;
+      }
+      .vc-hl h2 { font-size: clamp(26px, 7vw, 34px) !important; line-height: 1.1 !important; }
+      .vc-card {
+        position: relative !important;
+        left: auto !important; top: auto !important; right: auto !important; bottom: auto !important;
+        width: 100% !important; height: auto !important;
+        flex-shrink: 0 !important;
+        box-sizing: border-box !important;
+        border-radius: 24px !important;
+        margin: 0 0 12px !important;
+        max-height: 62vh !important; overflow-y: auto !important; -webkit-overflow-scrolling: touch !important; scrollbar-width: none !important;
+      }
+      .vc-card::-webkit-scrollbar { display: none !important; }
+      .vc-logo { min-height: 130px !important; }
+      .vc-cta-panel h2 { font-size: clamp(26px, 7vw, 32px) !important; }
+      #vc-cta-content { padding-left: 24px !important; padding-right: 24px !important; }
     }
   </style>
 </helmet>
@@ -646,8 +758,8 @@
         </div>
       </div>
       <a href="#" class="mob-link" onclick="{{ onMobileOE }}">Our Expertise</a>
-      <a href="#" class="mob-link" onclick="{{ onMobileMenuClose }}">About Us</a>
-      <a href="#" class="mob-link" onclick="{{ onMobileMenuClose }}">VC Partnerships</a>
+      <a href="#" class="mob-link" onclick="{{ onMobileAU }}">About Us</a>
+      <a href="#" class="mob-link" onclick="{{ onMobileVC }}">VC Partnerships</a>
       <a href="#" class="mob-link" onclick="{{ onMobileMenuClose }}">Blog</a>
       <a href="#" class="mob-link" onclick="{{ onMobileMenuClose }}">Careers</a>
     </nav>
@@ -726,8 +838,8 @@
             </div>
           </div>
           <a href="#" class="nav-link" onclick="{{ onOE }}" style="font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(17px,1.4vw,24px); color:#fff; text-decoration:none; white-space:nowrap; transition:opacity .2s ease, font-size 0.75s cubic-bezier(0.22,1,0.36,1); animation:nav-enter 0.9s cubic-bezier(0.16,1,0.3,1) 0.48s both" style-hover="opacity:0.6;">Our Expertise</a>
-          <a href="#" class="nav-link" style="font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(17px,1.4vw,24px); color:#fff; text-decoration:none; white-space:nowrap; transition:opacity .2s ease, font-size 0.75s cubic-bezier(0.22,1,0.36,1); animation:nav-enter 0.9s cubic-bezier(0.16,1,0.3,1) 0.61s both" style-hover="opacity:0.6;">About Us</a>
-          <a href="#" class="nav-link" style="font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(17px,1.4vw,24px); color:#fff; text-decoration:none; white-space:nowrap; transition:opacity .2s ease, font-size 0.75s cubic-bezier(0.22,1,0.36,1); animation:nav-enter 0.9s cubic-bezier(0.16,1,0.3,1) 0.74s both" style-hover="opacity:0.6;">VC Partnerships</a>
+          <a href="#" class="nav-link" onclick="{{ onAU }}" style="font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(17px,1.4vw,24px); color:#fff; text-decoration:none; white-space:nowrap; transition:opacity .2s ease, font-size 0.75s cubic-bezier(0.22,1,0.36,1); animation:nav-enter 0.9s cubic-bezier(0.16,1,0.3,1) 0.61s both" style-hover="opacity:0.6;">About Us</a>
+          <a href="#" class="nav-link" onclick="{{ onVC }}" style="font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(17px,1.4vw,24px); color:#fff; text-decoration:none; white-space:nowrap; transition:opacity .2s ease, font-size 0.75s cubic-bezier(0.22,1,0.36,1); animation:nav-enter 0.9s cubic-bezier(0.16,1,0.3,1) 0.74s both" style-hover="opacity:0.6;">VC Partnerships</a>
           <a href="#" class="nav-link" style="font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(17px,1.4vw,24px); color:#fff; text-decoration:none; white-space:nowrap; transition:opacity .2s ease, font-size 0.75s cubic-bezier(0.22,1,0.36,1); animation:nav-enter 0.9s cubic-bezier(0.16,1,0.3,1) 0.87s both" style-hover="opacity:0.6;">Blog</a>
           <a href="#" class="nav-link" style="font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(17px,1.4vw,24px); color:#fff; text-decoration:none; white-space:nowrap; transition:opacity .2s ease, font-size 0.75s cubic-bezier(0.22,1,0.36,1); animation:nav-enter 0.9s cubic-bezier(0.16,1,0.3,1) 1.0s both" style-hover="opacity:0.6;">Careers</a>
         </nav>
@@ -1631,7 +1743,6 @@
 
 <div class="pe-sec" id="oe-sec-1">
   <div class="oe-hl" id="oe-s1-hl" style="position:absolute; left:2%; top:3%; width:96%; height:10%; display:flex; flex-direction:column; justify-content:center; gap:clamp(6px,0.8vh,10px); opacity:0; pointer-events:none; z-index:2;">
-    <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(10px,0.85vw,14px); letter-spacing:0.24em; text-transform:uppercase; color:rgba(199,255,224,0.55);">Global Staffing</span>
     <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(22px,2.5vw,42px); line-height:1.08; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.30); text-wrap:balance; max-width:1100px;">Fulcrum / Scaling an Engineering Team</h2>
   </div>
   <div class="oe-card" id="oe-s1-img" style="position:absolute; left:2%; top:16%; width:44%; height:64%; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1.5px dashed rgba(199,255,224,0.25); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; opacity:0; pointer-events:none; z-index:2;">
@@ -1662,7 +1773,6 @@
 
 <div class="pe-sec" id="oe-sec-2">
   <div class="oe-hl" id="oe-s2-hl" style="position:absolute; left:2%; top:3%; width:96%; height:10%; display:flex; flex-direction:column; justify-content:center; gap:clamp(6px,0.8vh,10px); opacity:0; pointer-events:none; z-index:2;">
-    <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(10px,0.85vw,14px); letter-spacing:0.24em; text-transform:uppercase; color:rgba(199,255,224,0.55);">Product Engineering</span>
     <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(22px,2.5vw,42px); line-height:1.08; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.30); text-wrap:balance; max-width:1100px;">IntelePeer / Data Warehousing</h2>
   </div>
   <div class="oe-card" id="oe-s2-img" style="position:absolute; left:2%; top:16%; width:44%; height:64%; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1.5px dashed rgba(199,255,224,0.25); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; opacity:0; pointer-events:none; z-index:2;">
@@ -1693,7 +1803,6 @@
 
 <div class="pe-sec" id="oe-sec-3">
   <div class="oe-hl" id="oe-s3-hl" style="position:absolute; left:2%; top:4%; width:96%; height:12%; display:flex; flex-direction:column; justify-content:center; gap:clamp(6px,0.8vh,10px); opacity:0; pointer-events:none; z-index:2;">
-    <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(10px,0.85vw,14px); letter-spacing:0.24em; text-transform:uppercase; color:rgba(199,255,224,0.55);">Global Staffing</span>
     <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(22px,2.5vw,42px); line-height:1.08; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.30); text-wrap:balance; max-width:1100px;">Conversica / ETL Pipeline for Dynamic Massive Lead Ingestion</h2>
   </div>
   <div class="oe-card" id="oe-s3-img" style="position:absolute; left:2%; top:20%; width:44%; height:74%; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1.5px dashed rgba(199,255,224,0.25); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; opacity:0; pointer-events:none; z-index:2;">
@@ -1716,7 +1825,6 @@
 
 <div class="pe-sec" id="oe-sec-4">
   <div class="oe-hl" id="oe-s4-hl" style="position:absolute; left:2%; top:4%; width:96%; height:12%; display:flex; flex-direction:column; justify-content:center; gap:clamp(6px,0.8vh,10px); opacity:0; pointer-events:none; z-index:2;">
-    <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(10px,0.85vw,14px); letter-spacing:0.24em; text-transform:uppercase; color:rgba(199,255,224,0.55);">Product Engineering</span>
     <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(22px,2.5vw,42px); line-height:1.08; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.30); text-wrap:balance; max-width:1100px;">Impartner / Data Lifecycle Project</h2>
   </div>
   <div class="oe-card" id="oe-s4-img" style="position:absolute; left:2%; top:20%; width:44%; height:74%; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1.5px dashed rgba(199,255,224,0.25); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; opacity:0; pointer-events:none; z-index:2;">
@@ -1739,7 +1847,6 @@
 
 <div class="pe-sec" id="oe-sec-5">
   <div class="oe-hl" id="oe-s5-hl" style="position:absolute; left:2%; top:4%; width:96%; height:12%; display:flex; flex-direction:column; justify-content:center; gap:clamp(6px,0.8vh,10px); opacity:0; pointer-events:none; z-index:2;">
-    <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(10px,0.85vw,14px); letter-spacing:0.24em; text-transform:uppercase; color:rgba(199,255,224,0.55);">Product Engineering</span>
     <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(22px,2.5vw,42px); line-height:1.08; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.30); text-wrap:balance; max-width:1100px;">AI-Powered Reading Assessment (EdTech | PoC in 4 Weeks)</h2>
   </div>
   <div class="oe-card" id="oe-s5-img" style="position:absolute; left:2%; top:20%; width:44%; height:74%; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1.5px dashed rgba(199,255,224,0.25); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; opacity:0; pointer-events:none; z-index:2;">
@@ -1762,7 +1869,6 @@
 
 <div class="pe-sec" id="oe-sec-6">
   <div class="oe-hl" id="oe-s6-hl" style="position:absolute; left:2%; top:4%; width:96%; height:12%; display:flex; flex-direction:column; justify-content:center; gap:clamp(6px,0.8vh,10px); opacity:0; pointer-events:none; z-index:2;">
-    <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(10px,0.85vw,14px); letter-spacing:0.24em; text-transform:uppercase; color:rgba(199,255,224,0.55);">Product Engineering</span>
     <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(22px,2.5vw,42px); line-height:1.08; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.30); text-wrap:balance; max-width:1100px;">Interactive Audiobook Companion (Venture-Backed | 8-Week MVP)</h2>
   </div>
   <div class="oe-card" id="oe-s6-img" style="position:absolute; left:2%; top:20%; width:44%; height:74%; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1.5px dashed rgba(199,255,224,0.25); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; opacity:0; pointer-events:none; z-index:2;">
@@ -1785,7 +1891,6 @@
 
 <div class="pe-sec" id="oe-sec-7">
   <div class="oe-hl" id="oe-s7-hl" style="position:absolute; left:2%; top:4%; width:96%; height:12%; display:flex; flex-direction:column; justify-content:center; gap:clamp(6px,0.8vh,10px); opacity:0; pointer-events:none; z-index:2;">
-    <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(10px,0.85vw,14px); letter-spacing:0.24em; text-transform:uppercase; color:rgba(199,255,224,0.55);">Product Engineering</span>
     <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(22px,2.5vw,42px); line-height:1.08; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.30); text-wrap:balance; max-width:1100px;">Self-Service AI Book Generation Platform (Founder-Led | 8 Weeks)</h2>
   </div>
   <div class="oe-card" id="oe-s7-img" style="position:absolute; left:2%; top:20%; width:44%; height:74%; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1.5px dashed rgba(199,255,224,0.25); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; opacity:0; pointer-events:none; z-index:2;">
@@ -1808,7 +1913,6 @@
 
 <div class="pe-sec" id="oe-sec-8">
   <div class="oe-hl" id="oe-s8-hl" style="position:absolute; left:2%; top:4%; width:96%; height:12%; display:flex; flex-direction:column; justify-content:center; gap:clamp(6px,0.8vh,10px); opacity:0; pointer-events:none; z-index:2;">
-    <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(10px,0.85vw,14px); letter-spacing:0.24em; text-transform:uppercase; color:rgba(199,255,224,0.55);">Product Engineering</span>
     <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(22px,2.5vw,42px); line-height:1.08; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.30); text-wrap:balance; max-width:1100px;">AI-Powered Support Automation (Growth-Stage SaaS | 9-Week Delivery)</h2>
   </div>
   <div class="oe-card" id="oe-s8-img" style="position:absolute; left:2%; top:20%; width:44%; height:74%; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1.5px dashed rgba(199,255,224,0.25); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; opacity:0; pointer-events:none; z-index:2;">
@@ -1831,7 +1935,6 @@
 
 <div class="pe-sec" id="oe-sec-9">
   <div class="oe-hl" id="oe-s9-hl" style="position:absolute; left:2%; top:4%; width:96%; height:12%; display:flex; flex-direction:column; justify-content:center; gap:clamp(6px,0.8vh,10px); opacity:0; pointer-events:none; z-index:2;">
-    <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(10px,0.85vw,14px); letter-spacing:0.24em; text-transform:uppercase; color:rgba(199,255,224,0.55);">Product Engineering</span>
     <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(22px,2.5vw,42px); line-height:1.08; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.30); text-wrap:balance; max-width:1100px;">Cross-Platform AI Conversation Manager (Internal Product | Ongoing)</h2>
   </div>
   <div class="oe-card" id="oe-s9-img" style="position:absolute; left:2%; top:20%; width:44%; height:74%; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1.5px dashed rgba(199,255,224,0.25); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; opacity:0; pointer-events:none; z-index:2;">
@@ -1854,7 +1957,6 @@
 
 <div class="pe-sec" id="oe-sec-10">
   <div class="oe-hl" id="oe-s10-hl" style="position:absolute; left:2%; top:4%; width:96%; height:12%; display:flex; flex-direction:column; justify-content:center; gap:clamp(6px,0.8vh,10px); opacity:0; pointer-events:none; z-index:2;">
-    <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(10px,0.85vw,14px); letter-spacing:0.24em; text-transform:uppercase; color:rgba(199,255,224,0.55);">Product Engineering</span>
     <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(22px,2.5vw,42px); line-height:1.08; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.30); text-wrap:balance; max-width:1100px;">Automated Financial Reporting Dashboard (Private Equity | 1-Week Sprint)</h2>
   </div>
   <div class="oe-card" id="oe-s10-img" style="position:absolute; left:2%; top:20%; width:44%; height:74%; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1.5px dashed rgba(199,255,224,0.25); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; opacity:0; pointer-events:none; z-index:2;">
@@ -1901,7 +2003,421 @@
 
           </div><!-- /oe-scroll -->
         </div><!-- /oe-stage -->
-        <div id="oe-spacer" style="height:1900vh; flex-shrink:0;"></div>
+        <div id="oe-spacer" style="height:3600vh; flex-shrink:0;"></div>
+      </div>
+
+
+      <!-- ══════════ ABOUT US PAGE (glass card, animates in) ══════════ -->
+      <div id="au-overlay" style="position:absolute; left:clamp(280px,24vw,400px); top:0; right:0; bottom:0; display:flex; flex-direction:column; align-items:stretch; overflow-y:auto; scrollbar-width:none; pointer-events:none; opacity:0; z-index:24; transition:opacity 0.5s ease;">
+        <div id="au-stage" style="position:sticky; top:0; height:100vh; overflow:hidden; flex-shrink:0; opacity:0;">
+
+          <!-- SVG goo morph mask -->
+          <svg id="au-disc-svg" style="position:absolute; inset:0; width:100%; height:100%; z-index:0; pointer-events:none;">
+            <defs>
+              <filter id="au-goo-f" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur id="au-gb" in="SourceGraphic" stdDeviation="1.5" result="b"></feGaussianBlur>
+                <feColorMatrix id="au-cm" in="b" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 12 -4" result="g"></feColorMatrix>
+              </filter>
+              <mask id="au-disc-msk" maskUnits="userSpaceOnUse" x="-200" y="-200" width="20000" height="20000">
+                <g filter="url(#au-goo-f)" id="au-disc-blobs"></g>
+              </mask>
+            </defs>
+          </svg>
+
+          <!-- Glass panel masked by goo -->
+          <div id="au-disc-glass" style="position:absolute; inset:0; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); overflow:hidden; -webkit-mask:url(#au-disc-msk); mask:url(#au-disc-msk);"><div style="position:absolute;inset:0;pointer-events:none;opacity:0.055;filter:url(#panel-noise);background:#ffffff;"></div></div>
+
+          <!-- Hero frame -->
+          <div id="au-hero-frame" style="position:absolute; inset:0; border-left:1px solid rgba(255,255,255,0.12); border-top:1px solid rgba(255,255,255,0.12); border-bottom:1px solid rgba(255,255,255,0.12); border-top-left-radius:44px; border-bottom-left-radius:44px; pointer-events:none; z-index:1;"></div>
+
+          <!-- HERO content layer -->
+          <div id="au-hero-layer" style="position:absolute; inset:0; display:flex; flex-direction:column; justify-content:center; padding-left:clamp(48px,6.5vw,140px); padding-right:clamp(40px,5vw,90px); z-index:3; will-change:opacity,filter;">
+          <div style="max-width:920px;">
+            <h1 class="pe-el" style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(40px,5.4vw,92px); line-height:1.03; letter-spacing:-0.01em; text-wrap:balance; text-shadow:0 4px 32px rgba(31,98,255,0.40); opacity:0; transform:translateY(26px); transition:opacity 0.85s cubic-bezier(0.16,1,0.3,1) 0.18s, transform 0.85s cubic-bezier(0.16,1,0.3,1) 0.18s;">About us</h1>
+            <p class="pe-el" style="margin:clamp(18px,2.4vh,30px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:#C7FFE0; font-size:clamp(15px,1.45vw,23px); line-height:1.5; text-wrap:pretty; opacity:0; transform:translateY(26px); transition:opacity 0.85s cubic-bezier(0.16,1,0.3,1) 0.30s, transform 0.85s cubic-bezier(0.16,1,0.3,1) 0.30s;">At DevSavant, we were shaped by the energy of a venture ecosystem, built alongside founders chasing big visions and investors backing the next wave of innovation. For over seven years, we&rsquo;ve lived at the intersection of both worlds, understanding the pressure, the pace, and the passion that drive early and growth-stage companies. We stand beside startups at every stage of their journey. Whether it&rsquo;s bringing an idea to life, building an MVP under a tight runway, or embedding high-caliber global teams to scale, we become the partner that founders can trust and investors can count on.</p>
+            <div class="pe-el" style="display:flex; align-items:center; gap:clamp(20px,2.4vw,38px); flex-wrap:wrap; margin-top:clamp(24px,3.4vh,44px); opacity:0; transform:translateY(26px); transition:opacity 0.85s cubic-bezier(0.16,1,0.3,1) 0.46s, transform 0.85s cubic-bezier(0.16,1,0.3,1) 0.46s;">
+              <a href="#" style="display:inline-flex; align-items:center; gap:14px; background:#CCFFCE; color:#18282C; font-family:'Inter',sans-serif; font-weight:700; text-transform:uppercase; font-size:clamp(15px,1.4vw,22px); letter-spacing:0.045em; padding:13px 26px; text-decoration:none; box-shadow:0 0 44px rgba(150,255,170,0.28); transition:transform .2s ease, box-shadow .2s ease;" style-hover="transform:translateY(-2px); box-shadow:0 0 60px rgba(150,255,170,0.45);">Get Started Today <span style="font-weight:700;font-size:1.05em;">&#8594;</span></a>
+              <a href="#" onclick="{{ onHome }}" style="font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.6); font-size:clamp(13px,1.1vw,17px); text-decoration:none; letter-spacing:0.04em; display:inline-flex; align-items:center; gap:8px; transition:color .2s ease;" style-hover="color:#C7FFE0;"><span style="font-size:1.1em;">&#8592;</span> Back to Home</a>
+            </div>
+          </div>
+          </div><!-- /au-hero-layer -->
+
+          <div id="au-scroll">
+
+            <!-- ══════════ SECTION 1 · OUR PURPOSE ══════════ -->
+            <div class="pe-sec" id="au-sec-1">
+              <div class="au-card au-purpose" id="au-s1-c1" style="position:absolute; left:2%; top:18%; width:96%; height:64%; padding:clamp(28px,3.2vw,56px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; justify-content:center; gap:clamp(16px,2vh,24px); opacity:0; pointer-events:none; z-index:2;">
+                <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(34px,4.2vw,76px); line-height:1.05; letter-spacing:-0.01em;">Our Purpose</h2>
+                <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:#C7FFE0; font-size:clamp(17px,1.7vw,28px); line-height:1.4; text-wrap:pretty; max-width:920px;">Our mission is simple: turn ambition into execution, and help every company move confidently toward its next milestone.</p>
+              </div>
+            </div><!-- /au-sec-1 -->
+
+            <!-- ══════════ SECTION 2 · OUR STORY ══════════ -->
+            <div class="pe-sec" id="au-sec-2">
+              <div class="au-hl" id="au-s2-hl" style="position:absolute; left:2%; top:4%; width:96%; height:12%; display:flex; flex-direction:column; justify-content:center; opacity:0; pointer-events:none; z-index:2;">
+                <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(30px,3.6vw,64px); line-height:1.0; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.35);">Our Story</h2>
+              </div>
+              
+              <div class="au-card" id="au-s2-c1" style="position:absolute; left:2%; top:20%; width:47%; height:34%; padding:clamp(18px,1.8vw,32px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; gap:clamp(10px,1.2vh,16px); opacity:0; pointer-events:none; z-index:2;">
+                <div style="display:flex; align-items:center; justify-content:space-between;">
+                  <div style="width:48px; height:48px; border-radius:14px; background:rgba(157,235,194,0.10); display:flex; align-items:center; justify-content:center;"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"></path><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"></path><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"></path><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"></path></svg></div>
+                  <span style="font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(20px,2vw,30px); letter-spacing:-0.01em;">2021</span>
+                </div>
+                <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.72); font-size:clamp(12.5px,0.92vw,15.5px); line-height:1.55; text-wrap:pretty;">DevSavant was born in 2021 from the vision of entrepreneur Daniel Peña and his partners Javier Rojas and Erik Filipek, built as a tech powerhouse created by investors for investors and founders.</p>
+              </div>
+              
+              <div class="au-card" id="au-s2-c2" style="position:absolute; left:51%; top:20%; width:47%; height:34%; padding:clamp(18px,1.8vw,32px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; gap:clamp(10px,1.2vh,16px); opacity:0; pointer-events:none; z-index:2;">
+                <div style="display:flex; align-items:center; justify-content:space-between;">
+                  <div style="width:48px; height:48px; border-radius:14px; background:rgba(157,235,194,0.10); display:flex; align-items:center; justify-content:center;"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="20" x2="12" y2="10"></line><line x1="18" y1="20" x2="18" y2="4"></line><line x1="6" y1="20" x2="6" y2="16"></line></svg></div>
+                  <span style="font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(20px,2vw,30px); letter-spacing:-0.01em;">2021</span>
+                </div>
+                <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.72); font-size:clamp(12.5px,0.92vw,15.5px); line-height:1.55; text-wrap:pretty;">After surpassing 100 team members in 2021, the company expanded in 2022 to deliver its services to several Series A clients.</p>
+              </div>
+              
+              <div class="au-card" id="au-s2-c3" style="position:absolute; left:2%; top:58%; width:47%; height:34%; padding:clamp(18px,1.8vw,32px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; gap:clamp(10px,1.2vh,16px); opacity:0; pointer-events:none; z-index:2;">
+                <div style="display:flex; align-items:center; justify-content:space-between;">
+                  <div style="width:48px; height:48px; border-radius:14px; background:rgba(157,235,194,0.10); display:flex; align-items:center; justify-content:center;"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12V8H6a2 2 0 0 1-2-2c0-1.1.9-2 2-2h12v4"></path><path d="M4 6v12c0 1.1.9 2 2 2h14v-4"></path><path d="M18 12a2 2 0 0 0 0 4h4v-4Z"></path></svg></div>
+                  <span style="font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(20px,2vw,30px); letter-spacing:-0.01em;">2022</span>
+                </div>
+                <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.72); font-size:clamp(12.5px,0.92vw,15.5px); line-height:1.55; text-wrap:pretty;">The company expanded in 2022 to deliver its services to several Series A clients.</p>
+              </div>
+
+              <div class="au-card" id="au-s2-c4" style="position:absolute; left:51%; top:58%; width:47%; height:34%; padding:clamp(18px,1.8vw,32px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; gap:clamp(10px,1.2vh,16px); opacity:0; pointer-events:none; z-index:2;">
+                <div style="display:flex; align-items:center; justify-content:space-between;">
+                  <div style="width:48px; height:48px; border-radius:14px; background:rgba(157,235,194,0.10); display:flex; align-items:center; justify-content:center;"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg></div>
+                  <span style="font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(20px,2vw,30px); letter-spacing:-0.01em;">2025</span>
+                </div>
+                <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.72); font-size:clamp(12.5px,0.92vw,15.5px); line-height:1.55; text-wrap:pretty;">Building on strong relationships with Savant Growth portfolio companies, DevSavant extended its services to American B2B Tech and AI companies, founders and investors that can benefit from our offerings.</p>
+              </div>
+            </div><!-- /au-sec-2 -->
+
+            <!-- ══════════ SECTION 3 · FOUNDERS ══════════ -->
+            <div class="pe-sec" id="au-sec-3">
+              <div class="au-hl" id="au-s3-hl" style="position:absolute; left:2%; top:4%; width:96%; height:14%; display:flex; flex-direction:column; justify-content:center; gap:clamp(6px,1vh,12px); opacity:0; pointer-events:none; z-index:2;">
+                <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(30px,3.6vw,64px); line-height:1.0; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.35);">Founders</h2>
+                <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:#C7FFE0; font-size:clamp(14px,1.15vw,20px); line-height:1.5; text-wrap:pretty; max-width:600px;">Working side by side with founders to build and scale.</p>
+              </div>
+              
+              <div class="au-card au-person" id="au-s3-c1" style="position:absolute; left:2%; top:24%; width:31.3%; height:64%; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:32px; display:flex; flex-direction:column; opacity:0; pointer-events:none; z-index:2; box-sizing:border-box; overflow:hidden;">
+                <div class="au-photo" style="flex:1; min-height:0; margin:14px 14px 0; border-radius:22px; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1.5px dashed rgba(199,255,224,0.25); border-radius:32px; box-sizing:border-box; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:8px;">
+                  <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.5;"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c1.5-4 5-6 8-6s6.5 2 8 6"></path></svg>
+                  <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(10px,0.75vw,12px); letter-spacing:0.06em; text-transform:uppercase; color:rgba(199,255,224,0.4); text-align:center; padding:0 10px;">Javier Rojas photo</span>
+                </div>
+                <div style="flex-shrink:0; padding:clamp(14px,1.4vw,20px);">
+                  <div style="display:flex; align-items:baseline; justify-content:space-between; gap:8px; flex-wrap:wrap;">
+                    <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(16px,1.5vw,23px); line-height:1.2;">Javier Rojas</h3>
+                    <span style="font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(11px,0.85vw,14px); color:rgba(199,255,224,0.55);">Co-Founder</span>
+                  </div>
+                  <div style="display:flex; gap:10px; margin-top:clamp(10px,1.1vw,14px);">
+                    <span style="width:30px; height:30px; border-radius:50%; border:1px solid rgba(199,255,224,0.28); display:inline-flex; align-items:center; justify-content:center; color:#C7FFE0;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="m3 7 9 6 9-6"></path></svg></span>
+                    <span style="width:30px; height:30px; border-radius:50%; border:1px solid rgba(199,255,224,0.28); display:inline-flex; align-items:center; justify-content:center; color:#C7FFE0;"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zm7 0h3.8v1.7h.05c.53-1 1.85-2 3.8-2 4.06 0 4.8 2.7 4.8 6.2V21h-4v-5.3c0-1.27-.02-2.9-1.77-2.9-1.77 0-2.04 1.38-2.04 2.8V21h-4z"></path></svg></span>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="au-card au-person" id="au-s3-c2" style="position:absolute; left:34.35%; top:24%; width:31.3%; height:64%; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:32px; display:flex; flex-direction:column; opacity:0; pointer-events:none; z-index:2; box-sizing:border-box; overflow:hidden;">
+                <div class="au-photo" style="flex:1; min-height:0; margin:14px 14px 0; border-radius:22px; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1.5px dashed rgba(199,255,224,0.25); border-radius:32px; box-sizing:border-box; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:8px;">
+                  <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.5;"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c1.5-4 5-6 8-6s6.5 2 8 6"></path></svg>
+                  <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(10px,0.75vw,12px); letter-spacing:0.06em; text-transform:uppercase; color:rgba(199,255,224,0.4); text-align:center; padding:0 10px;">Eric Filipek photo</span>
+                </div>
+                <div style="flex-shrink:0; padding:clamp(14px,1.4vw,20px);">
+                  <div style="display:flex; align-items:baseline; justify-content:space-between; gap:8px; flex-wrap:wrap;">
+                    <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(16px,1.5vw,23px); line-height:1.2;">Eric Filipek</h3>
+                    <span style="font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(11px,0.85vw,14px); color:rgba(199,255,224,0.55);">Co-Founder</span>
+                  </div>
+                  <div style="display:flex; gap:10px; margin-top:clamp(10px,1.1vw,14px);">
+                    <span style="width:30px; height:30px; border-radius:50%; border:1px solid rgba(199,255,224,0.28); display:inline-flex; align-items:center; justify-content:center; color:#C7FFE0;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="m3 7 9 6 9-6"></path></svg></span>
+                    <span style="width:30px; height:30px; border-radius:50%; border:1px solid rgba(199,255,224,0.28); display:inline-flex; align-items:center; justify-content:center; color:#C7FFE0;"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zm7 0h3.8v1.7h.05c.53-1 1.85-2 3.8-2 4.06 0 4.8 2.7 4.8 6.2V21h-4v-5.3c0-1.27-.02-2.9-1.77-2.9-1.77 0-2.04 1.38-2.04 2.8V21h-4z"></path></svg></span>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="au-card au-person" id="au-s3-c3" style="position:absolute; left:66.7%; top:24%; width:31.3%; height:64%; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:32px; display:flex; flex-direction:column; opacity:0; pointer-events:none; z-index:2; box-sizing:border-box; overflow:hidden;">
+                <div class="au-photo" style="flex:1; min-height:0; margin:14px 14px 0; border-radius:22px; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1.5px dashed rgba(199,255,224,0.25); border-radius:32px; box-sizing:border-box; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:8px;">
+                  <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.5;"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c1.5-4 5-6 8-6s6.5 2 8 6"></path></svg>
+                  <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(10px,0.75vw,12px); letter-spacing:0.06em; text-transform:uppercase; color:rgba(199,255,224,0.4); text-align:center; padding:0 10px;">Daniel Peña photo</span>
+                </div>
+                <div style="flex-shrink:0; padding:clamp(14px,1.4vw,20px);">
+                  <div style="display:flex; align-items:baseline; justify-content:space-between; gap:8px; flex-wrap:wrap;">
+                    <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(16px,1.5vw,23px); line-height:1.2;">Daniel Peña</h3>
+                    <span style="font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(11px,0.85vw,14px); color:rgba(199,255,224,0.55);">CEO, Co-Founder</span>
+                  </div>
+                  <div style="display:flex; gap:10px; margin-top:clamp(10px,1.1vw,14px);">
+                    <span style="width:30px; height:30px; border-radius:50%; border:1px solid rgba(199,255,224,0.28); display:inline-flex; align-items:center; justify-content:center; color:#C7FFE0;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="m3 7 9 6 9-6"></path></svg></span>
+                    <span style="width:30px; height:30px; border-radius:50%; border:1px solid rgba(199,255,224,0.28); display:inline-flex; align-items:center; justify-content:center; color:#C7FFE0;"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zm7 0h3.8v1.7h.05c.53-1 1.85-2 3.8-2 4.06 0 4.8 2.7 4.8 6.2V21h-4v-5.3c0-1.27-.02-2.9-1.77-2.9-1.77 0-2.04 1.38-2.04 2.8V21h-4z"></path></svg></span>
+                  </div>
+                </div>
+              </div>
+            </div><!-- /au-sec-3 -->
+
+            <!-- ══════════ SECTION 4 · OUR DNA ══════════ -->
+            <div class="pe-sec" id="au-sec-4">
+              <div class="au-hl" id="au-s4-hl" style="position:absolute; left:2%; top:3%; width:96%; height:14%; display:flex; flex-direction:column; justify-content:center; gap:clamp(6px,1vh,12px); opacity:0; pointer-events:none; z-index:2;">
+                <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(28px,3.4vw,60px); line-height:1.0; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.35);">Our DNA</h2>
+                <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:#C7FFE0; font-size:clamp(14px,1.1vw,19px); line-height:1.5; text-wrap:pretty; max-width:640px;">Everything we do is defined by our core values, the foundation of our identity:</p>
+              </div>
+              
+              <div class="au-card" id="au-s4-c1" style="position:absolute; left:2%; top:20%; width:31.3%; height:32%; padding:clamp(18px,1.8vw,30px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; gap:clamp(8px,1vh,14px); opacity:0; pointer-events:none; z-index:2;">
+                <div style="display:flex; align-items:flex-start; justify-content:space-between;">
+                  <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"></circle><path d="M15.5 13.5 17 22l-5-3-5 3 1.5-8.5"></path></svg>
+                  <span style="font-family:'Space Grotesk',sans-serif; font-weight:500; font-size:clamp(34px,3.8vw,60px); line-height:1; color:rgba(255,255,255,0.07); letter-spacing:-0.02em; user-select:none;">01</span>
+                </div>
+                <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(15px,1.4vw,22px); line-height:1.2;">Competitive</h3>
+                <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.72); font-size:clamp(12px,0.88vw,15px); line-height:1.55; text-wrap:pretty;">We prioritize excellence, finding the perfect balance between speed and quality in a dynamic and agile way.</p>
+              </div>
+              
+              <div class="au-card" id="au-s4-c2" style="position:absolute; left:34.35%; top:20%; width:31.3%; height:32%; padding:clamp(18px,1.8vw,30px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; gap:clamp(8px,1vh,14px); opacity:0; pointer-events:none; z-index:2;">
+                <div style="display:flex; align-items:flex-start; justify-content:space-between;">
+                  <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></svg>
+                  <span style="font-family:'Space Grotesk',sans-serif; font-weight:500; font-size:clamp(34px,3.8vw,60px); line-height:1; color:rgba(255,255,255,0.07); letter-spacing:-0.02em; user-select:none;">02</span>
+                </div>
+                <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(15px,1.4vw,22px); line-height:1.2;">Collaborative</h3>
+                <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.72); font-size:clamp(12px,0.88vw,15px); line-height:1.55; text-wrap:pretty;">We believe in working together toward shared goals, fostering an environment of respect, empathy, and trust.</p>
+              </div>
+              
+              <div class="au-card" id="au-s4-c3" style="position:absolute; left:66.7%; top:20%; width:31.3%; height:32%; padding:clamp(18px,1.8vw,30px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; gap:clamp(8px,1vh,14px); opacity:0; pointer-events:none; z-index:2;">
+                <div style="display:flex; align-items:flex-start; justify-content:space-between;">
+                  <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-8 9-4.5-1.5-8-4-8-9V6l8-3 8 3z"></path><path d="m9 12 2 2 4-4"></path></svg>
+                  <span style="font-family:'Space Grotesk',sans-serif; font-weight:500; font-size:clamp(34px,3.8vw,60px); line-height:1; color:rgba(255,255,255,0.07); letter-spacing:-0.02em; user-select:none;">03</span>
+                </div>
+                <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(15px,1.4vw,22px); line-height:1.2;">Committed</h3>
+                <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.72); font-size:clamp(12px,0.88vw,15px); line-height:1.55; text-wrap:pretty;">We approach every challenge with passion and determination, turning obstacles into opportunities to exceed expectations.</p>
+              </div>
+              
+              <div class="au-card" id="au-s4-c4" style="position:absolute; left:17.95%; top:56%; width:31.3%; height:32%; padding:clamp(18px,1.8vw,30px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; gap:clamp(8px,1vh,14px); opacity:0; pointer-events:none; z-index:2;">
+                <div style="display:flex; align-items:flex-start; justify-content:space-between;">
+                  <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 4 13V8a4 4 0 0 1 4-4h4a7 7 0 0 1 7 7 8 8 0 0 1-8 9Z"></path><path d="M12 20v-9"></path></svg>
+                  <span style="font-family:'Space Grotesk',sans-serif; font-weight:500; font-size:clamp(34px,3.8vw,60px); line-height:1; color:rgba(255,255,255,0.07); letter-spacing:-0.02em; user-select:none;">04</span>
+                </div>
+                <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(15px,1.4vw,22px); line-height:1.2;">Balanced</h3>
+                <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.72); font-size:clamp(12px,0.88vw,15px); line-height:1.55; text-wrap:pretty;">We value harmony, empowering our team to make decisions that honor personal freedom, autonomy, and responsibility.</p>
+              </div>
+              
+              <div class="au-card" id="au-s4-c5" style="position:absolute; left:50.75%; top:56%; width:31.3%; height:32%; padding:clamp(18px,1.8vw,30px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; gap:clamp(8px,1vh,14px); opacity:0; pointer-events:none; z-index:2;">
+                <div style="display:flex; align-items:flex-start; justify-content:space-between;">
+                  <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3M12 18v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M3 12h3M18 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"></path><circle cx="12" cy="12" r="3.2"></circle></svg>
+                  <span style="font-family:'Space Grotesk',sans-serif; font-weight:500; font-size:clamp(34px,3.8vw,60px); line-height:1; color:rgba(255,255,255,0.07); letter-spacing:-0.02em; user-select:none;">05</span>
+                </div>
+                <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(15px,1.4vw,22px); line-height:1.2;">Innovative</h3>
+                <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.72); font-size:clamp(12px,0.88vw,15px); line-height:1.55; text-wrap:pretty;">We embrace change, driving creative solutions and continuous learning to stay ahead in a rapidly evolving world.</p>
+              </div>
+            </div><!-- /au-sec-4 -->
+
+            <!-- ══════════ SECTION 5 · OUR LEADERS ══════════ -->
+            <div class="pe-sec" id="au-sec-5">
+              <div class="au-hl" id="au-s5-hl" style="position:absolute; left:2%; top:4%; width:96%; height:16%; display:flex; flex-direction:column; justify-content:center; gap:clamp(6px,1vh,12px); opacity:0; pointer-events:none; z-index:2;">
+                <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(30px,3.6vw,64px); line-height:1.0; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.35);">Our Leaders</h2>
+                <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:#C7FFE0; font-size:clamp(14px,1.1vw,19px); line-height:1.5; text-wrap:pretty; max-width:820px;">Our leadership team embodies creativity, expertise, and strategic brilliance. They are the architects of DevSavant&rsquo;s success and are dedicated to transforming your B2B SaaS business into a thriving success story.</p>
+              </div>
+              
+              <div class="au-card au-person" id="au-s5-c1" style="position:absolute; left:2%; top:26%; width:31.3%; height:62%; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:32px; display:flex; flex-direction:column; opacity:0; pointer-events:none; z-index:2; box-sizing:border-box; overflow:hidden;">
+                <div class="au-photo" style="flex:1; min-height:0; margin:14px 14px 0; border-radius:22px; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1.5px dashed rgba(199,255,224,0.25); border-radius:32px; box-sizing:border-box; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:8px;">
+                  <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.5;"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c1.5-4 5-6 8-6s6.5 2 8 6"></path></svg>
+                  <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(10px,0.75vw,12px); letter-spacing:0.06em; text-transform:uppercase; color:rgba(199,255,224,0.4); text-align:center; padding:0 10px;">Daniel Peña photo</span>
+                </div>
+                <div style="flex-shrink:0; padding:clamp(14px,1.4vw,20px);">
+                  <div style="display:flex; align-items:baseline; justify-content:space-between; gap:8px; flex-wrap:wrap;">
+                    <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(16px,1.5vw,23px); line-height:1.2;">Daniel Peña</h3>
+                    <span style="font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(11px,0.85vw,14px); color:rgba(199,255,224,0.55);">CEO</span>
+                  </div>
+                  <div style="display:flex; gap:10px; margin-top:clamp(10px,1.1vw,14px);">
+                    <span style="width:30px; height:30px; border-radius:50%; border:1px solid rgba(199,255,224,0.28); display:inline-flex; align-items:center; justify-content:center; color:#C7FFE0;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="m3 7 9 6 9-6"></path></svg></span>
+                    <span style="width:30px; height:30px; border-radius:50%; border:1px solid rgba(199,255,224,0.28); display:inline-flex; align-items:center; justify-content:center; color:#C7FFE0;"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zm7 0h3.8v1.7h.05c.53-1 1.85-2 3.8-2 4.06 0 4.8 2.7 4.8 6.2V21h-4v-5.3c0-1.27-.02-2.9-1.77-2.9-1.77 0-2.04 1.38-2.04 2.8V21h-4z"></path></svg></span>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="au-card au-person" id="au-s5-c2" style="position:absolute; left:34.35%; top:26%; width:31.3%; height:62%; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:32px; display:flex; flex-direction:column; opacity:0; pointer-events:none; z-index:2; box-sizing:border-box; overflow:hidden;">
+                <div class="au-photo" style="flex:1; min-height:0; margin:14px 14px 0; border-radius:22px; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1.5px dashed rgba(199,255,224,0.25); border-radius:32px; box-sizing:border-box; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:8px;">
+                  <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.5;"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c1.5-4 5-6 8-6s6.5 2 8 6"></path></svg>
+                  <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(10px,0.75vw,12px); letter-spacing:0.06em; text-transform:uppercase; color:rgba(199,255,224,0.4); text-align:center; padding:0 10px;">Sergio Echeverri photo</span>
+                </div>
+                <div style="flex-shrink:0; padding:clamp(14px,1.4vw,20px);">
+                  <div style="display:flex; align-items:baseline; justify-content:space-between; gap:8px; flex-wrap:wrap;">
+                    <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(16px,1.5vw,23px); line-height:1.2;">Sergio Echeverri</h3>
+                    <span style="font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(11px,0.85vw,14px); color:rgba(199,255,224,0.55);">Operations</span>
+                  </div>
+                  <div style="display:flex; gap:10px; margin-top:clamp(10px,1.1vw,14px);">
+                    <span style="width:30px; height:30px; border-radius:50%; border:1px solid rgba(199,255,224,0.28); display:inline-flex; align-items:center; justify-content:center; color:#C7FFE0;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="m3 7 9 6 9-6"></path></svg></span>
+                    <span style="width:30px; height:30px; border-radius:50%; border:1px solid rgba(199,255,224,0.28); display:inline-flex; align-items:center; justify-content:center; color:#C7FFE0;"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zm7 0h3.8v1.7h.05c.53-1 1.85-2 3.8-2 4.06 0 4.8 2.7 4.8 6.2V21h-4v-5.3c0-1.27-.02-2.9-1.77-2.9-1.77 0-2.04 1.38-2.04 2.8V21h-4z"></path></svg></span>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="au-card au-person" id="au-s5-c3" style="position:absolute; left:66.7%; top:26%; width:31.3%; height:62%; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:32px; display:flex; flex-direction:column; opacity:0; pointer-events:none; z-index:2; box-sizing:border-box; overflow:hidden;">
+                <div class="au-photo" style="flex:1; min-height:0; margin:14px 14px 0; border-radius:22px; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1.5px dashed rgba(199,255,224,0.25); border-radius:32px; box-sizing:border-box; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:8px;">
+                  <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.5;"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c1.5-4 5-6 8-6s6.5 2 8 6"></path></svg>
+                  <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(10px,0.75vw,12px); letter-spacing:0.06em; text-transform:uppercase; color:rgba(199,255,224,0.4); text-align:center; padding:0 10px;">David Coke photo</span>
+                </div>
+                <div style="flex-shrink:0; padding:clamp(14px,1.4vw,20px);">
+                  <div style="display:flex; align-items:baseline; justify-content:space-between; gap:8px; flex-wrap:wrap;">
+                    <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(16px,1.5vw,23px); line-height:1.2;">David Coke</h3>
+                    <span style="font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(11px,0.85vw,14px); color:rgba(199,255,224,0.55);">Staff Augmentation</span>
+                  </div>
+                  <div style="display:flex; gap:10px; margin-top:clamp(10px,1.1vw,14px);">
+                    <span style="width:30px; height:30px; border-radius:50%; border:1px solid rgba(199,255,224,0.28); display:inline-flex; align-items:center; justify-content:center; color:#C7FFE0;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="m3 7 9 6 9-6"></path></svg></span>
+                    <span style="width:30px; height:30px; border-radius:50%; border:1px solid rgba(199,255,224,0.28); display:inline-flex; align-items:center; justify-content:center; color:#C7FFE0;"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zm7 0h3.8v1.7h.05c.53-1 1.85-2 3.8-2 4.06 0 4.8 2.7 4.8 6.2V21h-4v-5.3c0-1.27-.02-2.9-1.77-2.9-1.77 0-2.04 1.38-2.04 2.8V21h-4z"></path></svg></span>
+                  </div>
+                </div>
+              </div>
+            </div><!-- /au-sec-5 -->
+
+            <!-- ══════════ AU CTA finale (verbatim from Global Staffing) ══════════ -->
+            <div id="au-cta-content" style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:flex-start; justify-content:center; padding-left:clamp(48px,6.5vw,140px); padding-right:clamp(32px,5vw,80px); gap:clamp(24px,3.4vh,44px); opacity:0; pointer-events:none; z-index:30;">
+              <h1 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(48px,6.6vw,112px); line-height:1.0; letter-spacing:-0.02em; text-shadow:0 4px 48px rgba(10,200,120,0.35);">Ready to Scale Your Team?</h1>
+              <div style="display:flex; align-items:center; gap:clamp(16px,2vw,28px); flex-wrap:wrap;">
+                <a href="#" style="display:inline-flex; align-items:center; gap:14px; background:#CCFFCE; color:#18282C; font-family:'Inter',sans-serif; font-weight:700; text-transform:uppercase; font-size:clamp(14px,1.2vw,20px); letter-spacing:0.05em; padding:clamp(13px,1.5vh,18px) clamp(28px,2.8vw,44px); text-decoration:none; box-shadow:0 0 52px rgba(150,255,170,0.32); transition:transform .2s ease,box-shadow .2s ease;" style-hover="transform:translateY(-3px);box-shadow:0 0 72px rgba(150,255,170,0.50);">Schedule a Call <span style="font-weight:700;font-size:1.1em;">&#8594;</span></a>
+              </div>
+              <div style="display:flex; align-items:center; gap:clamp(24px,3.5vw,52px); margin-top:clamp(6px,1.2vh,16px);">
+                <a href="#" style="display:flex; flex-direction:column; align-items:center; gap:10px; text-decoration:none; opacity:0.70; transition:opacity .2s;" style-hover="opacity:1;">
+                  <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="rgba(199,255,224,0.10)"/><path d="M10 13h3v9h-3v-9zm1.5-4.5a1.5 1.5 0 110 3 1.5 1.5 0 010-3zM15 13h2.9v1.3h.04C18.44 13.5 19.5 13 20.7 13c3 0 3.3 2 3.3 4.5V22h-3v-4c0-1 0-2.3-1.4-2.3-1.4 0-1.6 1.1-1.6 2.2V22h-3v-9z" fill="#C7FFE0"/></svg>
+                </a>
+                <a href="#" style="display:flex; flex-direction:column; align-items:center; gap:10px; text-decoration:none; opacity:0.70; transition:opacity .2s;" style-hover="opacity:1;">
+                  <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="rgba(199,255,224,0.10)"/><path d="M16 8a6 6 0 016 6c0 4-6 10-6 10S10 18 10 14a6 6 0 016-6zm0 4a2 2 0 100 4 2 2 0 000-4z" fill="#C7FFE0"/></svg>
+                </a>
+                <a href="mailto:hello@devsavant.com" style="display:flex; flex-direction:column; align-items:center; gap:10px; text-decoration:none; opacity:0.70; transition:opacity .2s;" style-hover="opacity:1;">
+                  <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="rgba(199,255,224,0.10)"/><rect x="8" y="10" width="16" height="12" rx="2" stroke="#C7FFE0" stroke-width="1.5" fill="none"/><path d="M8 12l8 6 8-6" stroke="#C7FFE0" stroke-width="1.5" stroke-linecap="round"/></svg>
+                </a>
+                <a href="tel:+1" style="display:flex; flex-direction:column; align-items:center; gap:10px; text-decoration:none; opacity:0.70; transition:opacity .2s;" style-hover="opacity:1;">
+                  <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="rgba(199,255,224,0.10)"/><path d="M12 10h2l1 4-1.5 1.5c1 2 2.5 3.5 4.5 4.5L19.5 18l4 1v2c0 1-1 2-2 2C12 22 10 12 10 12c0-1 1-2 2-2z" fill="#C7FFE0"/></svg>
+                </a>
+              </div>
+              <a href="#" style="font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.35); font-size:clamp(11px,0.85vw,14px); text-decoration:underline; letter-spacing:0.05em; transition:color .2s;" style-hover="color:rgba(199,255,224,0.70);">Privacy Policy</a>
+            </div>
+
+          </div><!-- /au-scroll -->
+        </div><!-- /au-stage -->
+        <div id="au-spacer" style="height:1500vh; flex-shrink:0;"></div>
+      </div>
+
+
+      <!-- ══════════ VC PARTNERSHIPS PAGE (glass card, animates in) ══════════ -->
+      <div id="vc-overlay" style="position:absolute; left:clamp(280px,24vw,400px); top:0; right:0; bottom:0; display:flex; flex-direction:column; align-items:stretch; overflow-y:auto; scrollbar-width:none; pointer-events:none; opacity:0; z-index:24; transition:opacity 0.5s ease;">
+        <div id="vc-stage" style="position:sticky; top:0; height:100vh; overflow:hidden; flex-shrink:0; opacity:0;">
+
+          <!-- SVG goo morph mask -->
+          <svg id="vc-disc-svg" style="position:absolute; inset:0; width:100%; height:100%; z-index:0; pointer-events:none;">
+            <defs>
+              <filter id="vc-goo-f" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur id="vc-gb" in="SourceGraphic" stdDeviation="1.5" result="b"></feGaussianBlur>
+                <feColorMatrix id="vc-cm" in="b" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 12 -4" result="g"></feColorMatrix>
+              </filter>
+              <mask id="vc-disc-msk" maskUnits="userSpaceOnUse" x="-200" y="-200" width="20000" height="20000">
+                <g filter="url(#vc-goo-f)" id="vc-disc-blobs"></g>
+              </mask>
+            </defs>
+          </svg>
+
+          <!-- Glass panel masked by goo -->
+          <div id="vc-disc-glass" style="position:absolute; inset:0; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); overflow:hidden; -webkit-mask:url(#vc-disc-msk); mask:url(#vc-disc-msk);"><div style="position:absolute;inset:0;pointer-events:none;opacity:0.055;filter:url(#panel-noise);background:#ffffff;"></div></div>
+
+          <!-- Hero frame -->
+          <div id="vc-hero-frame" style="position:absolute; inset:0; border-left:1px solid rgba(255,255,255,0.12); border-top:1px solid rgba(255,255,255,0.12); border-bottom:1px solid rgba(255,255,255,0.12); border-top-left-radius:44px; border-bottom-left-radius:44px; pointer-events:none; z-index:1;"></div>
+
+          <!-- HERO content layer -->
+          <div id="vc-hero-layer" style="position:absolute; inset:0; display:flex; flex-direction:column; justify-content:center; padding-left:clamp(48px,6.5vw,140px); padding-right:clamp(40px,5vw,90px); z-index:3; will-change:opacity,filter;">
+          <div style="max-width:920px;">
+            <h1 class="pe-el" style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(40px,5.4vw,92px); line-height:1.03; letter-spacing:-0.01em; text-wrap:balance; text-shadow:0 4px 32px rgba(31,98,255,0.40); opacity:0; transform:translateY(26px); transition:opacity 0.85s cubic-bezier(0.16,1,0.3,1) 0.18s, transform 0.85s cubic-bezier(0.16,1,0.3,1) 0.18s;">VC Partnerships</h1>
+            <p class="pe-el" style="margin:clamp(18px,2.4vh,30px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:#C7FFE0; font-size:clamp(15px,1.45vw,23px); line-height:1.5; text-wrap:pretty; opacity:0; transform:translateY(26px); transition:opacity 0.85s cubic-bezier(0.16,1,0.3,1) 0.30s, transform 0.85s cubic-bezier(0.16,1,0.3,1) 0.30s;">DevSavant is the technical operating partner for VC and accelerator portfolios, helping founders move from idea to scale with speed and capital efficiency.</p>
+            <p class="pe-el" style="margin:clamp(12px,1.6vh,20px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:#C7FFE0; font-size:clamp(15px,1.45vw,23px); line-height:1.5; text-wrap:pretty; opacity:0; transform:translateY(26px); transition:opacity 0.85s cubic-bezier(0.16,1,0.3,1) 0.38s, transform 0.85s cubic-bezier(0.16,1,0.3,1) 0.38s;">We work alongside investors to support their portfolio companies with rapid prototyping, MVP development, product acceleration, and embedded engineering teams. By combining elite Global talent with startup-focused execution, we reduce product risk, extend runway, and ensure each company hits its next milestone faster and more efficiently.</p>
+            <div class="pe-el" style="display:flex; align-items:center; gap:clamp(28px,3.6vw,52px); flex-wrap:wrap; margin-top:clamp(22px,3vh,36px); opacity:0; transform:translateY(26px); transition:opacity 0.85s cubic-bezier(0.16,1,0.3,1) 0.46s, transform 0.85s cubic-bezier(0.16,1,0.3,1) 0.46s;">
+              <div style="display:flex; flex-direction:column; gap:2px;">
+                <span style="font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(20px,2vw,32px); letter-spacing:-0.01em;">$1 billion</span>
+                <span style="font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(11px,0.85vw,14px); color:rgba(199,255,224,0.55);">Invested globally</span>
+              </div>
+              <div style="display:flex; flex-direction:column; gap:2px;">
+                <span style="font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(20px,2vw,32px); letter-spacing:-0.01em;">200</span>
+                <span style="font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(11px,0.85vw,14px); color:rgba(199,255,224,0.55);">Firms advised</span>
+              </div>
+              <div style="display:flex; flex-direction:column; gap:2px;">
+                <span style="font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(20px,2vw,32px); letter-spacing:-0.01em;">50</span>
+                <span style="font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(11px,0.85vw,14px); color:rgba(199,255,224,0.55);">High-growth ventures</span>
+              </div>
+            </div>
+            <div class="pe-el" style="display:flex; align-items:center; gap:clamp(20px,2.4vw,38px); flex-wrap:wrap; margin-top:clamp(20px,2.8vh,36px); opacity:0; transform:translateY(26px); transition:opacity 0.85s cubic-bezier(0.16,1,0.3,1) 0.54s, transform 0.85s cubic-bezier(0.16,1,0.3,1) 0.54s;">
+              <a href="#" style="display:inline-flex; align-items:center; gap:14px; background:#CCFFCE; color:#18282C; font-family:'Inter',sans-serif; font-weight:700; text-transform:uppercase; font-size:clamp(15px,1.4vw,22px); letter-spacing:0.045em; padding:13px 26px; text-decoration:none; box-shadow:0 0 44px rgba(150,255,170,0.28); transition:transform .2s ease, box-shadow .2s ease;" style-hover="transform:translateY(-2px); box-shadow:0 0 60px rgba(150,255,170,0.45);">Learn more <span style="font-weight:700;font-size:1.05em;">&#8594;</span></a>
+              <a href="#" onclick="{{ onHome }}" style="font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.6); font-size:clamp(13px,1.1vw,17px); text-decoration:none; letter-spacing:0.04em; display:inline-flex; align-items:center; gap:8px; transition:color .2s ease;" style-hover="color:#C7FFE0;"><span style="font-size:1.1em;">&#8592;</span> Back to Home</a>
+            </div>
+          </div>
+          </div><!-- /vc-hero-layer -->
+
+          <div id="vc-scroll">
+
+            <!-- ══════════ SECTION 1 · SAVANT GROWTH, A SUCCESS STORY ══════════ -->
+            <div class="pe-sec" id="vc-sec-1">
+              <div class="vc-hl" id="vc-s1-hl" style="position:absolute; left:2%; top:4%; width:96%; height:12%; display:flex; flex-direction:column; justify-content:center; opacity:0; pointer-events:none; z-index:2;">
+                <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(28px,3.4vw,60px); line-height:1.05; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.35);">Savant Growth, a Success Story</h2>
+              </div>
+              <div class="vc-card" id="vc-s1-c1" style="position:absolute; left:2%; top:18%; width:96%; height:78%; padding:clamp(24px,2.6vw,44px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; opacity:0; pointer-events:none; z-index:2;">
+                <div class="vc-scrollbar-hide" style="flex:1; min-height:0; overflow-y:auto; scrollbar-width:none;">
+                  <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.80); font-size:clamp(14px,1.15vw,19px); line-height:1.6; text-wrap:pretty;">Savant Growth is a US-based growth equity fund known for scaling capital-efficient B2B tech companies into category leaders. Over three decades, its partners have invested nearly $1B across the US and Europe, driving consistent growth outcomes. A core part of this success has been their partnership with DevSavant, acting as their dedicated operating partner. Our team works directly with CEOs, CTOs, and CFOs across their portfolio to streamline operations, enhance product execution, and implement projects that accelerate growth.</p>
+                  <p style="margin:clamp(14px,1.6vh,20px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.80); font-size:clamp(14px,1.15vw,19px); line-height:1.6; text-wrap:pretty;">Together with Kennet Partners, Savant Growth leverages this operational and technical strength to run specialized investment programs that push companies toward global leadership. Their investment philosophy focuses on businesses using software, data, analytics, and AI to transform workflows and unlock the next wave of digital efficiency.</p>
+                </div>
+              </div>
+            </div><!-- /vc-sec-1 -->
+
+            <!-- ══════════ SECTION 2 · VC PARTNERSHIPS ══════════ -->
+            <div class="pe-sec" id="vc-sec-2">
+              <div class="vc-hl" id="vc-s2-hl" style="position:absolute; left:2%; top:6%; width:96%; height:12%; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; opacity:0; pointer-events:none; z-index:2;">
+                <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(30px,3.6vw,64px); line-height:1.0; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.35);">VC Partnerships</h2>
+              </div>
+              
+              <div class="vc-card vc-logo" id="vc-s2-c1" style="position:absolute; left:2%; top:22%; width:22%; height:50%; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1.5px dashed rgba(199,255,224,0.25); border-radius:32px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; opacity:0; pointer-events:none; z-index:2;">
+                <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.5;"><rect x="3" y="7" width="18" height="13" rx="2"></rect><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(11px,0.85vw,14px); letter-spacing:0.06em; text-transform:uppercase; color:rgba(199,255,224,0.45); text-align:center; padding:0 10px;">Savant Growth logo</span>
+              </div>
+              
+              <div class="vc-card vc-logo" id="vc-s2-c2" style="position:absolute; left:26.67%; top:22%; width:22%; height:50%; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1.5px dashed rgba(199,255,224,0.25); border-radius:32px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; opacity:0; pointer-events:none; z-index:2;">
+                <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.5;"><rect x="3" y="7" width="18" height="13" rx="2"></rect><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(11px,0.85vw,14px); letter-spacing:0.06em; text-transform:uppercase; color:rgba(199,255,224,0.45); text-align:center; padding:0 10px;">Kennet logo</span>
+              </div>
+              
+              <div class="vc-card vc-logo" id="vc-s2-c3" style="position:absolute; left:51.33%; top:22%; width:22%; height:50%; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1.5px dashed rgba(199,255,224,0.25); border-radius:32px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; opacity:0; pointer-events:none; z-index:2;">
+                <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.5;"><rect x="3" y="7" width="18" height="13" rx="2"></rect><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(11px,0.85vw,14px); letter-spacing:0.06em; text-transform:uppercase; color:rgba(199,255,224,0.45); text-align:center; padding:0 10px;">Clearlake logo</span>
+              </div>
+              
+              <div class="vc-card vc-logo" id="vc-s2-c4" style="position:absolute; left:76%; top:22%; width:22%; height:50%; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1.5px dashed rgba(199,255,224,0.25); border-radius:32px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; opacity:0; pointer-events:none; z-index:2;">
+                <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.5;"><rect x="3" y="7" width="18" height="13" rx="2"></rect><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(11px,0.85vw,14px); letter-spacing:0.06em; text-transform:uppercase; color:rgba(199,255,224,0.45); text-align:center; padding:0 10px;">Partner logo</span>
+              </div>
+            </div><!-- /vc-sec-2 -->
+
+            <!-- ══════════ SECTION 3 · PARTNER WITH US ══════════ -->
+            <div class="pe-sec" id="vc-sec-3">
+              <div class="vc-card vc-cta-panel" id="vc-s3-c1" style="position:absolute; left:2%; top:22%; width:96%; height:56%; padding:clamp(28px,3.2vw,56px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; gap:clamp(16px,2.2vh,26px); opacity:0; pointer-events:none; z-index:2;">
+                <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(28px,3.2vw,56px); line-height:1.05; letter-spacing:-0.01em;">Partner With Us</h2>
+                <p style="margin:0; max-width:820px; font-family:'Inter',sans-serif; font-weight:300; color:#C7FFE0; font-size:clamp(15px,1.25vw,21px); line-height:1.55; text-wrap:pretty;">Investors looking to accelerate the growth of their portfolio companies can rely on DevSavant as a strategic operating partner. We bring the technical depth, execution discipline, and founder-first mindset needed to scale efficiently.</p>
+                <p style="margin:0; max-width:680px; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.62); font-size:clamp(13px,1.05vw,17px); line-height:1.55; text-wrap:pretty;">Ready to explore how we can support your fund? Contact us and let&rsquo;s build your next success story.</p>
+              </div>
+            </div><!-- /vc-sec-3 -->
+
+            <!-- ══════════ VC CTA finale (verbatim from Global Staffing) ══════════ -->
+            <div id="vc-cta-content" style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:flex-start; justify-content:center; padding-left:clamp(48px,6.5vw,140px); padding-right:clamp(32px,5vw,80px); gap:clamp(24px,3.4vh,44px); opacity:0; pointer-events:none; z-index:30;">
+              <h1 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(48px,6.6vw,112px); line-height:1.0; letter-spacing:-0.02em; text-shadow:0 4px 48px rgba(10,200,120,0.35);">Ready to Scale Your Team?</h1>
+              <div style="display:flex; align-items:center; gap:clamp(16px,2vw,28px); flex-wrap:wrap;">
+                <a href="#" style="display:inline-flex; align-items:center; gap:14px; background:#CCFFCE; color:#18282C; font-family:'Inter',sans-serif; font-weight:700; text-transform:uppercase; font-size:clamp(14px,1.2vw,20px); letter-spacing:0.05em; padding:clamp(13px,1.5vh,18px) clamp(28px,2.8vw,44px); text-decoration:none; box-shadow:0 0 52px rgba(150,255,170,0.32); transition:transform .2s ease,box-shadow .2s ease;" style-hover="transform:translateY(-3px);box-shadow:0 0 72px rgba(150,255,170,0.50);">Schedule a Call <span style="font-weight:700;font-size:1.1em;">&#8594;</span></a>
+              </div>
+              <div style="display:flex; align-items:center; gap:clamp(24px,3.5vw,52px); margin-top:clamp(6px,1.2vh,16px);">
+                <a href="#" style="display:flex; flex-direction:column; align-items:center; gap:10px; text-decoration:none; opacity:0.70; transition:opacity .2s;" style-hover="opacity:1;">
+                  <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="rgba(199,255,224,0.10)"/><path d="M10 13h3v9h-3v-9zm1.5-4.5a1.5 1.5 0 110 3 1.5 1.5 0 010-3zM15 13h2.9v1.3h.04C18.44 13.5 19.5 13 20.7 13c3 0 3.3 2 3.3 4.5V22h-3v-4c0-1 0-2.3-1.4-2.3-1.4 0-1.6 1.1-1.6 2.2V22h-3v-9z" fill="#C7FFE0"/></svg>
+                </a>
+                <a href="#" style="display:flex; flex-direction:column; align-items:center; gap:10px; text-decoration:none; opacity:0.70; transition:opacity .2s;" style-hover="opacity:1;">
+                  <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="rgba(199,255,224,0.10)"/><path d="M16 8a6 6 0 016 6c0 4-6 10-6 10S10 18 10 14a6 6 0 016-6zm0 4a2 2 0 100 4 2 2 0 000-4z" fill="#C7FFE0"/></svg>
+                </a>
+                <a href="mailto:hello@devsavant.com" style="display:flex; flex-direction:column; align-items:center; gap:10px; text-decoration:none; opacity:0.70; transition:opacity .2s;" style-hover="opacity:1;">
+                  <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="rgba(199,255,224,0.10)"/><rect x="8" y="10" width="16" height="12" rx="2" stroke="#C7FFE0" stroke-width="1.5" fill="none"/><path d="M8 12l8 6 8-6" stroke="#C7FFE0" stroke-width="1.5" stroke-linecap="round"/></svg>
+                </a>
+                <a href="tel:+1" style="display:flex; flex-direction:column; align-items:center; gap:10px; text-decoration:none; opacity:0.70; transition:opacity .2s;" style-hover="opacity:1;">
+                  <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="rgba(199,255,224,0.10)"/><path d="M12 10h2l1 4-1.5 1.5c1 2 2.5 3.5 4.5 4.5L19.5 18l4 1v2c0 1-1 2-2 2C12 22 10 12 10 12c0-1 1-2 2-2z" fill="#C7FFE0"/></svg>
+                </a>
+              </div>
+              <a href="#" style="font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.35); font-size:clamp(11px,0.85vw,14px); text-decoration:underline; letter-spacing:0.05em; transition:color .2s;" style-hover="color:rgba(199,255,224,0.70);">Privacy Policy</a>
+            </div>
+
+          </div><!-- /vc-scroll -->
+        </div><!-- /vc-stage -->
+        <div id="vc-spacer" style="height:900vh; flex-shrink:0;"></div>
       </div>
 
       <!-- ══════════ CTA content ══════════ -->
@@ -1995,6 +2511,18 @@ class Component extends DCLogic {
         if (e && e.preventDefault) e.preventDefault();
         document.getElementById('mobile-menu')?.classList.remove('open');
         this._showOE();
+      },
+      onAU:   (e) => { if (e) e.preventDefault(); this._showAU(); },
+      onMobileAU: (e) => {
+        if (e && e.preventDefault) e.preventDefault();
+        document.getElementById('mobile-menu')?.classList.remove('open');
+        this._showAU();
+      },
+      onVC:   (e) => { if (e) e.preventDefault(); this._showVC(); },
+      onMobileVC: (e) => {
+        if (e && e.preventDefault) e.preventDefault();
+        document.getElementById('mobile-menu')?.classList.remove('open');
+        this._showVC();
       }
     };
   }
@@ -2262,6 +2790,8 @@ class Component extends DCLogic {
     if (this._peActive) return;
     if (this._gsActive) { this._gsActive = false; document.body.classList.remove('gs-state'); const g0 = document.getElementById('gs-overlay'); if (g0) g0.scrollTop = 0; }
     if (this._oeActive) { this._oeActive = false; document.body.classList.remove('oe-state'); const o0 = document.getElementById('oe-overlay'); if (o0) o0.scrollTop = 0; }
+    if (this._auActive) { this._auActive = false; document.body.classList.remove('au-state'); const a0 = document.getElementById('au-overlay'); if (a0) a0.scrollTop = 0; }
+    if (this._vcActive) { this._vcActive = false; document.body.classList.remove('vc-state'); const v0 = document.getElementById('vc-overlay'); if (v0) v0.scrollTop = 0; }
     this._peActive = true;
     if (this._scrollEl) { this._scrollEl.scrollTop = 0; this._scrollEl.style.overflowY = 'hidden'; }
     this._scrollProg = 0;
@@ -2288,22 +2818,26 @@ class Component extends DCLogic {
   }
 
   _showHome() {
-    if (!this._peActive && !this._gsActive && !this._oeActive) return;
+    if (!this._peActive && !this._gsActive && !this._oeActive && !this._auActive && !this._vcActive) return;
     this._peActive = false;
     this._gsActive = false;
     this._oeActive = false;
+    this._auActive = false;
+    this._vcActive = false;
     const b = document.body;
     // Select Home in the nav
     document.querySelectorAll('.nav-link').forEach(a => a.classList.remove('active'));
     const home = document.querySelector('.nav-link');
     if (home) home.classList.add('active');
-    // Remove PE/GS/OE state (home returns to its default/scroll look) + run the swap
-    b.classList.remove('pe-state', 'gs-state', 'oe-state', 'pe-swapping', 'gs-swapping', 'oe-swapping');
+    // Remove PE/GS/OE/AU/VC state (home returns to its default/scroll look) + run the swap
+    b.classList.remove('pe-state', 'gs-state', 'oe-state', 'au-state', 'vc-state', 'pe-swapping', 'gs-swapping', 'oe-swapping', 'au-swapping', 'vc-swapping');
     void b.offsetWidth;
     b.classList.add('pe-swapping');
     const peOvlR = document.getElementById('pe-overlay'); if (peOvlR) peOvlR.scrollTop = 0;
     const gsOvlR = document.getElementById('gs-overlay'); if (gsOvlR) gsOvlR.scrollTop = 0;
     const oeOvlR = document.getElementById('oe-overlay'); if (oeOvlR) oeOvlR.scrollTop = 0;
+    const auOvlR = document.getElementById('au-overlay'); if (auOvlR) auOvlR.scrollTop = 0;
+    const vcOvlR = document.getElementById('vc-overlay'); if (vcOvlR) vcOvlR.scrollTop = 0;
     if (this._scrollEl) { this._scrollEl.style.overflowY = 'auto'; this._scrollEl.scrollTop = 0; }
     this._scrollProg = 0;
     this._applyScroll();
@@ -2543,6 +3077,8 @@ class Component extends DCLogic {
     if (this._gsActive) return;
     if (this._peActive) { this._peActive = false; document.body.classList.remove('pe-state'); const p0 = document.getElementById('pe-overlay'); if (p0) p0.scrollTop = 0; }
     if (this._oeActive) { this._oeActive = false; document.body.classList.remove('oe-state'); const o0 = document.getElementById('oe-overlay'); if (o0) o0.scrollTop = 0; }
+    if (this._auActive) { this._auActive = false; document.body.classList.remove('au-state'); const a0 = document.getElementById('au-overlay'); if (a0) a0.scrollTop = 0; }
+    if (this._vcActive) { this._vcActive = false; document.body.classList.remove('vc-state'); const v0 = document.getElementById('vc-overlay'); if (v0) v0.scrollTop = 0; }
     this._gsActive = true;
     if (this._scrollEl) { this._scrollEl.scrollTop = 0; this._scrollEl.style.overflowY = 'hidden'; }
     this._scrollProg = 0;
@@ -2782,6 +3318,8 @@ class Component extends DCLogic {
     if (this._oeActive) return;
     if (this._peActive) { this._peActive = false; document.body.classList.remove('pe-state'); const p0 = document.getElementById('pe-overlay'); if (p0) p0.scrollTop = 0; }
     if (this._gsActive) { this._gsActive = false; document.body.classList.remove('gs-state'); const g0 = document.getElementById('gs-overlay'); if (g0) g0.scrollTop = 0; }
+    if (this._auActive) { this._auActive = false; document.body.classList.remove('au-state'); const a0 = document.getElementById('au-overlay'); if (a0) a0.scrollTop = 0; }
+    if (this._vcActive) { this._vcActive = false; document.body.classList.remove('vc-state'); const v0 = document.getElementById('vc-overlay'); if (v0) v0.scrollTop = 0; }
     this._oeActive = true;
     if (this._scrollEl) { this._scrollEl.scrollTop = 0; this._scrollEl.style.overflowY = 'hidden'; }
     this._scrollProg = 0;
@@ -2904,6 +3442,12 @@ class Component extends DCLogic {
         held = Math.max(held, op);
         const active = op > 0.985;
         ids.forEach(id => { const el = document.getElementById(id); if (el) { el.style.opacity = String(op); el.style.pointerEvents = active ? 'auto' : 'none'; } });
+        // Reset this section's own pinned scroll container while it's hidden, so it always
+        // reappears at the top instead of wherever inertial scroll last left it.
+        if (op < 0.02) {
+          const secEl = document.getElementById('oe-sec-' + n);
+          if (secEl && secEl.scrollTop !== 0) secEl.scrollTop = 0;
+        }
       }
       if (discGlassEl) discGlassEl.style.opacity = String((1 - Math.max(held, ctaContentOp)) * (1 - ctaGlassOp));
     }
@@ -2939,6 +3483,387 @@ class Component extends DCLogic {
     }
     const act = Math.max.apply(null, Eeased.map(x => Math.sin(Math.PI * x)));
     const blurEl = document.getElementById('oe-gb'), cmEl = document.getElementById('oe-cm');
+    if (blurEl) blurEl.setAttribute('stdDeviation', (1.5 + act * 21).toFixed(1));
+    if (cmEl) cmEl.setAttribute('values', '1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 ' + (12 + act * 16).toFixed(0) + ' ' + (-4 - act * 8).toFixed(0));
+  }
+
+  // ─── About Us view (seamless in-page nav, mirrors PE/GS/OE) ────────
+
+  _onAUScroll = () => {
+    if (this._auScrollRAF) return;
+    this._auScrollRAF = requestAnimationFrame(() => { this._auScrollRAF = 0; this._applyAUScroll(); });
+  };
+
+  _showAU() {
+    if (this._auActive) return;
+    if (this._peActive) { this._peActive = false; document.body.classList.remove('pe-state'); const p0 = document.getElementById('pe-overlay'); if (p0) p0.scrollTop = 0; }
+    if (this._gsActive) { this._gsActive = false; document.body.classList.remove('gs-state'); const g0 = document.getElementById('gs-overlay'); if (g0) g0.scrollTop = 0; }
+    if (this._oeActive) { this._oeActive = false; document.body.classList.remove('oe-state'); const o0 = document.getElementById('oe-overlay'); if (o0) o0.scrollTop = 0; }
+    if (this._vcActive) { this._vcActive = false; document.body.classList.remove('vc-state'); const v0 = document.getElementById('vc-overlay'); if (v0) v0.scrollTop = 0; }
+    this._auActive = true;
+    if (this._scrollEl) { this._scrollEl.scrollTop = 0; this._scrollEl.style.overflowY = 'hidden'; }
+    this._scrollProg = 0;
+    const b = document.body;
+    document.querySelectorAll('.nav-link').forEach(a => a.classList.remove('active'));
+    const links = [...document.querySelectorAll('#main-nav .nav-link')];
+    const auLink = links.find(a => a.textContent.trim() === 'About Us');
+    if (auLink) auLink.classList.add('active');
+    b.classList.remove('au-swapping');
+    void b.offsetWidth;
+    b.classList.add('au-state', 'au-swapping');
+    clearTimeout(this._auTimer);
+    this._auTimer = setTimeout(() => { if (this._auActive) document.body.classList.remove('au-swapping'); }, 1150);
+    const auOvl = document.getElementById('au-overlay');
+    if (auOvl) auOvl.scrollTop = 0;
+    if (auOvl && !this._auScrollListenerAdded) {
+      auOvl.addEventListener('scroll', this._onAUScroll, { passive: true });
+      this._auScrollListenerAdded = true;
+    }
+    setTimeout(() => { this._setupAUMorph(); this._applyAUScroll(); }, 300);
+  }
+
+  _setupAUMorph() {
+    if (this._auReady) return;
+    const blobsEl = document.getElementById('au-disc-blobs');
+    if (!blobsEl) { setTimeout(() => this._setupAUMorph(), 100); return; }
+    const SVGNS = 'http://www.w3.org/2000/svg';
+    this._auRects = [];
+    for (let i = 0; i < 5; i++) {
+      const r = document.createElementNS(SVGNS, 'rect');
+      r.setAttribute('fill', 'white'); blobsEl.appendChild(r); this._auRects.push(r);
+    }
+    this._auReady = true;
+    this._applyAUMorph(new Array(5).fill(0));
+  }
+
+  _auCardCount(i) { return [1, 4, 3, 5, 3][i]; }
+
+  _auGeom(sectionIdx, cardIdx, w, h, mob) {
+    const col3 = (i) => [0.02, 0.3435, 0.667][i] * w;
+    const CW3 = 0.313 * w;
+    const col4 = (i) => [0.02, 0.26375, 0.5075, 0.75125][i] * w;
+    const CW4 = 0.22875 * w;
+    if (!mob) {
+      switch (sectionIdx) {
+        case 0: // Purpose — 1 wide card
+          return { x: 0.02 * w, y: 0.18 * h, w: 0.96 * w, h: 0.64 * h, rx: 44 };
+        case 1: // Story — 4 cards, 2x2 grid
+          return { x: [0.02, 0.51][cardIdx % 2] * w, y: [0.20, 0.58][Math.floor(cardIdx / 2)] * h, w: 0.47 * w, h: 0.34 * h, rx: 40 };
+        case 2: // Founders — 3 cards
+          return { x: col3(cardIdx), y: 0.24 * h, w: CW3, h: 0.64 * h, rx: 32 };
+        case 3: { // DNA — 5 cards (3 top row + 2 bottom centered)
+          if (cardIdx < 3) return { x: col3(cardIdx), y: 0.20 * h, w: CW3, h: 0.32 * h, rx: 40 };
+          const offset = 0.1795 * w + (cardIdx - 3) * (CW3 + 0.015 * w);
+          return { x: offset, y: 0.56 * h, w: CW3, h: 0.32 * h, rx: 40 };
+        }
+        case 4: // Leaders — 3 cards
+          return { x: col3(cardIdx), y: 0.26 * h, w: CW3, h: 0.62 * h, rx: 32 };
+      }
+    }
+    // Mobile: stacked full-width bands
+    const M = 0.04 * w, FW = 0.92 * w;
+    switch (sectionIdx) {
+      case 0:
+        return { x: M, y: 0.10 * h, w: FW, h: 0.55 * h, rx: 26 };
+      case 1: {
+        const cardH = 0.155 * h, gap = 0.017 * h;
+        return { x: M, y: 0.05 * h + cardIdx * (cardH + gap), w: FW, h: cardH, rx: 22 };
+      }
+      case 2: {
+        const cardH = 0.30 * h, gap = 0.02 * h;
+        return { x: M, y: 0.08 * h + cardIdx * (cardH + gap), w: FW, h: cardH, rx: 22 };
+      }
+      case 3: {
+        const cardH = 0.145 * h, gap = 0.016 * h;
+        return { x: M, y: 0.06 * h + cardIdx * (cardH + gap), w: FW, h: cardH, rx: 20 };
+      }
+      case 4: {
+        const cardH = 0.30 * h, gap = 0.02 * h;
+        return { x: M, y: 0.10 * h + cardIdx * (cardH + gap), w: FW, h: cardH, rx: 22 };
+      }
+    }
+  }
+
+  _applyAUScroll() {
+    const sc = document.getElementById('au-overlay');
+    if (!sc) return;
+    const cl = (t) => Math.max(0, Math.min(1, t));
+    const hl = document.getElementById('au-hero-layer');
+    const mob = window.innerWidth < 768;
+    const max = (sc.scrollHeight - sc.clientHeight) || 1;
+    const p = sc.scrollTop / max;
+    const heroFade = cl((p - 0.03) / 0.04);
+    if (hl) {
+      hl.style.opacity = String(1 - heroFade);
+      hl.style.filter = heroFade > 0 ? 'blur(' + (heroFade * 14).toFixed(1) + 'px)' : '';
+      hl.style.pointerEvents = heroFade > 0.5 ? 'none' : 'auto';
+    }
+    const N = 5;
+    const S = [0.05, 0.17, 0.29, 0.41, 0.53];
+    const TW = 0.07;
+    const e = S.map(s => cl((p - s) / TW));
+    this._applyAUMorph(e);
+    const frame = document.getElementById('au-hero-frame');
+    if (frame) frame.style.opacity = String(1 - cl(e[0] / 0.3));
+    const idPrefixes = [
+      ['au-s1-c1'],
+      ['au-s2-hl', 'au-s2-c1', 'au-s2-c2', 'au-s2-c3', 'au-s2-c4'],
+      ['au-s3-hl', 'au-s3-c1', 'au-s3-c2', 'au-s3-c3'],
+      ['au-s4-hl', 'au-s4-c1', 'au-s4-c2', 'au-s4-c3', 'au-s4-c4', 'au-s4-c5'],
+      ['au-s5-hl', 'au-s5-c1', 'au-s5-c2', 'au-s5-c3']
+    ];
+    for (let i = 0; i < N; i++) {
+      const ids = idPrefixes[i];
+      const inS = S[i] + 0.05, outS = (i < N - 1 ? S[i + 1] : 0.64) - 0.02;
+      const op = cl((p - inS) / 0.05) * (1 - cl((p - outS) / 0.04));
+      ids.forEach(id => { const el = document.getElementById(id); if (el) { el.style.opacity = String(op); el.style.pointerEvents = op > 0.5 ? 'auto' : 'none'; } });
+    }
+    // CTA finale
+    const ctaGlassOp = cl((p - 0.66) / 0.05);
+    const ctaContentOp = cl((p - 0.70) / 0.06);
+    const ctaGlassEl = document.getElementById('cta-glass');
+    if (ctaGlassEl) { ctaGlassEl.style.opacity = String(ctaGlassOp); ctaGlassEl.style.pointerEvents = ctaGlassOp > 0.05 ? 'auto' : 'none'; }
+    if (this._bg) this._bg.style.filter = ctaGlassOp > 0 ? 'blur(' + (ctaGlassOp * 18).toFixed(1) + 'px)' : '';
+    const discGlassEl = document.getElementById('au-disc-glass');
+    if (discGlassEl) discGlassEl.style.opacity = String(1 - ctaGlassOp);
+    const ctaContentEl = document.getElementById('au-cta-content');
+    if (ctaContentEl) {
+      ctaContentEl.style.opacity = String(ctaContentOp);
+      ctaContentEl.style.pointerEvents = 'none';
+      const ctaInteractive = ctaContentOp > 0.3;
+      ctaContentEl.querySelectorAll(':scope > a, :scope > div').forEach((el) => { el.style.pointerEvents = ctaInteractive ? 'auto' : 'none'; });
+      ctaContentEl.style.filter = ctaContentOp < 1 ? 'blur(' + ((1 - ctaContentOp) * 12).toFixed(1) + 'px)' : '';
+    }
+    if (mob) {
+      const F = 0.028;
+      let held = 0;
+      for (let i = 0; i < N; i++) {
+        const ids = idPrefixes[i];
+        const s = S[i], en = (i < N - 1 ? S[i + 1] : 0.64);
+        const op = cl((p - s) / F) * (1 - cl((p - (en - F)) / F));
+        held = Math.max(held, op);
+        const active = op > 0.985;
+        ids.forEach(id => { const el = document.getElementById(id); if (el) { el.style.opacity = String(op); el.style.pointerEvents = active ? 'auto' : 'none'; } });
+        // Reset this section's own pinned scroll container while it's hidden.
+        if (op < 0.02) {
+          const secEl = document.getElementById('au-sec-' + (i + 1));
+          if (secEl && secEl.scrollTop !== 0) secEl.scrollTop = 0;
+        }
+      }
+      if (discGlassEl) discGlassEl.style.opacity = String((1 - Math.max(held, ctaContentOp)) * (1 - ctaGlassOp));
+    }
+  }
+
+  _applyAUMorph(E) {
+    if (!this._auRects) return;
+    const panel = document.getElementById('au-stage');
+    const w = (panel && panel.offsetWidth) || window.innerWidth;
+    const h = (panel && panel.offsetHeight) || window.innerHeight;
+    if (!w || !h) return;
+    const mob = window.innerWidth < 768;
+    const cl = (t) => Math.max(0, Math.min(1, t));
+    const ease = (t) => t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+    const lr = (a, b, t) => ({ x: a.x + (b.x - a.x) * t, y: a.y + (b.y - a.y) * t, w: a.w + (b.w - a.w) * t, h: a.h + (b.h - a.h) * t, rx: a.rx + (b.rx - a.rx) * t });
+    const setR = (el, r) => {
+      el.setAttribute('x', r.x.toFixed(1)); el.setAttribute('y', r.y.toFixed(1));
+      el.setAttribute('width', Math.max(0, r.w).toFixed(1)); el.setAttribute('height', Math.max(0, r.h).toFixed(1));
+      el.setAttribute('rx', (mob ? Math.min(r.rx, 22) : r.rx).toFixed(1));
+    };
+    const coll = { x: w * 0.5, y: h * 0.5, w: 2, h: 2, rx: 40 };
+    const cover = mob ? { x: 0, y: 0, w: w, h: h + 80, rx: 26 } : { x: 0, y: 0, w: w + 60, h: h, rx: 44 };
+    const N = 5;
+    const Eeased = E.map(v => ease(cl(v)));
+    for (let slot = 0; slot < 5; slot++) {
+      let cur = cover;
+      for (let i = 0; i < N; i++) {
+        const count = this._auCardCount(i);
+        const g = slot < count ? this._auGeom(i, slot, w, h, mob) : coll;
+        cur = lr(cur, g, Eeased[i]);
+      }
+      setR(this._auRects[slot], cur);
+    }
+    const act = Math.max.apply(null, Eeased.map(x => Math.sin(Math.PI * x)));
+    const blurEl = document.getElementById('au-gb'), cmEl = document.getElementById('au-cm');
+    if (blurEl) blurEl.setAttribute('stdDeviation', (1.5 + act * 21).toFixed(1));
+    if (cmEl) cmEl.setAttribute('values', '1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 ' + (12 + act * 16).toFixed(0) + ' ' + (-4 - act * 8).toFixed(0));
+  }
+
+  // ─── VC Partnerships view (seamless in-page nav, mirrors PE/GS/OE/AU) ──
+
+  _onVCScroll = () => {
+    if (this._vcScrollRAF) return;
+    this._vcScrollRAF = requestAnimationFrame(() => { this._vcScrollRAF = 0; this._applyVCScroll(); });
+  };
+
+  _showVC() {
+    if (this._vcActive) return;
+    if (this._peActive) { this._peActive = false; document.body.classList.remove('pe-state'); const p0 = document.getElementById('pe-overlay'); if (p0) p0.scrollTop = 0; }
+    if (this._gsActive) { this._gsActive = false; document.body.classList.remove('gs-state'); const g0 = document.getElementById('gs-overlay'); if (g0) g0.scrollTop = 0; }
+    if (this._oeActive) { this._oeActive = false; document.body.classList.remove('oe-state'); const o0 = document.getElementById('oe-overlay'); if (o0) o0.scrollTop = 0; }
+    if (this._auActive) { this._auActive = false; document.body.classList.remove('au-state'); const a0 = document.getElementById('au-overlay'); if (a0) a0.scrollTop = 0; }
+    this._vcActive = true;
+    if (this._scrollEl) { this._scrollEl.scrollTop = 0; this._scrollEl.style.overflowY = 'hidden'; }
+    this._scrollProg = 0;
+    const b = document.body;
+    document.querySelectorAll('.nav-link').forEach(a => a.classList.remove('active'));
+    const links = [...document.querySelectorAll('#main-nav .nav-link')];
+    const vcLink = links.find(a => a.textContent.trim() === 'VC Partnerships');
+    if (vcLink) vcLink.classList.add('active');
+    b.classList.remove('vc-swapping');
+    void b.offsetWidth;
+    b.classList.add('vc-state', 'vc-swapping');
+    clearTimeout(this._vcTimer);
+    this._vcTimer = setTimeout(() => { if (this._vcActive) document.body.classList.remove('vc-swapping'); }, 1150);
+    const vcOvl = document.getElementById('vc-overlay');
+    if (vcOvl) vcOvl.scrollTop = 0;
+    if (vcOvl && !this._vcScrollListenerAdded) {
+      vcOvl.addEventListener('scroll', this._onVCScroll, { passive: true });
+      this._vcScrollListenerAdded = true;
+    }
+    setTimeout(() => { this._setupVCMorph(); this._applyVCScroll(); }, 300);
+  }
+
+  _setupVCMorph() {
+    if (this._vcReady) return;
+    const blobsEl = document.getElementById('vc-disc-blobs');
+    if (!blobsEl) { setTimeout(() => this._setupVCMorph(), 100); return; }
+    const SVGNS = 'http://www.w3.org/2000/svg';
+    this._vcRects = [];
+    for (let i = 0; i < 4; i++) {
+      const r = document.createElementNS(SVGNS, 'rect');
+      r.setAttribute('fill', 'white'); blobsEl.appendChild(r); this._vcRects.push(r);
+    }
+    this._vcReady = true;
+    this._applyVCMorph(new Array(3).fill(0));
+  }
+
+  _vcCardCount(i) { return [1, 4, 1][i]; }
+
+  _vcGeom(sectionIdx, cardIdx, w, h, mob) {
+    if (!mob) {
+      switch (sectionIdx) {
+        case 0: // Success story — 1 wide card
+          return { x: 0.02 * w, y: 0.18 * h, w: 0.96 * w, h: 0.78 * h, rx: 40 };
+        case 1: { // Logos — 4 across
+          const CW = 0.22 * w, gap = 0.0133 * w;
+          return { x: 0.02 * w + cardIdx * (CW + gap), y: 0.22 * h, w: CW, h: 0.5 * h, rx: 32 };
+        }
+        case 2: // Partner With Us — 1 wide card
+          return { x: 0.02 * w, y: 0.22 * h, w: 0.96 * w, h: 0.56 * h, rx: 40 };
+      }
+    }
+    // Mobile: stacked full-width bands
+    const M = 0.04 * w, FW = 0.92 * w;
+    switch (sectionIdx) {
+      case 0:
+        return { x: M, y: 0.10 * h, w: FW, h: 0.6 * h, rx: 26 };
+      case 1: {
+        const cardH = 0.15 * h, gap = 0.018 * h;
+        return { x: M, y: 0.06 * h + cardIdx * (cardH + gap), w: FW, h: cardH, rx: 22 };
+      }
+      case 2:
+        return { x: M, y: 0.14 * h, w: FW, h: 0.5 * h, rx: 26 };
+    }
+  }
+
+  _applyVCScroll() {
+    const sc = document.getElementById('vc-overlay');
+    if (!sc) return;
+    const cl = (t) => Math.max(0, Math.min(1, t));
+    const hl = document.getElementById('vc-hero-layer');
+    const mob = window.innerWidth < 768;
+    const max = (sc.scrollHeight - sc.clientHeight) || 1;
+    const p = sc.scrollTop / max;
+    const heroFade = cl((p - 0.04) / 0.05);
+    if (hl) {
+      hl.style.opacity = String(1 - heroFade);
+      hl.style.filter = heroFade > 0 ? 'blur(' + (heroFade * 14).toFixed(1) + 'px)' : '';
+      hl.style.pointerEvents = heroFade > 0.5 ? 'none' : 'auto';
+    }
+    const N = 3;
+    const S = [0.07, 0.30, 0.53];
+    const TW = 0.09;
+    const e = S.map(s => cl((p - s) / TW));
+    this._applyVCMorph(e);
+    const frame = document.getElementById('vc-hero-frame');
+    if (frame) frame.style.opacity = String(1 - cl(e[0] / 0.3));
+    const idPrefixes = [
+      ['vc-s1-hl', 'vc-s1-c1'],
+      ['vc-s2-hl', 'vc-s2-c1', 'vc-s2-c2', 'vc-s2-c3', 'vc-s2-c4'],
+      ['vc-s3-c1']
+    ];
+    for (let i = 0; i < N; i++) {
+      const ids = idPrefixes[i];
+      const inS = S[i] + 0.05, outS = (i < N - 1 ? S[i + 1] : 0.72) - 0.02;
+      const op = cl((p - inS) / 0.05) * (1 - cl((p - outS) / 0.04));
+      ids.forEach(id => { const el = document.getElementById(id); if (el) { el.style.opacity = String(op); el.style.pointerEvents = op > 0.5 ? 'auto' : 'none'; } });
+    }
+    // CTA finale
+    const ctaGlassOp = cl((p - 0.76) / 0.05);
+    const ctaContentOp = cl((p - 0.80) / 0.06);
+    const ctaGlassEl = document.getElementById('cta-glass');
+    if (ctaGlassEl) { ctaGlassEl.style.opacity = String(ctaGlassOp); ctaGlassEl.style.pointerEvents = ctaGlassOp > 0.05 ? 'auto' : 'none'; }
+    if (this._bg) this._bg.style.filter = ctaGlassOp > 0 ? 'blur(' + (ctaGlassOp * 18).toFixed(1) + 'px)' : '';
+    const discGlassEl = document.getElementById('vc-disc-glass');
+    if (discGlassEl) discGlassEl.style.opacity = String(1 - ctaGlassOp);
+    const ctaContentEl = document.getElementById('vc-cta-content');
+    if (ctaContentEl) {
+      ctaContentEl.style.opacity = String(ctaContentOp);
+      ctaContentEl.style.pointerEvents = 'none';
+      const ctaInteractive = ctaContentOp > 0.3;
+      ctaContentEl.querySelectorAll(':scope > a, :scope > div').forEach((el) => { el.style.pointerEvents = ctaInteractive ? 'auto' : 'none'; });
+      ctaContentEl.style.filter = ctaContentOp < 1 ? 'blur(' + ((1 - ctaContentOp) * 12).toFixed(1) + 'px)' : '';
+    }
+    if (mob) {
+      const F = 0.03;
+      let held = 0;
+      for (let i = 0; i < N; i++) {
+        const ids = idPrefixes[i];
+        const s = S[i], en = (i < N - 1 ? S[i + 1] : 0.72);
+        const op = cl((p - s) / F) * (1 - cl((p - (en - F)) / F));
+        held = Math.max(held, op);
+        const active = op > 0.985;
+        ids.forEach(id => { const el = document.getElementById(id); if (el) { el.style.opacity = String(op); el.style.pointerEvents = active ? 'auto' : 'none'; } });
+        // Reset this section's own pinned scroll container while it's hidden.
+        if (op < 0.02) {
+          const secEl = document.getElementById('vc-sec-' + (i + 1));
+          if (secEl && secEl.scrollTop !== 0) secEl.scrollTop = 0;
+        }
+      }
+      if (discGlassEl) discGlassEl.style.opacity = String((1 - Math.max(held, ctaContentOp)) * (1 - ctaGlassOp));
+    }
+  }
+
+  _applyVCMorph(E) {
+    if (!this._vcRects) return;
+    const panel = document.getElementById('vc-stage');
+    const w = (panel && panel.offsetWidth) || window.innerWidth;
+    const h = (panel && panel.offsetHeight) || window.innerHeight;
+    if (!w || !h) return;
+    const mob = window.innerWidth < 768;
+    const cl = (t) => Math.max(0, Math.min(1, t));
+    const ease = (t) => t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+    const lr = (a, b, t) => ({ x: a.x + (b.x - a.x) * t, y: a.y + (b.y - a.y) * t, w: a.w + (b.w - a.w) * t, h: a.h + (b.h - a.h) * t, rx: a.rx + (b.rx - a.rx) * t });
+    const setR = (el, r) => {
+      el.setAttribute('x', r.x.toFixed(1)); el.setAttribute('y', r.y.toFixed(1));
+      el.setAttribute('width', Math.max(0, r.w).toFixed(1)); el.setAttribute('height', Math.max(0, r.h).toFixed(1));
+      el.setAttribute('rx', (mob ? Math.min(r.rx, 22) : r.rx).toFixed(1));
+    };
+    const coll = { x: w * 0.5, y: h * 0.5, w: 2, h: 2, rx: 40 };
+    const cover = mob ? { x: 0, y: 0, w: w, h: h + 80, rx: 26 } : { x: 0, y: 0, w: w + 60, h: h, rx: 44 };
+    const N = 3;
+    const Eeased = E.map(v => ease(cl(v)));
+    for (let slot = 0; slot < 4; slot++) {
+      let cur = cover;
+      for (let i = 0; i < N; i++) {
+        const count = this._vcCardCount(i);
+        const g = slot < count ? this._vcGeom(i, slot, w, h, mob) : coll;
+        cur = lr(cur, g, Eeased[i]);
+      }
+      setR(this._vcRects[slot], cur);
+    }
+    const act = Math.max.apply(null, Eeased.map(x => Math.sin(Math.PI * x)));
+    const blurEl = document.getElementById('vc-gb'), cmEl = document.getElementById('vc-cm');
     if (blurEl) blurEl.setAttribute('stdDeviation', (1.5 + act * 21).toFixed(1));
     if (cmEl) cmEl.setAttribute('values', '1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 ' + (12 + act * 16).toFixed(0) + ' ' + (-4 - act * 8).toFixed(0));
   }
