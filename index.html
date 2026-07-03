@@ -112,6 +112,22 @@
     }
     body.vc-state #vc-overlay { opacity: 1 !important; pointer-events: auto !important; }
     body.vc-state #vc-stage { opacity: 1 !important; }
+    /* ===== Blog page swap (mirrors PE/GS/OE/AU/VC) ===== */
+    body.bl-swapping #home-main,
+    body.bl-swapping #mission-overlay,
+    body.bl-swapping #bl-overlay,
+    body.bl-swapping #bl-stage {
+      transition: opacity 0.55s cubic-bezier(0.4,0,0.2,1), filter 0.55s cubic-bezier(0.4,0,0.2,1) !important;
+    }
+    body.bl-swapping #left-aside {
+      animation: nav-swap 1.05s cubic-bezier(0.4,0,0.2,1) both !important;
+    }
+    body.bl-state #home-main,
+    body.bl-state #mission-overlay {
+      opacity: 0 !important; filter: blur(18px) !important; pointer-events: none !important;
+    }
+    body.bl-state #bl-overlay { opacity: 1 !important; pointer-events: auto !important; }
+    body.bl-state #bl-stage { opacity: 1 !important; }
     @keyframes btn-grow {
       from { clip-path: inset(0% 100% 0% 0%); }
       to   { clip-path: inset(0% 0% 0% 0%); }
@@ -221,6 +237,8 @@
     #oe-overlay::-webkit-scrollbar { display: none; }
     #au-overlay::-webkit-scrollbar { display: none; }
     #vc-overlay::-webkit-scrollbar { display: none; }
+    #bl-overlay::-webkit-scrollbar { display: none; }
+    #bl-s1-grid::-webkit-scrollbar { display: none; }
 
     /* ─── Mobile navigation ─────────────────────────────────────────── */
     #mobile-header { display: none; }
@@ -304,6 +322,7 @@
         -webkit-overflow-scrolling: touch;
         scrollbar-width: none;
         pointer-events: none;
+        padding-bottom: clamp(76px, 12vh, 120px) !important;
       }
       #svc-scroll::-webkit-scrollbar { display: none; }
       #tmn-scroll {
@@ -316,6 +335,7 @@
         -webkit-overflow-scrolling: touch;
         scrollbar-width: none;
         pointer-events: none;
+        padding-bottom: clamp(76px, 12vh, 120px) !important;
       }
       #tmn-scroll::-webkit-scrollbar { display: none; }
       #testimonials-headline, #testimonial-a, #testimonial-b {
@@ -335,6 +355,7 @@
         -webkit-overflow-scrolling: touch;
         scrollbar-width: none;
         pointer-events: none;
+        padding-bottom: clamp(76px, 12vh, 120px) !important;
       }
       #stats-scroll::-webkit-scrollbar { display: none; }
       #stats-headline {
@@ -361,6 +382,7 @@
         -webkit-overflow-scrolling: touch;
         scrollbar-width: none;
         pointer-events: none;
+        padding-bottom: clamp(76px, 12vh, 120px) !important;
       }
       #cli-scroll::-webkit-scrollbar { display: none; }
       #clients-headline {
@@ -400,6 +422,7 @@
         -webkit-overflow-scrolling: touch;
         scrollbar-width: none;
         pointer-events: none;
+        padding-bottom: clamp(76px, 12vh, 120px) !important;
       }
       #faq-scroll::-webkit-scrollbar { display: none; }
       #faq-headline {
@@ -441,7 +464,8 @@
       /* PE subpage — mobile: pinned sections w/ internal scroll + liquid morph between (homepage model) */
       #pe-stage {
         top: 0 !important;
-        height: 100% !important;
+        height: calc(100% - 72px) !important;
+        overflow: hidden !important;
       }
       /* Hero: glass panel, both top corners rounded, flush sides, below header */
       #pe-hero-frame {
@@ -546,7 +570,7 @@
 
       /* ─── Global Staffing subpage (mobile) — mirrors PE model ─── */
       #gs-overlay { left: 0 !important; }
-      #gs-stage { top: 0 !important; height: 100% !important; }
+      #gs-stage { top: 0 !important; height: calc(100% - 72px) !important; overflow: hidden !important; }
       #gs-hero-frame {
         border-right: 1px solid rgba(255,255,255,0.12) !important;
         border-bottom: none !important;
@@ -608,7 +632,7 @@
 
       /* Our Expertise subpage (mobile) - mirrors PE/GS model */
       #oe-overlay { left: 0 !important; }
-      #oe-stage { top: 0 !important; height: 100% !important; }
+      #oe-stage { top: 0 !important; height: calc(100% - 72px) !important; overflow: hidden !important; }
       #oe-hero-frame {
         border-right: 1px solid rgba(255,255,255,0.12) !important;
         border-bottom: none !important;
@@ -647,7 +671,7 @@
 
       /* About Us subpage (mobile) - mirrors PE/GS/OE model */
       #au-overlay { left: 0 !important; }
-      #au-stage { top: 0 !important; height: 100% !important; }
+      #au-stage { top: 0 !important; height: calc(100% - 72px) !important; overflow: hidden !important; }
       #au-hero-frame {
         border-right: 1px solid rgba(255,255,255,0.12) !important;
         border-bottom: none !important;
@@ -687,7 +711,7 @@
 
       /* VC Partnerships subpage (mobile) - mirrors PE/GS/OE/AU model */
       #vc-overlay { left: 0 !important; }
-      #vc-stage { top: 0 !important; height: 100% !important; }
+      #vc-stage { top: 0 !important; height: calc(100% - 72px) !important; overflow: hidden !important; }
       #vc-hero-frame {
         border-right: 1px solid rgba(255,255,255,0.12) !important;
         border-bottom: none !important;
@@ -717,9 +741,83 @@
         max-height: 62vh !important; overflow-y: auto !important; -webkit-overflow-scrolling: touch !important; scrollbar-width: none !important;
       }
       .vc-card::-webkit-scrollbar { display: none !important; }
-      .vc-logo { min-height: 130px !important; }
+      .vc-logo {
+        min-height: 130px !important;
+        background: rgba(0,0,0,0.15) !important;
+        backdrop-filter: blur(28px) saturate(140%) !important;
+        -webkit-backdrop-filter: blur(28px) saturate(140%) !important;
+        border: 1px solid rgba(255,255,255,0.12) !important;
+      }
       .vc-cta-panel h2 { font-size: clamp(26px, 7vw, 32px) !important; }
       #vc-cta-content { padding-left: 24px !important; padding-right: 24px !important; }
+
+      /* Blog subpage (mobile) - mirrors PE/GS/OE/AU/VC model */
+      #bl-overlay { left: 0 !important; }
+      #bl-stage { top: 0 !important; height: calc(100% - 72px) !important; overflow: hidden !important; }
+      #bl-hero-frame {
+        border-right: 1px solid rgba(255,255,255,0.12) !important;
+        border-bottom: none !important;
+        border-top-left-radius: 26px !important;
+        border-top-right-radius: 26px !important;
+        border-bottom-left-radius: 0 !important;
+      }
+      #bl-hero-layer { padding-left: 26px !important; padding-right: 26px !important; }
+      #bl-hero-layer h1 { font-size: clamp(48px, 6.6vw, 108px) !important; }
+      .bl-hl {
+        position: relative !important;
+        left: auto !important; top: auto !important;
+        width: 100% !important; height: auto !important;
+        flex-shrink: 0 !important;
+        justify-content: center !important;
+        margin: 2px 0 14px !important;
+      }
+      .bl-hl h2 { font-size: clamp(26px, 7vw, 34px) !important; line-height: 1.1 !important; }
+      #bl-s1-grid {
+        position: relative !important;
+        left: auto !important; top: auto !important;
+        width: 100% !important; height: auto !important;
+        display: flex !important; flex-direction: column !important;
+        gap: 14px !important;
+      }
+      .bl-card {
+        position: relative !important;
+        left: auto !important; top: auto !important; right: auto !important; bottom: auto !important;
+        width: 100% !important; height: auto !important;
+        flex-shrink: 0 !important;
+        box-sizing: border-box !important;
+        border-radius: 24px !important;
+        margin: 0 !important;
+        min-height: 300px !important;
+        background: rgba(0,0,0,0.15) !important;
+        backdrop-filter: blur(28px) saturate(140%) !important;
+        -webkit-backdrop-filter: blur(28px) saturate(140%) !important;
+        border: 1px solid rgba(255,255,255,0.12) !important;
+      }
+      .bl-card .bl-thumb { height: 160px !important; }
+      #bl-cta-content { padding-left: 24px !important; padding-right: 24px !important; }
+    }
+    /* ===== Scroll cue arrows ===== */
+    .scroll-cue { -webkit-tap-highlight-color: transparent; transition: opacity 0.45s ease, max-width 0.45s ease, margin 0.45s ease; overflow: hidden; }
+    .scroll-cue .cue-chev { display:block; }
+    #home-scroll-down .cue-chev, #sub-scroll-down .cue-chev  { animation: cue-glow 2.4s ease-in-out infinite, cue-bob-down 2.4s ease-in-out infinite; }
+    #home-scroll-down .cue-chev-2, #home-scroll-up .cue-chev-2, #sub-scroll-down .cue-chev-2, #sub-scroll-up .cue-chev-2 { animation-delay: 0.2s, 0.2s; opacity: 0.6; }
+    #home-scroll-up .cue-chev, #sub-scroll-up .cue-chev    { animation: cue-glow 2.4s ease-in-out infinite, cue-bob-up 2.4s ease-in-out infinite; }
+    .scroll-cue:hover { transform-box: fill-box; }
+    .scroll-cue:hover .cue-chev { filter: drop-shadow(0 0 12px rgba(199,255,224,0.95)); }
+    @keyframes cue-bob-down { 0%,100%{ transform: translateY(-2px); } 50%{ transform: translateY(3px); } }
+    @keyframes cue-bob-up   { 0%,100%{ transform: translateY(2px); }  50%{ transform: translateY(-3px); } }
+    @keyframes cue-glow     { 0%,100%{ opacity: 0.5; } 50%{ opacity: 1; } }
+    body.pe-state #home-scroll-cues, body.gs-state #home-scroll-cues, body.oe-state #home-scroll-cues, body.au-state #home-scroll-cues, body.vc-state #home-scroll-cues, body.bl-state #home-scroll-cues,
+    body.pe-swapping #home-scroll-cues, body.gs-swapping #home-scroll-cues, body.oe-swapping #home-scroll-cues, body.au-swapping #home-scroll-cues, body.vc-swapping #home-scroll-cues, body.bl-swapping #home-scroll-cues {
+      opacity: 0 !important; pointer-events: none !important;
+    }
+    /* Subpage cues: hidden by default, revealed only once a subpage is settled (not mid-swap) */
+    #sub-scroll-cues { opacity: 0; pointer-events: none; transition: opacity 0.4s ease; }
+    body.pe-state #sub-scroll-cues, body.gs-state #sub-scroll-cues, body.oe-state #sub-scroll-cues, body.au-state #sub-scroll-cues, body.vc-state #sub-scroll-cues, body.bl-state #sub-scroll-cues {
+      opacity: 1; pointer-events: none;
+    }
+    @media (max-width: 767px) {
+      #home-cue-group, #sub-cue-group { right: auto !important; left: 50% !important; transform: translateX(-50%); }
     }
   </style>
 </helmet>
@@ -760,7 +858,7 @@
       <a href="#" class="mob-link" onclick="{{ onMobileOE }}">Our Expertise</a>
       <a href="#" class="mob-link" onclick="{{ onMobileAU }}">About Us</a>
       <a href="#" class="mob-link" onclick="{{ onMobileVC }}">VC Partnerships</a>
-      <a href="#" class="mob-link" onclick="{{ onMobileMenuClose }}">Blog</a>
+      <a href="#" class="mob-link" onclick="{{ onMobileBlog }}">Blog</a>
       <a href="#" class="mob-link" onclick="{{ onMobileMenuClose }}">Careers</a>
     </nav>
     <!-- Contact CTA -->
@@ -840,7 +938,7 @@
           <a href="#" class="nav-link" onclick="{{ onOE }}" style="font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(17px,1.4vw,24px); color:#fff; text-decoration:none; white-space:nowrap; transition:opacity .2s ease, font-size 0.75s cubic-bezier(0.22,1,0.36,1); animation:nav-enter 0.9s cubic-bezier(0.16,1,0.3,1) 0.48s both" style-hover="opacity:0.6;">Our Expertise</a>
           <a href="#" class="nav-link" onclick="{{ onAU }}" style="font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(17px,1.4vw,24px); color:#fff; text-decoration:none; white-space:nowrap; transition:opacity .2s ease, font-size 0.75s cubic-bezier(0.22,1,0.36,1); animation:nav-enter 0.9s cubic-bezier(0.16,1,0.3,1) 0.61s both" style-hover="opacity:0.6;">About Us</a>
           <a href="#" class="nav-link" onclick="{{ onVC }}" style="font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(17px,1.4vw,24px); color:#fff; text-decoration:none; white-space:nowrap; transition:opacity .2s ease, font-size 0.75s cubic-bezier(0.22,1,0.36,1); animation:nav-enter 0.9s cubic-bezier(0.16,1,0.3,1) 0.74s both" style-hover="opacity:0.6;">VC Partnerships</a>
-          <a href="#" class="nav-link" style="font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(17px,1.4vw,24px); color:#fff; text-decoration:none; white-space:nowrap; transition:opacity .2s ease, font-size 0.75s cubic-bezier(0.22,1,0.36,1); animation:nav-enter 0.9s cubic-bezier(0.16,1,0.3,1) 0.87s both" style-hover="opacity:0.6;">Blog</a>
+          <a href="#" class="nav-link" onclick="{{ onBlog }}" style="font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(17px,1.4vw,24px); color:#fff; text-decoration:none; white-space:nowrap; transition:opacity .2s ease, font-size 0.75s cubic-bezier(0.22,1,0.36,1); animation:nav-enter 0.9s cubic-bezier(0.16,1,0.3,1) 0.87s both" style-hover="opacity:0.6;">Blog</a>
           <a href="#" class="nav-link" style="font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(17px,1.4vw,24px); color:#fff; text-decoration:none; white-space:nowrap; transition:opacity .2s ease, font-size 0.75s cubic-bezier(0.22,1,0.36,1); animation:nav-enter 0.9s cubic-bezier(0.16,1,0.3,1) 1.0s both" style-hover="opacity:0.6;">Careers</a>
         </nav>
 
@@ -980,11 +1078,39 @@
 
       </main>
 
+      <!-- ══════════ SCROLL CUE ARROWS ══════════ -->
+      <div id="home-scroll-cues" style="position:fixed; inset:0; pointer-events:none; z-index:60;">
+        <div id="home-cue-group" style="position:absolute; right:clamp(22px,3vw,52px); bottom:clamp(18px,3.2vh,38px); display:flex; align-items:flex-end; pointer-events:none;">
+          <div id="home-scroll-up" class="scroll-cue" role="button" tabindex="0" aria-label="Scroll to previous section" onClick="{{ onScrollUp }}" style="display:flex; flex-direction:column; align-items:center; gap:1px; cursor:pointer; pointer-events:auto; opacity:0;">
+            <svg class="cue-chev cue-chev-2" width="32" height="17" viewBox="0 0 32 17" fill="none"><path d="M4 13 L16 4 L28 13" stroke="#C7FFE0" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            <svg class="cue-chev" width="32" height="17" viewBox="0 0 32 17" fill="none"><path d="M4 13 L16 4 L28 13" stroke="#C7FFE0" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          </div>
+          <div id="home-scroll-down" class="scroll-cue" role="button" tabindex="0" aria-label="Scroll to next section" onClick="{{ onScrollDown }}" style="display:flex; flex-direction:column; align-items:center; gap:1px; margin-left:clamp(14px,1.5vw,26px); cursor:pointer; pointer-events:auto; opacity:0;">
+            <svg class="cue-chev" width="32" height="17" viewBox="0 0 32 17" fill="none"><path d="M4 4 L16 13 L28 4" stroke="#C7FFE0" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            <svg class="cue-chev cue-chev-2" width="32" height="17" viewBox="0 0 32 17" fill="none"><path d="M4 4 L16 13 L28 4" stroke="#C7FFE0" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════ SUBPAGE SCROLL CUE ARROWS ══════════ -->
+      <div id="sub-scroll-cues" style="position:fixed; inset:0; pointer-events:none; z-index:60;">
+        <div id="sub-cue-group" style="position:absolute; right:clamp(22px,3vw,52px); bottom:clamp(18px,3.2vh,38px); display:flex; align-items:flex-end; pointer-events:none;">
+          <div id="sub-scroll-up" class="scroll-cue" role="button" tabindex="0" aria-label="Scroll to previous section" onClick="{{ onSubUp }}" style="display:flex; flex-direction:column; align-items:center; gap:1px; cursor:pointer; pointer-events:auto; opacity:0;">
+            <svg class="cue-chev cue-chev-2" width="32" height="17" viewBox="0 0 32 17" fill="none"><path d="M4 13 L16 4 L28 13" stroke="#C7FFE0" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            <svg class="cue-chev" width="32" height="17" viewBox="0 0 32 17" fill="none"><path d="M4 13 L16 4 L28 13" stroke="#C7FFE0" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          </div>
+          <div id="sub-scroll-down" class="scroll-cue" role="button" tabindex="0" aria-label="Scroll to next section" onClick="{{ onSubDown }}" style="display:flex; flex-direction:column; align-items:center; gap:1px; margin-left:clamp(14px,1.5vw,26px); cursor:pointer; pointer-events:auto; opacity:0;">
+            <svg class="cue-chev" width="32" height="17" viewBox="0 0 32 17" fill="none"><path d="M4 4 L16 13 L28 4" stroke="#C7FFE0" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            <svg class="cue-chev cue-chev-2" width="32" height="17" viewBox="0 0 32 17" fill="none"><path d="M4 4 L16 13 L28 4" stroke="#C7FFE0" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          </div>
+        </div>
+      </div>
+
       <div id="mission-overlay" style="position:absolute; left:clamp(280px,24vw,400px); top:0; right:0; bottom:0; pointer-events:none; z-index:3;">
         <div id="mission-a" style="position:absolute; left:3%; top:5%; width:54%; height:52%; display:flex; align-items:center; padding:clamp(28px,3.5vw,56px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; opacity:0; pointer-events:none; will-change:opacity; z-index:1;">
           <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(48px,6.6vw,108px); line-height:1.04; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.40);">Our Mission<br>is Simple:</h2>
         </div>
-        <div id="mission-b" style="position:absolute; right:3%; bottom:5%; width:54%; height:42%; display:flex; align-items:center; padding:clamp(28px,3.5vw,56px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; opacity:0; pointer-events:none; will-change:opacity; z-index:2;">
+        <div id="mission-b" style="position:absolute; right:3%; bottom:12%; width:54%; height:42%; display:flex; align-items:center; padding:clamp(28px,3.5vw,56px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; opacity:0; pointer-events:none; will-change:opacity; z-index:2;">
           <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:#C7FFE0; font-size:clamp(18px,1.85vw,32px); line-height:1.4;">Turn ambition into execution, and help every company move confidently toward its next milestone.</p>
         </div>
 
@@ -994,7 +1120,7 @@
         <div id="services-headline" style="position:absolute; left:2%; top:4%; width:96%; height:14%; display:flex; flex-direction:column; justify-content:center; gap:clamp(6px,0.8vh,10px); opacity:0; pointer-events:none; will-change:opacity; z-index:3;">
           <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(36px,4.2vw,72px); line-height:1.0; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.35);">Our Services</h2>
         </div>
-        <div id="service-a" style="position:absolute; left:2%; top:21%; width:46%; height:73%; display:flex; flex-direction:column; justify-content:center; gap:clamp(18px,2.6vh,32px); padding:clamp(34px,3.1vw,60px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; opacity:0; pointer-events:none; will-change:opacity; z-index:1;">
+        <div id="service-a" style="position:absolute; left:2%; top:21%; width:46%; height:67%; display:flex; flex-direction:column; justify-content:center; gap:clamp(18px,2.6vh,32px); padding:clamp(34px,3.1vw,60px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; opacity:0; pointer-events:none; will-change:opacity; z-index:1;">
           <div style="display:flex; align-items:center; gap:clamp(10px,0.9vw,14px);">
             <span style="font-family:'Space Grotesk',sans-serif; font-weight:500; font-size:clamp(14px,1.1vw,18px); color:#C7FFE0; letter-spacing:0.04em;">01</span>
             <span style="height:1px; width:clamp(22px,2.4vw,44px); background:rgba(199,255,224,0.35);"></span>
@@ -1007,7 +1133,7 @@
           <a href="#" style="align-self:flex-start; display:inline-flex; align-items:center; gap:12px; background:#CCFFCE; color:#18282C; font-family:'Inter',sans-serif; font-weight:700; text-transform:uppercase; font-size:clamp(13px,1.1vw,18px); letter-spacing:0.045em; padding:11px 22px; text-decoration:none; box-shadow:0 0 36px rgba(150,255,170,0.28); transition:transform .2s ease, box-shadow .2s ease;" style-hover="transform:translateY(-2px); box-shadow:0 0 52px rgba(150,255,170,0.45);">Start a Product Sprint <span style="font-weight:700; font-size:1.05em;">&#8594;</span></a>
         </div>
 
-        <div id="service-b" style="position:absolute; left:52%; top:21%; width:46%; height:73%; display:flex; flex-direction:column; justify-content:center; gap:clamp(18px,2.6vh,32px); padding:clamp(34px,3.1vw,60px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; opacity:0; pointer-events:none; will-change:opacity; z-index:2;">
+        <div id="service-b" style="position:absolute; left:52%; top:21%; width:46%; height:67%; display:flex; flex-direction:column; justify-content:center; gap:clamp(18px,2.6vh,32px); padding:clamp(34px,3.1vw,60px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; opacity:0; pointer-events:none; will-change:opacity; z-index:2;">
           <div style="display:flex; align-items:center; gap:clamp(10px,0.9vw,14px);">
             <span style="font-family:'Space Grotesk',sans-serif; font-weight:500; font-size:clamp(14px,1.1vw,18px); color:#C7FFE0; letter-spacing:0.04em;">02</span>
             <span style="height:1px; width:clamp(22px,2.4vw,44px); background:rgba(199,255,224,0.35);"></span>
@@ -1040,7 +1166,7 @@
           </div>
         </div>
 
-        <div id="testimonial-b" style="position:absolute; left:2%; top:58%; width:96%; height:34%; display:flex; flex-direction:column; justify-content:space-between; padding:clamp(26px,2.8vw,50px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; opacity:0; pointer-events:none; will-change:opacity; z-index:4;">
+        <div id="testimonial-b" style="position:absolute; left:2%; top:58%; width:96%; height:31%; display:flex; flex-direction:column; justify-content:space-between; padding:clamp(26px,2.8vw,50px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; opacity:0; pointer-events:none; will-change:opacity; z-index:4;">
           <p style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:400; color:#E0FFEE; font-size:clamp(16px,1.65vw,28px); line-height:1.5; text-wrap:pretty; flex:1; display:flex; align-items:center;">&ldquo;I like that DevSavant has established a team of thinkers. Other providers are not thinkers, they are doers&hellip; We need partners, not doers.&rdquo;</p>
           <div style="display:flex; align-items:center; gap:clamp(14px,1.8vw,28px); margin-top:clamp(14px,1.8vh,22px); flex-shrink:0;">
             <div style="font-family:'Space Grotesk',sans-serif; font-weight:500; font-size:clamp(14px,1.2vw,20px); color:#C7FFE0; letter-spacing:0.04em; background:rgba(199,255,224,0.08); border:1px solid rgba(199,255,224,0.18); border-radius:8px; padding:5px 14px; white-space:nowrap;">IntelePeer</div>
@@ -1061,7 +1187,7 @@
         </div>
 
         <!-- ══════════ CLIENTS (logo grid) ══════════ -->
-        <div id="clients-grid" style="position:absolute; left:2%; top:21%; width:96%; height:75%; display:grid; grid-template-columns:repeat(4,1fr); grid-template-rows:repeat(3,1fr); column-gap:1.8%; row-gap:4%; z-index:4;">
+        <div id="clients-grid" style="position:absolute; left:2%; top:21%; width:96%; height:68%; display:grid; grid-template-columns:repeat(4,1fr); grid-template-rows:repeat(3,1fr); column-gap:1.8%; row-gap:4%; z-index:4;">
           <div style="display:flex; align-items:center; justify-content:center; padding:clamp(14px,1.5vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.14); border-radius:24px; opacity:0;"><img src="uploads/Agio-copia-640x184x0x0x640x184x1740154482.png" alt="Agio" style="max-width:78%; max-height:52%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;"></div>
           <div style="display:flex; align-items:center; justify-content:center; padding:clamp(14px,1.5vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.14); border-radius:24px; opacity:0;"><img src="uploads/Antenna-copia-640x184x0x0x640x184x1740151316.png" alt="Antenna" style="max-width:78%; max-height:52%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;"></div>
           <div style="display:flex; align-items:center; justify-content:center; padding:clamp(14px,1.5vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.14); border-radius:24px; opacity:0;"><img src="uploads/Conversica-640x184x0x0x640x184x1740155620.png" alt="Conversica" style="max-width:78%; max-height:52%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;"></div>
@@ -1083,7 +1209,7 @@
         </div>
 
         <!-- ══════════ FAQ items (no z-index on clip = backdrop-filter reaches canvas) ══════════ -->
-        <div id="faq-clip" style="position:absolute; left:2%; top:15%; width:96%; height:84%; overflow:hidden; pointer-events:auto;">
+        <div id="faq-clip" style="position:absolute; left:2%; top:15%; width:96%; height:76%; overflow:hidden; pointer-events:auto;">
           <div id="faq-items" style="position:absolute; top:0; left:0; right:0; display:flex; flex-direction:column; gap:clamp(8px,1vh,11px);">
             <div class="faq-item" data-idx="0" style="padding:clamp(14px,1.6vw,22px) clamp(20px,2.2vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.12); border-radius:18px; cursor:pointer; opacity:0;"><div class="faq-header" style="display:flex; align-items:center; justify-content:space-between; gap:20px;"><span style="font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(13px,1.2vw,19px); line-height:1.3;">Do you work with startups at any stage?</span><span class="faq-chevron" style="color:#C7FFE0; font-size:clamp(16px,1.4vw,22px); flex-shrink:0;">&#x203A;</span></div><div class="faq-body"><p style="margin:clamp(10px,1.2vh,16px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.80); font-size:clamp(12px,1.0vw,16px); line-height:1.65; text-wrap:pretty;">Yes. We support from early-stage founders without a tech team or revenue to established companies +300M in ARR that need to accelerate initiatives or extend technical capabilities.</p></div></div>
             <div class="faq-item" data-idx="1" style="padding:clamp(14px,1.6vw,22px) clamp(20px,2.2vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.12); border-radius:18px; cursor:pointer; opacity:0;"><div class="faq-header" style="display:flex; align-items:center; justify-content:space-between; gap:20px;"><span style="font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(13px,1.2vw,19px); line-height:1.3;">How do you validate whether my idea is technically feasible?</span><span class="faq-chevron" style="color:#C7FFE0; font-size:clamp(16px,1.4vw,22px); flex-shrink:0;">&#x203A;</span></div><div class="faq-body"><p style="margin:clamp(10px,1.2vh,16px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.80); font-size:clamp(12px,1.0vw,16px); line-height:1.65; text-wrap:pretty;">We run a fast Discovery process to validate assumptions, technical feasibility, and risks. You receive clear insights, budget estimates, and an execution blueprint before any development begins.</p></div></div>
@@ -1107,11 +1233,11 @@
         </div>
 
         <!-- ══════════ STATS cards ══════════ -->
-        <div id="stat-0" style="position:absolute; left:2%; top:21%; width:31%; height:38%; display:flex; flex-direction:column; justify-content:flex-end; padding:clamp(20px,2.2vw,38px); background:rgba(0,0,0,0.15); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.12); border-radius:28px; opacity:0; pointer-events:none; z-index:4;"><svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom:auto;flex-shrink:0;"><rect width="40" height="40" rx="12" fill="rgba(199,255,224,0.10)"/><text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" font-size="20" fill="#C7FFE0">$</text></svg><div style="display:flex;flex-direction:column;gap:4px;"><span style="font-family:'Space Grotesk',sans-serif;font-weight:500;color:#E0FFEE;font-size:clamp(36px,4.5vw,72px);line-height:1.0;letter-spacing:-0.02em;text-shadow:0 2px 24px rgba(10,200,120,0.30);">$100M+</span><span style="font-family:'Inter',sans-serif;font-weight:300;color:rgba(199,255,224,0.65);font-size:clamp(17px,1.7vw,26px);">Raised by our clients</span></div></div>
-        <div id="stat-1" style="position:absolute; left:34.5%; top:21%; width:31%; height:38%; display:flex; flex-direction:column; justify-content:flex-end; padding:clamp(20px,2.2vw,38px); background:rgba(0,0,0,0.15); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.12); border-radius:28px; opacity:0; pointer-events:none; z-index:4;"><svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom:auto;flex-shrink:0;"><rect width="40" height="40" rx="12" fill="rgba(199,255,224,0.10)"/><path d="M20 9l9 4v8c0 5-4 9-9 10-5-1-9-5-9-10v-8l9-4z" stroke="#C7FFE0" stroke-width="1.5" fill="none"/><path d="M16 20l3 3 5-5" stroke="#C7FFE0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><div style="display:flex;flex-direction:column;gap:4px;"><span style="font-family:'Space Grotesk',sans-serif;font-weight:500;color:#E0FFEE;font-size:clamp(36px,4.5vw,72px);line-height:1.0;letter-spacing:-0.02em;text-shadow:0 2px 24px rgba(10,200,120,0.30);">5</span><span style="font-family:'Inter',sans-serif;font-weight:300;color:rgba(199,255,224,0.65);font-size:clamp(17px,1.7vw,26px);">VC Partners</span></div></div>
-        <div id="stat-2" style="position:absolute; left:67%; top:21%; width:31%; height:38%; display:flex; flex-direction:column; justify-content:flex-end; padding:clamp(20px,2.2vw,38px); background:rgba(0,0,0,0.15); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.12); border-radius:28px; opacity:0; pointer-events:none; z-index:4;"><svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom:auto;flex-shrink:0;"><rect width="40" height="40" rx="12" fill="rgba(199,255,224,0.10)"/><circle cx="20" cy="15" r="4" stroke="#C7FFE0" stroke-width="1.5" fill="none"/><path d="M12 29c0-4.4 3.6-8 8-8s8 3.6 8 8" stroke="#C7FFE0" stroke-width="1.5" stroke-linecap="round" fill="none"/></svg><div style="display:flex;flex-direction:column;gap:4px;"><span style="font-family:'Space Grotesk',sans-serif;font-weight:500;color:#E0FFEE;font-size:clamp(36px,4.5vw,72px);line-height:1.0;letter-spacing:-0.02em;text-shadow:0 2px 24px rgba(10,200,120,0.30);">24</span><span style="font-family:'Inter',sans-serif;font-weight:300;color:rgba(199,255,224,0.65);font-size:clamp(17px,1.7vw,26px);">Active Clients</span></div></div>
-        <div id="stat-3" style="position:absolute; left:2%; top:62%; width:64%; height:35%; display:flex; flex-direction:column; justify-content:flex-end; padding:clamp(20px,2.2vw,38px); background:rgba(0,0,0,0.15); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.12); border-radius:28px; opacity:0; pointer-events:none; z-index:4;"><svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom:auto;flex-shrink:0;"><rect width="40" height="40" rx="12" fill="rgba(199,255,224,0.10)"/><circle cx="20" cy="21" r="8" stroke="#C7FFE0" stroke-width="1.5" fill="none"/><path d="M20 17v4l3 2" stroke="#C7FFE0" stroke-width="1.5" stroke-linecap="round" fill="none"/></svg><div style="display:flex;flex-direction:column;gap:4px;"><span style="font-family:'Space Grotesk',sans-serif;font-weight:500;color:#E0FFEE;font-size:clamp(36px,4.5vw,72px);line-height:1.0;letter-spacing:-0.02em;text-shadow:0 2px 24px rgba(10,200,120,0.30);">8+</span><span style="font-family:'Inter',sans-serif;font-weight:300;color:rgba(199,255,224,0.65);font-size:clamp(17px,1.7vw,26px);">Years of experience working in VC Ecosystems</span></div></div>
-        <div id="stat-4" style="position:absolute; left:67%; top:62%; width:31%; height:35%; display:flex; flex-direction:column; justify-content:flex-end; padding:clamp(20px,2.2vw,38px); background:rgba(0,0,0,0.15); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.12); border-radius:28px; opacity:0; pointer-events:none; z-index:4;"><svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom:auto;flex-shrink:0;"><rect width="40" height="40" rx="12" fill="rgba(199,255,224,0.10)"/><path d="M20 10l2.9 6.3 6.8.7-5 4.7 1.4 6.8L20 25l-6.1 3.5 1.4-6.8-5-4.7 6.8-.7z" stroke="#C7FFE0" stroke-width="1.5" fill="none"/></svg><div style="display:flex;flex-direction:column;gap:4px;"><span style="font-family:'Space Grotesk',sans-serif;font-weight:500;color:#E0FFEE;font-size:clamp(36px,4.5vw,72px);line-height:1.0;letter-spacing:-0.02em;text-shadow:0 2px 24px rgba(10,200,120,0.30);">4.7/5</span><span style="font-family:'Inter',sans-serif;font-weight:300;color:rgba(199,255,224,0.65);font-size:clamp(17px,1.7vw,26px);">Satisfaction Score</span></div></div>
+        <div id="stat-0" style="position:absolute; left:2%; top:21%; width:31%; height:34%; display:flex; flex-direction:column; justify-content:flex-end; padding:clamp(20px,2.2vw,38px); background:rgba(0,0,0,0.15); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.12); border-radius:28px; opacity:0; pointer-events:none; z-index:4;"><svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom:auto;flex-shrink:0;"><rect width="40" height="40" rx="12" fill="rgba(199,255,224,0.10)"/><text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" font-size="20" fill="#C7FFE0">$</text></svg><div style="display:flex;flex-direction:column;gap:4px;"><span style="font-family:'Space Grotesk',sans-serif;font-weight:500;color:#E0FFEE;font-size:clamp(36px,4.5vw,72px);line-height:1.0;letter-spacing:-0.02em;text-shadow:0 2px 24px rgba(10,200,120,0.30);">$100M+</span><span style="font-family:'Inter',sans-serif;font-weight:300;color:rgba(199,255,224,0.65);font-size:clamp(17px,1.7vw,26px);">Raised by our clients</span></div></div>
+        <div id="stat-1" style="position:absolute; left:34.5%; top:21%; width:31%; height:34%; display:flex; flex-direction:column; justify-content:flex-end; padding:clamp(20px,2.2vw,38px); background:rgba(0,0,0,0.15); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.12); border-radius:28px; opacity:0; pointer-events:none; z-index:4;"><svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom:auto;flex-shrink:0;"><rect width="40" height="40" rx="12" fill="rgba(199,255,224,0.10)"/><path d="M20 9l9 4v8c0 5-4 9-9 10-5-1-9-5-9-10v-8l9-4z" stroke="#C7FFE0" stroke-width="1.5" fill="none"/><path d="M16 20l3 3 5-5" stroke="#C7FFE0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><div style="display:flex;flex-direction:column;gap:4px;"><span style="font-family:'Space Grotesk',sans-serif;font-weight:500;color:#E0FFEE;font-size:clamp(36px,4.5vw,72px);line-height:1.0;letter-spacing:-0.02em;text-shadow:0 2px 24px rgba(10,200,120,0.30);">5</span><span style="font-family:'Inter',sans-serif;font-weight:300;color:rgba(199,255,224,0.65);font-size:clamp(17px,1.7vw,26px);">VC Partners</span></div></div>
+        <div id="stat-2" style="position:absolute; left:67%; top:21%; width:31%; height:34%; display:flex; flex-direction:column; justify-content:flex-end; padding:clamp(20px,2.2vw,38px); background:rgba(0,0,0,0.15); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.12); border-radius:28px; opacity:0; pointer-events:none; z-index:4;"><svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom:auto;flex-shrink:0;"><rect width="40" height="40" rx="12" fill="rgba(199,255,224,0.10)"/><circle cx="20" cy="15" r="4" stroke="#C7FFE0" stroke-width="1.5" fill="none"/><path d="M12 29c0-4.4 3.6-8 8-8s8 3.6 8 8" stroke="#C7FFE0" stroke-width="1.5" stroke-linecap="round" fill="none"/></svg><div style="display:flex;flex-direction:column;gap:4px;"><span style="font-family:'Space Grotesk',sans-serif;font-weight:500;color:#E0FFEE;font-size:clamp(36px,4.5vw,72px);line-height:1.0;letter-spacing:-0.02em;text-shadow:0 2px 24px rgba(10,200,120,0.30);">24</span><span style="font-family:'Inter',sans-serif;font-weight:300;color:rgba(199,255,224,0.65);font-size:clamp(17px,1.7vw,26px);">Active Clients</span></div></div>
+        <div id="stat-3" style="position:absolute; left:2%; top:58%; width:64%; height:31%; display:flex; flex-direction:column; justify-content:flex-end; padding:clamp(20px,2.2vw,38px); background:rgba(0,0,0,0.15); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.12); border-radius:28px; opacity:0; pointer-events:none; z-index:4;"><svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom:auto;flex-shrink:0;"><rect width="40" height="40" rx="12" fill="rgba(199,255,224,0.10)"/><circle cx="20" cy="21" r="8" stroke="#C7FFE0" stroke-width="1.5" fill="none"/><path d="M20 17v4l3 2" stroke="#C7FFE0" stroke-width="1.5" stroke-linecap="round" fill="none"/></svg><div style="display:flex;flex-direction:column;gap:4px;"><span style="font-family:'Space Grotesk',sans-serif;font-weight:500;color:#E0FFEE;font-size:clamp(36px,4.5vw,72px);line-height:1.0;letter-spacing:-0.02em;text-shadow:0 2px 24px rgba(10,200,120,0.30);">8+</span><span style="font-family:'Inter',sans-serif;font-weight:300;color:rgba(199,255,224,0.65);font-size:clamp(17px,1.7vw,26px);">Years of experience working in VC Ecosystems</span></div></div>
+        <div id="stat-4" style="position:absolute; left:67%; top:58%; width:31%; height:31%; display:flex; flex-direction:column; justify-content:flex-end; padding:clamp(20px,2.2vw,38px); background:rgba(0,0,0,0.15); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.12); border-radius:28px; opacity:0; pointer-events:none; z-index:4;"><svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom:auto;flex-shrink:0;"><rect width="40" height="40" rx="12" fill="rgba(199,255,224,0.10)"/><path d="M20 10l2.9 6.3 6.8.7-5 4.7 1.4 6.8L20 25l-6.1 3.5 1.4-6.8-5-4.7 6.8-.7z" stroke="#C7FFE0" stroke-width="1.5" fill="none"/></svg><div style="display:flex;flex-direction:column;gap:4px;"><span style="font-family:'Space Grotesk',sans-serif;font-weight:500;color:#E0FFEE;font-size:clamp(36px,4.5vw,72px);line-height:1.0;letter-spacing:-0.02em;text-shadow:0 2px 24px rgba(10,200,120,0.30);">4.7/5</span><span style="font-family:'Inter',sans-serif;font-weight:300;color:rgba(199,255,224,0.65);font-size:clamp(17px,1.7vw,26px);">Satisfaction Score</span></div></div>
         </div><!-- /stats-scroll -->
       </div>
       <!-- ══════════ END mission-overlay ══════════ -->
@@ -1119,7 +1245,7 @@
       <!-- ══════════ PRODUCT ENGINEERING PAGE (glass card, animates in) ══════════ -->
       <div id="pe-overlay" style="position:absolute; left:clamp(280px,24vw,400px); top:0; right:0; bottom:0; display:flex; flex-direction:column; align-items:stretch; overflow-y:auto; scrollbar-width:none; pointer-events:none; opacity:0; z-index:24; transition:opacity 0.5s ease;">
         <!-- Sticky morphing stage: the PE hero panel liquid-morphs into the discovery cards -->
-        <div id="pe-stage" style="position:sticky; top:0; height:100vh; overflow:hidden; flex-shrink:0; opacity:0;">
+        <div id="pe-stage" style="position:sticky; top:0; height:calc(100vh - 72px); overflow:visible; flex-shrink:0; opacity:0;">
 
           <!-- SVG goo morph mask -->
           <svg id="pe-disc-svg" style="position:absolute; inset:0; width:100%; height:100%; z-index:0; pointer-events:none;">
@@ -1135,13 +1261,13 @@
           </svg>
 
           <!-- Glass panel masked by goo -->
-          <div id="pe-disc-glass" style="position:absolute; inset:0; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); overflow:hidden; -webkit-mask:url(#pe-disc-msk); mask:url(#pe-disc-msk);"><div style="position:absolute;inset:0;pointer-events:none;opacity:0.055;filter:url(#panel-noise);background:#ffffff;"></div></div>
+          <div id="pe-disc-glass" style="position:absolute; top:0; left:0; right:0; height:100vh; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); overflow:hidden; -webkit-mask:url(#pe-disc-msk); mask:url(#pe-disc-msk);"><div style="position:absolute;inset:0;pointer-events:none;opacity:0.055;filter:url(#panel-noise);background:#ffffff;"></div></div>
 
           <!-- Hero frame: bordered panel matching home-main (rounded left, flush right, full height) -->
-          <div id="pe-hero-frame" style="position:absolute; inset:0; border-left:1px solid rgba(255,255,255,0.12); border-top:1px solid rgba(255,255,255,0.12); border-bottom:1px solid rgba(255,255,255,0.12); border-top-left-radius:44px; border-bottom-left-radius:44px; pointer-events:none; z-index:1;"></div>
+          <div id="pe-hero-frame" style="position:absolute; top:0; left:0; right:0; height:100vh; border-left:1px solid rgba(255,255,255,0.12); border-top:1px solid rgba(255,255,255,0.12); border-bottom:1px solid rgba(255,255,255,0.12); border-top-left-radius:44px; border-bottom-left-radius:44px; pointer-events:none; z-index:1;"></div>
 
           <!-- HERO content layer (fades out as the glass morphs into cards) -->
-          <div id="pe-hero-layer" style="position:absolute; inset:0; display:flex; flex-direction:column; justify-content:center; padding-left:clamp(48px,6.5vw,140px); padding-right:clamp(40px,5vw,90px); z-index:3; will-change:opacity,filter;">
+          <div id="pe-hero-layer" style="position:absolute; top:0; left:0; right:0; height:100vh; display:flex; flex-direction:column; justify-content:center; padding-left:clamp(48px,6.5vw,140px); padding-right:clamp(40px,5vw,90px); z-index:3; will-change:opacity,filter;">
           <div style="max-width:920px;">
             <span class="pe-el" style="display:inline-block; font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(11px,0.9vw,15px); letter-spacing:0.26em; text-transform:uppercase; color:rgba(199,255,224,0.55); opacity:0; transform:translateY(22px); transition:opacity 0.8s cubic-bezier(0.16,1,0.3,1) 0.18s, transform 0.8s cubic-bezier(0.16,1,0.3,1) 0.18s;">Services</span>
             <h1 class="pe-el" style="margin:clamp(12px,1.6vh,20px) 0 0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(40px,5.4vw,92px); line-height:1.03; letter-spacing:-0.01em; text-wrap:balance; text-shadow:0 4px 32px rgba(31,98,255,0.40); opacity:0; transform:translateY(26px); transition:opacity 0.85s cubic-bezier(0.16,1,0.3,1) 0.28s, transform 0.85s cubic-bezier(0.16,1,0.3,1) 0.28s;">Product Engineering</h1>
@@ -1428,7 +1554,7 @@
 
       <!-- ══════════ GLOBAL STAFFING PAGE (glass card, animates in) ══════════ -->
       <div id="gs-overlay" style="position:absolute; left:clamp(280px,24vw,400px); top:0; right:0; bottom:0; display:flex; flex-direction:column; align-items:stretch; overflow-y:auto; scrollbar-width:none; pointer-events:none; opacity:0; z-index:24; transition:opacity 0.5s ease;">
-        <div id="gs-stage" style="position:sticky; top:0; height:100vh; overflow:hidden; flex-shrink:0; opacity:0;">
+        <div id="gs-stage" style="position:sticky; top:0; height:calc(100vh - 72px); overflow:visible; flex-shrink:0; opacity:0;">
 
           <!-- SVG goo morph mask -->
           <svg id="gs-disc-svg" style="position:absolute; inset:0; width:100%; height:100%; z-index:0; pointer-events:none;">
@@ -1444,13 +1570,13 @@
           </svg>
 
           <!-- Glass panel masked by goo -->
-          <div id="gs-disc-glass" style="position:absolute; inset:0; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); overflow:hidden; -webkit-mask:url(#gs-disc-msk); mask:url(#gs-disc-msk);"><div style="position:absolute;inset:0;pointer-events:none;opacity:0.055;filter:url(#panel-noise);background:#ffffff;"></div></div>
+          <div id="gs-disc-glass" style="position:absolute; top:0; left:0; right:0; height:100vh; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); overflow:hidden; -webkit-mask:url(#gs-disc-msk); mask:url(#gs-disc-msk);"><div style="position:absolute;inset:0;pointer-events:none;opacity:0.055;filter:url(#panel-noise);background:#ffffff;"></div></div>
 
           <!-- Hero frame -->
-          <div id="gs-hero-frame" style="position:absolute; inset:0; border-left:1px solid rgba(255,255,255,0.12); border-top:1px solid rgba(255,255,255,0.12); border-bottom:1px solid rgba(255,255,255,0.12); border-top-left-radius:44px; border-bottom-left-radius:44px; pointer-events:none; z-index:1;"></div>
+          <div id="gs-hero-frame" style="position:absolute; top:0; left:0; right:0; height:100vh; border-left:1px solid rgba(255,255,255,0.12); border-top:1px solid rgba(255,255,255,0.12); border-bottom:1px solid rgba(255,255,255,0.12); border-top-left-radius:44px; border-bottom-left-radius:44px; pointer-events:none; z-index:1;"></div>
 
           <!-- HERO content layer -->
-          <div id="gs-hero-layer" style="position:absolute; inset:0; display:flex; flex-direction:column; justify-content:center; padding-left:clamp(48px,6.5vw,140px); padding-right:clamp(40px,5vw,90px); z-index:3; will-change:opacity,filter;">
+          <div id="gs-hero-layer" style="position:absolute; top:0; left:0; right:0; height:100vh; display:flex; flex-direction:column; justify-content:center; padding-left:clamp(48px,6.5vw,140px); padding-right:clamp(40px,5vw,90px); z-index:3; will-change:opacity,filter;">
           <div style="max-width:920px;">
             <span class="pe-el" style="display:inline-block; font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(11px,0.9vw,15px); letter-spacing:0.26em; text-transform:uppercase; color:rgba(199,255,224,0.55); opacity:0; transform:translateY(22px); transition:opacity 0.8s cubic-bezier(0.16,1,0.3,1) 0.18s, transform 0.8s cubic-bezier(0.16,1,0.3,1) 0.18s;">Services</span>
             <h1 class="pe-el" style="margin:clamp(12px,1.6vh,20px) 0 0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(40px,5.4vw,92px); line-height:1.03; letter-spacing:-0.01em; text-wrap:balance; text-shadow:0 4px 32px rgba(31,98,255,0.40); opacity:0; transform:translateY(26px); transition:opacity 0.85s cubic-bezier(0.16,1,0.3,1) 0.28s, transform 0.85s cubic-bezier(0.16,1,0.3,1) 0.28s;">Global Staffing</h1>
@@ -1706,7 +1832,7 @@
 
       <!-- ══════════ OUR EXPERTISE PAGE (glass card, animates in) ══════════ -->
       <div id="oe-overlay" style="position:absolute; left:clamp(280px,24vw,400px); top:0; right:0; bottom:0; display:flex; flex-direction:column; align-items:stretch; overflow-y:auto; scrollbar-width:none; pointer-events:none; opacity:0; z-index:24; transition:opacity 0.5s ease;">
-        <div id="oe-stage" style="position:sticky; top:0; height:100vh; overflow:hidden; flex-shrink:0; opacity:0;">
+        <div id="oe-stage" style="position:sticky; top:0; height:calc(100vh - 72px); overflow:visible; flex-shrink:0; opacity:0;">
 
           <!-- SVG goo morph mask -->
           <svg id="oe-disc-svg" style="position:absolute; inset:0; width:100%; height:100%; z-index:0; pointer-events:none;">
@@ -1722,13 +1848,13 @@
           </svg>
 
           <!-- Glass panel masked by goo -->
-          <div id="oe-disc-glass" style="position:absolute; inset:0; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); overflow:hidden; -webkit-mask:url(#oe-disc-msk); mask:url(#oe-disc-msk);"><div style="position:absolute;inset:0;pointer-events:none;opacity:0.055;filter:url(#panel-noise);background:#ffffff;"></div></div>
+          <div id="oe-disc-glass" style="position:absolute; top:0; left:0; right:0; height:100vh; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); overflow:hidden; -webkit-mask:url(#oe-disc-msk); mask:url(#oe-disc-msk);"><div style="position:absolute;inset:0;pointer-events:none;opacity:0.055;filter:url(#panel-noise);background:#ffffff;"></div></div>
 
           <!-- Hero frame -->
-          <div id="oe-hero-frame" style="position:absolute; inset:0; border-left:1px solid rgba(255,255,255,0.12); border-top:1px solid rgba(255,255,255,0.12); border-bottom:1px solid rgba(255,255,255,0.12); border-top-left-radius:44px; border-bottom-left-radius:44px; pointer-events:none; z-index:1;"></div>
+          <div id="oe-hero-frame" style="position:absolute; top:0; left:0; right:0; height:100vh; border-left:1px solid rgba(255,255,255,0.12); border-top:1px solid rgba(255,255,255,0.12); border-bottom:1px solid rgba(255,255,255,0.12); border-top-left-radius:44px; border-bottom-left-radius:44px; pointer-events:none; z-index:1;"></div>
 
           <!-- HERO content layer -->
-          <div id="oe-hero-layer" style="position:absolute; inset:0; display:flex; flex-direction:column; justify-content:center; padding-left:clamp(48px,6.5vw,140px); padding-right:clamp(40px,5vw,90px); z-index:3; will-change:opacity,filter;">
+          <div id="oe-hero-layer" style="position:absolute; top:0; left:0; right:0; height:100vh; display:flex; flex-direction:column; justify-content:center; padding-left:clamp(48px,6.5vw,140px); padding-right:clamp(40px,5vw,90px); z-index:3; will-change:opacity,filter;">
           <div style="max-width:920px;">
             <span class="pe-el" style="display:inline-block; font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(11px,0.9vw,15px); letter-spacing:0.26em; text-transform:uppercase; color:rgba(199,255,224,0.55); opacity:0; transform:translateY(22px); transition:opacity 0.8s cubic-bezier(0.16,1,0.3,1) 0.18s, transform 0.8s cubic-bezier(0.16,1,0.3,1) 0.18s;">Our Expertise</span>
             <h1 class="pe-el" style="margin:clamp(12px,1.6vh,20px) 0 0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(40px,5.4vw,92px); line-height:1.03; letter-spacing:-0.01em; text-wrap:balance; text-shadow:0 4px 32px rgba(31,98,255,0.40); opacity:0; transform:translateY(26px); transition:opacity 0.85s cubic-bezier(0.16,1,0.3,1) 0.28s, transform 0.85s cubic-bezier(0.16,1,0.3,1) 0.28s;">Real Stories of Impact and Innovation</h1>
@@ -2009,7 +2135,7 @@
 
       <!-- ══════════ ABOUT US PAGE (glass card, animates in) ══════════ -->
       <div id="au-overlay" style="position:absolute; left:clamp(280px,24vw,400px); top:0; right:0; bottom:0; display:flex; flex-direction:column; align-items:stretch; overflow-y:auto; scrollbar-width:none; pointer-events:none; opacity:0; z-index:24; transition:opacity 0.5s ease;">
-        <div id="au-stage" style="position:sticky; top:0; height:100vh; overflow:hidden; flex-shrink:0; opacity:0;">
+        <div id="au-stage" style="position:sticky; top:0; height:calc(100vh - 72px); overflow:visible; flex-shrink:0; opacity:0;">
 
           <!-- SVG goo morph mask -->
           <svg id="au-disc-svg" style="position:absolute; inset:0; width:100%; height:100%; z-index:0; pointer-events:none;">
@@ -2025,13 +2151,13 @@
           </svg>
 
           <!-- Glass panel masked by goo -->
-          <div id="au-disc-glass" style="position:absolute; inset:0; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); overflow:hidden; -webkit-mask:url(#au-disc-msk); mask:url(#au-disc-msk);"><div style="position:absolute;inset:0;pointer-events:none;opacity:0.055;filter:url(#panel-noise);background:#ffffff;"></div></div>
+          <div id="au-disc-glass" style="position:absolute; top:0; left:0; right:0; height:100vh; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); overflow:hidden; -webkit-mask:url(#au-disc-msk); mask:url(#au-disc-msk);"><div style="position:absolute;inset:0;pointer-events:none;opacity:0.055;filter:url(#panel-noise);background:#ffffff;"></div></div>
 
           <!-- Hero frame -->
-          <div id="au-hero-frame" style="position:absolute; inset:0; border-left:1px solid rgba(255,255,255,0.12); border-top:1px solid rgba(255,255,255,0.12); border-bottom:1px solid rgba(255,255,255,0.12); border-top-left-radius:44px; border-bottom-left-radius:44px; pointer-events:none; z-index:1;"></div>
+          <div id="au-hero-frame" style="position:absolute; top:0; left:0; right:0; height:100vh; border-left:1px solid rgba(255,255,255,0.12); border-top:1px solid rgba(255,255,255,0.12); border-bottom:1px solid rgba(255,255,255,0.12); border-top-left-radius:44px; border-bottom-left-radius:44px; pointer-events:none; z-index:1;"></div>
 
           <!-- HERO content layer -->
-          <div id="au-hero-layer" style="position:absolute; inset:0; display:flex; flex-direction:column; justify-content:center; padding-left:clamp(48px,6.5vw,140px); padding-right:clamp(40px,5vw,90px); z-index:3; will-change:opacity,filter;">
+          <div id="au-hero-layer" style="position:absolute; top:0; left:0; right:0; height:100vh; display:flex; flex-direction:column; justify-content:center; padding-left:clamp(48px,6.5vw,140px); padding-right:clamp(40px,5vw,90px); z-index:3; will-change:opacity,filter;">
           <div style="max-width:920px;">
             <h1 class="pe-el" style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(40px,5.4vw,92px); line-height:1.03; letter-spacing:-0.01em; text-wrap:balance; text-shadow:0 4px 32px rgba(31,98,255,0.40); opacity:0; transform:translateY(26px); transition:opacity 0.85s cubic-bezier(0.16,1,0.3,1) 0.18s, transform 0.85s cubic-bezier(0.16,1,0.3,1) 0.18s;">About us</h1>
             <p class="pe-el" style="margin:clamp(18px,2.4vh,30px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:#C7FFE0; font-size:clamp(15px,1.45vw,23px); line-height:1.5; text-wrap:pretty; opacity:0; transform:translateY(26px); transition:opacity 0.85s cubic-bezier(0.16,1,0.3,1) 0.30s, transform 0.85s cubic-bezier(0.16,1,0.3,1) 0.30s;">At DevSavant, we were shaped by the energy of a venture ecosystem, built alongside founders chasing big visions and investors backing the next wave of innovation. For over seven years, we&rsquo;ve lived at the intersection of both worlds, understanding the pressure, the pace, and the passion that drive early and growth-stage companies. We stand beside startups at every stage of their journey. Whether it&rsquo;s bringing an idea to life, building an MVP under a tight runway, or embedding high-caliber global teams to scale, we become the partner that founders can trust and investors can count on.</p>
@@ -2293,7 +2419,7 @@
 
       <!-- ══════════ VC PARTNERSHIPS PAGE (glass card, animates in) ══════════ -->
       <div id="vc-overlay" style="position:absolute; left:clamp(280px,24vw,400px); top:0; right:0; bottom:0; display:flex; flex-direction:column; align-items:stretch; overflow-y:auto; scrollbar-width:none; pointer-events:none; opacity:0; z-index:24; transition:opacity 0.5s ease;">
-        <div id="vc-stage" style="position:sticky; top:0; height:100vh; overflow:hidden; flex-shrink:0; opacity:0;">
+        <div id="vc-stage" style="position:sticky; top:0; height:calc(100vh - 72px); overflow:visible; flex-shrink:0; opacity:0;">
 
           <!-- SVG goo morph mask -->
           <svg id="vc-disc-svg" style="position:absolute; inset:0; width:100%; height:100%; z-index:0; pointer-events:none;">
@@ -2309,13 +2435,13 @@
           </svg>
 
           <!-- Glass panel masked by goo -->
-          <div id="vc-disc-glass" style="position:absolute; inset:0; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); overflow:hidden; -webkit-mask:url(#vc-disc-msk); mask:url(#vc-disc-msk);"><div style="position:absolute;inset:0;pointer-events:none;opacity:0.055;filter:url(#panel-noise);background:#ffffff;"></div></div>
+          <div id="vc-disc-glass" style="position:absolute; top:0; left:0; right:0; height:100vh; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); overflow:hidden; -webkit-mask:url(#vc-disc-msk); mask:url(#vc-disc-msk);"><div style="position:absolute;inset:0;pointer-events:none;opacity:0.055;filter:url(#panel-noise);background:#ffffff;"></div></div>
 
           <!-- Hero frame -->
-          <div id="vc-hero-frame" style="position:absolute; inset:0; border-left:1px solid rgba(255,255,255,0.12); border-top:1px solid rgba(255,255,255,0.12); border-bottom:1px solid rgba(255,255,255,0.12); border-top-left-radius:44px; border-bottom-left-radius:44px; pointer-events:none; z-index:1;"></div>
+          <div id="vc-hero-frame" style="position:absolute; top:0; left:0; right:0; height:100vh; border-left:1px solid rgba(255,255,255,0.12); border-top:1px solid rgba(255,255,255,0.12); border-bottom:1px solid rgba(255,255,255,0.12); border-top-left-radius:44px; border-bottom-left-radius:44px; pointer-events:none; z-index:1;"></div>
 
           <!-- HERO content layer -->
-          <div id="vc-hero-layer" style="position:absolute; inset:0; display:flex; flex-direction:column; justify-content:center; padding-left:clamp(48px,6.5vw,140px); padding-right:clamp(40px,5vw,90px); z-index:3; will-change:opacity,filter;">
+          <div id="vc-hero-layer" style="position:absolute; top:0; left:0; right:0; height:100vh; display:flex; flex-direction:column; justify-content:center; padding-left:clamp(48px,6.5vw,140px); padding-right:clamp(40px,5vw,90px); z-index:3; will-change:opacity,filter;">
           <div style="max-width:920px;">
             <h1 class="pe-el" style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(40px,5.4vw,92px); line-height:1.03; letter-spacing:-0.01em; text-wrap:balance; text-shadow:0 4px 32px rgba(31,98,255,0.40); opacity:0; transform:translateY(26px); transition:opacity 0.85s cubic-bezier(0.16,1,0.3,1) 0.18s, transform 0.85s cubic-bezier(0.16,1,0.3,1) 0.18s;">VC Partnerships</h1>
             <p class="pe-el" style="margin:clamp(18px,2.4vh,30px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:#C7FFE0; font-size:clamp(15px,1.45vw,23px); line-height:1.5; text-wrap:pretty; opacity:0; transform:translateY(26px); transition:opacity 0.85s cubic-bezier(0.16,1,0.3,1) 0.30s, transform 0.85s cubic-bezier(0.16,1,0.3,1) 0.30s;">DevSavant is the technical operating partner for VC and accelerator portfolios, helping founders move from idea to scale with speed and capital efficiency.</p>
@@ -2348,38 +2474,36 @@
               <div class="vc-hl" id="vc-s1-hl" style="position:absolute; left:2%; top:4%; width:96%; height:12%; display:flex; flex-direction:column; justify-content:center; opacity:0; pointer-events:none; z-index:2;">
                 <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(28px,3.4vw,60px); line-height:1.05; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.35);">Savant Growth, a Success Story</h2>
               </div>
-              <div class="vc-card" id="vc-s1-c1" style="position:absolute; left:2%; top:18%; width:96%; height:78%; padding:clamp(24px,2.6vw,44px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; opacity:0; pointer-events:none; z-index:2;">
+              <div class="vc-card" id="vc-s1-c1" style="position:absolute; left:2%; top:18%; width:96%; max-height:78%; height:auto; padding:clamp(24px,2.6vw,44px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; opacity:0; pointer-events:none; z-index:2;">
                 <div class="vc-scrollbar-hide" style="flex:1; min-height:0; overflow-y:auto; scrollbar-width:none;">
-                  <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.80); font-size:clamp(14px,1.15vw,19px); line-height:1.6; text-wrap:pretty;">Savant Growth is a US-based growth equity fund known for scaling capital-efficient B2B tech companies into category leaders. Over three decades, its partners have invested nearly $1B across the US and Europe, driving consistent growth outcomes. A core part of this success has been their partnership with DevSavant, acting as their dedicated operating partner. Our team works directly with CEOs, CTOs, and CFOs across their portfolio to streamline operations, enhance product execution, and implement projects that accelerate growth.</p>
-                  <p style="margin:clamp(14px,1.6vh,20px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.80); font-size:clamp(14px,1.15vw,19px); line-height:1.6; text-wrap:pretty;">Together with Kennet Partners, Savant Growth leverages this operational and technical strength to run specialized investment programs that push companies toward global leadership. Their investment philosophy focuses on businesses using software, data, analytics, and AI to transform workflows and unlock the next wave of digital efficiency.</p>
+                  <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.80); font-size:clamp(16px,1.5vw,24px); line-height:1.6; text-wrap:pretty;">Savant Growth is a US-based growth equity fund known for scaling capital-efficient B2B tech companies into category leaders. Over three decades, its partners have invested nearly $1B across the US and Europe, driving consistent growth outcomes. A core part of this success has been their partnership with DevSavant, acting as their dedicated operating partner. Our team works directly with CEOs, CTOs, and CFOs across their portfolio to streamline operations, enhance product execution, and implement projects that accelerate growth.</p>
+                  <p style="margin:clamp(14px,1.6vh,20px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.80); font-size:clamp(16px,1.5vw,24px); line-height:1.6; text-wrap:pretty;">Together with Kennet Partners, Savant Growth leverages this operational and technical strength to run specialized investment programs that push companies toward global leadership. Their investment philosophy focuses on businesses using software, data, analytics, and AI to transform workflows and unlock the next wave of digital efficiency.</p>
                 </div>
               </div>
             </div><!-- /vc-sec-1 -->
 
             <!-- ══════════ SECTION 2 · VC PARTNERSHIPS ══════════ -->
             <div class="pe-sec" id="vc-sec-2">
-              <div class="vc-hl" id="vc-s2-hl" style="position:absolute; left:2%; top:6%; width:96%; height:12%; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; opacity:0; pointer-events:none; z-index:2;">
+              <div class="vc-hl" id="vc-s2-hl" style="position:absolute; left:2%; top:6%; width:96%; height:12%; display:flex; flex-direction:column; justify-content:center; opacity:0; pointer-events:none; z-index:2;">
                 <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(30px,3.6vw,64px); line-height:1.0; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.35);">VC Partnerships</h2>
               </div>
-              
-              <div class="vc-card vc-logo" id="vc-s2-c1" style="position:absolute; left:2%; top:22%; width:22%; height:50%; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1.5px dashed rgba(199,255,224,0.25); border-radius:32px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; opacity:0; pointer-events:none; z-index:2;">
-                <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.5;"><rect x="3" y="7" width="18" height="13" rx="2"></rect><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
-                <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(11px,0.85vw,14px); letter-spacing:0.06em; text-transform:uppercase; color:rgba(199,255,224,0.45); text-align:center; padding:0 10px;">Savant Growth logo</span>
-              </div>
-              
-              <div class="vc-card vc-logo" id="vc-s2-c2" style="position:absolute; left:26.67%; top:22%; width:22%; height:50%; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1.5px dashed rgba(199,255,224,0.25); border-radius:32px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; opacity:0; pointer-events:none; z-index:2;">
-                <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.5;"><rect x="3" y="7" width="18" height="13" rx="2"></rect><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
-                <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(11px,0.85vw,14px); letter-spacing:0.06em; text-transform:uppercase; color:rgba(199,255,224,0.45); text-align:center; padding:0 10px;">Kennet logo</span>
-              </div>
-              
-              <div class="vc-card vc-logo" id="vc-s2-c3" style="position:absolute; left:51.33%; top:22%; width:22%; height:50%; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1.5px dashed rgba(199,255,224,0.25); border-radius:32px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; opacity:0; pointer-events:none; z-index:2;">
-                <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.5;"><rect x="3" y="7" width="18" height="13" rx="2"></rect><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
-                <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(11px,0.85vw,14px); letter-spacing:0.06em; text-transform:uppercase; color:rgba(199,255,224,0.45); text-align:center; padding:0 10px;">Clearlake logo</span>
-              </div>
-              
-              <div class="vc-card vc-logo" id="vc-s2-c4" style="position:absolute; left:76%; top:22%; width:22%; height:50%; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1.5px dashed rgba(199,255,224,0.25); border-radius:32px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; opacity:0; pointer-events:none; z-index:2;">
-                <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.5;"><rect x="3" y="7" width="18" height="13" rx="2"></rect><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
-                <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(11px,0.85vw,14px); letter-spacing:0.06em; text-transform:uppercase; color:rgba(199,255,224,0.45); text-align:center; padding:0 10px;">Partner logo</span>
+
+              <div id="vc-s2-grid" style="position:absolute; left:2%; top:22%; width:96%; height:66%; display:grid; grid-template-columns:1fr 1fr; grid-template-rows:1fr 1fr; gap:clamp(16px,2vw,28px); z-index:2;">
+                <div class="vc-card vc-logo" id="vc-s2-c1" style="border-radius:32px; box-sizing:border-box; display:flex; align-items:center; justify-content:center; padding:clamp(16px,2vw,32px); opacity:0; pointer-events:none;">
+                  <img src="assets/logo-savant-growth.png" alt="Savant Growth logo" style="max-width:70%; max-height:56%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;">
+                </div>
+
+                <div class="vc-card vc-logo" id="vc-s2-c2" style="border-radius:32px; box-sizing:border-box; display:flex; align-items:center; justify-content:center; padding:clamp(16px,2vw,32px); opacity:0; pointer-events:none;">
+                  <img src="assets/logo-kennet.png" alt="Kennet logo" style="max-width:60%; max-height:48%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;">
+                </div>
+
+                <div class="vc-card vc-logo" id="vc-s2-c3" style="border-radius:32px; box-sizing:border-box; display:flex; align-items:center; justify-content:center; padding:clamp(16px,2vw,32px); opacity:0; pointer-events:none;">
+                  <img src="assets/logo-clearlake.png" alt="Clearlake logo" style="max-width:65%; max-height:50%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;">
+                </div>
+
+                <div class="vc-card vc-logo" id="vc-s2-c4" style="border-radius:32px; box-sizing:border-box; display:flex; align-items:center; justify-content:center; padding:clamp(16px,2vw,32px); opacity:0; pointer-events:none;">
+                  <img src="assets/logo-rbv.png" alt="RBV logo" style="max-width:52%; max-height:70%; object-fit:contain; filter:grayscale(1) brightness(1.55) contrast(0.82); opacity:0.9;">
+                </div>
               </div>
             </div><!-- /vc-sec-2 -->
 
@@ -2418,6 +2542,146 @@
           </div><!-- /vc-scroll -->
         </div><!-- /vc-stage -->
         <div id="vc-spacer" style="height:900vh; flex-shrink:0;"></div>
+      </div>
+
+      <!-- ══════════ BLOG PAGE (glass card, animates in — mirrors PE/GS/OE/AU/VC) ══════════ -->
+      <div id="bl-overlay" style="position:absolute; left:clamp(280px,24vw,400px); top:0; right:0; bottom:0; display:flex; flex-direction:column; align-items:stretch; overflow-y:auto; scrollbar-width:none; pointer-events:none; opacity:0; z-index:25; transition:opacity 0.5s ease;">
+        <div id="bl-stage" style="position:sticky; top:0; height:calc(100vh - 72px); overflow:visible; flex-shrink:0; opacity:0;">
+
+          <!-- SVG goo morph mask -->
+          <svg id="bl-disc-svg" style="position:absolute; inset:0; width:100%; height:100%; z-index:0; pointer-events:none;">
+            <defs>
+              <filter id="bl-goo-f" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur id="bl-gb" in="SourceGraphic" stdDeviation="0.4" result="b"></feGaussianBlur>
+                <feColorMatrix id="bl-cm" in="b" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7" result="g"></feColorMatrix>
+              </filter>
+              <mask id="bl-disc-msk" maskUnits="userSpaceOnUse" x="-200" y="-200" width="20000" height="20000">
+                <g filter="url(#bl-goo-f)" id="bl-disc-blobs"></g>
+              </mask>
+            </defs>
+          </svg>
+
+          <!-- Glass panel masked by goo -->
+          <div id="bl-disc-glass" style="position:absolute; top:0; left:0; right:0; height:100vh; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); overflow:hidden; -webkit-mask:url(#bl-disc-msk); mask:url(#bl-disc-msk);"><div style="position:absolute;inset:0;pointer-events:none;opacity:0.055;filter:url(#panel-noise);background:#ffffff;"></div></div>
+
+          <!-- Hero frame -->
+          <div id="bl-hero-frame" style="position:absolute; top:0; left:0; right:0; height:100vh; border-left:1px solid rgba(255,255,255,0.12); border-top:1px solid rgba(255,255,255,0.12); border-bottom:1px solid rgba(255,255,255,0.12); border-top-left-radius:44px; border-bottom-left-radius:44px; pointer-events:none; z-index:1;"></div>
+
+          <!-- HERO content layer -->
+          <div id="bl-hero-layer" style="position:absolute; top:0; left:0; right:0; height:100vh; display:flex; flex-direction:column; justify-content:center; padding-left:clamp(48px,6.5vw,140px); padding-right:clamp(40px,5vw,90px); z-index:3; will-change:opacity,filter;">
+          <div style="max-width:960px;">
+            <h1 class="pe-el" style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(48px,6.6vw,108px); line-height:1.02; letter-spacing:-0.01em; text-wrap:balance; text-shadow:0 4px 32px rgba(31,98,255,0.40); opacity:0; transform:translateY(26px); transition:opacity 0.85s cubic-bezier(0.16,1,0.3,1) 0.18s, transform 0.85s cubic-bezier(0.16,1,0.3,1) 0.18s;">Stay Ahead<br>With the Latest</h1>
+            <p class="pe-el" style="margin:clamp(20px,2.6vh,34px) 0 0; max-width:640px; font-family:'Inter',sans-serif; font-weight:300; color:#C7FFE0; font-size:clamp(16px,1.55vw,26px); line-height:1.5; text-wrap:pretty; opacity:0; transform:translateY(26px); transition:opacity 0.85s cubic-bezier(0.16,1,0.3,1) 0.30s, transform 0.85s cubic-bezier(0.16,1,0.3,1) 0.30s;">Expert insights to drive your business forward.</p>
+            <div class="pe-el" style="display:flex; align-items:center; gap:clamp(20px,2.4vw,38px); flex-wrap:wrap; margin-top:clamp(26px,3.4vh,44px); opacity:0; transform:translateY(26px); transition:opacity 0.85s cubic-bezier(0.16,1,0.3,1) 0.46s, transform 0.85s cubic-bezier(0.16,1,0.3,1) 0.46s;">
+              <a href="#" style="display:inline-flex; align-items:center; gap:14px; background:#CCFFCE; color:#18282C; font-family:'Inter',sans-serif; font-weight:700; text-transform:uppercase; font-size:clamp(15px,1.4vw,22px); letter-spacing:0.045em; padding:13px 26px; text-decoration:none; box-shadow:0 0 44px rgba(150,255,170,0.28); transition:transform .2s ease, box-shadow .2s ease;" style-hover="transform:translateY(-2px); box-shadow:0 0 60px rgba(150,255,170,0.45);">Read the latest <span style="font-weight:700;font-size:1.05em;">&#8594;</span></a>
+              <a href="#" onclick="{{ onHome }}" style="font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.6); font-size:clamp(13px,1.1vw,17px); text-decoration:none; letter-spacing:0.04em; display:inline-flex; align-items:center; gap:8px; transition:color .2s ease;" style-hover="color:#C7FFE0;"><span style="font-size:1.1em;">&#8592;</span> Back to Home</a>
+            </div>
+          </div>
+          </div><!-- /bl-hero-layer -->
+
+          <div id="bl-scroll">
+
+            <!-- ══════════ SECTION 1 · RECENT BLOG POSTS ══════════ -->
+            <div class="pe-sec" id="bl-sec-1">
+              <div class="bl-hl" id="bl-s1-hl" style="position:absolute; left:2%; top:4%; width:96%; height:16%; display:flex; flex-direction:column; justify-content:center; gap:clamp(12px,1.6vh,20px); opacity:0; pointer-events:none; z-index:3;">
+                <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(30px,3.6vw,64px); line-height:1.0; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.35);">Recent blog posts</h2>
+                <div style="display:flex; align-items:center; gap:clamp(8px,0.7vw,12px); flex-wrap:wrap;">
+                  <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(12px,0.95vw,15px); letter-spacing:0.03em; color:#18282C; background:#9DEBC2; padding:7px 16px; border-radius:999px;">All</span>
+                  <span style="font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(12px,0.95vw,15px); letter-spacing:0.03em; color:rgba(199,255,224,0.72); background:rgba(0,0,0,0.15); border:1px solid rgba(255,255,255,0.12); padding:7px 16px; border-radius:999px;">#Latam</span>
+                  <span style="font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(12px,0.95vw,15px); letter-spacing:0.03em; color:rgba(199,255,224,0.72); background:rgba(0,0,0,0.15); border:1px solid rgba(255,255,255,0.12); padding:7px 16px; border-radius:999px;">#Nearshore</span>
+                  <span style="font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(12px,0.95vw,15px); letter-spacing:0.03em; color:rgba(199,255,224,0.72); background:rgba(0,0,0,0.15); border:1px solid rgba(255,255,255,0.12); padding:7px 16px; border-radius:999px;">#News</span>
+                  <span style="font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(12px,0.95vw,15px); letter-spacing:0.03em; color:rgba(199,255,224,0.72); background:rgba(0,0,0,0.15); border:1px solid rgba(255,255,255,0.12); padding:7px 16px; border-radius:999px;">#SaaS</span>
+                  <span style="font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(12px,0.95vw,15px); letter-spacing:0.03em; color:rgba(199,255,224,0.72); background:rgba(0,0,0,0.15); border:1px solid rgba(255,255,255,0.12); padding:7px 16px; border-radius:999px;">#B2B</span>
+                </div>
+              </div>
+
+              <div id="bl-s1-grid" class="bl-scrollbar-hide" style="position:absolute; left:2%; top:21%; width:96%; height:70%; display:grid; grid-template-columns:1fr 1fr; grid-auto-rows:min-content; align-content:start; gap:clamp(16px,1.8vw,26px); overflow-y:auto; scrollbar-width:none; z-index:2; padding-right:4px;">
+
+                <div class="bl-card" id="bl-s1-c1" style="border-radius:32px; box-sizing:border-box; background:rgba(0,0,0,0.18); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); display:flex; flex-direction:column; padding:clamp(16px,1.5vw,26px); gap:clamp(10px,1.2vh,16px); overflow:hidden; opacity:0; pointer-events:none;">
+                  <div class="bl-thumb" style="flex-shrink:0; height:clamp(78px,13vh,140px); border-radius:18px; background:linear-gradient(135deg, rgba(120,190,150,0.30), rgba(15,40,30,0.55)); border:1px solid rgba(255,255,255,0.10); display:flex; align-items:center; justify-content:center; gap:9px;">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.55;"><rect x="3" y="4" width="18" height="16" rx="2"></rect><circle cx="8.5" cy="9.5" r="1.5"></circle><path d="M21 16l-5-5L5 20"></path></svg>
+                    <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(10px,0.75vw,13px); letter-spacing:0.08em; text-transform:uppercase; color:rgba(199,255,224,0.42);">Image</span>
+                  </div>
+                  <div style="display:flex; align-items:center; gap:8px; color:rgba(199,255,224,0.55);">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"></rect><path d="M16 2v4M8 2v4M3 10h18"></path></svg>
+                    <span style="font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(11px,0.85vw,14px);">February 15, 2025</span>
+                  </div>
+                  <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(16px,1.2vw,20px); line-height:1.2; letter-spacing:-0.01em; text-wrap:pretty; flex-shrink:0; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden;">How Companies Can Leverage Technology to Bridge Geographical Gaps and Boost Offshore and Nearshore Collaboration</h3>
+                  <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.62); font-size:clamp(12px,0.95vw,15px); line-height:1.45; text-wrap:pretty; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">Technology plays a critical role in ensuring that global teams&mdash;whether offshore or nearshore&mdash;work together efficiently.</p>
+                  <a href="#" style="margin-top:auto; align-self:flex-start; display:inline-flex; align-items:center; gap:9px; font-family:'Inter',sans-serif; font-weight:600; text-transform:uppercase; font-size:clamp(11px,0.85vw,13px); letter-spacing:0.06em; color:#9DEBC2; text-decoration:none; transition:gap .2s ease;" style-hover="gap:14px;">Read more <span style="font-weight:700;">&#8594;</span></a>
+                </div>
+
+                <div class="bl-card" id="bl-s1-c2" style="border-radius:32px; box-sizing:border-box; background:rgba(0,0,0,0.18); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); display:flex; flex-direction:column; padding:clamp(16px,1.5vw,26px); gap:clamp(10px,1.2vh,16px); overflow:hidden; opacity:0; pointer-events:none;">
+                  <div class="bl-thumb" style="flex-shrink:0; height:clamp(78px,13vh,140px); border-radius:18px; background:linear-gradient(135deg, rgba(90,150,200,0.30), rgba(15,30,45,0.55)); border:1px solid rgba(255,255,255,0.10); display:flex; align-items:center; justify-content:center; gap:9px;">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.55;"><rect x="3" y="4" width="18" height="16" rx="2"></rect><circle cx="8.5" cy="9.5" r="1.5"></circle><path d="M21 16l-5-5L5 20"></path></svg>
+                    <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(10px,0.75vw,13px); letter-spacing:0.08em; text-transform:uppercase; color:rgba(199,255,224,0.42);">Image</span>
+                  </div>
+                  <div style="display:flex; align-items:center; gap:8px; color:rgba(199,255,224,0.55);">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"></rect><path d="M16 2v4M8 2v4M3 10h18"></path></svg>
+                    <span style="font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(11px,0.85vw,14px);">February 11, 2025</span>
+                  </div>
+                  <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(16px,1.2vw,20px); line-height:1.2; letter-spacing:-0.01em; text-wrap:pretty; flex-shrink:0; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden;">Nearshore Outsourcing: Why LATAM Is the Secret Weapon for US Tech Companies</h3>
+                  <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.62); font-size:clamp(12px,0.95vw,15px); line-height:1.45; text-wrap:pretty; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">The top LATAM locations to source STEM-educated talent, and how the adoption of AI is transforming the way US tech companies build teams.</p>
+                  <a href="#" style="margin-top:auto; align-self:flex-start; display:inline-flex; align-items:center; gap:9px; font-family:'Inter',sans-serif; font-weight:600; text-transform:uppercase; font-size:clamp(11px,0.85vw,13px); letter-spacing:0.06em; color:#9DEBC2; text-decoration:none; transition:gap .2s ease;" style-hover="gap:14px;">Read more <span style="font-weight:700;">&#8594;</span></a>
+                </div>
+
+                <div class="bl-card" id="bl-s1-c3" style="border-radius:32px; box-sizing:border-box; background:rgba(0,0,0,0.18); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); display:flex; flex-direction:column; padding:clamp(16px,1.5vw,26px); gap:clamp(10px,1.2vh,16px); overflow:hidden; opacity:0; pointer-events:none;">
+                  <div class="bl-thumb" style="flex-shrink:0; height:clamp(78px,13vh,140px); border-radius:18px; background:linear-gradient(135deg, rgba(150,140,210,0.30), rgba(25,20,45,0.55)); border:1px solid rgba(255,255,255,0.10); display:flex; align-items:center; justify-content:center; gap:9px;">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.55;"><rect x="3" y="4" width="18" height="16" rx="2"></rect><circle cx="8.5" cy="9.5" r="1.5"></circle><path d="M21 16l-5-5L5 20"></path></svg>
+                    <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(10px,0.75vw,13px); letter-spacing:0.08em; text-transform:uppercase; color:rgba(199,255,224,0.42);">Image</span>
+                  </div>
+                  <div style="display:flex; align-items:center; gap:8px; color:rgba(199,255,224,0.55);">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"></rect><path d="M16 2v4M8 2v4M3 10h18"></path></svg>
+                    <span style="font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(11px,0.85vw,14px);">December 11, 2024</span>
+                  </div>
+                  <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(16px,1.2vw,20px); line-height:1.2; letter-spacing:-0.01em; text-wrap:pretty; flex-shrink:0; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden;">Driving Impact in the AI-Driven SaaS Landscape: Announcing Savant Growth&rsquo;s New Fund</h3>
+                  <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.62); font-size:clamp(12px,0.95vw,15px); line-height:1.45; text-wrap:pretty; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">Software companies rely on talented developers. But it&rsquo;s not just about having the right skills&mdash;it&rsquo;s about execution, velocity, and focus.</p>
+                  <a href="#" style="margin-top:auto; align-self:flex-start; display:inline-flex; align-items:center; gap:9px; font-family:'Inter',sans-serif; font-weight:600; text-transform:uppercase; font-size:clamp(11px,0.85vw,13px); letter-spacing:0.06em; color:#9DEBC2; text-decoration:none; transition:gap .2s ease;" style-hover="gap:14px;">Read more <span style="font-weight:700;">&#8594;</span></a>
+                </div>
+
+                <div class="bl-card" id="bl-s1-c4" style="border-radius:32px; box-sizing:border-box; background:rgba(0,0,0,0.18); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); display:flex; flex-direction:column; padding:clamp(16px,1.5vw,26px); gap:clamp(10px,1.2vh,16px); overflow:hidden; opacity:0; pointer-events:none;">
+                  <div class="bl-thumb" style="flex-shrink:0; height:clamp(78px,13vh,140px); border-radius:18px; background:linear-gradient(135deg, rgba(110,200,180,0.30), rgba(12,38,34,0.55)); border:1px solid rgba(255,255,255,0.10); display:flex; align-items:center; justify-content:center; gap:9px;">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.55;"><rect x="3" y="4" width="18" height="16" rx="2"></rect><circle cx="8.5" cy="9.5" r="1.5"></circle><path d="M21 16l-5-5L5 20"></path></svg>
+                    <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(10px,0.75vw,13px); letter-spacing:0.08em; text-transform:uppercase; color:rgba(199,255,224,0.42);">Image</span>
+                  </div>
+                  <div style="display:flex; align-items:center; gap:8px; color:rgba(199,255,224,0.55);">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"></rect><path d="M16 2v4M8 2v4M3 10h18"></path></svg>
+                    <span style="font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(11px,0.85vw,14px);">January 11, 2025</span>
+                  </div>
+                  <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(16px,1.2vw,20px); line-height:1.2; letter-spacing:-0.01em; text-wrap:pretty; flex-shrink:0; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden;">How Applied AI is Reshaping B2B SaaS Processes</h3>
+                  <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.62); font-size:clamp(12px,0.95vw,15px); line-height:1.45; text-wrap:pretty; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">AI adoption is transforming the B2B SaaS market, driving outsourcing as a strategic necessity for companies that want to stay ahead.</p>
+                  <a href="#" style="margin-top:auto; align-self:flex-start; display:inline-flex; align-items:center; gap:9px; font-family:'Inter',sans-serif; font-weight:600; text-transform:uppercase; font-size:clamp(11px,0.85vw,13px); letter-spacing:0.06em; color:#9DEBC2; text-decoration:none; transition:gap .2s ease;" style-hover="gap:14px;">Read more <span style="font-weight:700;">&#8594;</span></a>
+                </div>
+              </div>
+            </div><!-- /bl-sec-1 -->
+
+            <!-- ══════════ BLOG CTA finale ══════════ -->
+            <div id="bl-cta-content" style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:flex-start; justify-content:center; padding-left:clamp(48px,6.5vw,140px); padding-right:clamp(32px,5vw,80px); gap:clamp(24px,3.4vh,44px); opacity:0; pointer-events:none; z-index:30;">
+              <h1 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(48px,6.6vw,112px); line-height:1.0; letter-spacing:-0.02em; text-shadow:0 4px 48px rgba(10,200,120,0.35);">Let&rsquo;s Build Together</h1>
+              <div style="display:flex; align-items:center; gap:clamp(16px,2vw,28px); flex-wrap:wrap;">
+                <a href="#" style="display:inline-flex; align-items:center; gap:14px; background:#CCFFCE; color:#18282C; font-family:'Inter',sans-serif; font-weight:700; text-transform:uppercase; font-size:clamp(14px,1.2vw,20px); letter-spacing:0.05em; padding:clamp(13px,1.5vh,18px) clamp(28px,2.8vw,44px); text-decoration:none; box-shadow:0 0 52px rgba(150,255,170,0.32); transition:transform .2s ease,box-shadow .2s ease;" style-hover="transform:translateY(-3px);box-shadow:0 0 72px rgba(150,255,170,0.50);">Schedule a Call <span style="font-weight:700;font-size:1.1em;">&#8594;</span></a>
+                <a href="#" style="display:inline-flex; align-items:center; gap:12px; background:transparent; color:#C7FFE0; font-family:'Inter',sans-serif; font-weight:600; text-transform:uppercase; font-size:clamp(14px,1.2vw,20px); letter-spacing:0.05em; padding:clamp(13px,1.5vh,18px) clamp(28px,2.8vw,44px); text-decoration:none; border:1px solid rgba(199,255,224,0.35); transition:border-color .2s ease, color .2s ease;" style-hover="border-color:#9DEBC2; color:#E0FFEE;">Contact Us</a>
+              </div>
+              <div style="display:flex; align-items:center; gap:clamp(24px,3.5vw,52px); margin-top:clamp(6px,1.2vh,16px);">
+                <a href="#" style="display:flex; flex-direction:column; align-items:center; gap:10px; text-decoration:none; opacity:0.70; transition:opacity .2s;" style-hover="opacity:1;">
+                  <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="rgba(199,255,224,0.10)"/><path d="M10 13h3v9h-3v-9zm1.5-4.5a1.5 1.5 0 110 3 1.5 1.5 0 010-3zM15 13h2.9v1.3h.04C18.44 13.5 19.5 13 20.7 13c3 0 3.3 2 3.3 4.5V22h-3v-4c0-1 0-2.3-1.4-2.3-1.4 0-1.6 1.1-1.6 2.2V22h-3v-9z" fill="#C7FFE0"/></svg>
+                </a>
+                <a href="#" style="display:flex; flex-direction:column; align-items:center; gap:10px; text-decoration:none; opacity:0.70; transition:opacity .2s;" style-hover="opacity:1;">
+                  <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="rgba(199,255,224,0.10)"/><path d="M16 8a6 6 0 016 6c0 4-6 10-6 10S10 18 10 14a6 6 0 016-6zm0 4a2 2 0 100 4 2 2 0 000-4z" fill="#C7FFE0"/></svg>
+                </a>
+                <a href="mailto:hello@devsavant.com" style="display:flex; flex-direction:column; align-items:center; gap:10px; text-decoration:none; opacity:0.70; transition:opacity .2s;" style-hover="opacity:1;">
+                  <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="rgba(199,255,224,0.10)"/><rect x="8" y="10" width="16" height="12" rx="2" stroke="#C7FFE0" stroke-width="1.5" fill="none"/><path d="M8 12l8 6 8-6" stroke="#C7FFE0" stroke-width="1.5" stroke-linecap="round"/></svg>
+                </a>
+                <a href="tel:+1" style="display:flex; flex-direction:column; align-items:center; gap:10px; text-decoration:none; opacity:0.70; transition:opacity .2s;" style-hover="opacity:1;">
+                  <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="rgba(199,255,224,0.10)"/><path d="M12 10h2l1 4-1.5 1.5c1 2 2.5 3.5 4.5 4.5L19.5 18l4 1v2c0 1-1 2-2 2C12 22 10 12 10 12c0-1 1-2 2-2z" fill="#C7FFE0"/></svg>
+                </a>
+              </div>
+              <a href="#" style="font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.35); font-size:clamp(11px,0.85vw,14px); text-decoration:underline; letter-spacing:0.05em; transition:color .2s;" style-hover="color:rgba(199,255,224,0.70);">Privacy Policy</a>
+            </div>
+
+          </div><!-- /bl-scroll -->
+        </div><!-- /bl-stage -->
+        <div id="bl-spacer" style="height:520vh; flex-shrink:0;"></div>
       </div>
 
       <!-- ══════════ CTA content ══════════ -->
@@ -2460,6 +2724,63 @@ class Component extends DCLogic {
     this._scrollRAF = requestAnimationFrame(() => { this._scrollRAF = 0; this._applyScroll(); });
   };
 
+  _homeStops = [0, 0.11, 0.235, 0.425, 0.565, 0.77, 0.946, 0.995];
+  _homeGo(dir) {
+    const sc = this._scrollEl; if (!sc) return;
+    const max = sc.scrollHeight - sc.clientHeight; if (max <= 0) return;
+    const p = sc.scrollTop / max;
+    const stops = this._homeStops;
+    let idx = 0, best = Infinity;
+    stops.forEach((s, i) => { const d = Math.abs(s - p); if (d < best) { best = d; idx = i; } });
+    // if moving forward and we're already just past the nearest stop, advancing by dir is still correct
+    const t = Math.min(stops.length - 1, Math.max(0, idx + dir));
+    sc.scrollTo({ top: stops[t] * max, behavior: 'smooth' });
+  }
+
+  // ─── Subpage scroll cues (shared across PE/GS/OE/AU/VC/BL) ─────────
+  _subCfg = {
+    pe: { el: 'pe-overlay', stops: [0, 0.15, 0.285, 0.425, 0.57, 0.705, 0.85, 0.975] },
+    gs: { el: 'gs-overlay', stops: [0, 0.09, 0.19, 0.29, 0.39, 0.49, 0.59, 0.73, 0.975] },
+    oe: { el: 'oe-overlay', stops: [0, 0.095, 0.176, 0.257, 0.338, 0.419, 0.50, 0.581, 0.662, 0.743, 0.824, 0.975] },
+    au: { el: 'au-overlay', stops: [0, 0.15, 0.27, 0.39, 0.51, 0.61, 0.80] },
+    vc: { el: 'vc-overlay', stops: [0, 0.174, 0.40, 0.632, 0.865] },
+    bl: { el: 'bl-overlay', stops: [0, 0.45, 0.905] }
+  };
+  _activeSub() {
+    const c = document.body.className || '';
+    const m = c.match(/\b(pe|gs|oe|au|vc|bl)-state\b/);
+    return m ? m[1] : null;
+  }
+  _subGo(dir) {
+    const key = this._activeSub(); if (!key) return;
+    const cfg = this._subCfg[key];
+    const sc = document.getElementById(cfg.el); if (!sc) return;
+    const max = sc.scrollHeight - sc.clientHeight; if (max <= 0) return;
+    const p = sc.scrollTop / max;
+    const stops = cfg.stops;
+    let idx = 0, best = Infinity;
+    stops.forEach((s, i) => { const d = Math.abs(s - p); if (d < best) { best = d; idx = i; } });
+    const t = Math.min(stops.length - 1, Math.max(0, idx + dir));
+    sc.scrollTo({ top: stops[t] * max, behavior: 'smooth' });
+  }
+  _subCueUpdate(p) {
+    const cl = (t) => Math.max(0, Math.min(1, t));
+    const down = document.getElementById('sub-scroll-down');
+    const up = document.getElementById('sub-scroll-up');
+    // Hide the down arrow once we've reached the final (CTA) section of the active page.
+    const key = this._activeSub();
+    const stops = key ? this._subCfg[key].stops : null;
+    const lastStop = stops ? stops[stops.length - 1] : 0.955;
+    if (down) { const o = 1 - cl((p - (lastStop - 0.04)) / 0.03); down.style.opacity = String(o); down.style.pointerEvents = o > 0.1 ? 'auto' : 'none'; }
+    if (up) { const o = cl((p - 0.05) / 0.03); up.style.opacity = String(o); up.style.pointerEvents = o > 0.1 ? 'auto' : 'none'; }
+    const mob = window.innerWidth < 768;
+    const gap = 'clamp(14px,1.5vw,26px)';
+    const dV = down && +down.style.opacity > 0.01;
+    const uV = up && +up.style.opacity > 0.01;
+    if (up) up.style.maxWidth = (!mob || uV) ? '40px' : '0px';
+    if (down) { down.style.maxWidth = (!mob || dV) ? '40px' : '0px'; down.style.marginLeft = (!mob || (uV && dV)) ? gap : '0px'; }
+  }
+
   renderVals() {
     return {
       bgRef: (el) => { if (el && el !== this._bg) { this._bg = el; this._init(); } },
@@ -2476,6 +2797,10 @@ class Component extends DCLogic {
       onAskClick:    () => this._openAgentPanel(),
       onCloseAgent:  () => this._closeAgentPanel(),
       onPE:   (e) => { if (e) e.preventDefault(); this._showPE(); },
+      onScrollDown: () => this._homeGo(1),
+      onScrollUp:   () => this._homeGo(-1),
+      onSubDown: () => this._subGo(1),
+      onSubUp:   () => this._subGo(-1),
       onHome: (e) => { if (e) e.preventDefault(); this._showHome(); },
       onSendMessage: () => {
         const q = this._inputEl && this._inputEl.value.trim();
@@ -2523,6 +2848,12 @@ class Component extends DCLogic {
         if (e && e.preventDefault) e.preventDefault();
         document.getElementById('mobile-menu')?.classList.remove('open');
         this._showVC();
+      },
+      onBlog: (e) => { if (e) e.preventDefault(); this._showBlog(); },
+      onMobileBlog: (e) => {
+        if (e && e.preventDefault) e.preventDefault();
+        document.getElementById('mobile-menu')?.classList.remove('open');
+        this._showBlog();
       }
     };
   }
@@ -2788,6 +3119,7 @@ class Component extends DCLogic {
 
   _showPE() {
     if (this._peActive) return;
+    if (this._blActive) { this._blActive = false; document.body.classList.remove('bl-state'); const b0 = document.getElementById('bl-overlay'); if (b0) b0.scrollTop = 0; }
     if (this._gsActive) { this._gsActive = false; document.body.classList.remove('gs-state'); const g0 = document.getElementById('gs-overlay'); if (g0) g0.scrollTop = 0; }
     if (this._oeActive) { this._oeActive = false; document.body.classList.remove('oe-state'); const o0 = document.getElementById('oe-overlay'); if (o0) o0.scrollTop = 0; }
     if (this._auActive) { this._auActive = false; document.body.classList.remove('au-state'); const a0 = document.getElementById('au-overlay'); if (a0) a0.scrollTop = 0; }
@@ -2818,19 +3150,20 @@ class Component extends DCLogic {
   }
 
   _showHome() {
-    if (!this._peActive && !this._gsActive && !this._oeActive && !this._auActive && !this._vcActive) return;
+    if (!this._peActive && !this._gsActive && !this._oeActive && !this._auActive && !this._vcActive && !this._blActive) return;
     this._peActive = false;
     this._gsActive = false;
     this._oeActive = false;
     this._auActive = false;
     this._vcActive = false;
+    this._blActive = false;
     const b = document.body;
     // Select Home in the nav
     document.querySelectorAll('.nav-link').forEach(a => a.classList.remove('active'));
     const home = document.querySelector('.nav-link');
     if (home) home.classList.add('active');
     // Remove PE/GS/OE/AU/VC state (home returns to its default/scroll look) + run the swap
-    b.classList.remove('pe-state', 'gs-state', 'oe-state', 'au-state', 'vc-state', 'pe-swapping', 'gs-swapping', 'oe-swapping', 'au-swapping', 'vc-swapping');
+    b.classList.remove('pe-state', 'gs-state', 'oe-state', 'au-state', 'vc-state', 'bl-state', 'pe-swapping', 'gs-swapping', 'oe-swapping', 'au-swapping', 'vc-swapping', 'bl-swapping');
     void b.offsetWidth;
     b.classList.add('pe-swapping');
     const peOvlR = document.getElementById('pe-overlay'); if (peOvlR) peOvlR.scrollTop = 0;
@@ -2838,6 +3171,7 @@ class Component extends DCLogic {
     const oeOvlR = document.getElementById('oe-overlay'); if (oeOvlR) oeOvlR.scrollTop = 0;
     const auOvlR = document.getElementById('au-overlay'); if (auOvlR) auOvlR.scrollTop = 0;
     const vcOvlR = document.getElementById('vc-overlay'); if (vcOvlR) vcOvlR.scrollTop = 0;
+    const blOvlR = document.getElementById('bl-overlay'); if (blOvlR) blOvlR.scrollTop = 0;
     if (this._scrollEl) { this._scrollEl.style.overflowY = 'auto'; this._scrollEl.scrollTop = 0; }
     this._scrollProg = 0;
     this._applyScroll();
@@ -2859,6 +3193,7 @@ class Component extends DCLogic {
     const mob = window.innerWidth < 768;
     const max = (sc.scrollHeight - sc.clientHeight) || 1;
     const p = sc.scrollTop / max;
+    this._subCueUpdate(p);
     // Hero content fades + blurs out
     const heroFade = cl((p - 0.05) / 0.07);
     if (hl) {
@@ -3002,7 +3337,7 @@ class Component extends DCLogic {
     const coll = { x:w*0.5, y:h*0.5, w:2, h:2, rx:40 };
     const eA = ease(cl(mA)), eB = ease(cl(mB)), eC = ease(cl(mC)), eD = ease(cl(mD)), eE = ease(cl(mE)), eF = ease(cl(mF));
     // Discovery 4-card layout
-    let cover = { x:0, y:0, w:w+60, h:h, rx:44 };
+    let cover = { x:0, y:0, w:w+60, h:h+76, rx:44 };
     let D0 = { x:0.02*w, y:0.26*h, w:0.47*w, h:0.35*h, rx:40 };
     let D1 = { x:0.51*w, y:0.26*h, w:0.47*w, h:0.35*h, rx:40 };
     let D2 = { x:0.02*w, y:0.63*h, w:0.47*w, h:0.34*h, rx:40 };
@@ -3075,6 +3410,7 @@ class Component extends DCLogic {
 
   _showGS() {
     if (this._gsActive) return;
+    if (this._blActive) { this._blActive = false; document.body.classList.remove('bl-state'); const b0 = document.getElementById('bl-overlay'); if (b0) b0.scrollTop = 0; }
     if (this._peActive) { this._peActive = false; document.body.classList.remove('pe-state'); const p0 = document.getElementById('pe-overlay'); if (p0) p0.scrollTop = 0; }
     if (this._oeActive) { this._oeActive = false; document.body.classList.remove('oe-state'); const o0 = document.getElementById('oe-overlay'); if (o0) o0.scrollTop = 0; }
     if (this._auActive) { this._auActive = false; document.body.classList.remove('au-state'); const a0 = document.getElementById('au-overlay'); if (a0) a0.scrollTop = 0; }
@@ -3162,6 +3498,7 @@ class Component extends DCLogic {
     const mob = window.innerWidth < 768;
     const max = (sc.scrollHeight - sc.clientHeight) || 1;
     const p = sc.scrollTop / max;
+    this._subCueUpdate(p);
     const heroFade = cl((p - 0.04) / 0.06);
     if (hl) {
       hl.style.opacity = String(1 - heroFade);
@@ -3259,7 +3596,7 @@ class Component extends DCLogic {
       el.setAttribute('rx', (mob ? Math.min(r.rx,22) : r.rx).toFixed(1));
     };
     const coll = { x:w*0.5, y:h*0.5, w:2, h:2, rx:40 };
-    let cover = { x:0, y:0, w:w+60, h:h, rx:44 };
+    let cover = { x:0, y:0, w:w+60, h:h+76, rx:44 };
     const grid = (i) => { const P = [[0.02,0.24],[0.51,0.24],[0.02,0.62],[0.51,0.62]][i]; return { x:P[0]*w, y:P[1]*h, w:0.47*w, h:0.34*h, rx:40 }; };
     const bar = (i) => ({ x:0.02*w, y:(0.22+i*0.133)*h, w:0.96*w, h:0.115*h, rx:18 });
     const radar = { x:0.02*w, y:0.22*h, w:0.96*w, h:0.75*h, rx:40 };
@@ -3316,6 +3653,7 @@ class Component extends DCLogic {
 
   _showOE() {
     if (this._oeActive) return;
+    if (this._blActive) { this._blActive = false; document.body.classList.remove('bl-state'); const b0 = document.getElementById('bl-overlay'); if (b0) b0.scrollTop = 0; }
     if (this._peActive) { this._peActive = false; document.body.classList.remove('pe-state'); const p0 = document.getElementById('pe-overlay'); if (p0) p0.scrollTop = 0; }
     if (this._gsActive) { this._gsActive = false; document.body.classList.remove('gs-state'); const g0 = document.getElementById('gs-overlay'); if (g0) g0.scrollTop = 0; }
     if (this._auActive) { this._auActive = false; document.body.classList.remove('au-state'); const a0 = document.getElementById('au-overlay'); if (a0) a0.scrollTop = 0; }
@@ -3391,6 +3729,7 @@ class Component extends DCLogic {
     const mob = window.innerWidth < 768;
     const max = (sc.scrollHeight - sc.clientHeight) || 1;
     const p = sc.scrollTop / max;
+    this._subCueUpdate(p);
     const heroFade = cl((p - 0.025) / 0.035);
     if (hl) {
       hl.style.opacity = String(1 - heroFade);
@@ -3469,7 +3808,7 @@ class Component extends DCLogic {
       el.setAttribute('rx', (mob ? Math.min(r.rx, 22) : r.rx).toFixed(1));
     };
     const coll = { x: w * 0.5, y: h * 0.5, w: 2, h: 2, rx: 40 };
-    const cover = mob ? { x: 0, y: 0, w: w, h: h + 80, rx: 26 } : { x: 0, y: 0, w: w + 60, h: h, rx: 44 };
+    const cover = mob ? { x: 0, y: 0, w: w, h: h + 80, rx: 26 } : { x: 0, y: 0, w: w + 60, h: h + 76, rx: 44 };
     const N = 10;
     const Eeased = E.map(v => ease(cl(v)));
     const slots = ['img', 'prob', 'sol', 'res', 'testi'];
@@ -3496,6 +3835,7 @@ class Component extends DCLogic {
 
   _showAU() {
     if (this._auActive) return;
+    if (this._blActive) { this._blActive = false; document.body.classList.remove('bl-state'); const b0 = document.getElementById('bl-overlay'); if (b0) b0.scrollTop = 0; }
     if (this._peActive) { this._peActive = false; document.body.classList.remove('pe-state'); const p0 = document.getElementById('pe-overlay'); if (p0) p0.scrollTop = 0; }
     if (this._gsActive) { this._gsActive = false; document.body.classList.remove('gs-state'); const g0 = document.getElementById('gs-overlay'); if (g0) g0.scrollTop = 0; }
     if (this._oeActive) { this._oeActive = false; document.body.classList.remove('oe-state'); const o0 = document.getElementById('oe-overlay'); if (o0) o0.scrollTop = 0; }
@@ -3592,6 +3932,7 @@ class Component extends DCLogic {
     const mob = window.innerWidth < 768;
     const max = (sc.scrollHeight - sc.clientHeight) || 1;
     const p = sc.scrollTop / max;
+    this._subCueUpdate(p);
     const heroFade = cl((p - 0.03) / 0.04);
     if (hl) {
       hl.style.opacity = String(1 - heroFade);
@@ -3614,7 +3955,7 @@ class Component extends DCLogic {
     ];
     for (let i = 0; i < N; i++) {
       const ids = idPrefixes[i];
-      const inS = S[i] + 0.05, outS = (i < N - 1 ? S[i + 1] : 0.64) - 0.02;
+      const inS = S[i] + (i < N - 1 ? 0.05 : 0.03), outS = (i < N - 1 ? S[i + 1] - 0.02 : 0.66);
       const op = cl((p - inS) / 0.05) * (1 - cl((p - outS) / 0.04));
       ids.forEach(id => { const el = document.getElementById(id); if (el) { el.style.opacity = String(op); el.style.pointerEvents = op > 0.5 ? 'auto' : 'none'; } });
     }
@@ -3670,7 +4011,7 @@ class Component extends DCLogic {
       el.setAttribute('rx', (mob ? Math.min(r.rx, 22) : r.rx).toFixed(1));
     };
     const coll = { x: w * 0.5, y: h * 0.5, w: 2, h: 2, rx: 40 };
-    const cover = mob ? { x: 0, y: 0, w: w, h: h + 80, rx: 26 } : { x: 0, y: 0, w: w + 60, h: h, rx: 44 };
+    const cover = mob ? { x: 0, y: 0, w: w, h: h + 80, rx: 26 } : { x: 0, y: 0, w: w + 60, h: h + 76, rx: 44 };
     const N = 5;
     const Eeased = E.map(v => ease(cl(v)));
     for (let slot = 0; slot < 5; slot++) {
@@ -3697,6 +4038,7 @@ class Component extends DCLogic {
 
   _showVC() {
     if (this._vcActive) return;
+    if (this._blActive) { this._blActive = false; document.body.classList.remove('bl-state'); const b0 = document.getElementById('bl-overlay'); if (b0) b0.scrollTop = 0; }
     if (this._peActive) { this._peActive = false; document.body.classList.remove('pe-state'); const p0 = document.getElementById('pe-overlay'); if (p0) p0.scrollTop = 0; }
     if (this._gsActive) { this._gsActive = false; document.body.classList.remove('gs-state'); const g0 = document.getElementById('gs-overlay'); if (g0) g0.scrollTop = 0; }
     if (this._oeActive) { this._oeActive = false; document.body.classList.remove('oe-state'); const o0 = document.getElementById('oe-overlay'); if (o0) o0.scrollTop = 0; }
@@ -3742,11 +4084,21 @@ class Component extends DCLogic {
   _vcGeom(sectionIdx, cardIdx, w, h, mob) {
     if (!mob) {
       switch (sectionIdx) {
-        case 0: // Success story — 1 wide card
-          return { x: 0.02 * w, y: 0.18 * h, w: 0.96 * w, h: 0.78 * h, rx: 40 };
-        case 1: { // Logos — 4 across
-          const CW = 0.22 * w, gap = 0.0133 * w;
-          return { x: 0.02 * w + cardIdx * (CW + gap), y: 0.22 * h, w: CW, h: 0.5 * h, rx: 32 };
+        case 0: { // Success story — 1 card that hugs its text
+          const cardEl = document.getElementById('vc-s1-c1');
+          const stageEl = document.getElementById('vc-stage');
+          if (cardEl && stageEl) {
+            const cr = cardEl.getBoundingClientRect(), sr = stageEl.getBoundingClientRect();
+            if (cr.height > 1) return { x: cr.left - sr.left, y: cr.top - sr.top, w: cr.width, h: cr.height, rx: 40 };
+          }
+          return { x: 0.02 * w, y: 0.18 * h, w: 0.96 * w, h: 0.42 * h, rx: 40 };
+        }
+        case 1: { // Logos — 2×2 grid
+          const gap = Math.max(16, Math.min(0.02 * w, 28));
+          const gx = 0.02 * w, gy = 0.22 * h, gw = 0.96 * w, gh = 0.66 * h;
+          const CW = (gw - gap) / 2, CH = (gh - gap) / 2;
+          const col = cardIdx % 2, row = Math.floor(cardIdx / 2);
+          return { x: gx + col * (CW + gap), y: gy + row * (CH + gap), w: CW, h: CH, rx: 32 };
         }
         case 2: // Partner With Us — 1 wide card
           return { x: 0.02 * w, y: 0.22 * h, w: 0.96 * w, h: 0.56 * h, rx: 40 };
@@ -3774,6 +4126,7 @@ class Component extends DCLogic {
     const mob = window.innerWidth < 768;
     const max = (sc.scrollHeight - sc.clientHeight) || 1;
     const p = sc.scrollTop / max;
+    this._subCueUpdate(p);
     const heroFade = cl((p - 0.04) / 0.05);
     if (hl) {
       hl.style.opacity = String(1 - heroFade);
@@ -3805,7 +4158,9 @@ class Component extends DCLogic {
     if (ctaGlassEl) { ctaGlassEl.style.opacity = String(ctaGlassOp); ctaGlassEl.style.pointerEvents = ctaGlassOp > 0.05 ? 'auto' : 'none'; }
     if (this._bg) this._bg.style.filter = ctaGlassOp > 0 ? 'blur(' + (ctaGlassOp * 18).toFixed(1) + 'px)' : '';
     const discGlassEl = document.getElementById('vc-disc-glass');
-    if (discGlassEl) discGlassEl.style.opacity = String(1 - ctaGlassOp);
+    // Fade the goo-masked glass out as the last section leaves, so no empty card ghost lingers before the CTA glass appears.
+    const vcTailFade = cl((p - 0.70) / 0.05);
+    if (discGlassEl) discGlassEl.style.opacity = String((1 - ctaGlassOp) * (1 - vcTailFade));
     const ctaContentEl = document.getElementById('vc-cta-content');
     if (ctaContentEl) {
       ctaContentEl.style.opacity = String(ctaContentOp);
@@ -3830,7 +4185,7 @@ class Component extends DCLogic {
           if (secEl && secEl.scrollTop !== 0) secEl.scrollTop = 0;
         }
       }
-      if (discGlassEl) discGlassEl.style.opacity = String((1 - Math.max(held, ctaContentOp)) * (1 - ctaGlassOp));
+      if (discGlassEl) discGlassEl.style.opacity = String((1 - Math.max(held, ctaContentOp)) * (1 - ctaGlassOp) * (1 - vcTailFade));
     }
   }
 
@@ -3850,7 +4205,7 @@ class Component extends DCLogic {
       el.setAttribute('rx', (mob ? Math.min(r.rx, 22) : r.rx).toFixed(1));
     };
     const coll = { x: w * 0.5, y: h * 0.5, w: 2, h: 2, rx: 40 };
-    const cover = mob ? { x: 0, y: 0, w: w, h: h + 80, rx: 26 } : { x: 0, y: 0, w: w + 60, h: h, rx: 44 };
+    const cover = mob ? { x: 0, y: 0, w: w, h: h + 80, rx: 26 } : { x: 0, y: 0, w: w + 60, h: h + 76, rx: 44 };
     const N = 3;
     const Eeased = E.map(v => ease(cl(v)));
     for (let slot = 0; slot < 4; slot++) {
@@ -3864,8 +4219,154 @@ class Component extends DCLogic {
     }
     const act = Math.max.apply(null, Eeased.map(x => Math.sin(Math.PI * x)));
     const blurEl = document.getElementById('vc-gb'), cmEl = document.getElementById('vc-cm');
-    if (blurEl) blurEl.setAttribute('stdDeviation', (1.5 + act * 21).toFixed(1));
-    if (cmEl) cmEl.setAttribute('values', '1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 ' + (12 + act * 16).toFixed(0) + ' ' + (-4 - act * 8).toFixed(0));
+    if (blurEl) blurEl.setAttribute('stdDeviation', (0.4 + act * 22.1).toFixed(1));
+    if (cmEl) cmEl.setAttribute('values', '1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 ' + (18 + act * 10).toFixed(0) + ' ' + (-7 - act * 5).toFixed(0));
+  }
+
+  // ─── Blog view (seamless in-page nav, mirrors PE/GS/OE/AU/VC) ──
+
+  _onBLScroll = () => {
+    if (this._blScrollRAF) return;
+    this._blScrollRAF = requestAnimationFrame(() => { this._blScrollRAF = 0; this._applyBLScroll(); });
+  };
+
+  _showBlog() {
+    if (this._blActive) return;
+    if (this._peActive) { this._peActive = false; document.body.classList.remove('pe-state'); const p0 = document.getElementById('pe-overlay'); if (p0) p0.scrollTop = 0; }
+    if (this._gsActive) { this._gsActive = false; document.body.classList.remove('gs-state'); const g0 = document.getElementById('gs-overlay'); if (g0) g0.scrollTop = 0; }
+    if (this._oeActive) { this._oeActive = false; document.body.classList.remove('oe-state'); const o0 = document.getElementById('oe-overlay'); if (o0) o0.scrollTop = 0; }
+    if (this._auActive) { this._auActive = false; document.body.classList.remove('au-state'); const a0 = document.getElementById('au-overlay'); if (a0) a0.scrollTop = 0; }
+    if (this._vcActive) { this._vcActive = false; document.body.classList.remove('vc-state'); const v0 = document.getElementById('vc-overlay'); if (v0) v0.scrollTop = 0; }
+    this._blActive = true;
+    if (this._scrollEl) { this._scrollEl.scrollTop = 0; this._scrollEl.style.overflowY = 'hidden'; }
+    this._scrollProg = 0;
+    const b = document.body;
+    document.querySelectorAll('.nav-link').forEach(a => a.classList.remove('active'));
+    const links = [...document.querySelectorAll('#main-nav .nav-link')];
+    const blLink = links.find(a => a.textContent.trim() === 'Blog');
+    if (blLink) blLink.classList.add('active');
+    b.classList.remove('bl-swapping');
+    void b.offsetWidth;
+    b.classList.add('bl-state', 'bl-swapping');
+    clearTimeout(this._blTimer);
+    this._blTimer = setTimeout(() => { if (this._blActive) document.body.classList.remove('bl-swapping'); }, 1150);
+    const blOvl = document.getElementById('bl-overlay');
+    if (blOvl) blOvl.scrollTop = 0;
+    if (blOvl && !this._blScrollListenerAdded) {
+      blOvl.addEventListener('scroll', this._onBLScroll, { passive: true });
+      this._blScrollListenerAdded = true;
+    }
+    setTimeout(() => { this._setupBLMorph(); this._applyBLScroll(); }, 300);
+  }
+
+  _setupBLMorph() {
+    if (this._blReady) return;
+    const blobsEl = document.getElementById('bl-disc-blobs');
+    if (!blobsEl) { setTimeout(() => this._setupBLMorph(), 100); return; }
+    const SVGNS = 'http://www.w3.org/2000/svg';
+    this._blRects = [];
+    for (let i = 0; i < 4; i++) {
+      const r = document.createElementNS(SVGNS, 'rect');
+      r.setAttribute('fill', 'white'); blobsEl.appendChild(r); this._blRects.push(r);
+    }
+    this._blReady = true;
+    this._applyBLMorph([0]);
+  }
+
+  _blGeom(sectionIdx, cardIdx, w, h, mob) {
+    if (!mob) {
+      // Section 0 — 2×2 posts grid
+      const gap = Math.max(16, Math.min(0.018 * w, 26));
+      const gx = 0.02 * w, gy = 0.24 * h, gw = 0.96 * w, gh = 0.64 * h;
+      const CW = (gw - gap) / 2, CH = (gh - gap) / 2;
+      const col = cardIdx % 2, row = Math.floor(cardIdx / 2);
+      return { x: gx + col * (CW + gap), y: gy + row * (CH + gap), w: CW, h: CH, rx: 32 };
+    }
+    // Mobile: stacked full-width bands
+    const M = 0.04 * w, FW = 0.92 * w;
+    const cardH = 0.2 * h, gap = 0.02 * h;
+    return { x: M, y: 0.05 * h + cardIdx * (cardH + gap), w: FW, h: cardH, rx: 22 };
+  }
+
+  _applyBLScroll() {
+    const sc = document.getElementById('bl-overlay');
+    if (!sc) return;
+    const cl = (t) => Math.max(0, Math.min(1, t));
+    const hl = document.getElementById('bl-hero-layer');
+    const mob = window.innerWidth < 768;
+    const max = (sc.scrollHeight - sc.clientHeight) || 1;
+    const p = sc.scrollTop / max;
+    this._subCueUpdate(p);
+    const heroFade = cl((p - 0.04) / 0.05);
+    if (hl) {
+      hl.style.opacity = String(1 - heroFade);
+      hl.style.filter = heroFade > 0 ? 'blur(' + (heroFade * 14).toFixed(1) + 'px)' : '';
+      hl.style.pointerEvents = heroFade > 0.5 ? 'none' : 'auto';
+    }
+    // Single section (posts grid): hero panel morphs into 4 cards
+    const S0 = 0.14, TW = 0.11;
+    const e0 = cl((p - S0) / TW);
+    this._applyBLMorph([e0]);
+    const frame = document.getElementById('bl-hero-frame');
+    if (frame) frame.style.opacity = String(1 - cl(e0 / 0.3));
+    const outS = 0.72;
+    const outro = 1 - cl((p - outS) / 0.04);
+    // Crossfade the goo glass out and the real cards in as the morph completes — both driven by e0 so they stay in lockstep at any scroll speed.
+    const cardsIn = cl((e0 - 0.55) / 0.45);
+    const morphOut = cl((e0 - 0.65) / 0.35);
+    const op = cardsIn * outro;
+    const ids = ['bl-s1-hl', 'bl-s1-c1', 'bl-s1-c2', 'bl-s1-c3', 'bl-s1-c4'];
+    ids.forEach(id => { const el = document.getElementById(id); if (el) { el.style.opacity = String(op); el.style.pointerEvents = op > 0.5 ? 'auto' : 'none'; } });
+    // CTA finale
+    const ctaGlassOp = cl((p - 0.80) / 0.05);
+    const ctaContentOp = cl((p - 0.84) / 0.06);
+    const ctaGlassEl = document.getElementById('cta-glass');
+    if (ctaGlassEl) { ctaGlassEl.style.opacity = String(ctaGlassOp); ctaGlassEl.style.pointerEvents = ctaGlassOp > 0.05 ? 'auto' : 'none'; }
+    if (this._bg) this._bg.style.filter = ctaGlassOp > 0 ? 'blur(' + (ctaGlassOp * 18).toFixed(1) + 'px)' : '';
+    const discGlassEl = document.getElementById('bl-disc-glass');
+    const blTailFade = cl((p - outS) / 0.05);
+    if (discGlassEl) discGlassEl.style.opacity = String((1 - morphOut) * (1 - ctaGlassOp) * (1 - blTailFade));
+    const ctaContentEl = document.getElementById('bl-cta-content');
+    if (ctaContentEl) {
+      ctaContentEl.style.opacity = String(ctaContentOp);
+      const ctaInteractive = ctaContentOp > 0.3;
+      ctaContentEl.querySelectorAll(':scope > a, :scope > div').forEach((el) => { el.style.pointerEvents = ctaInteractive ? 'auto' : 'none'; });
+      ctaContentEl.style.filter = ctaContentOp < 1 ? 'blur(' + ((1 - ctaContentOp) * 12).toFixed(1) + 'px)' : '';
+    }
+    if (mob) {
+      const F = 0.04;
+      const mOp = cl((p - S0) / F) * (1 - cl((p - (outS - F)) / F));
+      const active = mOp > 0.985;
+      ids.forEach(id => { const el = document.getElementById(id); if (el) { el.style.opacity = String(mOp); el.style.pointerEvents = active ? 'auto' : 'none'; } });
+      if (discGlassEl) discGlassEl.style.opacity = String((1 - Math.max(mOp, ctaContentOp)) * (1 - ctaGlassOp) * (1 - blTailFade));
+    }
+  }
+
+  _applyBLMorph(E) {
+    if (!this._blRects) return;
+    const panel = document.getElementById('bl-stage');
+    const w = (panel && panel.offsetWidth) || window.innerWidth;
+    const h = (panel && panel.offsetHeight) || window.innerHeight;
+    if (!w || !h) return;
+    const mob = window.innerWidth < 768;
+    const cl = (t) => Math.max(0, Math.min(1, t));
+    const ease = (t) => t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+    const lr = (a, b, t) => ({ x: a.x + (b.x - a.x) * t, y: a.y + (b.y - a.y) * t, w: a.w + (b.w - a.w) * t, h: a.h + (b.h - a.h) * t, rx: a.rx + (b.rx - a.rx) * t });
+    const setR = (el, r) => {
+      el.setAttribute('x', r.x.toFixed(1)); el.setAttribute('y', r.y.toFixed(1));
+      el.setAttribute('width', Math.max(0, r.w).toFixed(1)); el.setAttribute('height', Math.max(0, r.h).toFixed(1));
+      el.setAttribute('rx', (mob ? Math.min(r.rx, 22) : r.rx).toFixed(1));
+    };
+    const cover = mob ? { x: 0, y: 0, w: w, h: h + 80, rx: 26 } : { x: 0, y: 0, w: w + 60, h: h + 76, rx: 44 };
+    const e0 = ease(cl(E[0]));
+    for (let slot = 0; slot < 4; slot++) {
+      const g = this._blGeom(0, slot, w, h, mob);
+      setR(this._blRects[slot], lr(cover, g, e0));
+    }
+    const act = Math.sin(Math.PI * cl(E[0]));
+    const blurEl = document.getElementById('bl-gb'), cmEl = document.getElementById('bl-cm');
+    if (blurEl) blurEl.setAttribute('stdDeviation', (0.4 + act * 22.1).toFixed(1));
+    if (cmEl) cmEl.setAttribute('values', '1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 ' + (18 + act * 10).toFixed(0) + ' ' + (-7 - act * 5).toFixed(0));
   }
 
   // ─── Scroll ────────────────────────────────────────────────────────
@@ -3876,6 +4377,21 @@ class Component extends DCLogic {
     const p = sc.scrollTop / (sc.scrollHeight - sc.clientHeight || 1);
     this._scrollProg = p;
     const cl = (t) => Math.max(0, Math.min(1, t));
+    // Scroll cue arrows: down visible until near the end, up visible once past the top
+    const cueDown = document.getElementById('home-scroll-down');
+    const cueUp = document.getElementById('home-scroll-up');
+    if (cueDown) { const o = 1 - cl((p - 0.955) / 0.03); cueDown.style.opacity = String(o); cueDown.style.pointerEvents = o > 0.1 ? 'auto' : 'none'; }
+    if (cueUp) { const o = cl((p - 0.05) / 0.03); cueUp.style.opacity = String(o); cueUp.style.pointerEvents = o > 0.1 ? 'auto' : 'none'; }
+    // On mobile the cue group is centered — smoothly collapse a hidden set's width so the group re-centers on whatever is visible.
+    const cueMob = window.innerWidth < 768;
+    const cueGap = 'clamp(14px,1.5vw,26px)';
+    const dV = cueDown && +cueDown.style.opacity > 0.01;
+    const uV = cueUp && +cueUp.style.opacity > 0.01;
+    if (cueUp) cueUp.style.maxWidth = (!cueMob || uV) ? '40px' : '0px';
+    if (cueDown) {
+      cueDown.style.maxWidth = (!cueMob || dV) ? '40px' : '0px';
+      cueDown.style.marginLeft = (!cueMob || (uV && dV)) ? cueGap : '0px';
+    }
     const heroFade = cl(p / 0.026);
     const heroContent = document.getElementById('hero-content');
     if (heroContent && !this._agentOpen && !this._peActive) {
@@ -3955,7 +4471,7 @@ class Component extends DCLogic {
       } else { faqItemsEl.style.transform='none'; }
     }
     // Stats section — hold, then fly up when CTA begins
-    const statFlyOut = cl((p - 0.935) / 0.025);
+    const statFlyOut = cl((p - 0.952) / 0.022);
     const stH = document.getElementById('stats-headline');
     const stBase = (window.innerWidth >= 768 ? cl((p - 0.905) / 0.030) : cl((p - 0.895) / 0.010)) * (1 - statFlyOut);
     const statsS = document.getElementById('stats-scroll');
@@ -3967,11 +4483,11 @@ class Component extends DCLogic {
     ['stat-0','stat-1','stat-2','stat-3','stat-4'].forEach((id, i) => {
       const el = document.getElementById(id);
       if (el) {
-        const op = (window.innerWidth >= 768 ? cl((p - 0.905 - i*.006) / 0.030) : cl((p - 0.895) / 0.010)) * (1 - statFlyOut);
+        const op = (window.innerWidth >= 768 ? cl((p - 0.905 - i*.004) / 0.022) : cl((p - 0.895) / 0.010)) * (1 - statFlyOut);
         el.style.opacity = String(op);
         el.style.pointerEvents = op > 0.5 ? 'auto' : 'none';
         if (window.innerWidth >= 768) {
-          const fly = cl((p - 0.935 - i * 0.006) / 0.022);
+          const fly = cl((p - 0.952 - i * 0.006) / 0.022);
           el.style.transform = 'translateY(' + (-fly * 135).toFixed(1) + 'vh)';
         } else {
           el.style.transform = 'none';
