@@ -802,8 +802,6 @@
     #home-scroll-down .cue-chev, #sub-scroll-down .cue-chev  { animation: cue-glow 2.4s ease-in-out infinite, cue-bob-down 2.4s ease-in-out infinite; }
     #home-scroll-down .cue-chev-2, #home-scroll-up .cue-chev-2, #sub-scroll-down .cue-chev-2, #sub-scroll-up .cue-chev-2 { animation-delay: 0.2s, 0.2s; opacity: 0.6; }
     #home-scroll-up .cue-chev, #sub-scroll-up .cue-chev    { animation: cue-glow 2.4s ease-in-out infinite, cue-bob-up 2.4s ease-in-out infinite; }
-    .scroll-cue:hover { transform-box: fill-box; }
-    .scroll-cue:hover .cue-chev { filter: drop-shadow(0 0 12px rgba(199,255,224,0.95)); }
     @keyframes cue-bob-down { 0%,100%{ transform: translateY(-2px); } 50%{ transform: translateY(3px); } }
     @keyframes cue-bob-up   { 0%,100%{ transform: translateY(2px); }  50%{ transform: translateY(-3px); } }
     @keyframes cue-glow     { 0%,100%{ opacity: 0.5; } 50%{ opacity: 1; } }
@@ -813,8 +811,15 @@
     }
     /* Subpage cues: hidden by default, revealed only once a subpage is settled (not mid-swap) */
     #sub-scroll-cues { opacity: 0; pointer-events: none; transition: opacity 0.4s ease; }
+    /* The arrow buttons carry pointer-events:auto from .scroll-cue, so without this they'd
+       sit invisibly on top of the home arrows (same z-index, later in DOM) and swallow every
+       click on the home page. Keep them inert unless a subpage is actually active. */
+    #sub-scroll-cues .scroll-cue { pointer-events: none !important; }
     body.pe-state #sub-scroll-cues, body.gs-state #sub-scroll-cues, body.oe-state #sub-scroll-cues, body.au-state #sub-scroll-cues, body.vc-state #sub-scroll-cues, body.bl-state #sub-scroll-cues {
       opacity: 1; pointer-events: none;
+    }
+    body.pe-state #sub-scroll-cues .scroll-cue, body.gs-state #sub-scroll-cues .scroll-cue, body.oe-state #sub-scroll-cues .scroll-cue, body.au-state #sub-scroll-cues .scroll-cue, body.vc-state #sub-scroll-cues .scroll-cue, body.bl-state #sub-scroll-cues .scroll-cue {
+      pointer-events: auto !important;
     }
     @media (max-width: 767px) {
       #home-cue-group, #sub-cue-group { right: auto !important; left: 50% !important; transform: translateX(-50%); }
@@ -2583,7 +2588,7 @@
 
             <!-- ══════════ SECTION 1 · RECENT BLOG POSTS ══════════ -->
             <div class="pe-sec" id="bl-sec-1">
-              <div class="bl-hl" id="bl-s1-hl" style="position:absolute; left:2%; top:4%; width:96%; height:16%; display:flex; flex-direction:column; justify-content:center; gap:clamp(12px,1.6vh,20px); opacity:0; pointer-events:none; z-index:3;">
+              <div class="bl-hl" id="bl-s1-hl" style="position:absolute; left:2%; top:3.5%; width:96%; height:13.5%; display:flex; flex-direction:column; justify-content:center; gap:clamp(10px,1.3vh,16px); opacity:0; pointer-events:none; z-index:3;">
                 <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(30px,3.6vw,64px); line-height:1.0; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.35);">Recent blog posts</h2>
                 <div style="display:flex; align-items:center; gap:clamp(8px,0.7vw,12px); flex-wrap:wrap;">
                   <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(12px,0.95vw,15px); letter-spacing:0.03em; color:#18282C; background:#9DEBC2; padding:7px 16px; border-radius:999px;">All</span>
@@ -2595,7 +2600,7 @@
                 </div>
               </div>
 
-              <div id="bl-s1-grid" class="bl-scrollbar-hide" style="position:absolute; left:2%; top:21%; width:96%; height:70%; display:grid; grid-template-columns:1fr 1fr; grid-auto-rows:min-content; align-content:start; gap:clamp(16px,1.8vw,26px); overflow-y:auto; scrollbar-width:none; z-index:2; padding-right:4px;">
+              <div id="bl-s1-grid" class="bl-scrollbar-hide" style="position:absolute; left:2%; top:17%; width:96%; height:81%; display:grid; grid-template-columns:1fr 1fr; grid-auto-rows:min-content; align-content:start; gap:clamp(16px,1.8vw,26px); overflow-y:auto; scrollbar-width:none; z-index:2; padding-right:4px;">
 
                 <div class="bl-card" id="bl-s1-c1" style="border-radius:32px; box-sizing:border-box; background:rgba(0,0,0,0.18); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); display:flex; flex-direction:column; padding:clamp(16px,1.5vw,26px); gap:clamp(10px,1.2vh,16px); overflow:hidden; opacity:0; pointer-events:none;">
                   <div class="bl-thumb" style="flex-shrink:0; height:clamp(78px,13vh,140px); border-radius:18px; background:linear-gradient(135deg, rgba(120,190,150,0.30), rgba(15,40,30,0.55)); border:1px solid rgba(255,255,255,0.10); display:flex; align-items:center; justify-content:center; gap:9px;">
@@ -2725,6 +2730,54 @@ class Component extends DCLogic {
   };
 
   _homeStops = [0, 0.11, 0.235, 0.425, 0.565, 0.77, 0.946, 0.995];
+  _FAQ_STOP_INDEX = 5;
+  _faqOffset = 0;
+  _lastWheelT = 0;          // timestamp of the last wheel event
+  _wheelGid = 0;           // id of the current continuous wheel gesture
+  _faqArrivalGid = -1;     // gesture id that carried us onto an edge (consumed, no flip)
+  _faqEdgeAccum = 0;       // cumulative scroll delta pushed against the edge
+  _FAQ_GESTURE_GAP_MS = 380; // idle gap that separates one wheel gesture from the next
+  _FAQ_EDGE_BUDGET = 600;  // px a NEW gesture must accumulate at an edge before section change
+  // Custom eased scroll so every section change animates over a fixed, slightly-slow
+  // duration — long enough that the glass morph reads, short enough to feel snappy.
+  _HOME_SNAP_MS = 1100;
+  _animScrollTo(sc, target, dur, landIdx, dir) {
+    if (this._snapRAF) cancelAnimationFrame(this._snapRAF);
+    const start = sc.scrollTop;
+    const delta = target - start;
+    if (Math.abs(delta) < 1) { this._snapLock = false; this._onStopLanded(landIdx, dir); return; }
+    const t0 = performance.now();
+    const ease = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2); // easeInOutCubic
+    const step = (now) => {
+      const t = Math.min(1, (now - t0) / dur);
+      sc.scrollTop = start + delta * ease(t);
+      this._applyScroll();
+      if (t < 1) { this._snapRAF = requestAnimationFrame(step); }
+      else { this._snapRAF = 0; this._snapLock = false; this._onStopLanded(landIdx, dir); }
+    };
+    this._snapRAF = requestAnimationFrame(step);
+  }
+  // Called once a snap animation settles on a stop — resets any section-local scroll
+  // state so the section is entered at the edge matching the direction of travel.
+  _onStopLanded(idx, dir) {
+    if (idx !== this._FAQ_STOP_INDEX || window.innerWidth < 768) return;
+    const clip = document.getElementById('faq-clip'), items = document.getElementById('faq-items');
+    if (!clip || !items) return;
+    const max = Math.max(0, items.offsetHeight - clip.offsetHeight);
+    this._faqOffset = dir < 0 ? max : 0;
+    // Treat the arrival snap as "gesture 0": the first wheel gesture after landing at an
+    // edge is consumed, and the budget only starts counting on the gesture after that.
+    this._lastWheelT = 0;
+    this._faqArrivalGid = this._wheelGid;
+    this._faqEdgeAccum = 0;
+    items.style.transform = 'translateY(' + (-this._faqOffset).toFixed(1) + 'px)';
+  }
+  _isParkedAt(idx) {
+    const sc = this._scrollEl; if (!sc) return false;
+    const max = sc.scrollHeight - sc.clientHeight; if (max <= 0) return false;
+    const p = sc.scrollTop / max;
+    return Math.abs(p - this._homeStops[idx]) < 0.004;
+  }
   _homeGo(dir) {
     const sc = this._scrollEl; if (!sc) return;
     const max = sc.scrollHeight - sc.clientHeight; if (max <= 0) return;
@@ -2732,10 +2785,98 @@ class Component extends DCLogic {
     const stops = this._homeStops;
     let idx = 0, best = Infinity;
     stops.forEach((s, i) => { const d = Math.abs(s - p); if (d < best) { best = d; idx = i; } });
-    // if moving forward and we're already just past the nearest stop, advancing by dir is still correct
     const t = Math.min(stops.length - 1, Math.max(0, idx + dir));
-    sc.scrollTo({ top: stops[t] * max, behavior: 'smooth' });
+    if (t === idx && this._snapLock) return;
+    this._snapLock = true;
+    this._animScrollTo(sc, stops[t] * max, this._HOME_SNAP_MS, t, dir);
   }
+  // Scroll-cue arrows: same behavior as a wheel gesture. On the FAQ section a click
+  // steps through the question list first (one "page" per click) and only changes
+  // section once the list is already at the matching edge.
+  _homeArrow(dir) {
+    if (this._snapLock) return;
+    if (window.innerWidth >= 768 && this._isParkedAt(this._FAQ_STOP_INDEX)) {
+      const clip = document.getElementById('faq-clip'), items = document.getElementById('faq-items');
+      if (clip && items) {
+        const max = Math.max(0, items.offsetHeight - clip.offsetHeight);
+        if (max > 0) {
+          const atTop = this._faqOffset <= 0, atBottom = this._faqOffset >= max;
+          const goingDown = dir > 0;
+          if ((goingDown && !atBottom) || (!goingDown && !atTop)) {
+            const step = Math.max(120, clip.offsetHeight * 0.7);
+            this._faqOffset = Math.min(max, Math.max(0, this._faqOffset + dir * step));
+            items.style.transform = 'translateY(' + (-this._faqOffset).toFixed(1) + 'px)';
+            return;
+          }
+          // already at the matching edge → fall through and change section
+        }
+      }
+    }
+    this._homeGo(dir);
+  }
+  // Wheel/trackpad: snap one section per gesture instead of free-scrolling.
+  _onHomeWheel = (e) => {
+    // Let overlays and the agent panel keep their own native scrolling.
+    if (this._activeSub && this._activeSub()) return;
+    if (e.target && e.target.closest && e.target.closest('#ask-widget, #agent-messages, #mobile-menu')) return;
+    if (Math.abs(e.deltaY) < 2) return;
+    // Assign a gesture id: whenever the wheel has been idle longer than the gesture gap,
+    // this event belongs to a NEW gesture. Trackpad inertia fires as a tight stream, so a
+    // whole flick (including its inertia tail) shares one id.
+    const now = performance.now();
+    if (now - this._lastWheelT > this._FAQ_GESTURE_GAP_MS) this._wheelGid++;
+    this._lastWheelT = now;
+    const gid = this._wheelGid;
+    // While parked on the FAQ section, give the question list its own scroll budget
+    // (top and bottom) before a wheel gesture is allowed to change section.
+    if (!this._snapLock && window.innerWidth >= 768 && this._isParkedAt(this._FAQ_STOP_INDEX)) {
+      const clip = document.getElementById('faq-clip'), items = document.getElementById('faq-items');
+      if (clip && items) {
+        const max = Math.max(0, items.offsetHeight - clip.offsetHeight);
+        if (max > 0) {
+          const atTop = this._faqOffset <= 0, atBottom = this._faqOffset >= max;
+          const goingDown = e.deltaY > 0;
+          // Still room to scroll the list itself → do that and mark this gesture as the
+          // one that lands us on the edge (so its inertia tail won't flip the section).
+          if ((goingDown && !atBottom) || (!goingDown && !atTop)) {
+            e.preventDefault();
+            this._faqOffset = Math.min(max, Math.max(0, this._faqOffset + e.deltaY));
+            items.style.transform = 'translateY(' + (-this._faqOffset).toFixed(1) + 'px)';
+            this._faqArrivalGid = gid;
+            this._faqEdgeAccum = 0;
+            return;
+          }
+          // Pinned at an edge and pushing further.
+          const pressingFurther = (goingDown && atBottom) || (!goingDown && atTop);
+          if (pressingFurther) {
+            e.preventDefault();
+            // The gesture that carried us to the edge (and all of its inertia) is consumed.
+            if (gid === this._faqArrivalGid) { this._faqEdgeAccum = 0; return; }
+            // A later gesture must accumulate past the budget before the section changes,
+            // giving a comfortable dwell at the top/bottom.
+            this._faqEdgeAccum += Math.abs(e.deltaY);
+            if (this._faqEdgeAccum < this._FAQ_EDGE_BUDGET) return;
+            this._faqEdgeAccum = 0;
+            // fall through → change section
+          }
+        }
+      }
+    }
+    e.preventDefault();
+    if (this._snapLock) return;              // ignore input mid-transition
+    this._homeGo(e.deltaY > 0 ? 1 : -1);
+  };
+  // Touch swipe: one section per swipe on mobile.
+  _onHomeTouchStart = (e) => { this._touchY = e.touches && e.touches[0] ? e.touches[0].clientY : null; };
+  _onHomeTouchEnd = (e) => {
+    if (this._touchY == null) return;
+    if (this._activeSub && this._activeSub()) { this._touchY = null; return; }
+    const endY = (e.changedTouches && e.changedTouches[0]) ? e.changedTouches[0].clientY : this._touchY;
+    const dy = this._touchY - endY;
+    this._touchY = null;
+    if (Math.abs(dy) < 40 || this._snapLock) return;
+    this._homeGo(dy > 0 ? 1 : -1);
+  };
 
   // ─── Subpage scroll cues (shared across PE/GS/OE/AU/VC/BL) ─────────
   _subCfg = {
@@ -2761,7 +2902,138 @@ class Component extends DCLogic {
     let idx = 0, best = Infinity;
     stops.forEach((s, i) => { const d = Math.abs(s - p); if (d < best) { best = d; idx = i; } });
     const t = Math.min(stops.length - 1, Math.max(0, idx + dir));
-    sc.scrollTo({ top: stops[t] * max, behavior: 'smooth' });
+    if (t === idx && this._subSnapLock) return;
+    this._subSnapLock = true;
+    this._subAnimScrollTo(sc, stops[t] * max, this._SUB_SNAP_MS, key, t, dir);
+  }
+  // ── Blog "Recent posts" grid: inner scroll budget ──────────────────────────
+  // The posts grid overflows internally; when parked on that section a scroll should
+  // move through the cards first and only change section once the grid is at its edge.
+  _BL_POSTS_STOP = 1;          // index into bl stops that shows the posts grid
+  _blWheelGid = 0; _blLastWheelT = 0; _blArrivalGid = -1; _blEdgeAccum = 0;
+  _BL_GESTURE_GAP_MS = 380;    // idle gap separating one wheel gesture from the next
+  _BL_EDGE_BUDGET = 600;       // px a NEW gesture must accumulate at an edge before section change
+  _blParkedOnPosts() {
+    if (this._activeSub() !== 'bl') return false;
+    const sc = document.getElementById('bl-overlay'); if (!sc) return false;
+    const max = sc.scrollHeight - sc.clientHeight; if (max <= 0) return false;
+    const p = sc.scrollTop / max;
+    return Math.abs(p - this._subCfg.bl.stops[this._BL_POSTS_STOP]) < 0.05;
+  }
+  // Custom eased scroll for subpages — matches the home section-snap so the glass morph
+  // reads over a fixed, slightly-slow duration instead of tracking a gradual free scroll.
+  _SUB_SNAP_MS = 1100;
+  _subAnimScrollTo(sc, target, dur, key, landIdx, dir) {
+    if (this._subSnapRAF) cancelAnimationFrame(this._subSnapRAF);
+    const start = sc.scrollTop;
+    const delta = target - start;
+    if (Math.abs(delta) < 1) { this._subSnapLock = false; this._onSubStopLanded(key, landIdx, dir); return; }
+    const t0 = performance.now();
+    const ease = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2); // easeInOutCubic
+    const step = (now) => {
+      const t = Math.min(1, (now - t0) / dur);
+      sc.scrollTop = start + delta * ease(t); // triggers the overlay's own scroll listener → morph
+      if (t < 1) { this._subSnapRAF = requestAnimationFrame(step); }
+      else { this._subSnapRAF = 0; this._subSnapLock = false; this._onSubStopLanded(key, landIdx, dir); }
+    };
+    this._subSnapRAF = requestAnimationFrame(step);
+  }
+  // When a subpage snap settles on the blog posts section, reset the grid to the edge
+  // that matches the direction of travel (top when arriving from above, bottom from below).
+  _onSubStopLanded(key, idx, dir) {
+    if (key !== 'bl' || idx !== this._BL_POSTS_STOP) return;
+    const grid = document.getElementById('bl-s1-grid'); if (!grid) return;
+    const max = grid.scrollHeight - grid.clientHeight;
+    grid.scrollTop = dir < 0 ? max : 0;
+    this._blArrivalGid = this._blWheelGid; this._blEdgeAccum = 0;
+  }
+  // Wheel/trackpad on any subpage: snap one section per gesture (same as the home page)
+  // instead of the old gradual free-scroll morph.
+  _onSubWheel = (e) => {
+    if (!this._activeSub()) return;      // only intercept while a subpage is open
+    if (e.target && e.target.closest && e.target.closest('#ask-widget, #agent-messages, #mobile-menu')) return;
+    if (Math.abs(e.deltaY) < 2) return;
+    // Blog "Recent posts": give the grid its own scroll budget when parked on that section.
+    if (!this._subSnapLock && window.innerWidth >= 768 && this._blParkedOnPosts()) {
+      const grid = document.getElementById('bl-s1-grid');
+      if (grid) {
+        const max = grid.scrollHeight - grid.clientHeight;
+        if (max > 4) {
+          // gesture id: a whole flick (incl. its inertia tail) shares one id
+          const now = performance.now();
+          if (now - this._blLastWheelT > this._BL_GESTURE_GAP_MS) this._blWheelGid++;
+          this._blLastWheelT = now;
+          const gid = this._blWheelGid;
+          const atTop = grid.scrollTop <= 0, atBottom = grid.scrollTop >= max - 1;
+          const goingDown = e.deltaY > 0;
+          if ((goingDown && !atBottom) || (!goingDown && !atTop)) {
+            e.preventDefault();
+            grid.scrollTop = Math.min(max, Math.max(0, grid.scrollTop + e.deltaY));
+            this._blArrivalGid = gid; this._blEdgeAccum = 0;
+            return;
+          }
+          const pressingFurther = (goingDown && atBottom) || (!goingDown && atTop);
+          if (pressingFurther) {
+            e.preventDefault();
+            if (gid === this._blArrivalGid) { this._blEdgeAccum = 0; return; } // arrival gesture consumed
+            this._blEdgeAccum += Math.abs(e.deltaY);
+            if (this._blEdgeAccum < this._BL_EDGE_BUDGET) return;
+            this._blEdgeAccum = 0; // fall through → change section
+          }
+        }
+      }
+    }
+    e.preventDefault();
+    if (this._subSnapLock) return;       // ignore input mid-transition
+    this._subGo(e.deltaY > 0 ? 1 : -1);
+  };
+  // Scroll-cue arrows on a subpage: same behavior as a wheel gesture. On the blog posts
+  // section a click steps through the grid first, changing section only at the edge.
+  _subArrow(dir) {
+    if (this._subSnapLock) return;
+    if (window.innerWidth >= 768 && this._blParkedOnPosts()) {
+      const grid = document.getElementById('bl-s1-grid');
+      if (grid) {
+        const max = grid.scrollHeight - grid.clientHeight;
+        if (max > 4) {
+          const atTop = grid.scrollTop <= 0, atBottom = grid.scrollTop >= max - 1;
+          const goingDown = dir > 0;
+          if ((goingDown && !atBottom) || (!goingDown && !atTop)) {
+            const stepPx = Math.max(160, grid.clientHeight * 0.7);
+            grid.scrollTop = Math.min(max, Math.max(0, grid.scrollTop + dir * stepPx));
+            return;
+          }
+        }
+      }
+    }
+    this._subGo(dir);
+  }
+  _onSubTouchStart = (e) => { this._subTouchY = (e.touches && e.touches[0]) ? e.touches[0].clientY : null; };
+  _onSubTouchEnd = (e) => {
+    if (!this._activeSub() || this._subTouchY == null) { this._subTouchY = null; return; }
+    const endY = (e.changedTouches && e.changedTouches[0]) ? e.changedTouches[0].clientY : this._subTouchY;
+    const dy = this._subTouchY - endY;
+    this._subTouchY = null;
+    if (Math.abs(dy) < 40 || this._subSnapLock) return;
+    this._subGo(dy > 0 ? 1 : -1);
+  };
+  // Attach the snap wheel/touch listeners to a subpage overlay. Rebinds across logic
+  // hot-reloads (the DOM element persists but `this` becomes a new instance), matching
+  // the home scrollRef fix — otherwise edits silently no-op until a full page reload.
+  _bindSubScroll(el) {
+    if (!el) return;
+    const prev = el.__subHandlers;
+    if (prev) {
+      el.removeEventListener('wheel', prev.wheel);
+      el.removeEventListener('touchstart', prev.touchstart);
+      el.removeEventListener('touchend', prev.touchend);
+    }
+    el.addEventListener('wheel', this._onSubWheel, { passive: false });
+    el.addEventListener('touchstart', this._onSubTouchStart, { passive: true });
+    el.addEventListener('touchend', this._onSubTouchEnd, { passive: true });
+    el.__subHandlers = {
+      wheel: this._onSubWheel, touchstart: this._onSubTouchStart, touchend: this._onSubTouchEnd,
+    };
   }
   _subCueUpdate(p) {
     const cl = (t) => Math.max(0, Math.min(1, t));
@@ -2786,21 +3058,38 @@ class Component extends DCLogic {
       bgRef: (el) => { if (el && el !== this._bg) { this._bg = el; this._init(); } },
       mainRef: (el) => { if (el && el !== this._mainEl) { this._mainEl = el; } },
       scrollRef: (el) => {
-        if (el && el !== this._scrollEl) {
-          this._scrollEl = el;
-          el.addEventListener('scroll', this._onScroll, { passive: true });
-          this._applyScroll();
+        if (!el) return;
+        // Reattach on every mount AND on logic hot-reload. The DOM element persists across
+        // hot-reloads while `this` becomes a new instance, so listeners bound to the old
+        // instance must be removed and rebound — otherwise edits appear to do nothing until
+        // a full page reload. We stash the previous handlers on the element to remove them.
+        const prev = el.__homeHandlers;
+        if (prev) {
+          el.removeEventListener('scroll', prev.scroll);
+          el.removeEventListener('wheel', prev.wheel);
+          el.removeEventListener('touchstart', prev.touchstart);
+          el.removeEventListener('touchend', prev.touchend);
         }
+        this._scrollEl = el;
+        el.addEventListener('scroll', this._onScroll, { passive: true });
+        el.addEventListener('wheel', this._onHomeWheel, { passive: false });
+        el.addEventListener('touchstart', this._onHomeTouchStart, { passive: true });
+        el.addEventListener('touchend', this._onHomeTouchEnd, { passive: true });
+        el.__homeHandlers = {
+          scroll: this._onScroll, wheel: this._onHomeWheel,
+          touchstart: this._onHomeTouchStart, touchend: this._onHomeTouchEnd,
+        };
+        this._applyScroll();
       },
       messagesRef: (el) => { if (el) this._messagesEl = el; },
       inputRef:    (el) => { if (el) this._inputEl = el; },
       onAskClick:    () => this._openAgentPanel(),
       onCloseAgent:  () => this._closeAgentPanel(),
       onPE:   (e) => { if (e) e.preventDefault(); this._showPE(); },
-      onScrollDown: () => this._homeGo(1),
-      onScrollUp:   () => this._homeGo(-1),
-      onSubDown: () => this._subGo(1),
-      onSubUp:   () => this._subGo(-1),
+      onScrollDown: () => this._homeArrow(1),
+      onScrollUp:   () => this._homeArrow(-1),
+      onSubDown: () => this._subArrow(1),
+      onSubUp:   () => this._subArrow(-1),
       onHome: (e) => { if (e) e.preventDefault(); this._showHome(); },
       onSendMessage: () => {
         const q = this._inputEl && this._inputEl.value.trim();
@@ -3146,6 +3435,7 @@ class Component extends DCLogic {
       peOvl.addEventListener('scroll', this._onPEScroll, { passive: true });
       this._peScrollListenerAdded = true;
     }
+    this._bindSubScroll(peOvl);
     setTimeout(() => { this._setupDiscoveryMorph(); this._initFaqAccordion('pe-faq-clip'); this._applyPEScroll(); }, 300);
   }
 
@@ -3433,6 +3723,7 @@ class Component extends DCLogic {
       gsOvl.addEventListener('scroll', this._onGSScroll, { passive: true });
       this._gsScrollListenerAdded = true;
     }
+    this._bindSubScroll(gsOvl);
     setTimeout(() => { this._setupGSMorph(); this._initFaqAccordion('gs-faq-clip'); this._applyGSScroll(); }, 300);
   }
 
@@ -3677,6 +3968,7 @@ class Component extends DCLogic {
       oeOvl.addEventListener('scroll', this._onOEScroll, { passive: true });
       this._oeScrollListenerAdded = true;
     }
+    this._bindSubScroll(oeOvl);
     setTimeout(() => { this._setupOEMorph(); this._applyOEScroll(); }, 300);
   }
 
@@ -3859,6 +4151,7 @@ class Component extends DCLogic {
       auOvl.addEventListener('scroll', this._onAUScroll, { passive: true });
       this._auScrollListenerAdded = true;
     }
+    this._bindSubScroll(auOvl);
     setTimeout(() => { this._setupAUMorph(); this._applyAUScroll(); }, 300);
   }
 
@@ -4062,6 +4355,7 @@ class Component extends DCLogic {
       vcOvl.addEventListener('scroll', this._onVCScroll, { passive: true });
       this._vcScrollListenerAdded = true;
     }
+    this._bindSubScroll(vcOvl);
     setTimeout(() => { this._setupVCMorph(); this._applyVCScroll(); }, 300);
   }
 
@@ -4256,6 +4550,7 @@ class Component extends DCLogic {
       blOvl.addEventListener('scroll', this._onBLScroll, { passive: true });
       this._blScrollListenerAdded = true;
     }
+    this._bindSubScroll(blOvl);
     setTimeout(() => { this._setupBLMorph(); this._applyBLScroll(); }, 300);
   }
 
@@ -4465,10 +4760,9 @@ class Component extends DCLogic {
     document.querySelectorAll('.faq-item').forEach((el,i)=>{const op=cl((p-0.708-i*.003)/.032)*faqFadeOut;el.style.opacity=String(op);});
     const faqItemsEl=document.getElementById('faq-items'), faqClipEl=document.getElementById('faq-clip');
     if (faqItemsEl&&faqClipEl){
-      if (window.innerWidth >= 768) {
-        const ov=Math.max(0,faqItemsEl.offsetHeight-faqClipEl.offsetHeight);
-        faqItemsEl.style.transform='translateY('+(-cl((p-.748)/.052)*ov).toFixed(1)+'px)';
-      } else { faqItemsEl.style.transform='none'; }
+      // translateY is owned by the manual FAQ scroll-budget system (_faqOffset/_onStopLanded)
+      // once the list has overflow — don't fight it with the old scroll-position formula.
+      if (window.innerWidth < 768) { faqItemsEl.style.transform='none'; }
     }
     // Stats section — hold, then fly up when CTA begins
     const statFlyOut = cl((p - 0.952) / 0.022);
