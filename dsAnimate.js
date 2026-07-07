@@ -129,7 +129,7 @@
       widget.style.flex = '0 0 auto'; widget.style.height = startWH.toFixed(1) + 'px';
       widget.style.marginTop  = opening ? '0px' : GO;
       widget.style.borderColor = opening ? 'rgba(199,255,224,0.38)' : 'rgba(199,255,224,0.13)';
-      widget.style.background  = opening ? 'rgba(0,0,0,0.40)'        : 'rgba(0,0,0,0.22)';
+      widget.style.background  = opening ? 'rgba(0,0,0,0.40)'        : 'rgba(0,0,0,0.62)';
       links.forEach(function(k, i) {
         k.style.transform = (!opening && i >= 3)
           ? 'translate(' + ft[i].x.toFixed(1) + 'px,' + ft[i].y.toFixed(1) + 'px)'
@@ -163,7 +163,7 @@
         widget.style.height     = endWH.toFixed(1) + 'px';
         widget.style.marginTop  = opening ? GO : '0px';
         widget.style.borderColor = opening ? 'rgba(199,255,224,0.13)' : 'rgba(199,255,224,0.38)';
-        widget.style.background  = opening ? 'rgba(0,0,0,0.22)'        : 'rgba(0,0,0,0.40)';
+        widget.style.background  = opening ? 'rgba(0,0,0,0.62)'        : 'rgba(0,0,0,0.40)';
         links.forEach(function(k, i) {
           k.style.transform = (opening && i >= 3)
             ? 'translate(' + ft[i].x.toFixed(1) + 'px,' + ft[i].y.toFixed(1) + 'px)'
