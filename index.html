@@ -35,49 +35,49 @@
     body.pe-swapping #mission-overlay,
     body.pe-swapping #pe-overlay,
     body.pe-swapping #pe-stage {
-      transition: opacity 0.55s cubic-bezier(0.4,0,0.2,1), filter 0.55s cubic-bezier(0.4,0,0.2,1) !important;
+      transition: opacity 1.1s cubic-bezier(0.4,0,0.2,1), filter 1.1s cubic-bezier(0.4,0,0.2,1) !important;
     }
     body.pe-swapping #left-aside {
-      animation: nav-swap 1.05s cubic-bezier(0.4,0,0.2,1) both !important;
+      animation: none !important;
     }
     /* persistent PE state: home held out, glass page shown */
     body.pe-state #home-main,
     body.pe-state #mission-overlay {
       opacity: 0 !important; filter: blur(18px) !important; pointer-events: none !important;
     }
-    body.pe-state #pe-overlay { opacity: 1 !important; pointer-events: auto !important; }
+    body.pe-state #pe-overlay { opacity: 1 !important; filter: blur(0px) !important; pointer-events: auto !important; }
     body.pe-state #pe-stage { opacity: 1 !important; }
     /* ===== Global Staffing page swap (mirrors PE) ===== */
     body.gs-swapping #home-main,
     body.gs-swapping #mission-overlay,
     body.gs-swapping #gs-overlay,
     body.gs-swapping #gs-stage {
-      transition: opacity 0.55s cubic-bezier(0.4,0,0.2,1), filter 0.55s cubic-bezier(0.4,0,0.2,1) !important;
+      transition: opacity 1.1s cubic-bezier(0.4,0,0.2,1), filter 1.1s cubic-bezier(0.4,0,0.2,1) !important;
     }
     body.gs-swapping #left-aside {
-      animation: nav-swap 1.05s cubic-bezier(0.4,0,0.2,1) both !important;
+      animation: none !important;
     }
     body.gs-state #home-main,
     body.gs-state #mission-overlay {
       opacity: 0 !important; filter: blur(18px) !important; pointer-events: none !important;
     }
-    body.gs-state #gs-overlay { opacity: 1 !important; pointer-events: auto !important; }
+    body.gs-state #gs-overlay { opacity: 1 !important; filter: blur(0px) !important; pointer-events: auto !important; }
     body.gs-state #gs-stage { opacity: 1 !important; }
     /* ===== Our Expertise page swap (mirrors PE/GS) ===== */
     body.oe-swapping #home-main,
     body.oe-swapping #mission-overlay,
     body.oe-swapping #oe-overlay,
     body.oe-swapping #oe-stage {
-      transition: opacity 0.55s cubic-bezier(0.4,0,0.2,1), filter 0.55s cubic-bezier(0.4,0,0.2,1) !important;
+      transition: opacity 1.1s cubic-bezier(0.4,0,0.2,1), filter 1.1s cubic-bezier(0.4,0,0.2,1) !important;
     }
     body.oe-swapping #left-aside {
-      animation: nav-swap 1.05s cubic-bezier(0.4,0,0.2,1) both !important;
+      animation: none !important;
     }
     body.oe-state #home-main,
     body.oe-state #mission-overlay {
       opacity: 0 !important; filter: blur(18px) !important; pointer-events: none !important;
     }
-    body.oe-state #oe-overlay { opacity: 1 !important; pointer-events: auto !important; }
+    body.oe-state #oe-overlay { opacity: 1 !important; filter: blur(0px) !important; pointer-events: auto !important; }
     body.oe-state #oe-stage { opacity: 1 !important; }
     .oe-scrollbar-hide::-webkit-scrollbar { display: none; }
     /* ===== About Us page swap (mirrors PE/GS/OE) ===== */
@@ -85,64 +85,75 @@
     body.au-swapping #mission-overlay,
     body.au-swapping #au-overlay,
     body.au-swapping #au-stage {
-      transition: opacity 0.55s cubic-bezier(0.4,0,0.2,1), filter 0.55s cubic-bezier(0.4,0,0.2,1) !important;
+      transition: opacity 1.1s cubic-bezier(0.4,0,0.2,1), filter 1.1s cubic-bezier(0.4,0,0.2,1) !important;
     }
     body.au-swapping #left-aside {
-      animation: nav-swap 1.05s cubic-bezier(0.4,0,0.2,1) both !important;
+      animation: none !important;
     }
     body.au-state #home-main,
     body.au-state #mission-overlay {
       opacity: 0 !important; filter: blur(18px) !important; pointer-events: none !important;
     }
-    body.au-state #au-overlay { opacity: 1 !important; pointer-events: auto !important; }
+    body.au-state #au-overlay { opacity: 1 !important; filter: blur(0px) !important; pointer-events: auto !important; }
     body.au-state #au-stage { opacity: 1 !important; }
     /* ===== VC Partnerships page swap (mirrors PE/GS/OE/AU) ===== */
     body.vc-swapping #home-main,
     body.vc-swapping #mission-overlay,
     body.vc-swapping #vc-overlay,
     body.vc-swapping #vc-stage {
-      transition: opacity 0.55s cubic-bezier(0.4,0,0.2,1), filter 0.55s cubic-bezier(0.4,0,0.2,1) !important;
+      transition: opacity 1.1s cubic-bezier(0.4,0,0.2,1), filter 1.1s cubic-bezier(0.4,0,0.2,1) !important;
     }
     body.vc-swapping #left-aside {
-      animation: nav-swap 1.05s cubic-bezier(0.4,0,0.2,1) both !important;
+      animation: none !important;
     }
     body.vc-state #home-main,
     body.vc-state #mission-overlay {
       opacity: 0 !important; filter: blur(18px) !important; pointer-events: none !important;
     }
-    body.vc-state #vc-overlay { opacity: 1 !important; pointer-events: auto !important; }
+    body.vc-state #vc-overlay { opacity: 1 !important; filter: blur(0px) !important; pointer-events: auto !important; }
     body.vc-state #vc-stage { opacity: 1 !important; }
     /* ===== Blog page swap (mirrors PE/GS/OE/AU/VC) ===== */
     body.bl-swapping #home-main,
     body.bl-swapping #mission-overlay,
     body.bl-swapping #bl-overlay,
     body.bl-swapping #bl-stage {
-      transition: opacity 0.55s cubic-bezier(0.4,0,0.2,1), filter 0.55s cubic-bezier(0.4,0,0.2,1) !important;
+      transition: opacity 1.1s cubic-bezier(0.4,0,0.2,1), filter 1.1s cubic-bezier(0.4,0,0.2,1) !important;
     }
     body.bl-swapping #left-aside {
-      animation: nav-swap 1.05s cubic-bezier(0.4,0,0.2,1) both !important;
+      animation: none !important;
     }
     body.bl-state #home-main,
     body.bl-state #mission-overlay {
       opacity: 0 !important; filter: blur(18px) !important; pointer-events: none !important;
     }
-    body.bl-state #bl-overlay { opacity: 1 !important; pointer-events: auto !important; }
+    body.bl-state #bl-overlay { opacity: 1 !important; filter: blur(0px) !important; pointer-events: auto !important; }
     body.bl-state #bl-stage { opacity: 1 !important; }
     /* ===== Careers page swap (mirrors PE/GS/OE/AU/VC/BL) ===== */
     body.cr-swapping #home-main,
     body.cr-swapping #mission-overlay,
     body.cr-swapping #cr-overlay,
     body.cr-swapping #cr-stage {
-      transition: opacity 0.55s cubic-bezier(0.4,0,0.2,1), filter 0.55s cubic-bezier(0.4,0,0.2,1) !important;
+      transition: opacity 1.1s cubic-bezier(0.4,0,0.2,1), filter 1.1s cubic-bezier(0.4,0,0.2,1) !important;
     }
     body.cr-swapping #left-aside {
-      animation: nav-swap 1.05s cubic-bezier(0.4,0,0.2,1) both !important;
+      animation: none !important;
+    }
+    /* Incoming page: reach full opacity quickly, but let the blur melt away over a
+       longer curve so the section is visibly blurred WHILE opaque, then sharpens. */
+    body.pe-swapping #pe-overlay,
+    body.gs-swapping #gs-overlay,
+    body.oe-swapping #oe-overlay,
+    body.au-swapping #au-overlay,
+    body.vc-swapping #vc-overlay,
+    body.bl-swapping #bl-overlay,
+    body.cr-swapping #cr-overlay {
+      transition: opacity 0.5s cubic-bezier(0.4,0,0.2,1), filter 1.25s cubic-bezier(0.22,1,0.36,1) !important;
     }
     body.cr-state #home-main,
     body.cr-state #mission-overlay {
       opacity: 0 !important; filter: blur(18px) !important; pointer-events: none !important;
     }
-    body.cr-state #cr-overlay { opacity: 1 !important; pointer-events: auto !important; }
+    body.cr-state #cr-overlay { opacity: 1 !important; filter: blur(0px) !important; pointer-events: auto !important; }
     body.cr-state #cr-stage { opacity: 1 !important; }
     .cr-select { -webkit-appearance:none; appearance:none; cursor:pointer; }
     .cr-select option { background:#0b1512; color:#C7FFE0; }
@@ -235,7 +246,10 @@
       transition: opacity .2s ease, color .2s ease;
     }
     .nav-sublink:hover { color: #9DEBC2; }
-    .nav-link.active { color: #9DEBC2 !important; }
+    .nav-link { position: relative; }
+    .nav-link::before { content: ""; position: absolute; left: -18px; top: 50%; width: 7px; height: 7px; border-radius: 50%; background: #9DEBC2; box-shadow: 0 0 12px rgba(157,235,194,0.9); opacity: 0; transform: translateY(-50%) scale(0.2); transition: opacity .45s cubic-bezier(0.22,1,0.36,1), transform .45s cubic-bezier(0.22,1,0.36,1); pointer-events: none; }
+    .nav-link.active { color: #9DEBC2 !important; font-weight: 500 !important; }
+    .nav-link.active::before { opacity: 1; transform: translateY(-50%) scale(1); }
     .nav-item-services .nav-submenu::before {
       content: "";
       position: absolute;
@@ -328,6 +342,7 @@
         transition: color 0.2s ease;
       }
       #mobile-menu .mob-sub-link:active { color: #9DEBC2; }
+      #mobile-menu .mob-link.active, #mobile-menu .mob-sub-link.active { color: #9DEBC2 !important; font-weight: 500 !important; }
 
       #hero-sticky {
         top: 60px !important;
@@ -910,7 +925,7 @@
 
   <!-- ══════════ MOBILE HEADER ══════════ -->
   <div id="mobile-header">
-    <img src="uploads/logo-devsavant-full.png" alt="DevSavant" style="height:30px; width:auto; object-fit:contain; object-position:left; display:block;">
+    <img src="uploads/logo-devsavant-full.png" alt="DevSavant" onclick="{{ onHome }}" style="height:30px; width:auto; object-fit:contain; object-position:left; display:block; cursor:pointer;">
     <div style="display:flex; align-items:center; gap:10px;">
       <button onclick="{{ onMobileAsk }}" aria-label="Ask Anything" style="display:flex; align-items:center; gap:8px; background:rgba(0,0,0,0.40); border:1px solid rgba(199,255,224,0.38); border-radius:11px; cursor:pointer; padding:9px 15px; -webkit-tap-highlight-color:transparent; backdrop-filter:blur(18px); -webkit-backdrop-filter:blur(18px);">
         <span style="font-family:'Inter',sans-serif; font-weight:300; font-size:15px; color:#fff; white-space:nowrap;">Ask Anything</span>
@@ -931,7 +946,7 @@
   <div id="mobile-menu">
     <!-- Top bar -->
     <div style="display:flex; align-items:center; justify-content:space-between; height:60px; flex-shrink:0;">
-      <img src="uploads/logo-devsavant-full.png" alt="DevSavant" style="height:30px; width:auto; object-fit:contain; object-position:left; display:block;">
+      <img src="uploads/logo-devsavant-full.png" alt="DevSavant" onclick="{{ onMobileHome }}" style="height:30px; width:auto; object-fit:contain; object-position:left; display:block; cursor:pointer;">
       <button onclick="{{ onMobileMenuClose }}" aria-label="Close menu" style="background:none; border:none; cursor:pointer; padding:10px; display:flex; align-items:center; justify-content:center; -webkit-tap-highlight-color:transparent;">
         <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
           <path d="M1 1l16 16M17 1L1 17" stroke="rgba(255,255,255,0.65)" stroke-width="1.6" stroke-linecap="round"></path>
@@ -952,7 +967,7 @@
       <a href="#" class="mob-link" onclick="{{ onMobileAU }}">About Us</a>
       <a href="#" class="mob-link" onclick="{{ onMobileVC }}">VC Partnerships</a>
       <a href="#" class="mob-link" onclick="{{ onMobileBlog }}">Blog</a>
-      <a href="#" class="mob-link" onclick="{{ onMobileCareers }}">Careers</a>
+      <a href="https://jobs.ashbyhq.com/devsavant" target="_blank" rel="noopener" class="mob-link">Careers</a>
     </nav>
     <!-- Contact CTA -->
     <a href="#" onclick="{{ onMobileMenuClose }}" style="flex-shrink:0; margin-top:28px; display:inline-flex; align-items:center; gap:10px; background:#9DEBC2; color:#18282C; font-family:'Inter',sans-serif; font-weight:700; text-transform:uppercase; font-size:14px; letter-spacing:0.06em; padding:14px 28px; text-decoration:none; align-self:flex-start;">Contact &#8594;</a>
@@ -990,7 +1005,7 @@
       ">
 
         <!-- Logo -->
-        <div id="logo-area" style="flex-shrink:0; animation:nav-enter 1s cubic-bezier(0.16,1,0.3,1) 0.2s both;">
+        <div id="logo-area" onclick="{{ onHome }}" style="flex-shrink:0; cursor:pointer; animation:nav-enter 1s cubic-bezier(0.16,1,0.3,1) 0.2s both;">
           <img
             src="uploads/logo-devsavant-full.png"
             alt="DevSavant"
@@ -1032,7 +1047,7 @@
           <a href="#" class="nav-link" onclick="{{ onAU }}" style="font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(17px,1.4vw,24px); color:#fff; text-decoration:none; white-space:nowrap; transition:opacity .2s ease, font-size 0.75s cubic-bezier(0.22,1,0.36,1); animation:nav-enter 0.9s cubic-bezier(0.16,1,0.3,1) 0.61s both" style-hover="opacity:0.6;">About Us</a>
           <a href="#" class="nav-link" onclick="{{ onVC }}" style="font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(17px,1.4vw,24px); color:#fff; text-decoration:none; white-space:nowrap; transition:opacity .2s ease, font-size 0.75s cubic-bezier(0.22,1,0.36,1); animation:nav-enter 0.9s cubic-bezier(0.16,1,0.3,1) 0.74s both" style-hover="opacity:0.6;">VC Partnerships</a>
           <a href="#" class="nav-link" onclick="{{ onBlog }}" style="font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(17px,1.4vw,24px); color:#fff; text-decoration:none; white-space:nowrap; transition:opacity .2s ease, font-size 0.75s cubic-bezier(0.22,1,0.36,1); animation:nav-enter 0.9s cubic-bezier(0.16,1,0.3,1) 0.87s both" style-hover="opacity:0.6;">Blog</a>
-          <a href="#" class="nav-link" onclick="{{ onCareers }}" style="font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(17px,1.4vw,24px); color:#fff; text-decoration:none; white-space:nowrap; transition:opacity .2s ease, font-size 0.75s cubic-bezier(0.22,1,0.36,1); animation:nav-enter 0.9s cubic-bezier(0.16,1,0.3,1) 1.0s both" style-hover="opacity:0.6;">Careers</a>
+          <a href="https://jobs.ashbyhq.com/devsavant" target="_blank" rel="noopener" class="nav-link" style="font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(17px,1.4vw,24px); color:#fff; text-decoration:none; white-space:nowrap; transition:opacity .2s ease, font-size 0.75s cubic-bezier(0.22,1,0.36,1); animation:nav-enter 0.9s cubic-bezier(0.16,1,0.3,1) 1.0s both" style-hover="opacity:0.6;">Careers</a>
         </nav>
 
         <a href="#" id="contact-btn" style="
@@ -1336,7 +1351,7 @@
       <!-- ══════════ END mission-overlay ══════════ -->
 
       <!-- ══════════ PRODUCT ENGINEERING PAGE (glass card, animates in) ══════════ -->
-      <div id="pe-overlay" style="position:absolute; left:clamp(280px,24vw,400px); top:0; right:0; bottom:0; display:flex; flex-direction:column; align-items:stretch; overflow-y:auto; scrollbar-width:none; pointer-events:none; opacity:0; z-index:24; transition:opacity 0.5s ease;">
+      <div id="pe-overlay" style="backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); position:absolute; left:clamp(280px,24vw,400px); top:0; right:0; bottom:0; display:flex; flex-direction:column; align-items:stretch; overflow-y:auto; scrollbar-width:none; pointer-events:none; opacity:0; filter:blur(22px); z-index:24; transition:opacity 0.5s ease, filter 0.5s ease;">
         <!-- Sticky morphing stage: the PE hero panel liquid-morphs into the discovery cards -->
         <div id="pe-stage" style="position:sticky; top:0; height:calc(100vh - 72px); overflow:visible; flex-shrink:0; opacity:0;">
 
@@ -1646,7 +1661,7 @@
       </div>
 
       <!-- ══════════ GLOBAL STAFFING PAGE (glass card, animates in) ══════════ -->
-      <div id="gs-overlay" style="position:absolute; left:clamp(280px,24vw,400px); top:0; right:0; bottom:0; display:flex; flex-direction:column; align-items:stretch; overflow-y:auto; scrollbar-width:none; pointer-events:none; opacity:0; z-index:24; transition:opacity 0.5s ease;">
+      <div id="gs-overlay" style="backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); position:absolute; left:clamp(280px,24vw,400px); top:0; right:0; bottom:0; display:flex; flex-direction:column; align-items:stretch; overflow-y:auto; scrollbar-width:none; pointer-events:none; opacity:0; filter:blur(22px); z-index:24; transition:opacity 0.5s ease, filter 0.5s ease;">
         <div id="gs-stage" style="position:sticky; top:0; height:calc(100vh - 72px); overflow:visible; flex-shrink:0; opacity:0;">
 
           <!-- SVG goo morph mask -->
@@ -1924,7 +1939,7 @@
 
 
       <!-- ══════════ OUR EXPERTISE PAGE (glass card, animates in) ══════════ -->
-      <div id="oe-overlay" style="position:absolute; left:clamp(280px,24vw,400px); top:0; right:0; bottom:0; display:flex; flex-direction:column; align-items:stretch; overflow-y:auto; scrollbar-width:none; pointer-events:none; opacity:0; z-index:24; transition:opacity 0.5s ease;">
+      <div id="oe-overlay" style="backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); position:absolute; left:clamp(280px,24vw,400px); top:0; right:0; bottom:0; display:flex; flex-direction:column; align-items:stretch; overflow-y:auto; scrollbar-width:none; pointer-events:none; opacity:0; filter:blur(22px); z-index:24; transition:opacity 0.5s ease, filter 0.5s ease;">
         <div id="oe-stage" style="position:sticky; top:0; height:calc(100vh - 72px); overflow:visible; flex-shrink:0; opacity:0;">
 
           <!-- SVG goo morph mask -->
@@ -2227,7 +2242,7 @@
 
 
       <!-- ══════════ ABOUT US PAGE (glass card, animates in) ══════════ -->
-      <div id="au-overlay" style="position:absolute; left:clamp(280px,24vw,400px); top:0; right:0; bottom:0; display:flex; flex-direction:column; align-items:stretch; overflow-y:auto; scrollbar-width:none; pointer-events:none; opacity:0; z-index:24; transition:opacity 0.5s ease;">
+      <div id="au-overlay" style="backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); position:absolute; left:clamp(280px,24vw,400px); top:0; right:0; bottom:0; display:flex; flex-direction:column; align-items:stretch; overflow-y:auto; scrollbar-width:none; pointer-events:none; opacity:0; filter:blur(22px); z-index:24; transition:opacity 0.5s ease, filter 0.5s ease;">
         <div id="au-stage" style="position:sticky; top:0; height:calc(100vh - 72px); overflow:visible; flex-shrink:0; opacity:0;">
 
           <!-- SVG goo morph mask -->
@@ -2511,7 +2526,7 @@
 
 
       <!-- ══════════ VC PARTNERSHIPS PAGE (glass card, animates in) ══════════ -->
-      <div id="vc-overlay" style="position:absolute; left:clamp(280px,24vw,400px); top:0; right:0; bottom:0; display:flex; flex-direction:column; align-items:stretch; overflow-y:auto; scrollbar-width:none; pointer-events:none; opacity:0; z-index:24; transition:opacity 0.5s ease;">
+      <div id="vc-overlay" style="backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); position:absolute; left:clamp(280px,24vw,400px); top:0; right:0; bottom:0; display:flex; flex-direction:column; align-items:stretch; overflow-y:auto; scrollbar-width:none; pointer-events:none; opacity:0; filter:blur(22px); z-index:24; transition:opacity 0.5s ease, filter 0.5s ease;">
         <div id="vc-stage" style="position:sticky; top:0; height:calc(100vh - 72px); overflow:visible; flex-shrink:0; opacity:0;">
 
           <!-- SVG goo morph mask -->
@@ -2638,7 +2653,7 @@
       </div>
 
       <!-- ══════════ BLOG PAGE (glass card, animates in — mirrors PE/GS/OE/AU/VC) ══════════ -->
-      <div id="bl-overlay" style="position:absolute; left:clamp(280px,24vw,400px); top:0; right:0; bottom:0; display:flex; flex-direction:column; align-items:stretch; overflow-y:auto; scrollbar-width:none; pointer-events:none; opacity:0; z-index:25; transition:opacity 0.5s ease;">
+      <div id="bl-overlay" style="backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); position:absolute; left:clamp(280px,24vw,400px); top:0; right:0; bottom:0; display:flex; flex-direction:column; align-items:stretch; overflow-y:auto; scrollbar-width:none; pointer-events:none; opacity:0; filter:blur(22px); z-index:25; transition:opacity 0.5s ease, filter 0.5s ease;">
         <div id="bl-stage" style="position:sticky; top:0; height:calc(100vh - 72px); overflow:visible; flex-shrink:0; opacity:0;">
 
           <!-- SVG goo morph mask -->
@@ -2778,7 +2793,7 @@
       </div>
 
       <!-- ══════════ CAREERS PAGE (glass card, animates in — mirrors PE/GS/OE/AU/VC/BL) ══════════ -->
-      <div id="cr-overlay" style="position:absolute; left:clamp(280px,24vw,400px); top:0; right:0; bottom:0; display:flex; flex-direction:column; align-items:stretch; overflow-y:auto; scrollbar-width:none; pointer-events:none; opacity:0; z-index:25; transition:opacity 0.5s ease;">
+      <div id="cr-overlay" style="backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); position:absolute; left:clamp(280px,24vw,400px); top:0; right:0; bottom:0; display:flex; flex-direction:column; align-items:stretch; overflow-y:auto; scrollbar-width:none; pointer-events:none; opacity:0; filter:blur(22px); z-index:25; transition:opacity 0.5s ease, filter 0.5s ease;">
         <div id="cr-stage" style="position:sticky; top:0; height:calc(100vh - 72px); overflow:visible; flex-shrink:0; opacity:0;">
 
           <!-- SVG goo morph mask -->
@@ -3445,6 +3460,7 @@ class Component extends DCLogic {
       onMobileMenuOpen: () => {
         const m = document.getElementById('mobile-menu');
         if (m) m.classList.add('open');
+        this._syncMobileNav();
       },
       onMobileMenuClose: (e) => {
         if (e && e.preventDefault) e.preventDefault();
@@ -3815,7 +3831,7 @@ class Component extends DCLogic {
     b.classList.add('pe-state', 'pe-swapping');
     // After the swap settles, drop the transition layer (state class keeps the look)
     clearTimeout(this._peTimer);
-    this._peTimer = setTimeout(() => { if (this._peActive) document.body.classList.remove('pe-swapping'); }, 1150);
+    this._peTimer = setTimeout(() => { if (this._peActive) document.body.classList.remove('pe-swapping'); }, 1350);
     // Set up PE page scroll
     const peOvl = document.getElementById('pe-overlay');
     if (peOvl && !this._peScrollListenerAdded) {
@@ -3824,6 +3840,20 @@ class Component extends DCLogic {
     }
     this._bindSubScroll(peOvl);
     setTimeout(() => { this._setupDiscoveryMorph(); this._initFaqAccordion('pe-faq-clip'); this._applyPEScroll(); }, 300);
+  }
+
+  // Highlight the current page in the mobile menu (menu doesn't animate; only prominence changes).
+  _syncMobileNav() {
+    const b = document.body;
+    let label = 'Home';
+    if (b.classList.contains('pe-state')) label = 'Product Engineering';
+    else if (b.classList.contains('gs-state')) label = 'Global Staffing';
+    else if (b.classList.contains('oe-state')) label = 'Our Expertise';
+    else if (b.classList.contains('au-state')) label = 'About Us';
+    else if (b.classList.contains('vc-state')) label = 'VC Partnerships';
+    else if (b.classList.contains('bl-state')) label = 'Blog';
+    document.querySelectorAll('#mobile-menu .mob-link, #mobile-menu .mob-sub-link')
+      .forEach(a => a.classList.toggle('active', a.textContent.trim() === label));
   }
 
   _showHome() {
@@ -3859,7 +3889,7 @@ class Component extends DCLogic {
       if (this._peActive) return;
       document.body.classList.remove('pe-swapping');
       this._applyScroll();
-    }, 1150);
+    }, 1350);
   }
 
   // ─── PE Subpage scroll ─────────────────────────────────────────────
@@ -3872,7 +3902,7 @@ class Component extends DCLogic {
     const mob = window.innerWidth < 768;
     const max = (sc.scrollHeight - sc.clientHeight) || 1;
     const p = sc.scrollTop / max;
-    this._subCueUpdate(p);
+    this._subCueUpdate(p); this._scrollProg = p;
     // Hero content fades + blurs out
     const heroFade = cl((p - 0.05) / 0.07);
     if (hl) {
@@ -4106,7 +4136,7 @@ class Component extends DCLogic {
     void b.offsetWidth;
     b.classList.add('gs-state', 'gs-swapping');
     clearTimeout(this._gsTimer);
-    this._gsTimer = setTimeout(() => { if (this._gsActive) document.body.classList.remove('gs-swapping'); }, 1150);
+    this._gsTimer = setTimeout(() => { if (this._gsActive) document.body.classList.remove('gs-swapping'); }, 1350);
     const gsOvl = document.getElementById('gs-overlay');
     if (gsOvl) gsOvl.scrollTop = 0;
     if (gsOvl && !this._gsScrollListenerAdded) {
@@ -4179,7 +4209,7 @@ class Component extends DCLogic {
     const mob = window.innerWidth < 768;
     const max = (sc.scrollHeight - sc.clientHeight) || 1;
     const p = sc.scrollTop / max;
-    this._subCueUpdate(p);
+    this._subCueUpdate(p); this._scrollProg = p;
     const heroFade = cl((p - 0.04) / 0.06);
     if (hl) {
       hl.style.opacity = String(1 - heroFade);
@@ -4352,7 +4382,7 @@ class Component extends DCLogic {
     void b.offsetWidth;
     b.classList.add('oe-state', 'oe-swapping');
     clearTimeout(this._oeTimer);
-    this._oeTimer = setTimeout(() => { if (this._oeActive) document.body.classList.remove('oe-swapping'); }, 1150);
+    this._oeTimer = setTimeout(() => { if (this._oeActive) document.body.classList.remove('oe-swapping'); }, 1350);
     const oeOvl = document.getElementById('oe-overlay');
     if (oeOvl) oeOvl.scrollTop = 0;
     if (oeOvl && !this._oeScrollListenerAdded) {
@@ -4412,7 +4442,7 @@ class Component extends DCLogic {
     const mob = window.innerWidth < 768;
     const max = (sc.scrollHeight - sc.clientHeight) || 1;
     const p = sc.scrollTop / max;
-    this._subCueUpdate(p);
+    this._subCueUpdate(p); this._scrollProg = p;
     const heroFade = cl((p - 0.025) / 0.035);
     if (hl) {
       hl.style.opacity = String(1 - heroFade);
@@ -4536,7 +4566,7 @@ class Component extends DCLogic {
     void b.offsetWidth;
     b.classList.add('au-state', 'au-swapping');
     clearTimeout(this._auTimer);
-    this._auTimer = setTimeout(() => { if (this._auActive) document.body.classList.remove('au-swapping'); }, 1150);
+    this._auTimer = setTimeout(() => { if (this._auActive) document.body.classList.remove('au-swapping'); }, 1350);
     const auOvl = document.getElementById('au-overlay');
     if (auOvl) auOvl.scrollTop = 0;
     if (auOvl && !this._auScrollListenerAdded) {
@@ -4617,7 +4647,7 @@ class Component extends DCLogic {
     const mob = window.innerWidth < 768;
     const max = (sc.scrollHeight - sc.clientHeight) || 1;
     const p = sc.scrollTop / max;
-    this._subCueUpdate(p);
+    this._subCueUpdate(p); this._scrollProg = p;
     const heroFade = cl((p - 0.03) / 0.04);
     if (hl) {
       hl.style.opacity = String(1 - heroFade);
@@ -4741,7 +4771,7 @@ class Component extends DCLogic {
     void b.offsetWidth;
     b.classList.add('vc-state', 'vc-swapping');
     clearTimeout(this._vcTimer);
-    this._vcTimer = setTimeout(() => { if (this._vcActive) document.body.classList.remove('vc-swapping'); }, 1150);
+    this._vcTimer = setTimeout(() => { if (this._vcActive) document.body.classList.remove('vc-swapping'); }, 1350);
     const vcOvl = document.getElementById('vc-overlay');
     if (vcOvl) vcOvl.scrollTop = 0;
     if (vcOvl && !this._vcScrollListenerAdded) {
@@ -4813,7 +4843,7 @@ class Component extends DCLogic {
     const mob = window.innerWidth < 768;
     const max = (sc.scrollHeight - sc.clientHeight) || 1;
     const p = sc.scrollTop / max;
-    this._subCueUpdate(p);
+    this._subCueUpdate(p); this._scrollProg = p;
     const heroFade = cl((p - 0.04) / 0.05);
     if (hl) {
       hl.style.opacity = String(1 - heroFade);
@@ -4937,7 +4967,7 @@ class Component extends DCLogic {
     void b.offsetWidth;
     b.classList.add('bl-state', 'bl-swapping');
     clearTimeout(this._blTimer);
-    this._blTimer = setTimeout(() => { if (this._blActive) document.body.classList.remove('bl-swapping'); }, 1150);
+    this._blTimer = setTimeout(() => { if (this._blActive) document.body.classList.remove('bl-swapping'); }, 1350);
     const blOvl = document.getElementById('bl-overlay');
     if (blOvl) blOvl.scrollTop = 0;
     if (blOvl && !this._blScrollListenerAdded) {
@@ -4985,7 +5015,7 @@ class Component extends DCLogic {
     const mob = window.innerWidth < 768;
     const max = (sc.scrollHeight - sc.clientHeight) || 1;
     const p = sc.scrollTop / max;
-    this._subCueUpdate(p);
+    this._subCueUpdate(p); this._scrollProg = p;
     const heroFade = cl((p - 0.04) / 0.05);
     if (hl) {
       hl.style.opacity = String(1 - heroFade);
@@ -5085,7 +5115,7 @@ class Component extends DCLogic {
     void b.offsetWidth;
     b.classList.add('cr-state', 'cr-swapping');
     clearTimeout(this._crTimer);
-    this._crTimer = setTimeout(() => { if (this._crActive) document.body.classList.remove('cr-swapping'); }, 1150);
+    this._crTimer = setTimeout(() => { if (this._crActive) document.body.classList.remove('cr-swapping'); }, 1350);
     const crOvl = document.getElementById('cr-overlay');
     if (crOvl) crOvl.scrollTop = 0;
     if (crOvl && !this._crScrollListenerAdded) {
@@ -5132,7 +5162,7 @@ class Component extends DCLogic {
     const mob = window.innerWidth < 768;
     const max = (sc.scrollHeight - sc.clientHeight) || 1;
     const p = sc.scrollTop / max;
-    this._subCueUpdate(p);
+    this._subCueUpdate(p); this._scrollProg = p;
     const heroFade = cl((p - 0.04) / 0.05);
     if (hl) {
       hl.style.opacity = String(1 - heroFade);
@@ -5216,6 +5246,20 @@ class Component extends DCLogic {
   };
 
   // ─── Scroll ────────────────────────────────────────────────────────
+
+  // Per-page background target: a distinct point in the lime-green -> green-blue
+  // spectrum for each page. The RAF loop eases toward this on every page change.
+  _bgPageFor() {
+    const c = document.body.classList;
+    if (c.contains('pe-state')) return 0.16;
+    if (c.contains('gs-state')) return 0.58;
+    if (c.contains('oe-state')) return 0.30;
+    if (c.contains('au-state')) return 0.44;
+    if (c.contains('vc-state')) return 0.86;
+    if (c.contains('bl-state')) return 0.70;
+    if (c.contains('cr-state')) return 0.95;
+    return 0.0; // home
+  }
 
   _applyScroll() {
     const sc = this._scrollEl;
@@ -5575,7 +5619,7 @@ class Component extends DCLogic {
       void main() { vUv = uv; gl_Position = vec4(position, 1.0); }
     `;
     const fragmentShader = `
-      uniform float u_time; uniform vec2 u_resolution; uniform float u_scroll; uniform float u_grain;
+      uniform float u_time; uniform vec2 u_resolution; uniform float u_scroll; uniform float u_grain; uniform float u_page;
       varying vec2 vUv;
       float hash(vec2 p) { return fract(sin(dot(p, vec2(12.9898,78.233)))*43758.5453); }
       float noise(vec2 p) {
@@ -5588,29 +5632,34 @@ class Component extends DCLogic {
       }
       void main() {
         vec2 uv=vUv; vec2 p=uv*2.0-1.0; p.x*=u_resolution.x/u_resolution.y;
-        float t=u_time*0.08,s=u_scroll;
-        vec2 q=vec2(fbm(p*0.4+t*0.05+s*0.4),fbm(p*0.4+vec2(5.2,1.3)-t*0.05+s*0.3));
-        vec2 r=vec2(fbm(p*0.4+1.2*q+vec2(1.7,9.2)+t*0.04-s*0.25),fbm(p*0.4+1.2*q+vec2(8.3,2.8)+t*0.06+s*0.45));
-        float bokeh  = smoothstep(0.3,0.9,fbm(p*0.6+r*1.5-t*0.03+s*1.2));
-        float tD     = abs(fbm(p*0.8+r*1.8-t*0.05-s*1.8)-0.5);
+        float t=u_time*0.08, s=u_scroll, pg=u_page;
+        // per-page reinforcement: pg shifts the noise field (texture) and biases the
+        // palette toward a distinct point, always inside the lime-green -> green-blue spectrum
+        float cs = clamp(s + pg*0.6, 0.0, 1.0);
+        vec2 q=vec2(fbm(p*0.4+t*0.05+s*0.4 + pg*0.85),fbm(p*0.4+vec2(5.2,1.3)-t*0.05+s*0.3 - pg*0.65));
+        vec2 r=vec2(fbm(p*0.4+1.2*q+vec2(1.7,9.2)+t*0.04-s*0.25 + pg*0.5),fbm(p*0.4+1.2*q+vec2(8.3,2.8)+t*0.06+s*0.45 - pg*0.5));
+        float bokeh  = smoothstep(0.3,0.9,fbm(p*0.6+r*1.5-t*0.03+s*1.2 + pg*0.6));
+        float tD     = abs(fbm(p*0.8+r*1.8-t*0.05-s*1.8 - pg*0.4)-0.5);
         float trail  = smoothstep(0.15,0.0,tD)*0.6 + smoothstep(0.4,0.0,tD)*0.3;
         vec3 bg0=vec3(0.004,0.007,0.006),bl0=vec3(0.03,0.27,0.22),tr0=vec3(0.05,0.54,0.40);
         vec3 bg1=vec3(0.004,0.006,0.008),bl1=vec3(0.02,0.20,0.28),tr1=vec3(0.04,0.44,0.52);
         vec3 bg2=vec3(0.004,0.007,0.006),bl2=vec3(0.03,0.26,0.21),tr2=vec3(0.05,0.52,0.38);
-        vec3 bg =mix(mix(bg0,bg1,smoothstep(0.0,0.5,s)),bg2,smoothstep(0.5,1.0,s));
-        vec3 bl =mix(mix(bl0,bl1,smoothstep(0.0,0.5,s)),bl2,smoothstep(0.5,1.0,s));
-        vec3 tr =mix(mix(tr0,tr1,smoothstep(0.0,0.5,s)),tr2,smoothstep(0.5,1.0,s));
+        vec3 bg =mix(mix(bg0,bg1,smoothstep(0.0,0.5,cs)),bg2,smoothstep(0.5,1.0,cs));
+        vec3 bl =mix(mix(bl0,bl1,smoothstep(0.0,0.5,cs)),bl2,smoothstep(0.5,1.0,cs));
+        vec3 tr =mix(mix(tr0,tr1,smoothstep(0.0,0.5,cs)),tr2,smoothstep(0.5,1.0,cs));
         vec3 col = bg + bl*bokeh + tr*trail;
-        float hlShape = smoothstep(0.62,0.92,fbm(p*0.75+q*0.8-t*0.03+s*0.6));
+        float hlShape = smoothstep(0.62,0.92,fbm(p*0.75+q*0.8-t*0.03+s*0.6 + pg*0.55));
         vec3 hl0 = vec3(0.55,0.95,0.04);
         vec3 hl1 = vec3(0.15,0.95,0.08);
-        vec3 hl  = mix(hl0,hl1,smoothstep(0.0,1.0,s));
+        vec3 hl  = mix(hl0,hl1,smoothstep(0.0,1.0,cs));
         col += hl * hlShape * 0.09;
-        // mid-scroll accent: saturated yellow-green patches baked into the texture
-        float accentShape = smoothstep(0.55,0.88,fbm(p*0.55+r*1.2+t*0.04-s*0.5));
+        // mid accent: saturated yellow-green patches baked into the texture
+        float accentShape = smoothstep(0.55,0.88,fbm(p*0.55+r*1.2+t*0.04-s*0.5 + pg*0.5));
         vec3 accentCol = mix(vec3(0.72,0.98,0.08), vec3(0.20,0.95,0.30), accentShape);
         col += accentCol * accentShape * 0.18;
         col = max(col - hash(uv+fract(u_time))*0.12*u_grain, 0.0);
+        // overall dark teal/green multiply — darkens the whole field, keeps it in-spectrum
+        col *= vec3(0.62, 0.78, 0.72);
         gl_FragColor = vec4(col, 1.0);
       }
     `;
@@ -5620,7 +5669,8 @@ class Component extends DCLogic {
         u_time:       { value: 0.0 },
         u_resolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
         u_scroll:     { value: 0.0 },
-        u_grain:      { value: 0.0 }
+        u_grain:      { value: 0.0 },
+        u_page:       { value: 0.0 }
       }
     });
     this.material = material;
@@ -5634,7 +5684,16 @@ class Component extends DCLogic {
       this._lastElapsed = elapsed;
       this._accTime = (this._accTime || 0) + dt * speed;
       material.uniforms.u_time.value   = this._accTime;
-      material.uniforms.u_scroll.value = this._scrollProg || 0;
+      // ease scroll into the shader so fast scrolling doesn't make the noise field jump (flicker)
+      const scTarget = this._scrollProg || 0;
+      const scRate = Math.min(1, dt * 4.5);
+      this._scrollSmooth = (this._scrollSmooth == null) ? scTarget : this._scrollSmooth + (scTarget - this._scrollSmooth) * scRate;
+      material.uniforms.u_scroll.value = this._scrollSmooth;
+      // ease the background toward the active page's palette/texture target
+      const pgTarget = this._bgPageFor();
+      const pgRate = Math.min(1, dt * 2.6);
+      this._bgPageCur = (this._bgPageCur == null) ? pgTarget : this._bgPageCur + (pgTarget - this._bgPageCur) * pgRate;
+      material.uniforms.u_page.value = this._bgPageCur;
       renderer.render(scene, camera);
     };
     animate();
