@@ -298,7 +298,10 @@
     }
 
     #svc-scroll { display: contents; }
+    #svc-cards { display: contents; }
     #tmn-scroll { display: contents; }
+    #tmn-cards { display: contents; }
+    #stats-cards { display: contents; }
     #cli-scroll { display: contents; }
     #faq-scroll { display: contents; }
     #stats-scroll { display: contents; }
@@ -398,6 +401,11 @@
         padding-top: 32px !important;
       }
       #mission-overlay, #pe-overlay { left: 0 !important; }
+      /* Sections advance only via the programmatic snap on mobile — block native
+         vertical panning so the scroller can never rest between two stops (ghost
+         transition). Scoped to the home page so subpage overlays keep vertical scroll;
+         child carousels keep their own touch-action: pan-x. */
+      body:not([class*="-state"]):not([class*="-swapping"]) #home-scroll-root { touch-action: pan-x !important; }
       /* Smaller rounded corners on mobile */
       #mission-a, #mission-b,
       #service-a, #service-b,
@@ -407,137 +415,213 @@
       .faq-item { border-radius: 14px !important; }
       #mission-a { left: 5% !important; width: 90% !important; }
       #mission-b { right: 5% !important; width: 78% !important; }
+      /* Services: same column model as other sections (headline in-flow on top),
+         but the cards live in a horizontal scroll row beneath the headline. */
       #svc-scroll {
         display: flex !important;
         position: absolute !important;
-        left: 5%; top: 2%; right: 5%; bottom: 2%;
+        left: 0%; top: 2%; right: 0%; bottom: clamp(70px, 12vh, 104px);
         flex-direction: column;
-        gap: 16px;
-        overflow-y: auto;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
+        gap: 14px;
+        overflow: hidden;
         pointer-events: none;
-        padding-bottom: clamp(76px, 12vh, 120px) !important;
+        padding-bottom: 0 !important;
       }
-      #svc-scroll::-webkit-scrollbar { display: none; }
-      #tmn-scroll {
-        display: flex !important;
-        position: absolute !important;
-        left: 5%; top: 2%; right: 5%; bottom: 2%;
-        flex-direction: column;
-        gap: 16px;
-        overflow-y: auto;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-        pointer-events: none;
-        padding-bottom: clamp(76px, 12vh, 120px) !important;
-      }
-      #tmn-scroll::-webkit-scrollbar { display: none; }
-      #testimonials-headline, #testimonial-a, #testimonial-b {
+      #svc-scroll #services-headline {
         position: relative !important;
         left: auto !important; top: auto !important;
         right: auto !important; bottom: auto !important;
         width: 100% !important; height: auto !important;
-        flex-shrink: 0 !important;
+        flex: 0 0 auto !important;
+        padding-left: 5% !important;
       }
-      #stats-scroll {
+      #svc-cards {
+        display: flex !important;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        flex: 1 1 auto;
+        min-height: 0;
+        gap: 14px;
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+        scroll-snap-type: x mandatory;
+        scroll-padding-left: 5%;
+        overscroll-behavior: contain;
+        overscroll-behavior-x: contain;
+        touch-action: pan-x;
+        scrollbar-width: none;
+        padding-left: 5%;
+        padding-right: 6%;
+      }
+      #svc-cards::-webkit-scrollbar { display: none; }
+      /* Carousel sections (testimonials / stats / clients): headline in-flow on top,
+         content in a horizontal scroll row below — same treatment as services. */
+      #tmn-scroll, #stats-scroll, #cli-scroll {
         display: flex !important;
         position: absolute !important;
-        left: 5%; top: 2%; right: 5%; bottom: 2%;
+        left: 0%; top: 2%; right: 0%; bottom: clamp(70px, 12vh, 104px);
         flex-direction: column;
-        gap: 16px;
-        overflow-y: auto;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
+        gap: 14px;
+        overflow: hidden;
         pointer-events: none;
-        padding-bottom: clamp(76px, 12vh, 120px) !important;
+        padding-bottom: 0 !important;
       }
-      #stats-scroll::-webkit-scrollbar { display: none; }
-      #stats-headline {
+      #testimonials-headline, #stats-headline, #clients-headline {
         position: relative !important;
         left: auto !important; top: auto !important;
+        right: auto !important; bottom: auto !important;
         width: 100% !important; height: auto !important;
-        flex-shrink: 0 !important;
+        flex: 0 0 auto !important;
+        padding-left: 5% !important;
+      }
+      #tmn-cards {
+        display: flex !important;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        flex: 1 1 auto;
+        min-height: 0;
+        gap: 14px;
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+        scroll-snap-type: x mandatory;
+        scroll-padding-left: 5%;
+        overscroll-behavior: contain;
+        overscroll-behavior-x: contain;
+        touch-action: pan-x;
+        scrollbar-width: none;
+        padding-left: 5%;
+        padding-right: 6%;
+      }
+      #stats-cards {
+        display: grid !important;
+        grid-auto-flow: column !important;
+        grid-template-rows: repeat(2, 1fr) !important;
+        grid-auto-columns: 70% !important;
+        gap: 12px !important;
+        flex: 1 1 auto;
+        min-height: 0;
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior: contain;
+        overscroll-behavior-x: contain;
+        touch-action: pan-x;
+        scrollbar-width: none;
+        padding: 0 5%;
+      }
+      #tmn-cards::-webkit-scrollbar, #stats-cards::-webkit-scrollbar { display: none; }
+      #testimonial-a, #testimonial-b {
+        position: relative !important;
+        left: auto !important; top: auto !important;
+        right: auto !important; bottom: auto !important;
+        width: 92% !important; height: 100% !important;
+        flex: 0 0 92% !important;
+        scroll-snap-align: start;
+        overflow: hidden !important;
+        justify-content: space-between !important;
+        padding: 24px 22px !important;
       }
       #stat-0, #stat-1, #stat-2, #stat-3, #stat-4 {
         position: relative !important;
         left: auto !important; top: auto !important;
         right: auto !important; bottom: auto !important;
-        width: 100% !important; height: auto !important;
-        min-height: 120px !important;
-        flex-shrink: 0 !important;
+        width: auto !important; height: 100% !important;
+        min-height: 0 !important;
+        scroll-snap-align: start;
+        overflow: hidden !important;
+        justify-content: flex-end !important;
       }
-      #cli-scroll {
-        display: flex !important;
-        position: absolute !important;
-        left: 5%; top: 2%; right: 5%; bottom: 2%;
-        flex-direction: column;
-        gap: 16px;
-        overflow-y: auto;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-        pointer-events: none;
-        padding-bottom: clamp(76px, 12vh, 120px) !important;
-      }
-      #cli-scroll::-webkit-scrollbar { display: none; }
-      #clients-headline {
-        position: relative !important;
-        left: auto !important; top: auto !important;
-        width: 100% !important; height: auto !important;
-        flex-shrink: 0 !important;
-      }
+      /* Clients: logo grid becomes a 2-row horizontal scroller (columns overflow) */
       #clients-grid {
         position: relative !important;
         left: auto !important; top: auto !important;
         right: auto !important; bottom: auto !important;
-        width: 100% !important; height: auto !important;
+        width: auto !important; height: 100% !important;
+        flex: 1 1 auto;
+        min-height: 0;
         display: grid !important;
-        grid-template-columns: repeat(2, 1fr) !important;
-        grid-template-rows: unset !important;
-        column-gap: 10px !important;
-        row-gap: 10px !important;
-        overflow: visible !important;
-        padding: 0 !important;
-        flex-shrink: 0 !important;
+        grid-auto-flow: column !important;
+        grid-template-columns: unset !important;
+        grid-auto-columns: 42% !important;
+        grid-template-rows: repeat(3, 1fr) !important;
+        column-gap: 12px !important;
+        row-gap: 12px !important;
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior: contain;
+        overscroll-behavior-x: contain;
+        touch-action: pan-x;
+        scrollbar-width: none;
+        padding: 0 5% !important;
       }
+      #clients-grid::-webkit-scrollbar { display: none; }
       #clients-grid > div {
-        min-height: 90px !important;
+        min-height: 0 !important;
       }
       #clients-grid > div img {
-        max-width: 85% !important;
-        max-height: 70% !important;
+        max-width: 82% !important;
+        max-height: 62% !important;
       }
+      /* FAQ (mobile): headline on top, questions ALWAYS expanded in a 2-row horizontal scroller */
       #faq-scroll {
         display: flex !important;
         position: absolute !important;
-        left: 5%; top: 2%; right: 5%; bottom: 2%;
+        left: 0%; top: 2%; right: 0%; bottom: clamp(70px, 12vh, 104px);
         flex-direction: column;
-        gap: 24px;
-        overflow-y: auto;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
+        gap: 14px;
+        overflow: hidden;
         pointer-events: none;
-        padding-bottom: clamp(76px, 12vh, 120px) !important;
+        padding-bottom: 0 !important;
       }
-      #faq-scroll::-webkit-scrollbar { display: none; }
       #faq-headline {
         position: relative !important;
         left: auto !important; top: auto !important;
+        right: auto !important; bottom: auto !important;
         width: 100% !important; height: auto !important;
-        flex-shrink: 0 !important;
+        flex: 0 0 auto !important;
+        padding-left: 5% !important;
       }
       #faq-clip {
         position: relative !important;
         left: auto !important; top: auto !important;
         right: auto !important; bottom: auto !important;
-        width: 100% !important; height: auto !important;
-        overflow: visible !important;
-        flex-shrink: 0 !important;
+        width: auto !important; height: 100% !important;
+        flex: 1 1 auto; min-height: 0;
+        overflow-x: auto !important; overflow-y: hidden !important;
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior: contain; overscroll-behavior-x: contain;
+        touch-action: pan-x;
+        scrollbar-width: none;
+        padding: 0 5% !important;
       }
+      #faq-clip::-webkit-scrollbar { display: none; }
       #faq-items {
         position: relative !important;
         top: auto !important; left: auto !important; right: auto !important;
+        transform: none !important;
+        display: grid !important;
+        grid-auto-flow: column !important;
+        grid-template-rows: repeat(2, 1fr) !important;
+        grid-auto-columns: 84% !important;
+        gap: 12px !important;
+        height: 100% !important;
       }
+      #faq-items .faq-item {
+        overflow: hidden !important;
+        cursor: default !important;
+        display: flex !important; flex-direction: column;
+        padding: 16px 18px !important;
+      }
+      #faq-scroll #faq-items .faq-item .faq-header { align-items: flex-start !important; flex: 0 0 auto !important; }
+      #faq-scroll #faq-items .faq-item .faq-chevron { display: none !important; }
+      #faq-scroll #faq-items .faq-item .faq-body,
+      #faq-scroll #faq-items .faq-item.open .faq-body { max-height: 1000px !important; flex: 1 1 auto !important; min-height: 0 !important; overflow-y: auto !important; scrollbar-width: none; }
+      #faq-items .faq-item .faq-body::-webkit-scrollbar { display: none; }
+      #faq-items .faq-item .faq-header span:first-child { font-size: clamp(13px, 3.6vw, 15px) !important; }
+      #faq-items .faq-item .faq-body p { font-size: clamp(12px, 3.2vw, 14px) !important; line-height: 1.5 !important; }
       #services-headline {
         position: relative !important;
         left: auto !important; top: auto !important;
@@ -548,10 +632,22 @@
         position: relative !important;
         left: auto !important; top: auto !important;
         right: auto !important; bottom: auto !important;
-        width: 100% !important; height: auto !important;
-        flex-shrink: 0 !important;
-        padding: 20px 22px !important;
+        width: 92% !important; height: 100% !important;
+        flex: 0 0 92% !important;
+        scroll-snap-align: start;
+        overflow: hidden !important;
+        justify-content: center !important;
+        gap: 14px !important;
+        padding: 46px 22px 22px !important;
       }
+      /* card number/rule row → top-left corner, out of the vertical flow */
+      #service-a > div:first-child, #service-b > div:first-child {
+        position: absolute !important;
+        top: 18px; left: 22px; gap: 10px !important;
+      }
+      #service-a h2, #service-b h2 { font-size: clamp(23px, 6vw, 30px) !important; }
+      #service-a p, #service-b p { font-size: 14.5px !important; line-height: 1.5 !important; }
+      #service-a > div:nth-child(3), #service-b > div:nth-child(3) { gap: 12px !important; }
       #cta-content {
         padding-left: 22px !important; padding-right: 22px !important;
         padding-top: 80px !important;
@@ -954,12 +1050,25 @@
       pointer-events: auto !important;
     }
     @media (max-width: 767px) {
-      #home-cue-group, #sub-cue-group { right: auto !important; left: 50% !important; transform: translateX(-50%); }
+      /* Give the nav arrows their own frosted glass bar pinned to the bottom,
+         so they never sit on top of page content. */
+      #home-cue-group, #sub-cue-group {
+        right: 0 !important; left: 0 !important; bottom: 0 !important; transform: none !important;
+        width: 100%;
+        justify-content: center;
+        gap: 0;
+        padding: 10px 0 calc(10px + env(safe-area-inset-bottom, 0px)) 0;
+        background: rgba(0,0,0,0.32);
+        backdrop-filter: blur(30px) saturate(150%);
+        -webkit-backdrop-filter: blur(30px) saturate(150%);
+        border-top: 1px solid rgba(255,255,255,0.14);
+        pointer-events: auto !important;
+      }
     }
   </style>
 </helmet>
 
-<div ref="{{ scrollRef }}" style="position:relative; width:100%; height:100vh; overflow-y:auto; overflow-x:hidden; background:#050505; font-family:'Inter',sans-serif;">
+<div id="home-scroll-root" ref="{{ scrollRef }}" style="position:relative; width:100%; height:100vh; overflow-y:auto; overflow-x:hidden; background:#050505; font-family:'Inter',sans-serif;">
 
   <!-- ══════════ MOBILE HEADER ══════════ -->
   <div id="mobile-header">
@@ -1266,6 +1375,7 @@
         <div id="services-headline" style="position:absolute; left:2%; top:4%; width:96%; height:14%; display:flex; flex-direction:column; justify-content:center; gap:clamp(6px,0.8vh,10px); opacity:0; pointer-events:none; will-change:opacity; z-index:3;">
           <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(36px,4.2vw,72px); line-height:1.0; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.35);">Our Services</h2>
         </div>
+        <div id="svc-cards">
         <div id="service-a" style="position:absolute; left:2%; top:21%; width:46%; height:67%; display:flex; flex-direction:column; justify-content:center; gap:clamp(18px,2.6vh,32px); padding:clamp(34px,3.1vw,60px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; opacity:0; pointer-events:none; will-change:opacity; z-index:1;">
           <div style="display:flex; align-items:center; gap:clamp(10px,0.9vw,14px);">
             <span style="font-family:'Space Grotesk',sans-serif; font-weight:500; font-size:clamp(14px,1.1vw,18px); color:#C7FFE0; letter-spacing:0.04em;">01</span>
@@ -1291,6 +1401,7 @@
           </div>
           <a href="#" style="align-self:flex-start; display:inline-flex; align-items:center; gap:12px; background:#CCFFCE; color:#18282C; font-family:'Inter',sans-serif; font-weight:700; text-transform:uppercase; font-size:clamp(13px,1.1vw,18px); letter-spacing:0.045em; padding:11px 22px; text-decoration:none; box-shadow:0 0 36px rgba(150,255,170,0.28); transition:transform .2s ease, box-shadow .2s ease;" style-hover="transform:translateY(-2px); box-shadow:0 0 52px rgba(150,255,170,0.45);">Hire Talent Now <span style="font-weight:700; font-size:1.05em;">&#8594;</span></a>
         </div>
+        </div><!-- /svc-cards -->
         </div><!-- /svc-scroll -->
 
         <div id="tmn-scroll">
@@ -1301,6 +1412,7 @@
         </div>
 
         <!-- ══════════ TESTIMONIALS (stacked horizontal cards) ══════════ -->
+        <div id="tmn-cards">
         <div id="testimonial-a" style="position:absolute; left:2%; top:21%; width:96%; height:34%; display:flex; flex-direction:column; justify-content:space-between; padding:clamp(26px,2.8vw,50px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; opacity:0; pointer-events:none; will-change:opacity; z-index:4;">
           <p style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:400; color:#E0FFEE; font-size:clamp(16px,1.65vw,28px); line-height:1.5; text-wrap:pretty; flex:1; display:flex; align-items:center;">&ldquo;Nearshore staffing solutions come with challenges. But the time zones, similar cultures, and highly fluent English speakers allow us to partner so tightly to operate without any distinction between our staff and DevSavant&rsquo;s.&rdquo;</p>
           <div style="display:flex; align-items:center; gap:clamp(14px,1.8vw,28px); margin-top:clamp(14px,1.8vh,22px); flex-shrink:0;">
@@ -1323,6 +1435,7 @@
           </div>
         </div>
 
+        </div><!-- /tmn-cards -->
         </div><!-- /tmn-scroll -->
 
         <div id="cli-scroll">
@@ -1379,11 +1492,13 @@
         </div>
 
         <!-- ══════════ STATS cards ══════════ -->
+        <div id="stats-cards">
         <div id="stat-0" style="position:absolute; left:2%; top:21%; width:31%; height:34%; display:flex; flex-direction:column; justify-content:flex-end; padding:clamp(20px,2.2vw,38px); background:rgba(0,0,0,0.15); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.12); border-radius:28px; opacity:0; pointer-events:none; z-index:4;"><svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom:auto;flex-shrink:0;"><rect width="40" height="40" rx="12" fill="rgba(199,255,224,0.10)"/><text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" font-size="20" fill="#C7FFE0">$</text></svg><div style="display:flex;flex-direction:column;gap:4px;"><span style="font-family:'Space Grotesk',sans-serif;font-weight:500;color:#E0FFEE;font-size:clamp(36px,4.5vw,72px);line-height:1.0;letter-spacing:-0.02em;text-shadow:0 2px 24px rgba(10,200,120,0.30);">$100M+</span><span style="font-family:'Inter',sans-serif;font-weight:300;color:rgba(199,255,224,0.65);font-size:clamp(17px,1.7vw,26px);">Raised by our clients</span></div></div>
         <div id="stat-1" style="position:absolute; left:34.5%; top:21%; width:31%; height:34%; display:flex; flex-direction:column; justify-content:flex-end; padding:clamp(20px,2.2vw,38px); background:rgba(0,0,0,0.15); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.12); border-radius:28px; opacity:0; pointer-events:none; z-index:4;"><svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom:auto;flex-shrink:0;"><rect width="40" height="40" rx="12" fill="rgba(199,255,224,0.10)"/><path d="M20 9l9 4v8c0 5-4 9-9 10-5-1-9-5-9-10v-8l9-4z" stroke="#C7FFE0" stroke-width="1.5" fill="none"/><path d="M16 20l3 3 5-5" stroke="#C7FFE0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><div style="display:flex;flex-direction:column;gap:4px;"><span style="font-family:'Space Grotesk',sans-serif;font-weight:500;color:#E0FFEE;font-size:clamp(36px,4.5vw,72px);line-height:1.0;letter-spacing:-0.02em;text-shadow:0 2px 24px rgba(10,200,120,0.30);">5</span><span style="font-family:'Inter',sans-serif;font-weight:300;color:rgba(199,255,224,0.65);font-size:clamp(17px,1.7vw,26px);">VC Partners</span></div></div>
         <div id="stat-2" style="position:absolute; left:67%; top:21%; width:31%; height:34%; display:flex; flex-direction:column; justify-content:flex-end; padding:clamp(20px,2.2vw,38px); background:rgba(0,0,0,0.15); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.12); border-radius:28px; opacity:0; pointer-events:none; z-index:4;"><svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom:auto;flex-shrink:0;"><rect width="40" height="40" rx="12" fill="rgba(199,255,224,0.10)"/><circle cx="20" cy="15" r="4" stroke="#C7FFE0" stroke-width="1.5" fill="none"/><path d="M12 29c0-4.4 3.6-8 8-8s8 3.6 8 8" stroke="#C7FFE0" stroke-width="1.5" stroke-linecap="round" fill="none"/></svg><div style="display:flex;flex-direction:column;gap:4px;"><span style="font-family:'Space Grotesk',sans-serif;font-weight:500;color:#E0FFEE;font-size:clamp(36px,4.5vw,72px);line-height:1.0;letter-spacing:-0.02em;text-shadow:0 2px 24px rgba(10,200,120,0.30);">24</span><span style="font-family:'Inter',sans-serif;font-weight:300;color:rgba(199,255,224,0.65);font-size:clamp(17px,1.7vw,26px);">Active Clients</span></div></div>
         <div id="stat-3" style="position:absolute; left:2%; top:58%; width:64%; height:31%; display:flex; flex-direction:column; justify-content:flex-end; padding:clamp(20px,2.2vw,38px); background:rgba(0,0,0,0.15); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.12); border-radius:28px; opacity:0; pointer-events:none; z-index:4;"><svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom:auto;flex-shrink:0;"><rect width="40" height="40" rx="12" fill="rgba(199,255,224,0.10)"/><circle cx="20" cy="21" r="8" stroke="#C7FFE0" stroke-width="1.5" fill="none"/><path d="M20 17v4l3 2" stroke="#C7FFE0" stroke-width="1.5" stroke-linecap="round" fill="none"/></svg><div style="display:flex;flex-direction:column;gap:4px;"><span style="font-family:'Space Grotesk',sans-serif;font-weight:500;color:#E0FFEE;font-size:clamp(36px,4.5vw,72px);line-height:1.0;letter-spacing:-0.02em;text-shadow:0 2px 24px rgba(10,200,120,0.30);">8+</span><span style="font-family:'Inter',sans-serif;font-weight:300;color:rgba(199,255,224,0.65);font-size:clamp(17px,1.7vw,26px);">Years of experience working in VC Ecosystems</span></div></div>
         <div id="stat-4" style="position:absolute; left:67%; top:58%; width:31%; height:31%; display:flex; flex-direction:column; justify-content:flex-end; padding:clamp(20px,2.2vw,38px); background:rgba(0,0,0,0.15); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.12); border-radius:28px; opacity:0; pointer-events:none; z-index:4;"><svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom:auto;flex-shrink:0;"><rect width="40" height="40" rx="12" fill="rgba(199,255,224,0.10)"/><path d="M20 10l2.9 6.3 6.8.7-5 4.7 1.4 6.8L20 25l-6.1 3.5 1.4-6.8-5-4.7 6.8-.7z" stroke="#C7FFE0" stroke-width="1.5" fill="none"/></svg><div style="display:flex;flex-direction:column;gap:4px;"><span style="font-family:'Space Grotesk',sans-serif;font-weight:500;color:#E0FFEE;font-size:clamp(36px,4.5vw,72px);line-height:1.0;letter-spacing:-0.02em;text-shadow:0 2px 24px rgba(10,200,120,0.30);">4.7/5</span><span style="font-family:'Inter',sans-serif;font-weight:300;color:rgba(199,255,224,0.65);font-size:clamp(17px,1.7vw,26px);">Satisfaction Score</span></div></div>
+        </div><!-- /stats-cards -->
         </div><!-- /stats-scroll -->
       </div>
       <!-- ══════════ END mission-overlay ══════════ -->
@@ -3208,6 +3323,9 @@ class Component extends DCLogic {
     if (now - this._lastWheelT > this._FAQ_GESTURE_GAP_MS) this._wheelGid++;
     this._lastWheelT = now;
     const gid = this._wheelGid;
+    // Keep the swap-release timer alive on every wheel event; only a full idle gap releases it.
+    clearTimeout(this._homeReleaseTimer);
+    this._homeReleaseTimer = setTimeout(() => { this._homeSwapLocked = false; }, this._WHEEL_RELEASE_MS);
     // While parked on the FAQ section, give the question list its own scroll budget
     // (top and bottom) before a wheel gesture is allowed to change section.
     if (!this._snapLock && window.innerWidth >= 768 && this._isParkedAt(this._FAQ_STOP_INDEX)) {
@@ -3245,18 +3363,65 @@ class Component extends DCLogic {
     }
     e.preventDefault();
     if (this._snapLock) return;              // ignore input mid-transition
+    if (this._homeSwapLocked) return;        // held until the wheel goes fully idle (kills momentum chaining)
+    this._homeSwapLocked = true;
     this._homeGo(e.deltaY > 0 ? 1 : -1);
   };
   // Touch swipe: one section per swipe on mobile.
-  _onHomeTouchStart = (e) => { this._touchY = e.touches && e.touches[0] ? e.touches[0].clientY : null; };
+  // On mobile each home section has an inner vertically-scrolling container; a swipe must
+  // scroll THROUGH that content and only change section once it's at the matching edge.
+  _homeInnerByStop = {};
+  _activeHomeInner() {
+    if (window.innerWidth >= 768) return null;
+    const sc = this._scrollEl; if (!sc) return null;
+    const max = sc.scrollHeight - sc.clientHeight; if (max <= 0) return null;
+    const p = sc.scrollTop / max;
+    let idx = 0, best = Infinity;
+    this._homeStops.forEach((s, i) => { const d = Math.abs(s - p); if (d < best) { best = d; idx = i; } });
+    const id = this._homeInnerByStop[idx];
+    if (!id) return null;
+    const el = document.getElementById(id);
+    return (el && el.scrollHeight - el.clientHeight > 4) ? el : null;
+  }
+  _onHomeTouchStart = (e) => {
+    const t = e.touches && e.touches[0];
+    this._touchY = t ? t.clientY : null;
+    this._touchX = t ? t.clientX : null;
+  };
+  // Hard-block native vertical scrolling on the home page (mobile): sections move ONLY via
+  // the programmatic snap, so the scroller can never come to rest between two stops (ghost
+  // transition). Horizontal carousel panning is allowed through.
+  _onHomeTouchMove = (e) => {
+    if (window.innerWidth >= 768) return;
+    if (this._activeSub && this._activeSub()) return;   // subpages keep native scroll
+    if (this._touchY == null || this._touchX == null) return;
+    const t = e.touches && e.touches[0]; if (!t) return;
+    const dy = Math.abs(this._touchY - t.clientY);
+    const dx = Math.abs(this._touchX - t.clientX);
+    if (dy > dx && e.cancelable) e.preventDefault();  // vertical gesture → no native scroll
+  };
   _onHomeTouchEnd = (e) => {
     if (this._touchY == null) return;
     if (this._activeSub && this._activeSub()) { this._touchY = null; return; }
-    const endY = (e.changedTouches && e.changedTouches[0]) ? e.changedTouches[0].clientY : this._touchY;
+    const ct = e.changedTouches && e.changedTouches[0];
+    const endY = ct ? ct.clientY : this._touchY;
+    const endX = ct ? ct.clientX : this._touchX;
     const dy = this._touchY - endY;
-    this._touchY = null;
+    const dx = (this._touchX != null && endX != null) ? (this._touchX - endX) : 0;
+    this._touchY = null; this._touchX = null;
+    // Predominantly-horizontal gesture (carousel swipe) must never change section.
+    if (Math.abs(dx) >= Math.abs(dy)) return;
     if (Math.abs(dy) < 40 || this._snapLock) return;
-    this._homeGo(dy > 0 ? 1 : -1);
+    const dir = dy > 0 ? 1 : -1;
+    // Respect the section's inner scroll: only swap when it's at the edge in the swipe dir.
+    const inner = this._activeHomeInner();
+    if (inner) {
+      const max = inner.scrollHeight - inner.clientHeight;
+      const atTop = inner.scrollTop <= 2, atBottom = inner.scrollTop >= max - 2;
+      if (dir > 0 && !atBottom) return;   // swiping up (→ next) but more content below
+      if (dir < 0 && !atTop) return;      // swiping down (→ prev) but more content above
+    }
+    this._homeGo(dir);
   };
 
   // ─── Subpage scroll cues (shared across PE/GS/OE/AU/VC/BL) ─────────
@@ -3295,6 +3460,14 @@ class Component extends DCLogic {
   _blWheelGid = 0; _blLastWheelT = 0; _blArrivalGid = -1; _blEdgeAccum = 0;
   _BL_GESTURE_GAP_MS = 380;    // idle gap separating one wheel gesture from the next
   _BL_EDGE_BUDGET = 600;       // px a NEW gesture must accumulate at an edge before section change
+  // One-swap-per-gesture: after a swap, stay locked until the wheel has been COMPLETELY
+  // idle for a release window. Trackpad/mouse momentum fires a continuous stream, so as long
+  // as events keep arriving the lock is held — the user must physically stop scrolling and
+  // start a new motion to change section again. This beats gesture-gap ids, which a decaying
+  // momentum tail can slip past when its inter-event gap briefly exceeds the threshold.
+  _WHEEL_RELEASE_MS = 260;
+  _homeSwapLocked = false; _homeReleaseTimer = 0;
+  _subSwapLocked = false; _subReleaseTimer = 0;
   _blParkedOnPosts() {
     if (this._activeSub() !== 'bl') return false;
     const sc = document.getElementById('bl-overlay'); if (!sc) return false;
@@ -3313,6 +3486,19 @@ class Component extends DCLogic {
     const p = sc.scrollTop / max;
     if (key === 'bl' && Math.abs(p - cfg.stops[1]) < 0.05) return document.getElementById('bl-s1-grid');
     if (key === 'cr' && Math.abs(p - cfg.stops[1]) < 0.05) return document.getElementById('cr-s1-grid');
+    // Our Expertise: each case-study section (stops 1..10) owns an expanded accordion card
+    // whose body scrolls internally. Feed that body into the same budget system so a wheel
+    // reads through the card before the section is allowed to change.
+    if (key === 'oe') {
+      for (let si = 1; si <= 10; si++) {
+        if (Math.abs(p - cfg.stops[si]) < 0.04) {
+          const expKey = (this._oeExpanded && this._oeExpanded[si - 1]) || 'prob';
+          const card = document.getElementById('oe-s' + si + '-' + expKey);
+          const body = card ? card.querySelector('.oe-scrollbar-hide') : null;
+          return (body && body.scrollHeight - body.clientHeight > 4) ? body : null;
+        }
+      }
+    }
     return null;
   }
   // Custom eased scroll for subpages — matches the home section-snap so the glass morph
@@ -3339,6 +3525,12 @@ class Component extends DCLogic {
     let grid = null;
     if (key === 'bl' && idx === this._BL_POSTS_STOP) grid = document.getElementById('bl-s1-grid');
     if (key === 'cr' && idx === 1) grid = document.getElementById('cr-s1-grid');
+    if (key === 'oe' && idx >= 1 && idx <= 10) {
+      const expKey = (this._oeExpanded && this._oeExpanded[idx - 1]) || 'prob';
+      const card = document.getElementById('oe-s' + idx + '-' + expKey);
+      const body = card ? card.querySelector('.oe-scrollbar-hide') : null;
+      if (body && body.scrollHeight - body.clientHeight > 4) grid = body;
+    }
     if (!grid) return;
     const max = grid.scrollHeight - grid.clientHeight;
     grid.scrollTop = dir < 0 ? max : 0;
@@ -3350,6 +3542,18 @@ class Component extends DCLogic {
     if (!this._activeSub()) return;      // only intercept while a subpage is open
     if (e.target && e.target.closest && e.target.closest('#ask-widget, #agent-messages, #mobile-menu')) return;
     if (Math.abs(e.deltaY) < 2) return;
+    // Gesture id for the whole subpage wheel stream (idle gap = new gesture). Computed once
+    // up front so both the inner-grid budget and the section-swap guard share it.
+    {
+      const now = performance.now();
+      if (now - this._blLastWheelT > this._BL_GESTURE_GAP_MS) this._blWheelGid++;
+      this._blLastWheelT = now;
+    }
+    const sgid = this._blWheelGid;
+    // Every wheel event (incl. momentum) keeps the release timer alive; only a full idle
+    // gap of _WHEEL_RELEASE_MS releases the swap lock, requiring a fresh, deliberate motion.
+    clearTimeout(this._subReleaseTimer);
+    this._subReleaseTimer = setTimeout(() => { this._subSwapLocked = false; }, this._WHEEL_RELEASE_MS);
     // Blog "Recent posts": give the grid its own scroll budget when parked on that section.
     const _pgrid = (!this._subSnapLock && window.innerWidth >= 768) ? this._parkedInnerGrid() : null;
     if (_pgrid) {
@@ -3357,11 +3561,7 @@ class Component extends DCLogic {
       if (grid) {
         const max = grid.scrollHeight - grid.clientHeight;
         if (max > 4) {
-          // gesture id: a whole flick (incl. its inertia tail) shares one id
-          const now = performance.now();
-          if (now - this._blLastWheelT > this._BL_GESTURE_GAP_MS) this._blWheelGid++;
-          this._blLastWheelT = now;
-          const gid = this._blWheelGid;
+          const gid = sgid;
           const atTop = grid.scrollTop <= 0, atBottom = grid.scrollTop >= max - 1;
           const goingDown = e.deltaY > 0;
           if ((goingDown && !atBottom) || (!goingDown && !atTop)) {
@@ -3383,6 +3583,8 @@ class Component extends DCLogic {
     }
     e.preventDefault();
     if (this._subSnapLock) return;       // ignore input mid-transition
+    if (this._subSwapLocked) return;     // held until the wheel goes fully idle (kills momentum chaining)
+    this._subSwapLocked = true;
     this._subGo(e.deltaY > 0 ? 1 : -1);
   };
   // Scroll-cue arrows on a subpage: same behavior as a wheel gesture. On the blog posts
@@ -3467,16 +3669,18 @@ class Component extends DCLogic {
           el.removeEventListener('scroll', prev.scroll);
           el.removeEventListener('wheel', prev.wheel);
           el.removeEventListener('touchstart', prev.touchstart);
+          el.removeEventListener('touchmove', prev.touchmove);
           el.removeEventListener('touchend', prev.touchend);
         }
         this._scrollEl = el;
         el.addEventListener('scroll', this._onScroll, { passive: true });
         el.addEventListener('wheel', this._onHomeWheel, { passive: false });
         el.addEventListener('touchstart', this._onHomeTouchStart, { passive: true });
+        el.addEventListener('touchmove', this._onHomeTouchMove, { passive: false });
         el.addEventListener('touchend', this._onHomeTouchEnd, { passive: true });
         el.__homeHandlers = {
           scroll: this._onScroll, wheel: this._onHomeWheel,
-          touchstart: this._onHomeTouchStart, touchend: this._onHomeTouchEnd,
+          touchstart: this._onHomeTouchStart, touchmove: this._onHomeTouchMove, touchend: this._onHomeTouchEnd,
         };
         this._applyScroll();
       },
@@ -3686,6 +3890,13 @@ class Component extends DCLogic {
     clip.querySelectorAll('.faq-item').forEach(item => {
       const body = item.querySelector('.faq-body');
       if (body) body.style.setProperty('transition', 'none', 'important');
+      if (window.innerWidth < 768) {
+        // Mobile: FAQ is a horizontal grid of always-expanded cards — let CSS own the
+        // body height instead of the accordion's inline max-height, and skip toggling.
+        if (body) { body.style.removeProperty('max-height'); body.style.removeProperty('overflow'); }
+        item.dataset.open = '1';
+        return;
+      }
       collapse(item, false);
       item.addEventListener('click', () => {
         const wasOpen = item.dataset.open === '1';
@@ -4428,7 +4639,7 @@ class Component extends DCLogic {
       this._oeScrollListenerAdded = true;
     }
     this._bindSubScroll(oeOvl);
-    setTimeout(() => { this._setupOEMorph(); this._applyOEScroll(); }, 300);
+    setTimeout(() => { this._setupOEMorph(); this._setupOEAccordion(); this._applyOEScroll(); }, 300);
   }
 
   _setupOEMorph() {
@@ -4452,12 +4663,11 @@ class Component extends DCLogic {
     if (!mob) {
       const areaTop = t ? 16 : 20, areaBottom = t ? 80 : 94, gap = t ? 1.4 : 1.5;
       const span = areaBottom - areaTop;
-      const cardH = (span - 2 * gap) / 3;
-      const c1y = areaTop, c2y = areaTop + cardH + gap, c3y = areaTop + 2 * (cardH + gap);
+      const b = this._oeBands(i, span, areaTop, gap);
       const img = { x: 0.02 * w, y: (areaTop / 100) * h, w: 0.44 * w, h: (span / 100) * h, rx: 40 };
-      const mkCard = (y) => ({ x: 0.48 * w, y: (y / 100) * h, w: 0.50 * w, h: (cardH / 100) * h, rx: 40 });
+      const mkCard = (band) => ({ x: 0.48 * w, y: (band.y / 100) * h, w: 0.50 * w, h: (band.h / 100) * h, rx: 40 });
       const testi = t ? { x: 0.02 * w, y: 0.83 * h, w: 0.96 * w, h: 0.14 * h, rx: 18 } : { x: w * 0.5, y: h * 0.5, w: 2, h: 2, rx: 18 };
-      return { img, prob: mkCard(c1y), sol: mkCard(c2y), res: mkCard(c3y), testi };
+      return { img, prob: mkCard(b.prob), sol: mkCard(b.sol), res: mkCard(b.res), testi };
     }
     // Mobile: stacked full-width bands
     const M = 0.04 * w, FW = 0.92 * w;
@@ -4470,6 +4680,85 @@ class Component extends DCLogic {
     const res = { x: M, y: cy, w: FW, h: cardH, rx: 20 }; cy += cardH + gapPx;
     const testi = t ? { x: M, y: cy, w: FW, h: 0.16 * h, rx: 18 } : { x: w * 0.5, y: h * 0.5, w: 2, h: 2, rx: 18 };
     return { img, prob, sol, res, testi };
+  }
+
+  // ─── Our Expertise accordion (exclusive expand for prob/sol/res) ────
+  _oeExpandedKey(i) {
+    if (!this._oeExpanded) this._oeExpanded = {};
+    if (this._oeExpanded[i] === undefined) this._oeExpanded[i] = 'prob';
+    return this._oeExpanded[i];
+  }
+  _oeTargetHeights(i, span, gap) {
+    const exp = this._oeExpandedKey(i);
+    if (!exp) { const c = (span - 2 * gap) / 3; return [c, c, c]; }
+    const collapsedH = 8;
+    const expandedH = span - 2 * collapsedH - 2 * gap;
+    return ['prob', 'sol', 'res'].map(k => (k === exp ? expandedH : collapsedH));
+  }
+  _oeCurHeights(i, span, gap) {
+    if (!this._oeHeights) this._oeHeights = {};
+    if (!this._oeHeights[i]) this._oeHeights[i] = this._oeTargetHeights(i, span, gap);
+    return this._oeHeights[i];
+  }
+  _oeBands(i, span, areaTop, gap) {
+    const hs = this._oeCurHeights(i, span, gap);
+    const y1 = areaTop, y2 = y1 + hs[0] + gap, y3 = y2 + hs[1] + gap;
+    return { prob: { y: y1, h: hs[0] }, sol: { y: y2, h: hs[1] }, res: { y: y3, h: hs[2] } };
+  }
+  _oeToggle(i, key) {
+    const t = this._oeHasTesti(i);
+    const areaTop = t ? 16 : 20, gap = t ? 1.4 : 1.5;
+    const span = (t ? 80 : 94) - areaTop;
+    if (!this._oeExpanded) this._oeExpanded = {};
+    if (this._oeExpanded[i] === key) return; // already open → keep open (exclusive, always one)
+    this._oeExpanded[i] = key;
+    const start = this._oeCurHeights(i, span, gap).slice();
+    const end = this._oeTargetHeights(i, span, gap);
+    const t0 = performance.now(), dur = 460;
+    const ease = x => (x < 0.5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2);
+    if (this._oeAnimRAF) cancelAnimationFrame(this._oeAnimRAF);
+    const step = (now) => {
+      const k = Math.min(1, (now - t0) / dur), e = ease(k);
+      this._oeHeights[i] = start.map((s, idx) => s + (end[idx] - s) * e);
+      this._applyOEScroll();
+      if (k < 1) this._oeAnimRAF = requestAnimationFrame(step);
+    };
+    this._oeAnimRAF = requestAnimationFrame(step);
+  }
+  _setupOEAccordion() {
+    if (this._oeAccordionReady) return;
+    // The hero/intro layer sits above the cards (z-index 3) and would swallow
+    // card clicks — make it pass-through except for its actual content block.
+    const hl = document.getElementById('oe-hero-layer');
+    if (hl) {
+      hl.style.pointerEvents = 'none';
+      hl.querySelectorAll('a, button, [onclick], [role="button"]').forEach(b => { b.style.pointerEvents = 'auto'; });
+    }
+    let any = false;
+    for (let n = 1; n <= 10; n++) {
+      const i = n - 1;
+      ['prob', 'sol', 'res'].forEach(key => {
+        const el = document.getElementById('oe-s' + n + '-' + key);
+        if (!el) return;
+        any = true;
+        el.style.cursor = 'pointer';
+        el._oeBody = el.querySelector('.oe-scrollbar-hide');
+        const h3 = el.querySelector('h3');
+        if (h3 && !el._oeChev) {
+          h3.style.display = 'flex';
+          h3.style.alignItems = 'center';
+          h3.style.justifyContent = 'space-between';
+          h3.style.gap = '12px';
+          const chev = document.createElement('span');
+          chev.textContent = '+';
+          chev.style.cssText = 'flex-shrink:0;font-family:Inter,sans-serif;font-weight:300;font-size:1.35em;line-height:1;color:#9DEBC2;opacity:0.75;width:1em;text-align:center;';
+          h3.appendChild(chev);
+          el._oeChev = chev;
+        }
+        el.addEventListener('click', (ev) => { ev.stopPropagation(); this._oeToggle(i, key); });
+      });
+    }
+    if (any) this._oeAccordionReady = true;
   }
 
   _applyOEScroll() {
@@ -4502,6 +4791,29 @@ class Component extends DCLogic {
       const inS = S[i] + 0.028, outS = (i < N - 1 ? S[i + 1] : 0.90) - 0.012;
       const op = cl((p - inS) / 0.03) * (1 - cl((p - outS) / 0.025));
       ids.forEach(id => { const el = document.getElementById(id); if (el) { el.style.opacity = String(op); el.style.pointerEvents = op > 0.5 ? 'auto' : 'none'; } });
+    }
+    // Accordion layout (desktop): position prob/sol/res cards + fade collapsed bodies
+    if (!mob) {
+      for (let i = 0; i < N; i++) {
+        const n = i + 1;
+        const t = this._oeHasTesti(i);
+        const areaTop = t ? 16 : 20, gap = t ? 1.4 : 1.5, span = (t ? 80 : 94) - areaTop;
+        const b = this._oeBands(i, span, areaTop, gap);
+        const collapsedH = 8;
+        [['prob', b.prob], ['sol', b.sol], ['res', b.res]].forEach(pair => {
+          const el = document.getElementById('oe-s' + n + '-' + pair[0]);
+          if (!el) return;
+          const band = pair[1];
+          el.style.top = band.y.toFixed(2) + '%';
+          el.style.height = band.h.toFixed(2) + '%';
+          const bodyOp = Math.max(0, Math.min(1, (band.h - collapsedH - 1) / 5));
+          const open = bodyOp > 0.5;
+          const secVisible = parseFloat(el.style.opacity || '0') > 0.5;
+          if (el._oeBody) { el._oeBody.style.opacity = String(bodyOp); el._oeBody.style.pointerEvents = (open && secVisible) ? 'auto' : 'none'; }
+          el.style.justifyContent = open ? 'flex-start' : 'center';
+          if (el._oeChev) el._oeChev.textContent = open ? '\u2212' : '+';
+        });
+      }
     }
     // CTA finale
     const ctaGlassOp = cl((p - 0.90) / 0.04);
