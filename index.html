@@ -245,6 +245,19 @@
     .faq-item.open .faq-body { max-height:360px !important; }
     .faq-item .faq-chevron { display:inline-block; transition:transform 0.3s ease; }
     .faq-item.open .faq-chevron { transform:rotate(90deg); }
+    /* ── Desktop FAQ: master/detail two-pane (no inner scroll) ── */
+    @media (min-width:768px){
+      .faq-two-pane { display:flex !important; flex-direction:row !important; gap:clamp(16px,1.7vw,30px); align-items:stretch; }
+      .faq-two-pane .faq-list { display:flex; flex-direction:column; gap:clamp(5px,0.7vh,9px); width:40%; flex:0 0 40%; height:100%; }
+      .faq-two-pane .faq-list .faq-item { flex:1 1 0; min-height:0; display:flex; align-items:center; padding-top:0 !important; padding-bottom:0 !important; }
+      .faq-two-pane .faq-list .faq-item .faq-body { display:none !important; }
+      .faq-two-pane .faq-list .faq-item .faq-header { width:100%; }
+      .faq-two-pane .faq-list .faq-item .faq-header span:first-child { display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-size:clamp(12px,0.95vw,16px) !important; line-height:1.25 !important; }
+      .faq-two-pane .faq-list .faq-item.faq-active { background:rgba(0,0,0,0.40) !important; border-color:rgba(199,255,224,0.42) !important; }
+      .faq-two-pane .faq-list .faq-item.faq-active .faq-header span:first-child { color:#EFFFF7 !important; }
+      .faq-two-pane .faq-list .faq-item.faq-active .faq-chevron { transform:rotate(90deg); color:#8FF5C2; }
+      .faq-two-pane .faq-answer { flex:1 1 auto; display:flex; flex-direction:column; justify-content:center; }
+    }
 
     .nav-item-services { position: relative; }
     .nav-item-services:hover { z-index: 100; }
@@ -414,7 +427,7 @@
       #clients-grid > div { border-radius: 16px !important; }
       .faq-item { border-radius: 14px !important; }
       #mission-a { left: 5% !important; width: 90% !important; }
-      #mission-b { right: 5% !important; width: 78% !important; }
+      #mission-b { left: 50% !important; right: auto !important; width: 72% !important; transform: translateX(-50%) !important; }
       /* Services: same column model as other sections (headline in-flow on top),
          but the cards live in a horizontal scroll row beneath the headline. */
       #svc-scroll {
@@ -622,6 +635,8 @@
       #faq-items .faq-item .faq-body::-webkit-scrollbar { display: none; }
       #faq-items .faq-item .faq-header span:first-child { font-size: clamp(13px, 3.6vw, 15px) !important; }
       #faq-items .faq-item .faq-body p { font-size: clamp(12px, 3.2vw, 14px) !important; line-height: 1.5 !important; }
+      .faq-list { display:contents !important; }
+      .faq-answer { display:none !important; }
       #services-headline {
         position: relative !important;
         left: auto !important; top: auto !important;
@@ -744,18 +759,34 @@
         flex-direction: column !important;
         align-items: flex-start !important;
       }
-      /* FAQ inside its pinned scroll section */
+      /* FAQ (mobile): horizontal card scroller like homepage */
       #pe-faq-clip {
         position: relative !important;
         left: auto !important; top: auto !important; right: auto !important; bottom: auto !important;
-        width: 100% !important; height: auto !important;
-        overflow: visible !important;
+        width: 100% !important; height: 56vh !important; max-height: 460px !important;
+        overflow-x: auto !important; overflow-y: hidden !important;
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior-x: contain; touch-action: pan-x;
+        scroll-snap-type: x mandatory;
+        scrollbar-width: none;
         flex-shrink: 0 !important;
       }
+      #pe-faq-clip::-webkit-scrollbar { display: none; }
       #pe-faq-items {
-        position: relative !important;
+        position: relative !important; inset: auto !important;
         top: auto !important; left: auto !important; right: auto !important;
+        display: flex !important; flex-direction: row !important;
+        gap: 14px !important; height: 100% !important; width: max-content !important;
       }
+      #pe-faq-items .faq-item {
+        flex: 0 0 80vw !important; max-width: 340px !important; height: 100% !important;
+        scroll-snap-align: start;
+        display: flex !important; flex-direction: column !important;
+        overflow: hidden !important; opacity: 1 !important;
+      }
+      #pe-faq-items .faq-item .faq-chevron { display: none !important; }
+      #pe-faq-items .faq-item .faq-body { max-height: none !important; overflow-y: auto !important; flex: 1 1 auto !important; min-height: 0 !important; scrollbar-width: none; }
+      #pe-faq-items .faq-item .faq-body::-webkit-scrollbar { display: none; }
       /* CTA finale stays full-bleed pinned */
       #pe-cta-content { padding-left: 24px !important; padding-right: 24px !important; }
 
@@ -810,14 +841,34 @@
       #gs-radar-card { padding: 20px 16px !important; flex: 1 1 auto !important; min-height: 0 !important; }
       #gs-radar-holder { min-height: 0 !important; }
       #gs-radar-holder svg { max-width: none !important; }
+      /* FAQ (mobile): horizontal card scroller like homepage */
       #gs-faq-clip {
         position: relative !important;
         left: auto !important; top: auto !important; right: auto !important; bottom: auto !important;
-        width: 100% !important; height: auto !important;
-        overflow: visible !important;
+        width: 100% !important; height: 56vh !important; max-height: 460px !important;
+        overflow-x: auto !important; overflow-y: hidden !important;
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior-x: contain; touch-action: pan-x;
+        scroll-snap-type: x mandatory;
+        scrollbar-width: none;
         flex-shrink: 0 !important;
       }
-      #gs-faq-items { position: relative !important; top: auto !important; left: auto !important; right: auto !important; }
+      #gs-faq-clip::-webkit-scrollbar { display: none; }
+      #gs-faq-items {
+        position: relative !important; inset: auto !important;
+        top: auto !important; left: auto !important; right: auto !important;
+        display: flex !important; flex-direction: row !important;
+        gap: 14px !important; height: 100% !important; width: max-content !important;
+      }
+      #gs-faq-items .faq-item {
+        flex: 0 0 80vw !important; max-width: 340px !important; height: 100% !important;
+        scroll-snap-align: start;
+        display: flex !important; flex-direction: column !important;
+        overflow: hidden !important; opacity: 1 !important;
+      }
+      #gs-faq-items .faq-item .faq-chevron { display: none !important; }
+      #gs-faq-items .faq-item .faq-body { max-height: none !important; overflow-y: auto !important; flex: 1 1 auto !important; min-height: 0 !important; scrollbar-width: none; }
+      #gs-faq-items .faq-item .faq-body::-webkit-scrollbar { display: none; }
       #gs-cta-content { padding-left: 24px !important; padding-right: 24px !important; }
       #oe-cta-content { padding-left: 24px !important; padding-right: 24px !important; }
 
@@ -1062,8 +1113,13 @@
         backdrop-filter: blur(30px) saturate(150%);
         -webkit-backdrop-filter: blur(30px) saturate(150%);
         border-top: 1px solid rgba(255,255,255,0.14);
-        pointer-events: auto !important;
       }
+      /* Only the ACTIVE bar captures taps. The subpage bar is a full-width bottom
+         glass bar too, so if it stayed hit-testable while inert it would sit on top
+         of the home bar and swallow every arrow tap. Let it inherit its container's
+         pointer-events (none until a subpage is actually active). */
+      #home-cue-group { pointer-events: auto !important; }
+      #sub-cue-group { pointer-events: inherit; }
     }
   </style>
 </helmet>
@@ -1469,7 +1525,7 @@
 
         <!-- ══════════ FAQ items (no z-index on clip = backdrop-filter reaches canvas) ══════════ -->
         <div id="faq-clip" style="position:absolute; left:2%; top:15%; width:96%; height:76%; overflow:hidden; pointer-events:auto;">
-          <div id="faq-items" style="position:absolute; top:0; left:0; right:0; display:flex; flex-direction:column; gap:clamp(8px,1vh,11px);">
+          <div id="faq-items" class="faq-two-pane" style="position:absolute; inset:0; display:flex; flex-direction:column; gap:clamp(8px,1vh,11px);"><div id="faq-list" class="faq-list">
             <div class="faq-item" data-idx="0" style="padding:clamp(14px,1.6vw,22px) clamp(20px,2.2vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.12); border-radius:18px; cursor:pointer; opacity:0;"><div class="faq-header" style="display:flex; align-items:center; justify-content:space-between; gap:20px;"><span style="font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(13px,1.2vw,19px); line-height:1.3;">Do you work with startups at any stage?</span><span class="faq-chevron" style="color:#C7FFE0; font-size:clamp(16px,1.4vw,22px); flex-shrink:0;">&#x203A;</span></div><div class="faq-body"><p style="margin:clamp(10px,1.2vh,16px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.80); font-size:clamp(12px,1.0vw,16px); line-height:1.65; text-wrap:pretty;">Yes. We support from early-stage founders without a tech team or revenue to established companies +300M in ARR that need to accelerate initiatives or extend technical capabilities.</p></div></div>
             <div class="faq-item" data-idx="1" style="padding:clamp(14px,1.6vw,22px) clamp(20px,2.2vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.12); border-radius:18px; cursor:pointer; opacity:0;"><div class="faq-header" style="display:flex; align-items:center; justify-content:space-between; gap:20px;"><span style="font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(13px,1.2vw,19px); line-height:1.3;">How do you validate whether my idea is technically feasible?</span><span class="faq-chevron" style="color:#C7FFE0; font-size:clamp(16px,1.4vw,22px); flex-shrink:0;">&#x203A;</span></div><div class="faq-body"><p style="margin:clamp(10px,1.2vh,16px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.80); font-size:clamp(12px,1.0vw,16px); line-height:1.65; text-wrap:pretty;">We run a fast Discovery process to validate assumptions, technical feasibility, and risks. You receive clear insights, budget estimates, and an execution blueprint before any development begins.</p></div></div>
             <div class="faq-item" data-idx="2" style="padding:clamp(14px,1.6vw,22px) clamp(20px,2.2vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.12); border-radius:18px; cursor:pointer; opacity:0;"><div class="faq-header" style="display:flex; align-items:center; justify-content:space-between; gap:20px;"><span style="font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(13px,1.2vw,19px); line-height:1.3;">How quickly can you deliver a prototype or MVP?</span><span class="faq-chevron" style="color:#C7FFE0; font-size:clamp(16px,1.4vw,22px); flex-shrink:0;">&#x203A;</span></div><div class="faq-body"><p style="margin:clamp(10px,1.2vh,16px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.80); font-size:clamp(12px,1.0vw,16px); line-height:1.65; text-wrap:pretty;">Depending on scope, we deliver prototypes within weeks and MVPs in short iterations, supported by our AI-first approach and a team that scales dynamically.</p></div></div>
@@ -1481,8 +1537,13 @@
             <div class="faq-item" data-idx="8" style="padding:clamp(14px,1.6vw,22px) clamp(20px,2.2vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.12); border-radius:18px; cursor:pointer; opacity:0;"><div class="faq-header" style="display:flex; align-items:center; justify-content:space-between; gap:20px;"><span style="font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(13px,1.2vw,19px); line-height:1.3;">How do you ensure long-term stability and low turnover?</span><span class="faq-chevron" style="color:#C7FFE0; font-size:clamp(16px,1.4vw,22px); flex-shrink:0;">&#x203A;</span></div><div class="faq-body"><p style="margin:clamp(10px,1.2vh,16px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.80); font-size:clamp(12px,1.0vw,16px); line-height:1.65; text-wrap:pretty;">Our engineers are fully embedded into your team, and all day-to-day management is handled directly by you. We stay in a consultative role providing market insights and compensation guidance. This shared model keeps talent aligned, motivated, and consistent over time.</p></div></div>
             <div class="faq-item" data-idx="9" style="padding:clamp(14px,1.6vw,22px) clamp(20px,2.2vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.12); border-radius:18px; cursor:pointer; opacity:0;"><div class="faq-header" style="display:flex; align-items:center; justify-content:space-between; gap:20px;"><span style="font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(13px,1.2vw,19px); line-height:1.3;">Can your staff integrate with our internal team and processes?</span><span class="faq-chevron" style="color:#C7FFE0; font-size:clamp(16px,1.4vw,22px); flex-shrink:0;">&#x203A;</span></div><div class="faq-body"><p style="margin:clamp(10px,1.2vh,16px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.80); font-size:clamp(12px,1.0vw,16px); line-height:1.65; text-wrap:pretty;">Absolutely. Our team members embed fully into your workflows, tools, standups, and delivery rhythm, functioning as an extension of your team.</p></div></div>
             <div class="faq-item" data-idx="10" style="padding:clamp(14px,1.6vw,22px) clamp(20px,2.2vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.12); border-radius:18px; cursor:pointer; opacity:0;"><div class="faq-header" style="display:flex; align-items:center; justify-content:space-between; gap:20px;"><span style="font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(13px,1.2vw,19px); line-height:1.3;">Do you offer flexible engagement models?</span><span class="faq-chevron" style="color:#C7FFE0; font-size:clamp(16px,1.4vw,22px); flex-shrink:0;">&#x203A;</span></div><div class="faq-body"><p style="margin:clamp(10px,1.2vh,16px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.80); font-size:clamp(12px,1.0vw,16px); line-height:1.65; text-wrap:pretty;">Yes. You can scale up or down as needs evolve, with transparent costs and flexible terms.</p></div></div>
-          </div>
-        </div>
+          </div><!-- /faq-list -->
+          <div id="faq-answer" class="faq-answer" style="opacity:0; padding:clamp(24px,2.6vw,46px) clamp(24px,2.4vw,44px); background:rgba(0,0,0,0.20); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.12); border-radius:22px;">
+            <span id="faq-a-q" class="faq-a-q" style="font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(21px,1.9vw,34px); line-height:1.18; letter-spacing:-0.01em; text-shadow:0 2px 20px rgba(31,98,255,0.28);"></span>
+            <p id="faq-a-body" class="faq-a-body" style="margin:clamp(14px,1.6vh,22px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.82); font-size:clamp(15px,1.15vw,20px); line-height:1.7; text-wrap:pretty;"></p>
+          </div><!-- /faq-answer -->
+          </div><!-- /faq-items -->
+        </div><!-- /faq-clip -->
 
         </div><!-- /faq-scroll -->
         <div id="stats-scroll">
@@ -1777,12 +1838,17 @@
               <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(28px,3.2vw,56px); line-height:1.0; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.35);">Common Questions About AI &amp; Product Development</h2>
             </div>
             <div id="pe-faq-clip" style="position:absolute; left:2%; top:17%; width:96%; height:81%; overflow:hidden; pointer-events:none;">
-              <div id="pe-faq-items" style="position:absolute; top:0; left:0; right:0; display:flex; flex-direction:column; gap:clamp(8px,1.1vh,13px);">
+              <div id="pe-faq-items" class="faq-two-pane" style="position:absolute; inset:0; display:flex; flex-direction:column; gap:clamp(8px,1.1vh,13px);"><div class="faq-list">
                 <div class="faq-item" data-idx="0" style="padding:clamp(16px,1.7vw,24px) clamp(20px,2.2vw,32px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.12); border-radius:18px; cursor:pointer; opacity:0;"><div class="faq-header" style="display:flex; align-items:center; justify-content:space-between; gap:20px;"><span style="font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(15px,1.3vw,21px); line-height:1.3;">How involved do I need to be during a project?</span><span class="faq-chevron" style="color:#C7FFE0; font-size:clamp(18px,1.5vw,24px); flex-shrink:0;">&#x203A;</span></div><div class="faq-body"><p style="margin:clamp(10px,1.2vh,16px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.80); font-size:clamp(13px,1.05vw,17px); line-height:1.65; text-wrap:pretty;">Our process is collaborative but lightweight. You set priorities; we execute with transparency, predictable communication, and minimal friction.</p></div></div>
                 <div class="faq-item" data-idx="1" style="padding:clamp(16px,1.7vw,24px) clamp(20px,2.2vw,32px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.12); border-radius:18px; cursor:pointer; opacity:0;"><div class="faq-header" style="display:flex; align-items:center; justify-content:space-between; gap:20px;"><span style="font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(15px,1.3vw,21px); line-height:1.3;">How do you validate whether my idea is technically feasible before investing?</span><span class="faq-chevron" style="color:#C7FFE0; font-size:clamp(18px,1.5vw,24px); flex-shrink:0;">&#x203A;</span></div><div class="faq-body"><p style="margin:clamp(10px,1.2vh,16px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.80); font-size:clamp(13px,1.05vw,17px); line-height:1.65; text-wrap:pretty;">We adapt quickly. Our model is flexible, allowing us to adjust the roadmap and deliverables while keeping alignment with your business goals. All ideas are evaluated by our technical team, as our main priority is to maintain high quality in our deliveries.</p></div></div>
                 <div class="faq-item" data-idx="2" style="padding:clamp(16px,1.7vw,24px) clamp(20px,2.2vw,32px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.12); border-radius:18px; cursor:pointer; opacity:0;"><div class="faq-header" style="display:flex; align-items:center; justify-content:space-between; gap:20px;"><span style="font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(15px,1.3vw,21px); line-height:1.3;">How quickly can you deliver a prototype or MVP?</span><span class="faq-chevron" style="color:#C7FFE0; font-size:clamp(18px,1.5vw,24px); flex-shrink:0;">&#x203A;</span></div><div class="faq-body"><p style="margin:clamp(10px,1.2vh,16px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.80); font-size:clamp(13px,1.05vw,17px); line-height:1.65; text-wrap:pretty;">Depending on scope, we deliver prototypes within weeks and MVPs in short iterations. We can integrate with what you already have or recommend a new architecture if it&rsquo;s more efficient or cost-effective.</p></div></div>
                 <div class="faq-item" data-idx="3" style="padding:clamp(16px,1.7vw,24px) clamp(20px,2.2vw,32px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.12); border-radius:18px; cursor:pointer; opacity:0;"><div class="faq-header" style="display:flex; align-items:center; justify-content:space-between; gap:20px;"><span style="font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(15px,1.3vw,21px); line-height:1.3;">How do you integrate AI into what you build?</span><span class="faq-chevron" style="color:#C7FFE0; font-size:clamp(18px,1.5vw,24px); flex-shrink:0;">&#x203A;</span></div><div class="faq-body"><p style="margin:clamp(10px,1.2vh,16px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.80); font-size:clamp(13px,1.05vw,17px); line-height:1.65; text-wrap:pretty;">We use clear technical requirements, strong architecture foundations, code best practices, and continuous iteration. We integrate AI only where it drives real operational or product value &mdash; everything is built for long-term maintainability.</p></div></div>
                 <div class="faq-item" data-idx="4" style="padding:clamp(16px,1.7vw,24px) clamp(20px,2.2vw,32px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.12); border-radius:18px; cursor:pointer; opacity:0;"><div class="faq-header" style="display:flex; align-items:center; justify-content:space-between; gap:20px;"><span style="font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(15px,1.3vw,21px); line-height:1.3;">What if I only have an idea and no documentation?</span><span class="faq-chevron" style="color:#C7FFE0; font-size:clamp(18px,1.5vw,24px); flex-shrink:0;">&#x203A;</span></div><div class="faq-body"><p style="margin:clamp(10px,1.2vh,16px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.80); font-size:clamp(13px,1.05vw,17px); line-height:1.65; text-wrap:pretty;">We offer tiered discovery packages based on where you are. Whether you arrive with just a concept or a full technical spec, we meet you at your stage and build the right foundation before development starts.</p></div></div>
+              </div><!-- /faq-list -->
+              <div class="faq-answer" id="pe-faq-answer" style="opacity:0; padding:clamp(24px,2.6vw,46px) clamp(24px,2.4vw,44px); background:rgba(0,0,0,0.20); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.12); border-radius:22px;">
+                <span class="faq-a-q" style="font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(21px,1.9vw,34px); line-height:1.18; letter-spacing:-0.01em; text-shadow:0 2px 20px rgba(31,98,255,0.28);"></span>
+                <p class="faq-a-body" style="margin:clamp(14px,1.6vh,22px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.82); font-size:clamp(15px,1.15vw,20px); line-height:1.7; text-wrap:pretty;"></p>
+              </div><!-- /faq-answer -->
               </div>
             </div>
 
@@ -2046,7 +2112,7 @@
                 <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(28px,3.2vw,56px); line-height:1.0; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.35);">Global Staffing FAQs</h2>
               </div>
               <div id="gs-faq-clip" style="position:absolute; left:2%; top:16%; width:96%; height:82%; overflow:hidden; pointer-events:none; z-index:4;">
-                <div id="gs-faq-items" style="position:absolute; top:0; left:0; right:0; display:flex; flex-direction:column; gap:clamp(8px,1.0vh,12px);">
+                <div id="gs-faq-items" class="faq-two-pane" style="position:absolute; inset:0; display:flex; flex-direction:column; gap:clamp(8px,1.0vh,12px);"><div class="faq-list">
                   <div class="faq-item" data-idx="0" style="padding:clamp(14px,1.5vw,22px) clamp(20px,2.2vw,32px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.12); border-radius:18px; cursor:pointer; opacity:0;"><div class="faq-header" style="display:flex; align-items:center; justify-content:space-between; gap:20px;"><span style="font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(15px,1.25vw,20px); line-height:1.3;">Do the engineers work in my timezone?</span><span class="faq-chevron" style="color:#C7FFE0; font-size:clamp(18px,1.5vw,24px); flex-shrink:0;">&#x203A;</span></div><div class="faq-body"><p style="margin:clamp(10px,1.2vh,16px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.80); font-size:clamp(13px,1.05vw,17px); line-height:1.65; text-wrap:pretty;">Yes. We align talent by timezone and availability. LATAM offers strong real-time overlap for U.S. teams, and Asia provides extended coverage for follow-the-sun execution when needed.</p></div></div>
                   <div class="faq-item" data-idx="1" style="padding:clamp(14px,1.5vw,22px) clamp(20px,2.2vw,32px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.12); border-radius:18px; cursor:pointer; opacity:0;"><div class="faq-header" style="display:flex; align-items:center; justify-content:space-between; gap:20px;"><span style="font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(15px,1.25vw,20px); line-height:1.3;">What roles can you help us hire?</span><span class="faq-chevron" style="color:#C7FFE0; font-size:clamp(18px,1.5vw,24px); flex-shrink:0;">&#x203A;</span></div><div class="faq-body"><p style="margin:clamp(10px,1.2vh,16px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.80); font-size:clamp(13px,1.05vw,17px); line-height:1.65; text-wrap:pretty;">We support a wide range of technical and non-technical roles, including software engineers, AI and ML engineers, data specialists, QA engineers, DevOps engineers, UX and UI designers, product managers, billing analysts, accountants, and technical project managers.</p></div></div>
                   <div class="faq-item" data-idx="2" style="padding:clamp(14px,1.5vw,22px) clamp(20px,2.2vw,32px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.12); border-radius:18px; cursor:pointer; opacity:0;"><div class="faq-header" style="display:flex; align-items:center; justify-content:space-between; gap:20px;"><span style="font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(15px,1.25vw,20px); line-height:1.3;">How does DevSavant ensure the quality of candidates?</span><span class="faq-chevron" style="color:#C7FFE0; font-size:clamp(18px,1.5vw,24px); flex-shrink:0;">&#x203A;</span></div><div class="faq-body"><p style="margin:clamp(10px,1.2vh,16px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.80); font-size:clamp(13px,1.05vw,17px); line-height:1.65; text-wrap:pretty;">Through a rigorous multi-step vetting process that evaluates technical expertise, communication, cultural alignment, and power skills. We use our proprietary Startup Profiles framework to identify professionals with the mindset and behaviors needed for high performance.</p></div></div>
@@ -2058,6 +2124,11 @@
                   <div class="faq-item" data-idx="8" style="padding:clamp(14px,1.5vw,22px) clamp(20px,2.2vw,32px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.12); border-radius:18px; cursor:pointer; opacity:0;"><div class="faq-header" style="display:flex; align-items:center; justify-content:space-between; gap:20px;"><span style="font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(15px,1.25vw,20px); line-height:1.3;">What if a collaborator is not performing as expected?</span><span class="faq-chevron" style="color:#C7FFE0; font-size:clamp(18px,1.5vw,24px); flex-shrink:0;">&#x203A;</span></div><div class="faq-body"><p style="margin:clamp(10px,1.2vh,16px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.80); font-size:clamp(13px,1.05vw,17px); line-height:1.65; text-wrap:pretty;">We step in immediately to assess the situation, provide coaching or corrective action, and replace the collaborator if necessary. Our priority is ensuring your team&rsquo;s performance and continuity.</p></div></div>
                   <div class="faq-item" data-idx="9" style="padding:clamp(14px,1.5vw,22px) clamp(20px,2.2vw,32px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.12); border-radius:18px; cursor:pointer; opacity:0;"><div class="faq-header" style="display:flex; align-items:center; justify-content:space-between; gap:20px;"><span style="font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(15px,1.25vw,20px); line-height:1.3;">How does DevSavant handle contracts, compliance, and payments?</span><span class="faq-chevron" style="color:#C7FFE0; font-size:clamp(18px,1.5vw,24px); flex-shrink:0;">&#x203A;</span></div><div class="faq-body"><p style="margin:clamp(10px,1.2vh,16px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.80); font-size:clamp(13px,1.05vw,17px); line-height:1.65; text-wrap:pretty;">We manage all contractual and administrative processes, including compliance with local regulations. You receive a simple monthly invoice while we handle the rest.</p></div></div>
                   <div class="faq-item" data-idx="10" style="padding:clamp(14px,1.5vw,22px) clamp(20px,2.2vw,32px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.12); border-radius:18px; cursor:pointer; opacity:0;"><div class="faq-header" style="display:flex; align-items:center; justify-content:space-between; gap:20px;"><span style="font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(15px,1.25vw,20px); line-height:1.3;">Do you offer flexible engagement models?</span><span class="faq-chevron" style="color:#C7FFE0; font-size:clamp(18px,1.5vw,24px); flex-shrink:0;">&#x203A;</span></div><div class="faq-body"><p style="margin:clamp(10px,1.2vh,16px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.80); font-size:clamp(13px,1.05vw,17px); line-height:1.65; text-wrap:pretty;">Yes. The Global Staffing model gives you flexibility to grow or reduce capacity as your roadmap and priorities evolve.</p></div></div>
+                </div><!-- /faq-list -->
+                <div class="faq-answer" id="gs-faq-answer" style="opacity:0; padding:clamp(24px,2.6vw,46px) clamp(24px,2.4vw,44px); background:rgba(0,0,0,0.20); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.12); border-radius:22px;">
+                <span class="faq-a-q" style="font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(21px,1.9vw,34px); line-height:1.18; letter-spacing:-0.01em; text-shadow:0 2px 20px rgba(31,98,255,0.28);"></span>
+                <p class="faq-a-body" style="margin:clamp(14px,1.6vh,22px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.82); font-size:clamp(15px,1.15vw,20px); line-height:1.7; text-wrap:pretty;"></p>
+              </div><!-- /faq-answer -->
                 </div>
               </div>
             </div><!-- /gs-sec-7 -->
@@ -2750,19 +2821,19 @@
               </div>
 
               <div id="vc-s2-grid" style="position:absolute; left:2%; top:22%; width:96%; height:66%; display:grid; grid-template-columns:1fr 1fr; grid-template-rows:1fr 1fr; gap:clamp(16px,2vw,28px); z-index:2;">
-                <div class="vc-card vc-logo" id="vc-s2-c1" style="border-radius:32px; box-sizing:border-box; display:flex; align-items:center; justify-content:center; padding:clamp(16px,2vw,32px); opacity:0; pointer-events:none;">
+                <div class="vc-card vc-logo" id="vc-s2-c1" style="border-radius:32px; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); box-sizing:border-box; display:flex; align-items:center; justify-content:center; padding:clamp(16px,2vw,32px); opacity:0; pointer-events:none;">
                   <img src="assets/logo-savant-growth.png" alt="Savant Growth logo" style="max-width:70%; max-height:56%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;">
                 </div>
 
-                <div class="vc-card vc-logo" id="vc-s2-c2" style="border-radius:32px; box-sizing:border-box; display:flex; align-items:center; justify-content:center; padding:clamp(16px,2vw,32px); opacity:0; pointer-events:none;">
+                <div class="vc-card vc-logo" id="vc-s2-c2" style="border-radius:32px; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); box-sizing:border-box; display:flex; align-items:center; justify-content:center; padding:clamp(16px,2vw,32px); opacity:0; pointer-events:none;">
                   <img src="assets/logo-kennet.png" alt="Kennet logo" style="max-width:60%; max-height:48%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;">
                 </div>
 
-                <div class="vc-card vc-logo" id="vc-s2-c3" style="border-radius:32px; box-sizing:border-box; display:flex; align-items:center; justify-content:center; padding:clamp(16px,2vw,32px); opacity:0; pointer-events:none;">
+                <div class="vc-card vc-logo" id="vc-s2-c3" style="border-radius:32px; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); box-sizing:border-box; display:flex; align-items:center; justify-content:center; padding:clamp(16px,2vw,32px); opacity:0; pointer-events:none;">
                   <img src="assets/logo-clearlake.png" alt="Clearlake logo" style="max-width:65%; max-height:50%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;">
                 </div>
 
-                <div class="vc-card vc-logo" id="vc-s2-c4" style="border-radius:32px; box-sizing:border-box; display:flex; align-items:center; justify-content:center; padding:clamp(16px,2vw,32px); opacity:0; pointer-events:none;">
+                <div class="vc-card vc-logo" id="vc-s2-c4" style="border-radius:32px; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); box-sizing:border-box; display:flex; align-items:center; justify-content:center; padding:clamp(16px,2vw,32px); opacity:0; pointer-events:none;">
                   <img src="assets/logo-rbv.png" alt="RBV logo" style="max-width:52%; max-height:70%; object-fit:contain; filter:grayscale(1) brightness(1.55) contrast(0.82); opacity:0.9;">
                 </div>
               </div>
@@ -3223,6 +3294,25 @@ class Component extends DCLogic {
   _onScroll = () => {
     if (this._scrollRAF) return;
     this._scrollRAF = requestAnimationFrame(() => { this._scrollRAF = 0; this._applyScroll(); });
+    // Idle-settle watchdog: if the scroller ever comes to rest between two stops (a "ghost
+    // step" showing mid-transition blur), snap it to the nearest section once motion stops.
+    clearTimeout(this._settleTimer);
+    this._settleTimer = setTimeout(this._settleHome, 150);
+  };
+
+  _settleTimer = 0;
+  _settleHome = () => {
+    const sc = this._scrollEl;
+    if (!sc || this._snapLock || this._snapRAF) return;
+    if (this._activeSub && this._activeSub()) return;
+    const max = sc.scrollHeight - sc.clientHeight; if (max <= 0) return;
+    const p = sc.scrollTop / max;
+    let idx = 0, best = Infinity;
+    this._homeStops.forEach((s, i) => { const d = Math.abs(s - p); if (d < best) { best = d; idx = i; } });
+    if (best < 0.004) return;                 // already resting on a stop
+    const dir = (this._homeStops[idx] - p) >= 0 ? 1 : -1;
+    this._snapLock = true;
+    this._animScrollTo(sc, this._homeStops[idx] * max, 460, idx, dir);
   };
 
   _homeStops = [0, 0.11, 0.235, 0.425, 0.565, 0.77, 0.946, 0.995];
@@ -3761,7 +3851,7 @@ class Component extends DCLogic {
 
   componentDidMount() {
     this._init();
-    this._initFaqAccordion();
+    this._initFaqMasterDetail('faq-items');
     this._onResize = () => this._resize();
     window.addEventListener('resize', this._onResize);
     this._initLiquidMask();
@@ -3837,6 +3927,28 @@ class Component extends DCLogic {
       pi.style.opacity = ''; pi.style.pointerEvents = ''; pi.style.flex = '';
       ov.style.display = '';
     }, 440);
+  }
+
+  _initFaqMasterDetail(containerId) {
+    const container = document.getElementById(containerId || 'faq-items');
+    if (!container || container._mdWired) return;
+    const list = container.querySelector('.faq-list');
+    const qEl = container.querySelector('.faq-a-q');
+    const aEl = container.querySelector('.faq-a-body');
+    if (!list || !qEl || !aEl) return;
+    container._mdWired = true;
+    const items = Array.from(list.querySelectorAll('.faq-item'));
+    const select = (item) => {
+      items.forEach(it => it.classList.toggle('faq-active', it === item));
+      const q = item.querySelector('.faq-header span');
+      const a = item.querySelector('.faq-body p');
+      qEl.textContent = q ? q.textContent : '';
+      aEl.textContent = a ? a.textContent : '';
+    };
+    items.forEach(item => {
+      item.addEventListener('click', () => { if (window.innerWidth >= 768) select(item); });
+    });
+    if (items[0]) select(items[0]);
   }
 
   _initFaqAccordion(clipId) {
@@ -4088,7 +4200,7 @@ class Component extends DCLogic {
       this._peScrollListenerAdded = true;
     }
     this._bindSubScroll(peOvl);
-    setTimeout(() => { this._setupDiscoveryMorph(); this._initFaqAccordion('pe-faq-clip'); this._applyPEScroll(); }, 300);
+    setTimeout(() => { this._setupDiscoveryMorph(); this._initFaqMasterDetail('pe-faq-items'); this._applyPEScroll(); }, 300);
   }
 
   // Highlight the current page in the mobile menu (menu doesn't animate; only prominence changes).
@@ -4211,6 +4323,7 @@ class Component extends DCLogic {
     const faqClipEl = document.getElementById('pe-faq-clip');
     if (faqClipEl) faqClipEl.style.pointerEvents = fOp > 0.5 ? 'auto' : 'none';
     document.querySelectorAll('#pe-faq-items .faq-item').forEach(el => { el.style.opacity = String(fOp); });
+    { const _a = document.getElementById('pe-faq-answer'); if (_a) _a.style.opacity = String(fOp); }
     // CTA finale: dark veil fades in, background canvas blurs, glass morph clears, content fades in
     const ctaGlassOp = cl((p - 0.90) / 0.04);
     const ctaContentOp = cl((p - 0.93) / 0.045);
@@ -4254,6 +4367,7 @@ class Component extends DCLogic {
         if (secEl) secEl.style.pointerEvents = active ? 'auto' : 'none';
         if (b.faq) {
           document.querySelectorAll('#pe-faq-items .faq-item').forEach(el => { el.style.opacity = String(op); });
+          { const _a = document.getElementById('pe-faq-answer'); if (_a) _a.style.opacity = String(op); }
           const clipEl = document.getElementById('pe-faq-clip');
           if (clipEl) clipEl.style.pointerEvents = active ? 'auto' : 'none';
         }
@@ -4393,7 +4507,7 @@ class Component extends DCLogic {
       this._gsScrollListenerAdded = true;
     }
     this._bindSubScroll(gsOvl);
-    setTimeout(() => { this._setupGSMorph(); this._initFaqAccordion('gs-faq-clip'); this._applyGSScroll(); }, 300);
+    setTimeout(() => { this._setupGSMorph(); this._initFaqMasterDetail('gs-faq-items'); this._applyGSScroll(); }, 300);
   }
 
   _setupGSMorph() {
@@ -4492,6 +4606,7 @@ class Component extends DCLogic {
     const faqClip = document.getElementById('gs-faq-clip');
     if (faqClip) faqClip.style.pointerEvents = fOp > 0.3 ? 'auto' : 'none';
     document.querySelectorAll('#gs-faq-items .faq-item').forEach(el => { el.style.opacity = String(fOp); });
+    { const _a = document.getElementById('gs-faq-answer'); if (_a) _a.style.opacity = String(fOp); }
     const faqItemsEl = document.getElementById('gs-faq-items'), faqClipEl = document.getElementById('gs-faq-clip');
     if (faqItemsEl && faqClipEl && !mob) {
       const ov = Math.max(0, faqItemsEl.offsetHeight - faqClipEl.offsetHeight);
@@ -4532,6 +4647,7 @@ class Component extends DCLogic {
         if (secEl) secEl.style.pointerEvents = active ? 'auto' : 'none';
         if (b.faq) {
           document.querySelectorAll('#gs-faq-items .faq-item').forEach(el => { el.style.opacity = String(op); });
+          { const _a = document.getElementById('gs-faq-answer'); if (_a) _a.style.opacity = String(op); }
           const clipEl = document.getElementById('gs-faq-clip');
           if (clipEl) clipEl.style.pointerEvents = active ? 'auto' : 'none';
         }
@@ -5703,6 +5819,8 @@ class Component extends DCLogic {
     const faqS=document.getElementById('faq-scroll');
     if (faqS){faqS.style.pointerEvents=faqBase>.3?'auto':'none';}
     document.querySelectorAll('.faq-item').forEach((el,i)=>{const op=cl((p-0.708-i*.003)/.032)*faqFadeOut;el.style.opacity=String(op);});
+    const faqAns=document.getElementById('faq-answer');
+    if (faqAns){faqAns.style.opacity=String(faqBase);}
     const faqItemsEl=document.getElementById('faq-items'), faqClipEl=document.getElementById('faq-clip');
     if (faqItemsEl&&faqClipEl){
       // translateY is owned by the manual FAQ scroll-budget system (_faqOffset/_onStopLanded)
