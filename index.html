@@ -668,11 +668,17 @@
         padding-top: 80px !important;
       }
       /* PE subpage — mobile: pinned sections w/ internal scroll + liquid morph between (homepage model) */
+      /* Mirror the homepage: stage sits BELOW the 60px header and ABOVE the arrow bar, so the
+         hero fills exactly the visible band and never clips before the arrows. */
       #pe-stage {
-        top: 0 !important;
-        height: calc(100% - 72px) !important;
+        top: 0px !important;
+        height: calc(100dvh - 60px) !important;
         overflow: hidden !important;
       }
+      /* Like the homepage, block native vertical finger-panning on the PE overlay so it can
+         only advance via the swipe→snap (touchend) and arrows — it can never rest between two
+         stops showing overlapping (ghost) sections. Card rows keep their own pan-x. */
+      body.pe-state #pe-overlay { touch-action: pan-x !important; }
       /* Hero: glass panel, both top corners rounded, flush sides, below header */
       #pe-hero-frame {
         border-right: 1px solid rgba(255,255,255,0.12) !important;
@@ -680,22 +686,43 @@
         border-top-left-radius: 26px !important;
         border-top-right-radius: 26px !important;
         border-bottom-left-radius: 0 !important;
+        border-bottom-right-radius: 0 !important;
       }
-      #pe-hero-layer { padding-left: 26px !important; padding-right: 26px !important; }
+      #pe-hero-layer {
+        padding-left: 26px !important; padding-right: 26px !important;
+        justify-content: flex-start !important; padding-top: 40px !important; padding-bottom: 24px !important;
+      }
+      #pe-hero-layer p { font-size: clamp(14px, 3.7vw, 17px) !important; line-height: 1.45 !important; }
+      /* Hero must fit the clipped stage (stage is 100% - nav bar), not 100vh — else it clips above the arrows */
+      #pe-hero-frame, #pe-hero-layer { height: 100% !important; }
+      /* Kill the desktop liquid-morph glass + goo SVG on mobile — the cards carry their own glass,
+         so this decorative layer only showed as ghost containers behind the horizontal cards. */
+      #pe-disc-svg, #pe-disc-glass { display: none !important; }
       /* Each section becomes a pinned, internally-scrollable column */
       .pe-sec {
         display: flex !important;
         position: absolute !important;
-        left: 0 !important; right: 0 !important; top: 0 !important; bottom: 0 !important;
+        left: 0 !important; right: 0 !important; top: 0 !important; bottom: clamp(70px, 12vh, 104px) !important;
         flex-direction: column !important;
-        padding: 18px 16px 24px !important;
-        gap: 14px !important;
-        overflow-y: auto !important;
-        -webkit-overflow-scrolling: touch !important;
-        scrollbar-width: none !important;
+        justify-content: center !important;
+        padding: 20px 0 20px !important;
+        gap: 16px !important;
+        overflow: hidden !important;
         box-sizing: border-box !important;
       }
       .pe-sec::-webkit-scrollbar { display: none; }
+      /* Card groups swipe horizontally (no vertical inner scroll). Content-height row (not
+         forced full-height), so cards size to their content instead of leaving dead space. */
+      .pe-hrow {
+        flex: 0 1 auto !important; min-height: 0 !important;
+        display: flex !important; flex-direction: row !important; align-items: stretch !important;
+        gap: 14px !important; padding: 0 20px !important; scroll-padding-left: 20px !important;
+        overflow-x: auto !important; overflow-y: hidden !important;
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior-x: contain; touch-action: pan-x;
+        scroll-snap-type: x mandatory; scrollbar-width: none;
+      }
+      .pe-hrow::-webkit-scrollbar { display: none; }
       /* Section headlines — match homepage section headline scale */
       #disc-hl, #build-hl, #scale-hl, #why-hl, #what-hl, #pe-faq-hl {
         position: relative !important;
@@ -705,6 +732,7 @@
         justify-content: center !important;
         margin: 2px 0 6px !important;
         gap: 10px !important;
+        padding: 0 16px !important;
       }
       #disc-hl h2, #build-hl h2, #scale-hl h2, #why-hl h2, #what-hl h2, #pe-faq-hl h2 {
         font-size: clamp(30px, 8vw, 40px) !important; line-height: 1.05 !important;
@@ -720,17 +748,38 @@
       #what-c1,#what-c2,#what-c3,#what-c4 {
         position: relative !important;
         left: auto !important; top: auto !important; right: auto !important; bottom: auto !important;
-        width: 100% !important; height: auto !important;
-        flex-shrink: 0 !important;
+        flex: 0 0 78vw !important;
+        width: 78vw !important; max-width: 330px !important;
+        height: auto !important; max-height: 100% !important;
         box-sizing: border-box !important;
         opacity: inherit;
         border-radius: 22px !important;
         margin: 0 !important;
-        padding: 20px 22px !important;
+        padding: 22px 22px !important;
         justify-content: flex-start !important;
         gap: 12px !important;
+        scroll-snap-align: start;
+        overflow-y: auto !important; scrollbar-width: none;
       }
+      #disc-c1::-webkit-scrollbar,#disc-c2::-webkit-scrollbar,#disc-c3::-webkit-scrollbar,#disc-c4::-webkit-scrollbar,
+      #build-c1::-webkit-scrollbar,#build-c2::-webkit-scrollbar,#build-c3::-webkit-scrollbar,
+      #scale-c1::-webkit-scrollbar,#scale-c2::-webkit-scrollbar,
+      #why-c1::-webkit-scrollbar,#why-c2::-webkit-scrollbar,#why-c3::-webkit-scrollbar,#why-c4::-webkit-scrollbar,#why-c5::-webkit-scrollbar,#why-c6::-webkit-scrollbar,
+      #what-c1::-webkit-scrollbar,#what-c2::-webkit-scrollbar,#what-c3::-webkit-scrollbar,#what-c4::-webkit-scrollbar { display: none; }
       #scale-c1, #scale-c2 { padding: 24px 24px !important; }
+      /* Scale card 1 (Dedicated Teams) is the tallest — let it size to its content
+         instead of scrolling inside the capped row height. */
+      #scale-c1 { max-height: none !important; overflow-y: visible !important; align-self: flex-start !important; height: auto !important; gap: 10px !important; padding: 18px 20px !important; }
+      #scale-c1 > div { gap: 10px !important; }
+      #scale-c1 h3 { font-size: clamp(24px, 5.8vw, 32px) !important; line-height: 1.05 !important; }
+      #scale-c1 p { font-size: clamp(14px, 3.5vw, 16px) !important; line-height: 1.4 !important; }
+      #scale-c1 svg { width: 32px !important; height: 32px !important; }
+      #scale-c1 > div > div { margin-top: 2px !important; gap: 8px !important; }
+      #scale-c1 span { padding: 6px 14px !important; }
+      /* Scale section: tighter top/bottom so the tall card's full box (incl. bottom
+         border) fits inside the clip instead of being sliced. */
+      #sec-scale { top: 0 !important; bottom: clamp(46px, 7vh, 70px) !important; padding-top: 8px !important; padding-bottom: 8px !important; }
+      #scale-hl { margin: 0 0 4px !important; }
       #why-c1,#why-c2,#why-c3,#why-c4,#why-c5,#why-c6 { padding: 18px 20px !important; gap: 8px !important; }
       /* Readable type, full content (no clamps) */
       #why-c1 svg,#why-c2 svg,#why-c3 svg,#why-c4 svg,#why-c5 svg,#why-c6 svg { display: block !important; }
@@ -754,53 +803,72 @@
         width: 100% !important; height: auto !important;
         flex-shrink: 0 !important;
         opacity: inherit;
-        margin: 12px 0 4px !important;
-        gap: 16px !important;
+        margin: 8px 0 0 !important;
+        padding: 0 16px !important;
+        gap: 14px !important;
         flex-direction: column !important;
         align-items: flex-start !important;
       }
-      /* FAQ (mobile): horizontal card scroller like homepage */
+      /* FAQ (mobile): 2-row horizontal card grid — mirror homepage exactly */
       #pe-faq-clip {
         position: relative !important;
         left: auto !important; top: auto !important; right: auto !important; bottom: auto !important;
-        width: 100% !important; height: 56vh !important; max-height: 460px !important;
+        width: auto !important; height: 100% !important;
+        flex: 1 1 auto !important; min-height: 0 !important;
         overflow-x: auto !important; overflow-y: hidden !important;
         -webkit-overflow-scrolling: touch;
-        overscroll-behavior-x: contain; touch-action: pan-x;
-        scroll-snap-type: x mandatory;
+        overscroll-behavior: contain; overscroll-behavior-x: contain;
+        touch-action: pan-x;
         scrollbar-width: none;
-        flex-shrink: 0 !important;
+        padding: 0 5% !important;
       }
       #pe-faq-clip::-webkit-scrollbar { display: none; }
       #pe-faq-items {
         position: relative !important; inset: auto !important;
         top: auto !important; left: auto !important; right: auto !important;
-        display: flex !important; flex-direction: row !important;
-        gap: 14px !important; height: 100% !important; width: max-content !important;
+        transform: none !important;
+        display: grid !important;
+        grid-auto-flow: column !important;
+        grid-template-rows: repeat(2, 1fr) !important;
+        grid-auto-columns: 84% !important;
+        gap: 12px !important;
+        height: 100% !important; width: auto !important;
       }
       #pe-faq-items .faq-item {
-        flex: 0 0 80vw !important; max-width: 340px !important; height: 100% !important;
-        scroll-snap-align: start;
+        overflow: hidden !important;
+        cursor: default !important;
         display: flex !important; flex-direction: column !important;
-        overflow: hidden !important; opacity: 1 !important;
+        padding: 16px 18px !important;
+        max-width: none !important; height: auto !important; flex: initial !important;
       }
       #pe-faq-items .faq-item .faq-chevron { display: none !important; }
-      #pe-faq-items .faq-item .faq-body { max-height: none !important; overflow-y: auto !important; flex: 1 1 auto !important; min-height: 0 !important; scrollbar-width: none; }
+      #pe-faq-items .faq-item .faq-body,
+      #pe-faq-items .faq-item.open .faq-body { max-height: 1000px !important; flex: 1 1 auto !important; min-height: 0 !important; overflow-y: auto !important; scrollbar-width: none; }
       #pe-faq-items .faq-item .faq-body::-webkit-scrollbar { display: none; }
+      #pe-faq-items .faq-item .faq-header span:first-child { font-size: clamp(13px, 3.6vw, 15px) !important; }
+      #pe-faq-items .faq-item .faq-body p { font-size: clamp(12px, 3.2vw, 14px) !important; line-height: 1.5 !important; }
       /* CTA finale stays full-bleed pinned */
       #pe-cta-content { padding-left: 24px !important; padding-right: 24px !important; }
 
       /* ─── Global Staffing subpage (mobile) — mirrors PE model ─── */
       #gs-overlay { left: 0 !important; }
-      #gs-stage { top: 0 !important; height: calc(100% - 72px) !important; overflow: hidden !important; }
+      #gs-stage { top: 0 !important; height: calc(100dvh - 60px) !important; overflow: hidden !important; }
+      body.gs-state #gs-overlay { touch-action: pan-x !important; }
+      #gs-disc-svg, #gs-disc-glass { display: none !important; }
       #gs-hero-frame {
         border-right: 1px solid rgba(255,255,255,0.12) !important;
         border-bottom: none !important;
         border-top-left-radius: 26px !important;
         border-top-right-radius: 26px !important;
         border-bottom-left-radius: 0 !important;
+        border-bottom-right-radius: 0 !important;
       }
-      #gs-hero-layer { padding-left: 26px !important; padding-right: 26px !important; }
+      #gs-hero-frame, #gs-hero-layer { height: 100% !important; }
+      #gs-hero-layer {
+        padding-left: 26px !important; padding-right: 26px !important;
+        justify-content: flex-start !important; padding-top: 40px !important; padding-bottom: 24px !important;
+      }
+      #gs-hero-layer p { font-size: clamp(14px, 3.7vw, 17px) !important; line-height: 1.45 !important; }
       .gs-hl {
         position: relative !important;
         left: auto !important; top: auto !important;
@@ -809,24 +877,31 @@
         justify-content: center !important;
         margin: 2px 0 6px !important;
         gap: 10px !important;
+        padding: 0 16px !important;
       }
       .gs-hl h2 { font-size: clamp(30px, 8vw, 40px) !important; line-height: 1.05 !important; }
       .gs-hl p { font-size: clamp(14px, 3.6vw, 17px) !important; line-height: 1.5 !important; max-width: none !important; }
-      .gs-card, .gs-bar, #gs-radar-card {
+      /* Card groups swipe horizontally inside .pe-hrow (mirror PE) */
+      .gs-card, .gs-bar {
         position: relative !important;
         left: auto !important; top: auto !important; right: auto !important; bottom: auto !important;
-        width: 100% !important; height: auto !important;
+        flex: 0 0 78vw !important;
+        width: 78vw !important; max-width: 330px !important;
+        height: auto !important; max-height: 100% !important;
         flex-shrink: 0 !important;
         box-sizing: border-box !important;
         border-radius: 22px !important;
         margin: 0 !important;
+        scroll-snap-align: start;
+        overflow-y: auto !important; scrollbar-width: none;
       }
+      .gs-card::-webkit-scrollbar, .gs-bar::-webkit-scrollbar { display: none; }
       .gs-card { padding: 20px 22px !important; justify-content: flex-start !important; gap: 12px !important; }
       .gs-bar {
-        padding: 18px 20px !important;
+        padding: 20px 22px !important;
         flex-direction: column !important;
         align-items: flex-start !important;
-        gap: 6px !important;
+        gap: 10px !important;
       }
       .gs-bar h3 { flex: none !important; width: 100% !important; order: 1 !important; }
       .gs-bar p { flex: none !important; width: 100% !important; order: 2 !important; }
@@ -837,38 +912,58 @@
         display: block !important; overflow: visible !important;
       }
       .gs-bar h3 { font-size: clamp(19px, 5.4vw, 26px) !important; }
-      #gs-s3-foot { position: relative !important; left:auto !important; top:auto !important; width:100% !important; height:auto !important; flex-shrink:0 !important; margin-top: 6px !important; }
-      #gs-radar-card { padding: 20px 16px !important; flex: 1 1 auto !important; min-height: 0 !important; }
-      #gs-radar-holder { min-height: 0 !important; }
+      #gs-s3-foot { position: relative !important; left:auto !important; top:auto !important; width:100% !important; height:auto !important; flex-shrink:0 !important; margin-top: 8px !important; padding: 0 16px !important; }
+      /* Section 4 radar: single full-width card (no horizontal row) */
+      #gs-radar-card {
+        position: relative !important;
+        left: auto !important; top: auto !important; right: auto !important; bottom: auto !important;
+        width: auto !important; max-width: none !important; height: auto !important; max-height: 100% !important;
+        flex: 1 1 auto !important; min-height: 0 !important;
+        box-sizing: border-box !important; border-radius: 22px !important;
+        margin: 0 20px !important;
+        padding: 20px 16px !important; overflow: hidden !important;
+      }
+      #gs-radar-holder { min-height: 0 !important; flex: 1 1 auto !important; }
       #gs-radar-holder svg { max-width: none !important; }
-      /* FAQ (mobile): horizontal card scroller like homepage */
+      /* FAQ (mobile): 2-row horizontal card grid — mirror homepage exactly */
       #gs-faq-clip {
         position: relative !important;
         left: auto !important; top: auto !important; right: auto !important; bottom: auto !important;
-        width: 100% !important; height: 56vh !important; max-height: 460px !important;
+        width: auto !important; height: 100% !important;
+        flex: 1 1 auto !important; min-height: 0 !important;
         overflow-x: auto !important; overflow-y: hidden !important;
         -webkit-overflow-scrolling: touch;
-        overscroll-behavior-x: contain; touch-action: pan-x;
-        scroll-snap-type: x mandatory;
+        overscroll-behavior: contain; overscroll-behavior-x: contain;
+        touch-action: pan-x;
         scrollbar-width: none;
-        flex-shrink: 0 !important;
+        padding: 0 5% !important;
+        z-index: 4;
       }
       #gs-faq-clip::-webkit-scrollbar { display: none; }
       #gs-faq-items {
         position: relative !important; inset: auto !important;
         top: auto !important; left: auto !important; right: auto !important;
-        display: flex !important; flex-direction: row !important;
-        gap: 14px !important; height: 100% !important; width: max-content !important;
+        transform: none !important;
+        display: grid !important;
+        grid-auto-flow: column !important;
+        grid-template-rows: repeat(2, 1fr) !important;
+        grid-auto-columns: 84% !important;
+        gap: 12px !important;
+        height: 100% !important; width: auto !important;
       }
       #gs-faq-items .faq-item {
-        flex: 0 0 80vw !important; max-width: 340px !important; height: 100% !important;
-        scroll-snap-align: start;
+        overflow: hidden !important;
+        cursor: default !important;
         display: flex !important; flex-direction: column !important;
-        overflow: hidden !important; opacity: 1 !important;
+        padding: 16px 18px !important;
+        max-width: none !important; height: auto !important; flex: initial !important;
       }
       #gs-faq-items .faq-item .faq-chevron { display: none !important; }
-      #gs-faq-items .faq-item .faq-body { max-height: none !important; overflow-y: auto !important; flex: 1 1 auto !important; min-height: 0 !important; scrollbar-width: none; }
+      #gs-faq-items .faq-item .faq-body,
+      #gs-faq-items .faq-item.open .faq-body { max-height: 1000px !important; flex: 1 1 auto !important; min-height: 0 !important; overflow-y: auto !important; scrollbar-width: none; }
       #gs-faq-items .faq-item .faq-body::-webkit-scrollbar { display: none; }
+      #gs-faq-items .faq-item .faq-header span:first-child { font-size: clamp(13px, 3.6vw, 15px) !important; }
+      #gs-faq-items .faq-item .faq-body p { font-size: clamp(12px, 3.2vw, 14px) !important; line-height: 1.5 !important; }
       #gs-cta-content { padding-left: 24px !important; padding-right: 24px !important; }
       #oe-cta-content { padding-left: 24px !important; padding-right: 24px !important; }
 
@@ -1613,6 +1708,7 @@
             </div>
 
             <!-- Card 01: Blueprint -->
+            <div class="pe-hrow">
             <div id="disc-c1" style="position:absolute; left:2%; top:26%; width:47%; height:35%; padding:clamp(18px,1.8vw,32px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; display:flex; flex-direction:column; gap:clamp(8px,1vh,14px); opacity:0; pointer-events:none; z-index:2; box-sizing:border-box;">
               <div style="display:flex; align-items:flex-start; justify-content:space-between;">
                 <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m12.99 6.74 1.93 3.44"></path><path d="M19.136 12a10 10 0 0 1-14.271 0"></path><path d="m21 21-2.16-3.84"></path><path d="m3 21 8.02-14.26"></path><circle cx="12" cy="5" r="2"></circle></svg>
@@ -1652,7 +1748,7 @@
               <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.72); font-size:clamp(12px,0.88vw,14px); line-height:1.6; text-wrap:pretty;">Aligned with your brand book and/or ideas.</p>
             </div>
 
-            </div><!-- /sec-disc -->
+            </div><!-- /pe-hrow --></div><!-- /sec-disc -->
             <div class="pe-sec" id="sec-build">
             <!-- ══════════ BUILD PHASE ══════════ -->
             <!-- Build headline -->
@@ -1662,6 +1758,7 @@
             </div>
 
             <!-- Build Card 01: Proof of Concept -->
+            <div class="pe-hrow">
             <div id="build-c1" style="position:absolute; left:2%; top:25%; width:30.5%; height:46%; padding:clamp(20px,2vw,32px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; display:flex; flex-direction:column; gap:clamp(14px,2.2vh,26px); opacity:0; pointer-events:none; z-index:2; box-sizing:border-box;">
               <div style="display:flex; align-items:center; justify-content:space-between;">
                 <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"></path><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"></path><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"></path><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"></path></svg>
@@ -1697,7 +1794,7 @@
               </div>
             </div>
 
-            </div><!-- /sec-build -->
+            </div><!-- /pe-hrow --></div><!-- /sec-build -->
             <div class="pe-sec" id="sec-scale">
             <!-- ══════════ SCALE PHASE ══════════ -->
             <!-- Scale headline -->
@@ -1707,6 +1804,7 @@
             </div>
 
             <!-- Scale Card 01: Dedicated Teams (large left, content top-aligned) -->
+            <div class="pe-hrow">
             <div id="scale-c1" style="position:absolute; left:2%; top:26%; width:62%; height:70%; padding:clamp(28px,2.8vw,52px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; display:flex; flex-direction:column; justify-content:flex-start; gap:clamp(18px,2.6vh,34px); opacity:0; pointer-events:none; z-index:2; box-sizing:border-box;">
               <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 21a8 8 0 0 0-16 0"></path><circle cx="10" cy="8" r="5"></circle><path d="M22 20c0-3.37-2-6.5-4-8a5 5 0 0 0-.45-8.3"></path></svg>
               <div style="display:flex; flex-direction:column; gap:clamp(14px,1.8vh,22px);">
@@ -1730,7 +1828,7 @@
               </div>
             </div>
 
-            </div><!-- /sec-scale -->
+            </div><!-- /pe-hrow --></div><!-- /sec-scale -->
             <div class="pe-sec" id="sec-why">
             <!-- ══════════ WHY THIS MODEL WORKS ══════════ -->
             <!-- Why headline -->
@@ -1740,6 +1838,7 @@
             </div>
 
             <!-- Why grid card 01 -->
+            <div class="pe-hrow">
             <div id="why-c1" style="position:absolute; left:2%; top:22%; width:31.3%; height:36%; padding:clamp(18px,1.7vw,30px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:34px; display:flex; flex-direction:column; gap:clamp(8px,1.1vh,15px); opacity:0; pointer-events:none; z-index:2; box-sizing:border-box;">
               <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 22h14"></path><path d="M5 2h14"></path><path d="M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22"></path><path d="M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2"></path></svg>
               <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(18px,1.7vw,28px); line-height:1.14;">We meet you at any stage</h3>
@@ -1781,7 +1880,7 @@
               <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.72); font-size:clamp(12px,0.92vw,15px); line-height:1.55; text-wrap:pretty;">With talent networks across LATAM and Asia, we offer top-tier engineering at more efficient cost structures than traditional U.S. dev shops &mdash; without compromising quality.</p>
             </div>
 
-            </div><!-- /sec-why -->
+            </div><!-- /pe-hrow --></div><!-- /sec-why -->
             <div class="pe-sec" id="sec-what">
             <!-- ══════════ WHAT WE BUILD ══════════ -->
             <!-- What headline -->
@@ -1790,6 +1889,7 @@
             </div>
 
             <!-- What card 01: AI-Powered Products -->
+            <div class="pe-hrow">
             <div id="what-c1" style="position:absolute; left:2%; top:22%; width:47.5%; height:30%; padding:clamp(20px,2vw,38px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; display:flex; flex-direction:column; justify-content:center; gap:clamp(10px,1.4vh,18px); opacity:0; pointer-events:none; z-index:2; box-sizing:border-box;">
               <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"></path><rect width="16" height="12" x="4" y="8" rx="2"></rect><path d="M2 14h2"></path><path d="M20 14h2"></path><path d="M15 13v2"></path><path d="M9 13v2"></path></svg>
               <div style="display:flex; flex-direction:column; gap:clamp(6px,0.9vh,12px);">
@@ -1825,6 +1925,7 @@
               </div>
             </div>
 
+            </div><!-- /pe-hrow -->
             <!-- What CTA — free-standing (no glass), hero CTA style -->
             <div id="what-cta" style="position:absolute; left:2%; top:88%; width:96%; display:flex; align-items:center; gap:clamp(20px,3vw,48px); flex-wrap:wrap; opacity:0; pointer-events:none; z-index:2;">
               <span style="font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(22px,2.6vw,46px); line-height:1.05; text-shadow:0 4px 32px rgba(31,98,255,0.35);">Have another idea?</span>
@@ -1925,6 +2026,7 @@
                 <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(30px,3.6vw,64px); line-height:1.0; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.35);">Why Global Talent Works Better</h2>
                 <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:#C7FFE0; font-size:clamp(14px,1.15vw,20px); line-height:1.5; text-wrap:pretty; max-width:760px;">Why global talent is better for startups.</p>
               </div>
+              <div class="pe-hrow">
               <div class="gs-card" id="gs-s1-c1" style="position:absolute; left:2%; top:24%; width:47%; height:34%; padding:clamp(18px,1.8vw,32px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; display:flex; flex-direction:column; gap:clamp(8px,1vh,14px); opacity:0; pointer-events:none; z-index:2; box-sizing:border-box;">
                 <div style="display:flex; align-items:flex-start; justify-content:space-between;">
                   <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"></circle><path d="M18.09 10.37A6 6 0 1 1 10.34 18"></path><path d="M7 6h1v4"></path><path d="m16.71 13.88.7.71-2.82 2.82"></path></svg>
@@ -1957,6 +2059,7 @@
                 <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(15px,1.5vw,24px); line-height:1.2;">Scalable Teams at Every Stage</h3>
                 <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.72); font-size:clamp(12px,0.9vw,15px); line-height:1.6; text-wrap:pretty;">Quickly ramp up engineering, QA, data, AI, and support teams with specialists used to working in fast-paced, high-trust environments. Add capacity in days, stay ahead of your roadmap, and scale with confidence.</p>
               </div>
+            </div><!-- /pe-hrow -->
             </div><!-- /gs-sec-1 -->
 
             <!-- ══════════ SECTION 2 · WHY DEVSAVANT ══════════ -->
@@ -1964,6 +2067,7 @@
               <div class="gs-hl" id="gs-s2-hl" style="position:absolute; left:2%; top:4%; width:96%; height:16%; display:flex; flex-direction:column; justify-content:center; gap:clamp(6px,1vh,12px); opacity:0; pointer-events:none; z-index:2;">
                 <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(30px,3.6vw,64px); line-height:1.0; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.35);">Why DevSavant?</h2>
               </div>
+              <div class="pe-hrow">
               <div class="gs-card" id="gs-s2-c1" style="position:absolute; left:2%; top:24%; width:47.5%; height:34%; padding:clamp(20px,2vw,38px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; display:flex; flex-direction:column; justify-content:center; gap:clamp(10px,1.4vh,18px); opacity:0; pointer-events:none; z-index:2; box-sizing:border-box;">
                 <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path><path d="m8.5 11 2 2 3.5-3.5"></path></svg>
                 <div style="display:flex; flex-direction:column; gap:clamp(6px,0.9vh,12px);">
@@ -1992,6 +2096,7 @@
                   <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.74); font-size:clamp(14px,1.05vw,18px); line-height:1.55; text-wrap:pretty;">Our team stays in close contact with you, providing regular updates, check-ins, and support to ensure a seamless integration. 75% retention rate (turnover costs a business min 50% of the FT salary).</p>
                 </div>
               </div>
+            </div><!-- /pe-hrow -->
             </div><!-- /gs-sec-2 -->
 
             <!-- ══════════ SECTION 3 · STARTUP PROFILES PROGRAM ══════════ -->
@@ -2000,6 +2105,7 @@
                 <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(28px,3.3vw,58px); line-height:1.0; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.35);">Meet The Startup Profiles Program</h2>
                 <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:#C7FFE0; font-size:clamp(13px,1.05vw,18px); line-height:1.5; text-wrap:pretty; max-width:980px;">At the heart of our talent acquisition process is DevSavant&rsquo;s Startup Profiles program, a proprietary framework that sources collaborators with the skills, mindset, and behaviors that elevate your team. Every candidate is evaluated across five critical behavioral rubrics:</p>
               </div>
+              <div class="pe-hrow">
               <div class="gs-bar" id="gs-rub-0" style="position:absolute; left:2%; top:22%; width:96%; height:11.5%; padding:clamp(12px,1.3vw,20px) clamp(20px,2.2vw,34px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:18px; display:flex; align-items:center; gap:clamp(16px,2vw,34px); opacity:0; pointer-events:none; z-index:2; box-sizing:border-box;">
                 <span style="flex-shrink:0; font-family:'Space Grotesk',sans-serif; font-weight:500; font-size:clamp(24px,2.4vw,40px); line-height:1; color:rgba(157,235,194,0.30);">1</span>
                 <h3 style="flex:0 0 30%; margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#9DEBC2; font-size:clamp(16px,1.6vw,26px); line-height:1.12;">Adaptability</h3>
@@ -2025,6 +2131,7 @@
                 <h3 style="flex:0 0 30%; margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#9DEBC2; font-size:clamp(16px,1.6vw,26px); line-height:1.12;">People Development</h3>
                 <p style="flex:1; margin:0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.74); font-size:clamp(12px,1vw,17px); line-height:1.5; text-wrap:pretty;">Shares knowledge, supports peers, and contributes to a positive team culture by helping others succeed.</p>
               </div>
+              </div><!-- /pe-hrow -->
               <div id="gs-s3-foot" style="position:absolute; left:2%; top:88%; width:96%; height:11%; display:flex; align-items:center; opacity:0; pointer-events:none; z-index:2;">
                 <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.62); font-size:clamp(11px,0.92vw,15px); line-height:1.5; text-wrap:pretty;">What truly sets DevSavant talent apart is their <span style="color:#C7FFE0;">mindset</span> &mdash; a clear Growth Mindset and intrinsic <span style="color:#C7FFE0;">Drive</span> to keep going through ambiguity and adversity. It&rsquo;s why our collaborators consistently contribute beyond the job description.</p>
               </div>
@@ -2050,6 +2157,7 @@
                 <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(30px,3.6vw,64px); line-height:1.0; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.35);">Our Process</h2>
                 <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:#C7FFE0; font-size:clamp(14px,1.15vw,20px); line-height:1.5; text-wrap:pretty; max-width:820px;">How we deliver top LATAM talent &mdash; a proven process that ensures you get the best results, every time.</p>
               </div>
+              <div class="pe-hrow">
               <div class="gs-card" id="gs-s5-c1" style="position:absolute; left:2%; top:24%; width:47%; height:34%; padding:clamp(18px,1.8vw,32px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; display:flex; flex-direction:column; gap:clamp(8px,1vh,14px); opacity:0; pointer-events:none; z-index:2; box-sizing:border-box;">
                 <div style="display:flex; align-items:flex-start; justify-content:space-between;">
                   <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect width="8" height="4" x="8" y="2" rx="1"></rect><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><path d="M9 14h6"></path><path d="M9 18h4"></path></svg>
@@ -2082,6 +2190,7 @@
                 <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(17px,1.7vw,28px); line-height:1.14;">Ongoing Support</h3>
                 <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.72); font-size:clamp(12px,0.92vw,16px); line-height:1.55; text-wrap:pretty;">You lead your team&rsquo;s day-to-day. We stay available to help if adjustments or additional talent are needed.</p>
               </div>
+            </div><!-- /pe-hrow -->
             </div><!-- /gs-sec-5 -->
 
             <!-- ══════════ SECTION 6 · BACKED BY PEOPLE, PROVEN BY DATA ══════════ -->
@@ -2089,6 +2198,7 @@
               <div class="gs-hl" id="gs-s6-hl" style="position:absolute; left:2%; top:5%; width:96%; height:18%; display:flex; flex-direction:column; justify-content:center; gap:clamp(6px,1vh,12px); opacity:0; pointer-events:none; z-index:2;">
                 <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(30px,3.6vw,64px); line-height:1.0; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.35);">Backed by People, Proven by Data</h2>
               </div>
+              <div class="pe-hrow">
               <div class="gs-card" id="gs-s6-c1" style="position:absolute; left:2%; top:30%; width:31.3%; height:60%; padding:clamp(24px,2.4vw,44px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; display:flex; flex-direction:column; justify-content:center; gap:clamp(10px,1.6vh,20px); opacity:0; pointer-events:none; z-index:2; box-sizing:border-box;">
                 <span style="font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(40px,4.4vw,84px); line-height:1; letter-spacing:-0.02em;">+500</span>
                 <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#9DEBC2; font-size:clamp(17px,1.6vw,26px); line-height:1.15;">Successful Hires</h3>
@@ -2104,6 +2214,7 @@
                 <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#9DEBC2; font-size:clamp(17px,1.6vw,26px); line-height:1.15;">Cost Savings</h3>
                 <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.72); font-size:clamp(13px,1vw,17px); line-height:1.55; text-wrap:pretty;">Compared to U.S.-based labor costs while maintaining exceptional quality.</p>
               </div>
+            </div><!-- /pe-hrow -->
             </div><!-- /gs-sec-6 -->
 
             <!-- ══════════ SECTION 7 · GLOBAL STAFFING FAQS ══════════ -->
@@ -3517,7 +3628,7 @@ class Component extends DCLogic {
   // ─── Subpage scroll cues (shared across PE/GS/OE/AU/VC/BL) ─────────
   _subCfg = {
     pe: { el: 'pe-overlay', stops: [0, 0.15, 0.285, 0.425, 0.57, 0.705, 0.85, 0.975] },
-    gs: { el: 'gs-overlay', stops: [0, 0.09, 0.19, 0.29, 0.39, 0.49, 0.59, 0.73, 0.975] },
+    gs: { el: 'gs-overlay', stops: [0, 0.09, 0.19, 0.29, 0.39, 0.49, 0.59, 0.73, 0.975], mstops: [0, 0.13, 0.24, 0.36, 0.47, 0.59, 0.70, 0.83, 0.975] },
     oe: { el: 'oe-overlay', stops: [0, 0.095, 0.176, 0.257, 0.338, 0.419, 0.50, 0.581, 0.662, 0.743, 0.824, 0.975] },
     au: { el: 'au-overlay', stops: [0, 0.15, 0.27, 0.39, 0.51, 0.61, 0.80] },
     vc: { el: 'vc-overlay', stops: [0, 0.174, 0.40, 0.632, 0.865] },
@@ -3529,13 +3640,14 @@ class Component extends DCLogic {
     const m = c.match(/\b(pe|gs|oe|au|vc|bl|cr)-state\b/);
     return m ? m[1] : null;
   }
+  _stopsFor(cfg) { return (cfg && cfg.mstops && window.innerWidth < 768) ? cfg.mstops : (cfg ? cfg.stops : null); }
   _subGo(dir) {
     const key = this._activeSub(); if (!key) return;
     const cfg = this._subCfg[key];
     const sc = document.getElementById(cfg.el); if (!sc) return;
     const max = sc.scrollHeight - sc.clientHeight; if (max <= 0) return;
     const p = sc.scrollTop / max;
-    const stops = cfg.stops;
+    const stops = this._stopsFor(cfg);
     let idx = 0, best = Infinity;
     stops.forEach((s, i) => { const d = Math.abs(s - p); if (d < best) { best = d; idx = i; } });
     const t = Math.min(stops.length - 1, Math.max(0, idx + dir));
@@ -3732,7 +3844,7 @@ class Component extends DCLogic {
     const up = document.getElementById('sub-scroll-up');
     // Hide the down arrow once we've reached the final (CTA) section of the active page.
     const key = this._activeSub();
-    const stops = key ? this._subCfg[key].stops : null;
+    const stops = key ? this._stopsFor(this._subCfg[key]) : null;
     const lastStop = stops ? stops[stops.length - 1] : 0.955;
     if (down) { const o = 1 - cl((p - (lastStop - 0.04)) / 0.03); down.style.opacity = String(o); down.style.pointerEvents = o > 0.1 ? 'auto' : 'none'; }
     if (up) { const o = cl((p - 0.05) / 0.03); up.style.opacity = String(o); up.style.pointerEvents = o > 0.1 ? 'auto' : 'none'; }
