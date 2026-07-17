@@ -11,11 +11,20 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&family=Space+Grotesk:wght@500&display=swap" rel="stylesheet">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="./dsAnimate.js"></script>
   <style>
     * { box-sizing: border-box; }
     html, body { margin: 0; padding: 0; background: #050505; }
+
+    /* Fallback for browsers without backdrop-filter (older Chrome/Samsung Internet/
+       Firefox Android): the frosted panels rely on blur for legibility, and without
+       it they collapse to a near-transparent tint over the animated background,
+       making text unreadable. Only applies when NEITHER prefix is supported, so
+       Chrome/Safari/modern Android render identically to before. */
+    @supports not ((backdrop-filter: blur(2px)) or (-webkit-backdrop-filter: blur(2px))) {
+      [style*="backdrop-filter"] { background: rgba(6,18,14,0.86) !important; }
+    }
 
     @keyframes content-enter {
       from { opacity: 0; filter: blur(22px); }
@@ -426,8 +435,8 @@
       #stat-0, #stat-1, #stat-2, #stat-3, #stat-4 { border-radius: 18px !important; }
       #clients-grid > div { border-radius: 16px !important; }
       .faq-item { border-radius: 14px !important; }
-      #mission-a { left: 5% !important; width: 90% !important; }
-      #mission-b { left: 50% !important; right: auto !important; width: 72% !important; transform: translateX(-50%) !important; }
+      #mission-a { left: 5% !important; width: 90% !important; height: 44% !important; }
+      #mission-b { left: 50% !important; right: auto !important; width: 90% !important; transform: translateX(-50%) !important; bottom: 12% !important; height: 36% !important; }
       /* Services: same column model as other sections (headline in-flow on top),
          but the cards live in a horizontal scroll row beneath the headline. */
       #svc-scroll {
@@ -1223,7 +1232,7 @@
 
   <!-- ══════════ MOBILE HEADER ══════════ -->
   <div id="mobile-header">
-    <img src="uploads/logo-devsavant-full.png" alt="DevSavant" onclick="{{ onHome }}" style="height:30px; width:auto; object-fit:contain; object-position:left; display:block; cursor:pointer;">
+    <img decoding="async" src="uploads/logo-devsavant-full.png" alt="DevSavant" onclick="{{ onHome }}" style="height:30px; width:auto; object-fit:contain; object-position:left; display:block; cursor:pointer;">
     <div style="display:flex; align-items:center; gap:10px;">
       <button onclick="{{ onMobileAsk }}" aria-label="Ask Anything" style="display:flex; align-items:center; gap:8px; background:rgba(0,0,0,0.40); border:1px solid rgba(199,255,224,0.38); border-radius:11px; cursor:pointer; padding:9px 15px; -webkit-tap-highlight-color:transparent; backdrop-filter:blur(18px); -webkit-backdrop-filter:blur(18px);">
         <span style="font-family:'Inter',sans-serif; font-weight:300; font-size:15px; color:#fff; white-space:nowrap;">Ask Anything</span>
@@ -1244,7 +1253,7 @@
   <div id="mobile-menu">
     <!-- Top bar -->
     <div style="display:flex; align-items:center; justify-content:space-between; height:60px; flex-shrink:0;">
-      <img src="uploads/logo-devsavant-full.png" alt="DevSavant" onclick="{{ onMobileHome }}" style="height:30px; width:auto; object-fit:contain; object-position:left; display:block; cursor:pointer;">
+      <img decoding="async" src="uploads/logo-devsavant-full.png" alt="DevSavant" onclick="{{ onMobileHome }}" style="height:30px; width:auto; object-fit:contain; object-position:left; display:block; cursor:pointer;">
       <button onclick="{{ onMobileMenuClose }}" aria-label="Close menu" style="background:none; border:none; cursor:pointer; padding:10px; display:flex; align-items:center; justify-content:center; -webkit-tap-highlight-color:transparent;">
         <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
           <path d="M1 1l16 16M17 1L1 17" stroke="rgba(255,255,255,0.65)" stroke-width="1.6" stroke-linecap="round"></path>
@@ -1304,7 +1313,7 @@
 
         <!-- Logo -->
         <div id="logo-area" onclick="{{ onHome }}" style="flex-shrink:0; cursor:pointer; animation:nav-enter 1s cubic-bezier(0.16,1,0.3,1) 0.2s both;">
-          <img
+          <img decoding="async"
             src="uploads/logo-devsavant-full.png"
             alt="DevSavant"
             id="logo-img"
@@ -1516,7 +1525,7 @@
         <div id="mission-a" style="position:absolute; left:3%; top:5%; width:54%; height:52%; display:flex; align-items:center; padding:clamp(28px,3.5vw,56px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; opacity:0; pointer-events:none; will-change:opacity; z-index:1;">
           <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(48px,6.6vw,108px); line-height:1.04; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.40);">Our Mission<br>is Simple:</h2>
         </div>
-        <div id="mission-b" style="position:absolute; right:3%; bottom:12%; width:54%; height:42%; display:flex; align-items:center; padding:clamp(28px,3.5vw,56px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; opacity:0; pointer-events:none; will-change:opacity; z-index:2;">
+        <div id="mission-b" style="position:absolute; right:3%; bottom:6%; width:54%; height:34%; display:flex; align-items:center; padding:clamp(28px,3.5vw,56px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; opacity:0; pointer-events:none; will-change:opacity; z-index:2;">
           <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:#C7FFE0; font-size:clamp(18px,1.85vw,32px); line-height:1.4;">Turn ambition into execution, and help every company move confidently toward its next milestone.</p>
         </div>
 
@@ -1527,26 +1536,26 @@
           <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(36px,4.2vw,72px); line-height:1.0; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.35);">Our Services</h2>
         </div>
         <div id="svc-cards">
-        <div id="service-a" style="position:absolute; left:2%; top:21%; width:46%; height:67%; display:flex; flex-direction:column; justify-content:center; gap:clamp(18px,2.6vh,32px); padding:clamp(34px,3.1vw,60px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; opacity:0; pointer-events:none; will-change:opacity; z-index:1;">
+        <div id="service-a" style="position:absolute; left:2%; top:19%; width:46%; height:72%; display:flex; flex-direction:column; justify-content:center; gap:clamp(13px,1.7vh,24px); padding:clamp(26px,2.4vw,48px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; opacity:0; pointer-events:none; will-change:opacity; z-index:1;">
           <div style="display:flex; align-items:center; gap:clamp(10px,0.9vw,14px);">
             <span style="font-family:'Space Grotesk',sans-serif; font-weight:500; font-size:clamp(14px,1.1vw,18px); color:#C7FFE0; letter-spacing:0.04em;">01</span>
             <span style="height:1px; width:clamp(22px,2.4vw,44px); background:rgba(199,255,224,0.35);"></span>
           </div>
           <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(28px,3vw,50px); line-height:1.05; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.40);">Product Engineering</h2>
-          <div style="display:flex; flex-direction:column; gap:clamp(13px,1.6vh,20px);">
+          <div style="display:flex; flex-direction:column; gap:clamp(9px,1.1vh,15px);">
             <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:#C7FFE0; font-size:clamp(15px,1.35vw,21px); line-height:1.55; text-wrap:pretty;">We help funded startups and growth-stage companies turn product ideas into revenue-driving software&mdash;fast. From rapid prototypes and POCs to scalable MVPs, we combine consulting-led discovery with AI-first engineering to accelerate delivery and reduce risk.</p>
             <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:#C7FFE0; font-size:clamp(15px,1.35vw,21px); line-height:1.55; text-wrap:pretty;">We build solutions that scale with your roadmap, backed by top-tier global talent from LATAM and Asia at more competitive costs than traditional U.S. dev shops.</p>
           </div>
           <a href="#" style="align-self:flex-start; display:inline-flex; align-items:center; gap:12px; background:#CCFFCE; color:#18282C; font-family:'Inter',sans-serif; font-weight:700; text-transform:uppercase; font-size:clamp(13px,1.1vw,18px); letter-spacing:0.045em; padding:11px 22px; text-decoration:none; box-shadow:0 0 36px rgba(150,255,170,0.28); transition:transform .2s ease, box-shadow .2s ease;" style-hover="transform:translateY(-2px); box-shadow:0 0 52px rgba(150,255,170,0.45);">Start a Product Sprint <span style="font-weight:700; font-size:1.05em;">&#8594;</span></a>
         </div>
 
-        <div id="service-b" style="position:absolute; left:52%; top:21%; width:46%; height:67%; display:flex; flex-direction:column; justify-content:center; gap:clamp(18px,2.6vh,32px); padding:clamp(34px,3.1vw,60px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; opacity:0; pointer-events:none; will-change:opacity; z-index:2;">
+        <div id="service-b" style="position:absolute; left:52%; top:19%; width:46%; height:72%; display:flex; flex-direction:column; justify-content:center; gap:clamp(13px,1.7vh,24px); padding:clamp(26px,2.4vw,48px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; opacity:0; pointer-events:none; will-change:opacity; z-index:2;">
           <div style="display:flex; align-items:center; gap:clamp(10px,0.9vw,14px);">
             <span style="font-family:'Space Grotesk',sans-serif; font-weight:500; font-size:clamp(14px,1.1vw,18px); color:#C7FFE0; letter-spacing:0.04em;">02</span>
             <span style="height:1px; width:clamp(22px,2.4vw,44px); background:rgba(199,255,224,0.35);"></span>
           </div>
           <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(28px,3vw,50px); line-height:1.05; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.40);">Global Staffing</h2>
-          <div style="display:flex; flex-direction:column; gap:clamp(13px,1.6vh,20px);">
+          <div style="display:flex; flex-direction:column; gap:clamp(9px,1.1vh,15px);">
             <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:#C7FFE0; font-size:clamp(15px,1.35vw,21px); line-height:1.55; text-wrap:pretty;">Build high-performing teams with exceptional talent from LATAM and Asia. We deliver fully vetted Mid-Level and Senior Engineers, QA, AI, Data, PM, and support professionals who integrate fast and perform from day one.</p>
             <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:#C7FFE0; font-size:clamp(15px,1.35vw,21px); line-height:1.55; text-wrap:pretty;">You stay focused on execution while we handle recruitment and vetting. Scale confidently, deliver faster, and power your growth with global talent built for startups.</p>
           </div>
@@ -1598,18 +1607,18 @@
 
         <!-- ══════════ CLIENTS (logo grid) ══════════ -->
         <div id="clients-grid" style="position:absolute; left:2%; top:21%; width:96%; height:68%; display:grid; grid-template-columns:repeat(4,1fr); grid-template-rows:repeat(3,1fr); column-gap:1.8%; row-gap:4%; z-index:4;">
-          <div style="display:flex; align-items:center; justify-content:center; padding:clamp(14px,1.5vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.14); border-radius:24px; opacity:0;"><img src="uploads/Agio-copia-640x184x0x0x640x184x1740154482.png" alt="Agio" style="max-width:78%; max-height:52%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;"></div>
-          <div style="display:flex; align-items:center; justify-content:center; padding:clamp(14px,1.5vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.14); border-radius:24px; opacity:0;"><img src="uploads/Antenna-copia-640x184x0x0x640x184x1740151316.png" alt="Antenna" style="max-width:78%; max-height:52%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;"></div>
-          <div style="display:flex; align-items:center; justify-content:center; padding:clamp(14px,1.5vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.14); border-radius:24px; opacity:0;"><img src="uploads/Conversica-640x184x0x0x640x184x1740155620.png" alt="Conversica" style="max-width:78%; max-height:52%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;"></div>
-          <div style="display:flex; align-items:center; justify-content:center; padding:clamp(14px,1.5vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.14); border-radius:24px; opacity:0;"><img src="uploads/Exactera-640x184x0x0x640x184x1740155548.png" alt="Exactera" style="max-width:78%; max-height:52%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;"></div>
-          <div style="display:flex; align-items:center; justify-content:center; padding:clamp(14px,1.5vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.14); border-radius:24px; opacity:0;"><img src="uploads/FileCloud-copia-640x184x0x0x640x184x1740151502.png" alt="FileCloud" style="max-width:78%; max-height:52%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;"></div>
-          <div style="display:flex; align-items:center; justify-content:center; padding:clamp(14px,1.5vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.14); border-radius:24px; opacity:0;"><img src="uploads/Fulcrum-copia-640x184x0x0x640x184x1740151725.png" alt="Fulcrum" style="max-width:78%; max-height:52%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;"></div>
-          <div style="display:flex; align-items:center; justify-content:center; padding:clamp(14px,1.5vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.14); border-radius:24px; opacity:0;"><img src="uploads/iCAN-copia-640x184x0x0x640x184x1740153618.png" alt="iCAN" style="max-width:78%; max-height:52%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;"></div>
-          <div style="display:flex; align-items:center; justify-content:center; padding:clamp(14px,1.5vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.14); border-radius:24px; opacity:0;"><img src="uploads/Impartner-copia-640x184x0x0x640x184x1740153282.png" alt="Impartner" style="max-width:78%; max-height:52%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;"></div>
-          <div style="display:flex; align-items:center; justify-content:center; padding:clamp(14px,1.5vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.14); border-radius:24px; opacity:0;"><img src="uploads/intelepeer-v2-640x188x0x2x640x184x1755102863.png" alt="IntelePeer" style="max-width:78%; max-height:52%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;"></div>
-          <div style="display:flex; align-items:center; justify-content:center; padding:clamp(14px,1.5vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.14); border-radius:24px; opacity:0;"><img src="uploads/Learning-copia-640x184x0x0x640x184x1740155105.png" alt="Breakout Learning" style="max-width:78%; max-height:52%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;"></div>
-          <div style="display:flex; align-items:center; justify-content:center; padding:clamp(14px,1.5vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.14); border-radius:24px; opacity:0;"><img src="uploads/Onfleet-copia-640x184x0x0x640x184x1740153465.png" alt="Onfleet" style="max-width:78%; max-height:52%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;"></div>
-          <div style="display:flex; align-items:center; justify-content:center; padding:clamp(14px,1.5vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.14); border-radius:24px; opacity:0;"><img src="uploads/Redica-Systems-copia-640x184x0x0x640x184x1740155189.png" alt="Redica Systems" style="max-width:78%; max-height:52%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;"></div>
+          <div style="display:flex; align-items:center; justify-content:center; padding:clamp(14px,1.5vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.14); border-radius:24px; opacity:0;"><img loading="lazy" decoding="async" src="uploads/Agio-copia-640x184x0x0x640x184x1740154482.png" alt="Agio" style="max-width:78%; max-height:52%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;"></div>
+          <div style="display:flex; align-items:center; justify-content:center; padding:clamp(14px,1.5vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.14); border-radius:24px; opacity:0;"><img loading="lazy" decoding="async" src="uploads/Antenna-copia-640x184x0x0x640x184x1740151316.png" alt="Antenna" style="max-width:78%; max-height:52%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;"></div>
+          <div style="display:flex; align-items:center; justify-content:center; padding:clamp(14px,1.5vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.14); border-radius:24px; opacity:0;"><img loading="lazy" decoding="async" src="uploads/Conversica-640x184x0x0x640x184x1740155620.png" alt="Conversica" style="max-width:78%; max-height:52%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;"></div>
+          <div style="display:flex; align-items:center; justify-content:center; padding:clamp(14px,1.5vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.14); border-radius:24px; opacity:0;"><img loading="lazy" decoding="async" src="uploads/Exactera-640x184x0x0x640x184x1740155548.png" alt="Exactera" style="max-width:78%; max-height:52%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;"></div>
+          <div style="display:flex; align-items:center; justify-content:center; padding:clamp(14px,1.5vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.14); border-radius:24px; opacity:0;"><img loading="lazy" decoding="async" src="uploads/FileCloud-copia-640x184x0x0x640x184x1740151502.png" alt="FileCloud" style="max-width:78%; max-height:52%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;"></div>
+          <div style="display:flex; align-items:center; justify-content:center; padding:clamp(14px,1.5vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.14); border-radius:24px; opacity:0;"><img loading="lazy" decoding="async" src="uploads/Fulcrum-copia-640x184x0x0x640x184x1740151725.png" alt="Fulcrum" style="max-width:78%; max-height:52%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;"></div>
+          <div style="display:flex; align-items:center; justify-content:center; padding:clamp(14px,1.5vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.14); border-radius:24px; opacity:0;"><img loading="lazy" decoding="async" src="uploads/iCAN-copia-640x184x0x0x640x184x1740153618.png" alt="iCAN" style="max-width:78%; max-height:52%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;"></div>
+          <div style="display:flex; align-items:center; justify-content:center; padding:clamp(14px,1.5vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.14); border-radius:24px; opacity:0;"><img loading="lazy" decoding="async" src="uploads/Impartner-copia-640x184x0x0x640x184x1740153282.png" alt="Impartner" style="max-width:78%; max-height:52%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;"></div>
+          <div style="display:flex; align-items:center; justify-content:center; padding:clamp(14px,1.5vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.14); border-radius:24px; opacity:0;"><img loading="lazy" decoding="async" src="uploads/intelepeer-v2-640x188x0x2x640x184x1755102863.png" alt="IntelePeer" style="max-width:78%; max-height:52%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;"></div>
+          <div style="display:flex; align-items:center; justify-content:center; padding:clamp(14px,1.5vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.14); border-radius:24px; opacity:0;"><img loading="lazy" decoding="async" src="uploads/Learning-copia-640x184x0x0x640x184x1740155105.png" alt="Breakout Learning" style="max-width:78%; max-height:52%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;"></div>
+          <div style="display:flex; align-items:center; justify-content:center; padding:clamp(14px,1.5vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.14); border-radius:24px; opacity:0;"><img loading="lazy" decoding="async" src="uploads/Onfleet-copia-640x184x0x0x640x184x1740153465.png" alt="Onfleet" style="max-width:78%; max-height:52%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;"></div>
+          <div style="display:flex; align-items:center; justify-content:center; padding:clamp(14px,1.5vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.14); border-radius:24px; opacity:0;"><img loading="lazy" decoding="async" src="uploads/Redica-Systems-copia-640x184x0x0x640x184x1740155189.png" alt="Redica Systems" style="max-width:78%; max-height:52%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;"></div>
         </div>
         </div><!-- /cli-scroll -->
         <div id="faq-scroll">
@@ -2933,19 +2942,19 @@
 
               <div id="vc-s2-grid" style="position:absolute; left:2%; top:22%; width:96%; height:66%; display:grid; grid-template-columns:1fr 1fr; grid-template-rows:1fr 1fr; gap:clamp(16px,2vw,28px); z-index:2;">
                 <div class="vc-card vc-logo" id="vc-s2-c1" style="border-radius:32px; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); box-sizing:border-box; display:flex; align-items:center; justify-content:center; padding:clamp(16px,2vw,32px); opacity:0; pointer-events:none;">
-                  <img src="assets/logo-savant-growth.png" alt="Savant Growth logo" style="max-width:70%; max-height:56%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;">
+                  <img loading="lazy" decoding="async" src="assets/logo-savant-growth.png" alt="Savant Growth logo" style="max-width:70%; max-height:56%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;">
                 </div>
 
                 <div class="vc-card vc-logo" id="vc-s2-c2" style="border-radius:32px; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); box-sizing:border-box; display:flex; align-items:center; justify-content:center; padding:clamp(16px,2vw,32px); opacity:0; pointer-events:none;">
-                  <img src="assets/logo-kennet.png" alt="Kennet logo" style="max-width:60%; max-height:48%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;">
+                  <img loading="lazy" decoding="async" src="assets/logo-kennet.png" alt="Kennet logo" style="max-width:60%; max-height:48%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;">
                 </div>
 
                 <div class="vc-card vc-logo" id="vc-s2-c3" style="border-radius:32px; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); box-sizing:border-box; display:flex; align-items:center; justify-content:center; padding:clamp(16px,2vw,32px); opacity:0; pointer-events:none;">
-                  <img src="assets/logo-clearlake.png" alt="Clearlake logo" style="max-width:65%; max-height:50%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;">
+                  <img loading="lazy" decoding="async" src="assets/logo-clearlake.png" alt="Clearlake logo" style="max-width:65%; max-height:50%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;">
                 </div>
 
                 <div class="vc-card vc-logo" id="vc-s2-c4" style="border-radius:32px; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); box-sizing:border-box; display:flex; align-items:center; justify-content:center; padding:clamp(16px,2vw,32px); opacity:0; pointer-events:none;">
-                  <img src="assets/logo-rbv.png" alt="RBV logo" style="max-width:52%; max-height:70%; object-fit:contain; filter:grayscale(1) brightness(1.55) contrast(0.82); opacity:0.9;">
+                  <img loading="lazy" decoding="async" src="assets/logo-rbv.png" alt="RBV logo" style="max-width:52%; max-height:70%; object-fit:contain; filter:grayscale(1) brightness(1.55) contrast(0.82); opacity:0.9;">
                 </div>
               </div>
             </div><!-- /vc-sec-2 -->
@@ -6188,7 +6197,7 @@ class Component extends DCLogic {
     const THREE = window.THREE;
     const scene    = new THREE.Scene();
     const camera   = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    const renderer = new THREE.WebGLRenderer({ antialias: false, alpha: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     this._bg.appendChild(renderer.domElement);
@@ -6256,9 +6265,13 @@ class Component extends DCLogic {
     this.material = material;
     scene.add(new THREE.Mesh(new THREE.PlaneGeometry(2, 2), material));
     const clock = new THREE.Clock();
+    const reducedMotionQuery = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : null;
     const animate = () => {
       this._raf = requestAnimationFrame(animate);
-      const speed   = (this.props.motionSpeed == null) ? 1 : this.props.motionSpeed;
+      // Honor reduced-motion: freeze the time-based undulation (speed 0) but keep
+      // rendering so scroll/page-driven palette shifts still respond.
+      const speed   = (reducedMotionQuery && reducedMotionQuery.matches) ? 0
+                    : ((this.props.motionSpeed == null) ? 1 : this.props.motionSpeed);
       const elapsed = clock.getElapsedTime();
       const dt      = elapsed - (this._lastElapsed || 0);
       this._lastElapsed = elapsed;
@@ -6277,6 +6290,19 @@ class Component extends DCLogic {
       renderer.render(scene, camera);
     };
     animate();
+
+    // Pause the render loop while the tab/page is hidden — invisible to the user,
+    // but stops GPU/CPU/battery churn in background tabs. Reset the clock delta on
+    // resume so accumulated time doesn't jump forward.
+    this._onVisibility = () => {
+      if (document.hidden) {
+        if (this._raf) { cancelAnimationFrame(this._raf); this._raf = 0; }
+      } else if (!this._raf) {
+        this._lastElapsed = clock.getElapsedTime();
+        animate();
+      }
+    };
+    document.addEventListener('visibilitychange', this._onVisibility);
   }
 
   _resize() {
@@ -6289,6 +6315,7 @@ class Component extends DCLogic {
     cancelAnimationFrame(this._raf);
     clearTimeout(this._poll);
     window.removeEventListener('resize', this._onResize);
+    if (this._onVisibility) document.removeEventListener('visibilitychange', this._onVisibility);
     if (this.renderer) {
       try { this._bg && this.renderer.domElement && this._bg.removeChild(this.renderer.domElement); } catch(e) {}
       this.renderer.dispose && this.renderer.dispose();
