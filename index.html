@@ -262,9 +262,11 @@
       .faq-two-pane .faq-list .faq-item .faq-body { display:none !important; }
       .faq-two-pane .faq-list .faq-item .faq-header { width:100%; }
       .faq-two-pane .faq-list .faq-item .faq-header span:first-child { display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-size:clamp(12px,0.95vw,16px) !important; line-height:1.25 !important; }
-      .faq-two-pane .faq-list .faq-item.faq-active { background:rgba(0,0,0,0.40) !important; border-color:rgba(199,255,224,0.42) !important; }
+      .faq-two-pane .faq-list .faq-item.faq-active { background:rgba(199,255,224,0.12) !important; border-color:rgba(199,255,224,0.6) !important; box-shadow:inset 3px 0 0 #8FF5C2, 0 6px 26px rgba(0,0,0,0.30); }
       .faq-two-pane .faq-list .faq-item.faq-active .faq-header span:first-child { color:#EFFFF7 !important; }
-      .faq-two-pane .faq-list .faq-item.faq-active .faq-chevron { transform:rotate(90deg); color:#8FF5C2; }
+      /* Chevron intentionally NOT rotated/recolored on selection: this is a master/detail
+         two-pane (answer shows on the right), not an accordion — a downward chevron would
+         wrongly imply inline expansion. The highlighted container conveys the active state. */
       .faq-two-pane .faq-answer { flex:1 1 auto; display:flex; flex-direction:column; justify-content:center; }
     }
 
@@ -875,9 +877,11 @@
       #gs-hero-frame, #gs-hero-layer { height: 100% !important; }
       #gs-hero-layer {
         padding-left: 26px !important; padding-right: 26px !important;
-        justify-content: flex-start !important; padding-top: 40px !important; padding-bottom: 24px !important;
+        justify-content: flex-start !important; padding-top: 26px !important; padding-bottom: 24px !important;
       }
-      #gs-hero-layer p { font-size: clamp(14px, 3.7vw, 17px) !important; line-height: 1.45 !important; }
+      /* GS hero is text-heavy (two long paragraphs); compress body copy so the CTA + "Back to
+         Home" clear the scroll-cue arrows on short viewports (e.g. 375x667) instead of being cut off */
+      #gs-hero-layer p { font-size: clamp(13px, 3.4vw, 15.5px) !important; line-height: 1.4 !important; }
       .gs-hl {
         position: relative !important;
         left: auto !important; top: auto !important;
@@ -978,7 +982,7 @@
 
       /* Our Expertise subpage (mobile) - mirrors PE/GS model */
       #oe-overlay { left: 0 !important; }
-      #oe-stage { top: 0 !important; height: calc(100% - 72px) !important; overflow: hidden !important; }
+      #oe-stage { top: 0px !important; height: calc(100dvh - 60px) !important; overflow: hidden !important; }
       #oe-hero-frame {
         border-right: 1px solid rgba(255,255,255,0.12) !important;
         border-bottom: none !important;
@@ -986,7 +990,9 @@
         border-top-right-radius: 26px !important;
         border-bottom-left-radius: 0 !important;
       }
-      #oe-hero-layer { padding-left: 26px !important; padding-right: 26px !important; }
+      #oe-hero-layer { padding-left: 26px !important; padding-right: 26px !important; justify-content: center !important; padding-top: 24px !important; padding-bottom: 24px !important; }
+      /* Fit the clipped stage (not 100vh) so content anchors to the top of the visible band, not below it */
+      #oe-hero-frame, #oe-hero-layer { height: 100% !important; }
       #oe-hero-layer h1 { font-size: clamp(48px, 6.6vw, 108px) !important; }
       .oe-hl {
         position: relative !important;
@@ -1017,7 +1023,7 @@
 
       /* About Us subpage (mobile) - mirrors PE/GS/OE model */
       #au-overlay { left: 0 !important; }
-      #au-stage { top: 0 !important; height: calc(100% - 72px) !important; overflow: hidden !important; }
+      #au-stage { top: 0px !important; height: calc(100dvh - 60px) !important; overflow: hidden !important; }
       #au-hero-frame {
         border-right: 1px solid rgba(255,255,255,0.12) !important;
         border-bottom: none !important;
@@ -1025,7 +1031,9 @@
         border-top-right-radius: 26px !important;
         border-bottom-left-radius: 0 !important;
       }
-      #au-hero-layer { padding-left: 26px !important; padding-right: 26px !important; }
+      #au-hero-layer { padding-left: 26px !important; padding-right: 26px !important; justify-content: flex-start !important; padding-top: 40px !important; padding-bottom: 24px !important; }
+      /* Fit the clipped stage (not 100vh) so content anchors to the top of the visible band, not below it */
+      #au-hero-frame, #au-hero-layer { height: 100% !important; }
       #au-hero-layer h1 { font-size: clamp(48px, 6.6vw, 108px) !important; }
       .au-hl {
         position: relative !important;
@@ -1057,7 +1065,7 @@
 
       /* VC Partnerships subpage (mobile) - mirrors PE/GS/OE/AU model */
       #vc-overlay { left: 0 !important; }
-      #vc-stage { top: 0 !important; height: calc(100% - 72px) !important; overflow: hidden !important; }
+      #vc-stage { top: 0px !important; height: calc(100dvh - 60px) !important; overflow: hidden !important; }
       #vc-hero-frame {
         border-right: 1px solid rgba(255,255,255,0.12) !important;
         border-bottom: none !important;
@@ -1065,8 +1073,13 @@
         border-top-right-radius: 26px !important;
         border-bottom-left-radius: 0 !important;
       }
-      #vc-hero-layer { padding-left: 26px !important; padding-right: 26px !important; }
+      #vc-hero-layer { padding-left: 26px !important; padding-right: 26px !important; justify-content: flex-start !important; padding-top: 26px !important; padding-bottom: 24px !important; }
+      /* Fit the clipped stage (not 100vh) so content anchors to the top of the visible band, not below it */
+      #vc-hero-frame, #vc-hero-layer { height: 100% !important; }
       #vc-hero-layer h1 { font-size: clamp(48px, 6.6vw, 108px) !important; }
+      /* VC hero is content-heavy (two paragraphs + a 3-stat row); compress body copy so the
+         stats, CTA and "Back to Home" all fit above the scroll-cue arrows at short heights (667) */
+      #vc-hero-layer p { font-size: clamp(13px, 3.4vw, 15.5px) !important; line-height: 1.4 !important; }
       .vc-hl {
         position: relative !important;
         left: auto !important; top: auto !important;
@@ -1099,7 +1112,7 @@
 
       /* Blog subpage (mobile) - mirrors PE/GS/OE/AU/VC model */
       #bl-overlay { left: 0 !important; }
-      #bl-stage { top: 0 !important; height: calc(100% - 72px) !important; overflow: hidden !important; }
+      #bl-stage { top: 0px !important; height: calc(100dvh - 60px) !important; overflow: hidden !important; }
       #bl-hero-frame {
         border-right: 1px solid rgba(255,255,255,0.12) !important;
         border-bottom: none !important;
@@ -1107,7 +1120,9 @@
         border-top-right-radius: 26px !important;
         border-bottom-left-radius: 0 !important;
       }
-      #bl-hero-layer { padding-left: 26px !important; padding-right: 26px !important; }
+      #bl-hero-layer { padding-left: 26px !important; padding-right: 26px !important; justify-content: center !important; padding-top: 24px !important; padding-bottom: 24px !important; }
+      /* Fit the clipped stage (not 100vh) so content anchors to the top of the visible band, not below it */
+      #bl-hero-frame, #bl-hero-layer { height: 100% !important; }
       #bl-hero-layer h1 { font-size: clamp(48px, 6.6vw, 108px) !important; }
       .bl-hl {
         position: relative !important;
@@ -1151,7 +1166,7 @@
         border-top-right-radius: 26px !important;
         border-bottom-left-radius: 0 !important;
       }
-      #cr-hero-layer { padding-left: 26px !important; padding-right: 26px !important; height: calc(100% - 72px) !important; }
+      #cr-hero-layer { padding-left: 26px !important; padding-right: 26px !important; height: calc(100% - 72px) !important; justify-content: flex-start !important; padding-top: 40px !important; padding-bottom: 24px !important; }
       #cr-hero-layer h1 { font-size: clamp(48px, 6.6vw, 108px) !important; }
       .cr-hl {
         position: relative !important;
