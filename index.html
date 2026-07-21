@@ -982,6 +982,10 @@
 
       /* Our Expertise subpage (mobile) - mirrors PE/GS model */
       #oe-overlay { left: 0 !important; }
+      /* Block native vertical touch-scroll so vertical swipes advance sections (snap) and
+         horizontal swipes reach the per-project card row (.pe-hrow) — matches PE/GS. Without
+         this the overlay's native scroll competes with the card row and horizontal swipe fails. */
+      body.oe-state #oe-overlay { touch-action: pan-x !important; }
       #oe-stage { top: 0px !important; height: calc(100dvh - 60px) !important; overflow: hidden !important; }
       #oe-hero-frame {
         border-right: 1px solid rgba(255,255,255,0.12) !important;
@@ -1002,6 +1006,7 @@
         justify-content: center !important;
         margin: 2px 0 10px !important;
         gap: 8px !important;
+        padding-left: 20px !important; padding-right: 20px !important;
       }
       .oe-hl h2 { font-size: clamp(24px, 6.4vw, 32px) !important; line-height: 1.12 !important; max-width: none !important; }
       .oe-card, .oe-testi {
@@ -1020,6 +1025,18 @@
       .oe-card .oe-scrollbar-hide { max-height: 34vh !important; }
       .oe-testi { flex-direction: column !important; align-items: flex-start !important; gap: 10px !important; padding: 18px 20px !important; margin-bottom: 0 !important; }
       .oe-testi > div:last-child { text-align: left !important; max-width: none !important; }
+      /* Each project (image + problem/solution/results + testimonial) swipes horizontally as
+         full-height cards, so the case-study copy is never cropped/overflowing vertically.
+         Scoped to #oe-scroll so the PE/GS card rows are unaffected. */
+      #oe-scroll .pe-hrow { flex: 1 1 auto !important; min-height: 0 !important; align-items: stretch !important; }
+      #oe-scroll .oe-card, #oe-scroll .oe-testi {
+        flex: 0 0 86% !important; width: auto !important; height: 100% !important;
+        max-height: none !important; margin: 0 !important; scroll-snap-align: start !important;
+      }
+      #oe-scroll .oe-card { display: flex !important; flex-direction: column !important; }
+      #oe-scroll .oe-card .oe-scrollbar-hide { flex: 1 1 auto !important; max-height: none !important; }
+      /* the desktop accordion chevron (+) has no role in the horizontal card layout */
+      #oe-scroll .oe-card h3 span { display: none !important; }
 
       /* About Us subpage (mobile) - mirrors PE/GS/OE model */
       #au-overlay { left: 0 !important; }
@@ -1043,6 +1060,7 @@
         justify-content: center !important;
         margin: 2px 0 10px !important;
         gap: 8px !important;
+        padding-left: 20px !important; padding-right: 20px !important;
       }
       .au-hl h2 { font-size: clamp(26px, 7vw, 34px) !important; line-height: 1.1 !important; }
       .au-card {
@@ -1061,6 +1079,17 @@
       #au-sec-2 .au-card, #au-sec-4 .au-card { min-height: 150px !important; }
       .au-card { max-height: 62vh !important; overflow-y: auto !important; -webkit-overflow-scrolling: touch !important; scrollbar-width: none !important; }
       .au-card::-webkit-scrollbar { display: none !important; }
+      /* Each About-Us section's cards swipe horizontally as full-height cards (mirror OE), so they
+         no longer stack and overflow vertically. Scoped to #au-scroll so PE/GS/OE rows are unaffected. */
+      body.au-state #au-overlay { touch-action: pan-x !important; }
+      #au-scroll .pe-hrow { flex: 1 1 auto !important; min-height: 0 !important; align-items: stretch !important; }
+      #au-scroll .au-card {
+        flex: 0 0 86% !important; width: auto !important; height: 100% !important;
+        max-height: none !important; overflow-y: auto !important; scrollbar-width: none !important;
+        margin: 0 !important; scroll-snap-align: start !important;
+      }
+      /* the single "Our Purpose" statement card fills the width (nothing to swipe past) */
+      #au-scroll .au-purpose { flex: 0 0 100% !important; overflow-y: hidden !important; }
       #au-cta-content { padding-left: 24px !important; padding-right: 24px !important; }
 
       /* VC Partnerships subpage (mobile) - mirrors PE/GS/OE/AU model */
@@ -2338,7 +2367,7 @@
   <div class="oe-hl" id="oe-s1-hl" style="position:absolute; left:2%; top:3%; width:96%; height:10%; display:flex; flex-direction:column; justify-content:center; gap:clamp(6px,0.8vh,10px); opacity:0; pointer-events:none; z-index:2;">
     <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(22px,2.5vw,42px); line-height:1.08; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.30); text-wrap:balance; max-width:1100px;">Fulcrum / Scaling an Engineering Team</h2>
   </div>
-  <div class="oe-card" id="oe-s1-img" style="position:absolute; left:2%; top:16%; width:44%; height:64%; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1.5px dashed rgba(199,255,224,0.25); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; opacity:0; pointer-events:none; z-index:2;">
+  <div class="pe-hrow"><div class="oe-card" id="oe-s1-img" style="position:absolute; left:2%; top:16%; width:44%; height:64%; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1.5px dashed rgba(199,255,224,0.25); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; opacity:0; pointer-events:none; z-index:2;">
     <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.55;"><rect x="3" y="3" width="18" height="18" rx="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><path d="M21 15l-5-5L5 21"></path></svg>
     <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(11px,0.85vw,14px); letter-spacing:0.08em; text-transform:uppercase; color:rgba(199,255,224,0.4); text-align:center; padding:0 20px;">Fulcrum image placeholder</span>
   </div>
@@ -2362,13 +2391,13 @@
       <span style="font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(10px,0.78vw,13px); color:rgba(199,255,224,0.55);">Director, Reliability and Release Engineering, Fulcrum</span>
     </div>
   </div>
-</div><!-- /oe-sec-1 -->
+</div></div><!-- /oe-sec-1 -->
 
 <div class="pe-sec" id="oe-sec-2">
   <div class="oe-hl" id="oe-s2-hl" style="position:absolute; left:2%; top:3%; width:96%; height:10%; display:flex; flex-direction:column; justify-content:center; gap:clamp(6px,0.8vh,10px); opacity:0; pointer-events:none; z-index:2;">
     <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(22px,2.5vw,42px); line-height:1.08; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.30); text-wrap:balance; max-width:1100px;">IntelePeer / Data Warehousing</h2>
   </div>
-  <div class="oe-card" id="oe-s2-img" style="position:absolute; left:2%; top:16%; width:44%; height:64%; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1.5px dashed rgba(199,255,224,0.25); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; opacity:0; pointer-events:none; z-index:2;">
+  <div class="pe-hrow"><div class="oe-card" id="oe-s2-img" style="position:absolute; left:2%; top:16%; width:44%; height:64%; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1.5px dashed rgba(199,255,224,0.25); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; opacity:0; pointer-events:none; z-index:2;">
     <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.55;"><rect x="3" y="3" width="18" height="18" rx="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><path d="M21 15l-5-5L5 21"></path></svg>
     <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(11px,0.85vw,14px); letter-spacing:0.08em; text-transform:uppercase; color:rgba(199,255,224,0.4); text-align:center; padding:0 20px;">IntelePeer image placeholder</span>
   </div>
@@ -2392,13 +2421,13 @@
       <span style="font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(10px,0.78vw,13px); color:rgba(199,255,224,0.55);">VP Application Software Development, IntelePeer</span>
     </div>
   </div>
-</div><!-- /oe-sec-2 -->
+</div></div><!-- /oe-sec-2 -->
 
 <div class="pe-sec" id="oe-sec-3">
   <div class="oe-hl" id="oe-s3-hl" style="position:absolute; left:2%; top:4%; width:96%; height:12%; display:flex; flex-direction:column; justify-content:center; gap:clamp(6px,0.8vh,10px); opacity:0; pointer-events:none; z-index:2;">
     <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(22px,2.5vw,42px); line-height:1.08; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.30); text-wrap:balance; max-width:1100px;">Conversica / ETL Pipeline for Dynamic Massive Lead Ingestion</h2>
   </div>
-  <div class="oe-card" id="oe-s3-img" style="position:absolute; left:2%; top:20%; width:44%; height:74%; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1.5px dashed rgba(199,255,224,0.25); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; opacity:0; pointer-events:none; z-index:2;">
+  <div class="pe-hrow"><div class="oe-card" id="oe-s3-img" style="position:absolute; left:2%; top:20%; width:44%; height:74%; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1.5px dashed rgba(199,255,224,0.25); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; opacity:0; pointer-events:none; z-index:2;">
     <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.55;"><rect x="3" y="3" width="18" height="18" rx="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><path d="M21 15l-5-5L5 21"></path></svg>
     <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(11px,0.85vw,14px); letter-spacing:0.08em; text-transform:uppercase; color:rgba(199,255,224,0.4); text-align:center; padding:0 20px;">Conversica image placeholder</span>
   </div>
@@ -2414,13 +2443,13 @@
     <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#9DEBC2; font-size:clamp(14px,1.1vw,19px); line-height:1.2; flex-shrink:0;">The Results</h3>
     <div class="oe-scrollbar-hide" style="flex:1; min-height:0; overflow-y:auto; scrollbar-width:none;"><p style="margin:clamp(8px,1vh,12px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.78); font-size:clamp(12.5px,0.95vw,15.5px); line-height:1.58; text-wrap:pretty;">The new ETL pipeline increased data retrieval frequency from twice daily to every five minutes, providing Conversica with up-to-date customer information to improve service delivery. The improved onboarding process reduced friction for new clients, while the flexible design of the ETL pipeline allows for quick adaptation to new systems, reducing future development costs. This streamlined data management has enabled Conversica to efficiently handle massive lead ingestion and maintain a high standard of service.</p></div>
   </div>
-</div><!-- /oe-sec-3 -->
+</div></div><!-- /oe-sec-3 -->
 
 <div class="pe-sec" id="oe-sec-4">
   <div class="oe-hl" id="oe-s4-hl" style="position:absolute; left:2%; top:4%; width:96%; height:12%; display:flex; flex-direction:column; justify-content:center; gap:clamp(6px,0.8vh,10px); opacity:0; pointer-events:none; z-index:2;">
     <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(22px,2.5vw,42px); line-height:1.08; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.30); text-wrap:balance; max-width:1100px;">Impartner / Data Lifecycle Project</h2>
   </div>
-  <div class="oe-card" id="oe-s4-img" style="position:absolute; left:2%; top:20%; width:44%; height:74%; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1.5px dashed rgba(199,255,224,0.25); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; opacity:0; pointer-events:none; z-index:2;">
+  <div class="pe-hrow"><div class="oe-card" id="oe-s4-img" style="position:absolute; left:2%; top:20%; width:44%; height:74%; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1.5px dashed rgba(199,255,224,0.25); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; opacity:0; pointer-events:none; z-index:2;">
     <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.55;"><rect x="3" y="3" width="18" height="18" rx="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><path d="M21 15l-5-5L5 21"></path></svg>
     <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(11px,0.85vw,14px); letter-spacing:0.08em; text-transform:uppercase; color:rgba(199,255,224,0.4); text-align:center; padding:0 20px;">Impartner image placeholder</span>
   </div>
@@ -2436,13 +2465,13 @@
     <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#9DEBC2; font-size:clamp(14px,1.1vw,19px); line-height:1.2; flex-shrink:0;">The Results</h3>
     <div class="oe-scrollbar-hide" style="flex:1; min-height:0; overflow-y:auto; scrollbar-width:none;"><p style="margin:clamp(8px,1vh,12px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.78); font-size:clamp(12.5px,0.95vw,15.5px); line-height:1.58; text-wrap:pretty;">The implementation of the data lifecycle system transformed Impartner's sales processes:</p><ul style="margin:clamp(8px,1vh,12px) 0 0; padding-left:18px; display:flex; flex-direction:column; gap:5px;" class="oe-scrollbar-hide"><li style="font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.78); font-size:clamp(12.5px,0.95vw,15.5px); line-height:1.5; text-wrap:pretty;">Sales executives gained access to clean, enriched, and accurate lead information, significantly improving sales pipeline efficiency.</li><li style="font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.78); font-size:clamp(12.5px,0.95vw,15.5px); line-height:1.5; text-wrap:pretty;">Data standardization reduced duplicity and inconsistencies, enabling faster decision-making.</li><li style="font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.78); font-size:clamp(12.5px,0.95vw,15.5px); line-height:1.5; text-wrap:pretty;">Overall productivity was boosted, streamlining the sales process and ensuring better resource allocation.</li></ul></div>
   </div>
-</div><!-- /oe-sec-4 -->
+</div></div><!-- /oe-sec-4 -->
 
 <div class="pe-sec" id="oe-sec-5">
   <div class="oe-hl" id="oe-s5-hl" style="position:absolute; left:2%; top:4%; width:96%; height:12%; display:flex; flex-direction:column; justify-content:center; gap:clamp(6px,0.8vh,10px); opacity:0; pointer-events:none; z-index:2;">
     <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(22px,2.5vw,42px); line-height:1.08; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.30); text-wrap:balance; max-width:1100px;">AI-Powered Reading Assessment (EdTech | PoC in 4 Weeks)</h2>
   </div>
-  <div class="oe-card" id="oe-s5-img" style="position:absolute; left:2%; top:20%; width:44%; height:74%; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1.5px dashed rgba(199,255,224,0.25); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; opacity:0; pointer-events:none; z-index:2;">
+  <div class="pe-hrow"><div class="oe-card" id="oe-s5-img" style="position:absolute; left:2%; top:20%; width:44%; height:74%; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1.5px dashed rgba(199,255,224,0.25); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; opacity:0; pointer-events:none; z-index:2;">
     <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.55;"><rect x="3" y="3" width="18" height="18" rx="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><path d="M21 15l-5-5L5 21"></path></svg>
     <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(11px,0.85vw,14px); letter-spacing:0.08em; text-transform:uppercase; color:rgba(199,255,224,0.4); text-align:center; padding:0 20px;">Reading Assessment image placeholder</span>
   </div>
@@ -2458,13 +2487,13 @@
     <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#9DEBC2; font-size:clamp(14px,1.1vw,19px); line-height:1.2; flex-shrink:0;">The Results</h3>
     <div class="oe-scrollbar-hide" style="flex:1; min-height:0; overflow-y:auto; scrollbar-width:none;"><p style="margin:clamp(8px,1vh,12px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.78); font-size:clamp(12.5px,0.95vw,15.5px); line-height:1.58; text-wrap:pretty;">Deployed to school Chromebooks with a validated, scalable cost model for rollout.</p></div>
   </div>
-</div><!-- /oe-sec-5 -->
+</div></div><!-- /oe-sec-5 -->
 
 <div class="pe-sec" id="oe-sec-6">
   <div class="oe-hl" id="oe-s6-hl" style="position:absolute; left:2%; top:4%; width:96%; height:12%; display:flex; flex-direction:column; justify-content:center; gap:clamp(6px,0.8vh,10px); opacity:0; pointer-events:none; z-index:2;">
     <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(22px,2.5vw,42px); line-height:1.08; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.30); text-wrap:balance; max-width:1100px;">Interactive Audiobook Companion (Venture-Backed | 8-Week MVP)</h2>
   </div>
-  <div class="oe-card" id="oe-s6-img" style="position:absolute; left:2%; top:20%; width:44%; height:74%; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1.5px dashed rgba(199,255,224,0.25); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; opacity:0; pointer-events:none; z-index:2;">
+  <div class="pe-hrow"><div class="oe-card" id="oe-s6-img" style="position:absolute; left:2%; top:20%; width:44%; height:74%; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1.5px dashed rgba(199,255,224,0.25); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; opacity:0; pointer-events:none; z-index:2;">
     <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.55;"><rect x="3" y="3" width="18" height="18" rx="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><path d="M21 15l-5-5L5 21"></path></svg>
     <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(11px,0.85vw,14px); letter-spacing:0.08em; text-transform:uppercase; color:rgba(199,255,224,0.4); text-align:center; padding:0 20px;">Audiobook Companion image placeholder</span>
   </div>
@@ -2480,13 +2509,13 @@
     <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#9DEBC2; font-size:clamp(14px,1.1vw,19px); line-height:1.2; flex-shrink:0;">The Results</h3>
     <div class="oe-scrollbar-hide" style="flex:1; min-height:0; overflow-y:auto; scrollbar-width:none;"><p style="margin:clamp(8px,1vh,12px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.78); font-size:clamp(12.5px,0.95vw,15.5px); line-height:1.58; text-wrap:pretty;">TestFlight launch prepared for user pilots and investment conversations.</p></div>
   </div>
-</div><!-- /oe-sec-6 -->
+</div></div><!-- /oe-sec-6 -->
 
 <div class="pe-sec" id="oe-sec-7">
   <div class="oe-hl" id="oe-s7-hl" style="position:absolute; left:2%; top:4%; width:96%; height:12%; display:flex; flex-direction:column; justify-content:center; gap:clamp(6px,0.8vh,10px); opacity:0; pointer-events:none; z-index:2;">
     <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(22px,2.5vw,42px); line-height:1.08; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.30); text-wrap:balance; max-width:1100px;">Self-Service AI Book Generation Platform (Founder-Led | 8 Weeks)</h2>
   </div>
-  <div class="oe-card" id="oe-s7-img" style="position:absolute; left:2%; top:20%; width:44%; height:74%; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1.5px dashed rgba(199,255,224,0.25); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; opacity:0; pointer-events:none; z-index:2;">
+  <div class="pe-hrow"><div class="oe-card" id="oe-s7-img" style="position:absolute; left:2%; top:20%; width:44%; height:74%; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1.5px dashed rgba(199,255,224,0.25); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; opacity:0; pointer-events:none; z-index:2;">
     <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.55;"><rect x="3" y="3" width="18" height="18" rx="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><path d="M21 15l-5-5L5 21"></path></svg>
     <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(11px,0.85vw,14px); letter-spacing:0.08em; text-transform:uppercase; color:rgba(199,255,224,0.4); text-align:center; padding:0 20px;">AI Book Generation image placeholder</span>
   </div>
@@ -2502,13 +2531,13 @@
     <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#9DEBC2; font-size:clamp(14px,1.1vw,19px); line-height:1.2; flex-shrink:0;">The Results</h3>
     <div class="oe-scrollbar-hide" style="flex:1; min-height:0; overflow-y:auto; scrollbar-width:none;"><p style="margin:clamp(8px,1vh,12px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.78); font-size:clamp(12.5px,0.95vw,15.5px); line-height:1.58; text-wrap:pretty;">Predictable unit economics, privacy-compliant workflow, and zero engineering dependency for content updates.</p></div>
   </div>
-</div><!-- /oe-sec-7 -->
+</div></div><!-- /oe-sec-7 -->
 
 <div class="pe-sec" id="oe-sec-8">
   <div class="oe-hl" id="oe-s8-hl" style="position:absolute; left:2%; top:4%; width:96%; height:12%; display:flex; flex-direction:column; justify-content:center; gap:clamp(6px,0.8vh,10px); opacity:0; pointer-events:none; z-index:2;">
     <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(22px,2.5vw,42px); line-height:1.08; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.30); text-wrap:balance; max-width:1100px;">AI-Powered Support Automation (Growth-Stage SaaS | 9-Week Delivery)</h2>
   </div>
-  <div class="oe-card" id="oe-s8-img" style="position:absolute; left:2%; top:20%; width:44%; height:74%; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1.5px dashed rgba(199,255,224,0.25); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; opacity:0; pointer-events:none; z-index:2;">
+  <div class="pe-hrow"><div class="oe-card" id="oe-s8-img" style="position:absolute; left:2%; top:20%; width:44%; height:74%; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1.5px dashed rgba(199,255,224,0.25); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; opacity:0; pointer-events:none; z-index:2;">
     <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.55;"><rect x="3" y="3" width="18" height="18" rx="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><path d="M21 15l-5-5L5 21"></path></svg>
     <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(11px,0.85vw,14px); letter-spacing:0.08em; text-transform:uppercase; color:rgba(199,255,224,0.4); text-align:center; padding:0 20px;">Support Automation image placeholder</span>
   </div>
@@ -2524,13 +2553,13 @@
     <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#9DEBC2; font-size:clamp(14px,1.1vw,19px); line-height:1.2; flex-shrink:0;">The Results</h3>
     <div class="oe-scrollbar-hide" style="flex:1; min-height:0; overflow-y:auto; scrollbar-width:none;"><p style="margin:clamp(8px,1vh,12px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.78); font-size:clamp(12.5px,0.95vw,15.5px); line-height:1.58; text-wrap:pretty;">Standardized processes, lower onboarding complexity, and reduced manual triage.</p></div>
   </div>
-</div><!-- /oe-sec-8 -->
+</div></div><!-- /oe-sec-8 -->
 
 <div class="pe-sec" id="oe-sec-9">
   <div class="oe-hl" id="oe-s9-hl" style="position:absolute; left:2%; top:4%; width:96%; height:12%; display:flex; flex-direction:column; justify-content:center; gap:clamp(6px,0.8vh,10px); opacity:0; pointer-events:none; z-index:2;">
     <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(22px,2.5vw,42px); line-height:1.08; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.30); text-wrap:balance; max-width:1100px;">Cross-Platform AI Conversation Manager (Internal Product | Ongoing)</h2>
   </div>
-  <div class="oe-card" id="oe-s9-img" style="position:absolute; left:2%; top:20%; width:44%; height:74%; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1.5px dashed rgba(199,255,224,0.25); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; opacity:0; pointer-events:none; z-index:2;">
+  <div class="pe-hrow"><div class="oe-card" id="oe-s9-img" style="position:absolute; left:2%; top:20%; width:44%; height:74%; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1.5px dashed rgba(199,255,224,0.25); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; opacity:0; pointer-events:none; z-index:2;">
     <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.55;"><rect x="3" y="3" width="18" height="18" rx="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><path d="M21 15l-5-5L5 21"></path></svg>
     <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(11px,0.85vw,14px); letter-spacing:0.08em; text-transform:uppercase; color:rgba(199,255,224,0.4); text-align:center; padding:0 20px;">Conversation Manager image placeholder</span>
   </div>
@@ -2546,13 +2575,13 @@
     <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#9DEBC2; font-size:clamp(14px,1.1vw,19px); line-height:1.2; flex-shrink:0;">The Results</h3>
     <div class="oe-scrollbar-hide" style="flex:1; min-height:0; overflow-y:auto; scrollbar-width:none;"><p style="margin:clamp(8px,1vh,12px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.78); font-size:clamp(12.5px,0.95vw,15.5px); line-height:1.58; text-wrap:pretty;">Production release on Chrome Web Store with sustainable freemium model.</p></div>
   </div>
-</div><!-- /oe-sec-9 -->
+</div></div><!-- /oe-sec-9 -->
 
 <div class="pe-sec" id="oe-sec-10">
   <div class="oe-hl" id="oe-s10-hl" style="position:absolute; left:2%; top:4%; width:96%; height:12%; display:flex; flex-direction:column; justify-content:center; gap:clamp(6px,0.8vh,10px); opacity:0; pointer-events:none; z-index:2;">
     <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(22px,2.5vw,42px); line-height:1.08; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.30); text-wrap:balance; max-width:1100px;">Automated Financial Reporting Dashboard (Private Equity | 1-Week Sprint)</h2>
   </div>
-  <div class="oe-card" id="oe-s10-img" style="position:absolute; left:2%; top:20%; width:44%; height:74%; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1.5px dashed rgba(199,255,224,0.25); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; opacity:0; pointer-events:none; z-index:2;">
+  <div class="pe-hrow"><div class="oe-card" id="oe-s10-img" style="position:absolute; left:2%; top:20%; width:44%; height:74%; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1.5px dashed rgba(199,255,224,0.25); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; opacity:0; pointer-events:none; z-index:2;">
     <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.55;"><rect x="3" y="3" width="18" height="18" rx="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><path d="M21 15l-5-5L5 21"></path></svg>
     <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(11px,0.85vw,14px); letter-spacing:0.08em; text-transform:uppercase; color:rgba(199,255,224,0.4); text-align:center; padding:0 20px;">Financial Reporting image placeholder</span>
   </div>
@@ -2568,7 +2597,7 @@
     <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#9DEBC2; font-size:clamp(14px,1.1vw,19px); line-height:1.2; flex-shrink:0;">The Results</h3>
     <div class="oe-scrollbar-hide" style="flex:1; min-height:0; overflow-y:auto; scrollbar-width:none;"><p style="margin:clamp(8px,1vh,12px) 0 0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.78); font-size:clamp(12.5px,0.95vw,15.5px); line-height:1.58; text-wrap:pretty;">Report generation time reduced from hours to minutes, with zero manual errors.</p></div>
   </div>
-</div><!-- /oe-sec-10 -->
+</div></div><!-- /oe-sec-10 -->
 
 
             <!-- ══════════ OE CTA finale (verbatim from Global Staffing) ══════════ -->
@@ -2639,11 +2668,11 @@
 
             <!-- ══════════ SECTION 1 · OUR PURPOSE ══════════ -->
             <div class="pe-sec" id="au-sec-1">
-              <div class="au-card au-purpose" id="au-s1-c1" style="position:absolute; left:2%; top:18%; width:96%; height:64%; padding:clamp(28px,3.2vw,56px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; justify-content:center; gap:clamp(16px,2vh,24px); opacity:0; pointer-events:none; z-index:2;">
+              <div class="pe-hrow"><div class="au-card au-purpose" id="au-s1-c1" style="position:absolute; left:2%; top:18%; width:96%; height:64%; padding:clamp(28px,3.2vw,56px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; justify-content:center; gap:clamp(16px,2vh,24px); opacity:0; pointer-events:none; z-index:2;">
                 <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(34px,4.2vw,76px); line-height:1.05; letter-spacing:-0.01em;">Our Purpose</h2>
                 <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:#C7FFE0; font-size:clamp(17px,1.7vw,28px); line-height:1.4; text-wrap:pretty; max-width:920px;">Our mission is simple: turn ambition into execution, and help every company move confidently toward its next milestone.</p>
               </div>
-            </div><!-- /au-sec-1 -->
+            </div></div><!-- /au-sec-1 -->
 
             <!-- ══════════ SECTION 2 · OUR STORY ══════════ -->
             <div class="pe-sec" id="au-sec-2">
@@ -2651,7 +2680,7 @@
                 <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(30px,3.6vw,64px); line-height:1.0; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.35);">Our Story</h2>
               </div>
               
-              <div class="au-card" id="au-s2-c1" style="position:absolute; left:2%; top:20%; width:47%; height:34%; padding:clamp(18px,1.8vw,32px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; gap:clamp(10px,1.2vh,16px); opacity:0; pointer-events:none; z-index:2;">
+              <div class="pe-hrow"><div class="au-card" id="au-s2-c1" style="position:absolute; left:2%; top:20%; width:47%; height:34%; padding:clamp(18px,1.8vw,32px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; gap:clamp(10px,1.2vh,16px); opacity:0; pointer-events:none; z-index:2;">
                 <div style="display:flex; align-items:center; justify-content:space-between;">
                   <div style="width:48px; height:48px; border-radius:14px; background:rgba(157,235,194,0.10); display:flex; align-items:center; justify-content:center;"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"></path><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"></path><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"></path><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"></path></svg></div>
                   <span style="font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(20px,2vw,30px); letter-spacing:-0.01em;">2021</span>
@@ -2682,7 +2711,7 @@
                 </div>
                 <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.72); font-size:clamp(12.5px,0.92vw,15.5px); line-height:1.55; text-wrap:pretty;">Building on strong relationships with Savant Growth portfolio companies, DevSavant extended its services to American B2B Tech and AI companies, founders and investors that can benefit from our offerings.</p>
               </div>
-            </div><!-- /au-sec-2 -->
+            </div></div><!-- /au-sec-2 -->
 
             <!-- ══════════ SECTION 3 · FOUNDERS ══════════ -->
             <div class="pe-sec" id="au-sec-3">
@@ -2691,7 +2720,7 @@
                 <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:#C7FFE0; font-size:clamp(14px,1.15vw,20px); line-height:1.5; text-wrap:pretty; max-width:600px;">Working side by side with founders to build and scale.</p>
               </div>
               
-              <div class="au-card au-person" id="au-s3-c1" style="position:absolute; left:2%; top:24%; width:31.3%; height:64%; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:32px; display:flex; flex-direction:column; opacity:0; pointer-events:none; z-index:2; box-sizing:border-box; overflow:hidden;">
+              <div class="pe-hrow"><div class="au-card au-person" id="au-s3-c1" style="position:absolute; left:2%; top:24%; width:31.3%; height:64%; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:32px; display:flex; flex-direction:column; opacity:0; pointer-events:none; z-index:2; box-sizing:border-box; overflow:hidden;">
                 <div class="au-photo" style="flex:1; min-height:0; margin:14px 14px 0; border-radius:22px; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1.5px dashed rgba(199,255,224,0.25); border-radius:32px; box-sizing:border-box; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:8px;">
                   <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.5;"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c1.5-4 5-6 8-6s6.5 2 8 6"></path></svg>
                   <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(10px,0.75vw,12px); letter-spacing:0.06em; text-transform:uppercase; color:rgba(199,255,224,0.4); text-align:center; padding:0 10px;">Javier Rojas photo</span>
@@ -2741,7 +2770,7 @@
                   </div>
                 </div>
               </div>
-            </div><!-- /au-sec-3 -->
+            </div></div><!-- /au-sec-3 -->
 
             <!-- ══════════ SECTION 4 · OUR DNA ══════════ -->
             <div class="pe-sec" id="au-sec-4">
@@ -2750,7 +2779,7 @@
                 <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:#C7FFE0; font-size:clamp(14px,1.1vw,19px); line-height:1.5; text-wrap:pretty; max-width:640px;">Everything we do is defined by our core values, the foundation of our identity:</p>
               </div>
               
-              <div class="au-card" id="au-s4-c1" style="position:absolute; left:2%; top:20%; width:31.3%; height:32%; padding:clamp(18px,1.8vw,30px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; gap:clamp(8px,1vh,14px); opacity:0; pointer-events:none; z-index:2;">
+              <div class="pe-hrow"><div class="au-card" id="au-s4-c1" style="position:absolute; left:2%; top:20%; width:31.3%; height:32%; padding:clamp(18px,1.8vw,30px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; gap:clamp(8px,1vh,14px); opacity:0; pointer-events:none; z-index:2;">
                 <div style="display:flex; align-items:flex-start; justify-content:space-between;">
                   <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"></circle><path d="M15.5 13.5 17 22l-5-3-5 3 1.5-8.5"></path></svg>
                   <span style="font-family:'Space Grotesk',sans-serif; font-weight:500; font-size:clamp(34px,3.8vw,60px); line-height:1; color:rgba(255,255,255,0.07); letter-spacing:-0.02em; user-select:none;">01</span>
@@ -2794,7 +2823,7 @@
                 <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(15px,1.4vw,22px); line-height:1.2;">Innovative</h3>
                 <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.72); font-size:clamp(12px,0.88vw,15px); line-height:1.55; text-wrap:pretty;">We embrace change, driving creative solutions and continuous learning to stay ahead in a rapidly evolving world.</p>
               </div>
-            </div><!-- /au-sec-4 -->
+            </div></div><!-- /au-sec-4 -->
 
             <!-- ══════════ SECTION 5 · OUR LEADERS ══════════ -->
             <div class="pe-sec" id="au-sec-5">
@@ -2803,7 +2832,7 @@
                 <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:#C7FFE0; font-size:clamp(14px,1.1vw,19px); line-height:1.5; text-wrap:pretty; max-width:820px;">Our leadership team embodies creativity, expertise, and strategic brilliance. They are the architects of DevSavant&rsquo;s success and are dedicated to transforming your B2B SaaS business into a thriving success story.</p>
               </div>
               
-              <div class="au-card au-person" id="au-s5-c1" style="position:absolute; left:2%; top:26%; width:31.3%; height:62%; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:32px; display:flex; flex-direction:column; opacity:0; pointer-events:none; z-index:2; box-sizing:border-box; overflow:hidden;">
+              <div class="pe-hrow"><div class="au-card au-person" id="au-s5-c1" style="position:absolute; left:2%; top:26%; width:31.3%; height:62%; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:32px; display:flex; flex-direction:column; opacity:0; pointer-events:none; z-index:2; box-sizing:border-box; overflow:hidden;">
                 <div class="au-photo" style="flex:1; min-height:0; margin:14px 14px 0; border-radius:22px; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1.5px dashed rgba(199,255,224,0.25); border-radius:32px; box-sizing:border-box; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:8px;">
                   <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.5;"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c1.5-4 5-6 8-6s6.5 2 8 6"></path></svg>
                   <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(10px,0.75vw,12px); letter-spacing:0.06em; text-transform:uppercase; color:rgba(199,255,224,0.4); text-align:center; padding:0 10px;">Daniel Peña photo</span>
@@ -2853,7 +2882,7 @@
                   </div>
                 </div>
               </div>
-            </div><!-- /au-sec-5 -->
+            </div></div><!-- /au-sec-5 -->
 
             <!-- ══════════ AU CTA finale (verbatim from Global Staffing) ══════════ -->
             <div id="au-cta-content" style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:flex-start; justify-content:center; padding-left:clamp(48px,6.5vw,140px); padding-right:clamp(32px,5vw,80px); gap:clamp(24px,3.4vh,44px); opacity:0; pointer-events:none; z-index:30;">
@@ -3654,7 +3683,7 @@ class Component extends DCLogic {
     pe: { el: 'pe-overlay', stops: [0, 0.15, 0.285, 0.425, 0.57, 0.705, 0.85, 0.975] },
     gs: { el: 'gs-overlay', stops: [0, 0.09, 0.19, 0.29, 0.39, 0.49, 0.59, 0.73, 0.975], mstops: [0, 0.13, 0.24, 0.36, 0.47, 0.59, 0.70, 0.83, 0.975] },
     oe: { el: 'oe-overlay', stops: [0, 0.095, 0.176, 0.257, 0.338, 0.419, 0.50, 0.581, 0.662, 0.743, 0.824, 0.975] },
-    au: { el: 'au-overlay', stops: [0, 0.15, 0.27, 0.39, 0.51, 0.61, 0.80] },
+    au: { el: 'au-overlay', stops: [0, 0.15, 0.27, 0.39, 0.51, 0.61, 0.80], mstops: [0, 0.11, 0.23, 0.35, 0.47, 0.585, 0.80] },
     vc: { el: 'vc-overlay', stops: [0, 0.174, 0.40, 0.632, 0.865] },
     bl: { el: 'bl-overlay', stops: [0, 0.45, 0.905] },
     cr: { el: 'cr-overlay', stops: [0, 0.45, 0.905] }
@@ -5043,6 +5072,10 @@ class Component extends DCLogic {
       const inS = S[i] + 0.028, outS = (i < N - 1 ? S[i + 1] : 0.90) - 0.012;
       const op = cl((p - inS) / 0.03) * (1 - cl((p - outS) / 0.025));
       ids.forEach(id => { const el = document.getElementById(id); if (el) { el.style.opacity = String(op); el.style.pointerEvents = op > 0.5 ? 'auto' : 'none'; } });
+      // All 10 sections are stacked absolutely (cross-fade); without this the topmost section's
+      // .pe-hrow captures every horizontal swipe. Gate the whole section so only the visible
+      // project's card row is touch-interactive. (Ignored on desktop where .pe-sec is display:contents.)
+      const secEl = document.getElementById('oe-sec-' + n); if (secEl) secEl.style.pointerEvents = op > 0.5 ? 'auto' : 'none';
     }
     // Accordion layout (desktop): position prob/sol/res cards + fade collapsed bodies
     if (!mob) {
@@ -5302,6 +5335,10 @@ class Component extends DCLogic {
         held = Math.max(held, op);
         const active = op > 0.985;
         ids.forEach(id => { const el = document.getElementById(id); if (el) { el.style.opacity = String(op); el.style.pointerEvents = active ? 'auto' : 'none'; } });
+        // Sections are stacked absolutely (cross-fade); gate the whole section so only the visible
+        // one's .pe-hrow card row is touch-interactive (else the topmost section swallows swipes).
+        const auSecEl = document.getElementById('au-sec-' + (i + 1));
+        if (auSecEl) auSecEl.style.pointerEvents = active ? 'auto' : 'none';
         // Reset this section's own pinned scroll container while it's hidden.
         if (op < 0.02) {
           const secEl = document.getElementById('au-sec-' + (i + 1));
