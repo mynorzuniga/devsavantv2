@@ -338,10 +338,14 @@
     #vc-overlay::-webkit-scrollbar { display: none; }
     #bl-overlay::-webkit-scrollbar { display: none; }
     #bl-s1-grid::-webkit-scrollbar { display: none; }
+    #bd-overlay::-webkit-scrollbar { display: none; }
 
     /* ─── Mobile navigation ─────────────────────────────────────────── */
     #mobile-header { display: none; }
     #mobile-menu   { display: none; pointer-events: none; }
+    /* The blog-detail overlay is a full-screen takeover with its own top bar, so hide the
+       mobile header (Ask Anything + hamburger) while it's open to avoid an overlapping header. */
+    body.bd-open #mobile-header { display: none !important; }
     #mobile-agent  { display: none; }
 
     @media (max-width: 767px) {
@@ -411,7 +415,10 @@
 
       #hero-sticky {
         top: 60px !important;
-        height: calc(100vh - 60px) !important;
+        /* Use dvh (not vh): the home scrolls an inner container so Android keeps its URL bar,
+           making 100vh taller than the visible area — that pushed the mission section's second
+           card below the fold, behind the fixed scroll-cue arrows. dvh tracks the visible height. */
+        height: calc(100dvh - 60px) !important;
       }
       #home-main {
         border-top-left-radius: 28px !important;
@@ -1085,11 +1092,26 @@
       #au-scroll .pe-hrow { flex: 1 1 auto !important; min-height: 0 !important; align-items: stretch !important; }
       #au-scroll .au-card {
         flex: 0 0 86% !important; width: auto !important; height: 100% !important;
+        min-height: 0 !important;  /* drop the old stacked-layout floors (340px/150px) so the card fits the row height instead of overflowing/clipping */
         max-height: none !important; overflow-y: auto !important; scrollbar-width: none !important;
         margin: 0 !important; scroll-snap-align: start !important;
       }
       /* the single "Our Purpose" statement card fills the width (nothing to swipe past) */
       #au-scroll .au-purpose { flex: 0 0 100% !important; overflow-y: hidden !important; }
+      /* Our Story (4 cards) & Our DNA (5 cards) hold little copy per card — a single full-height
+         row leaves them too tall. Use a 2-row horizontal grid (like the homepage stats/clients)
+         so cards are compact and still scroll horizontally by column. */
+      #au-sec-2 .pe-hrow, #au-sec-4 .pe-hrow {
+        display: grid !important;
+        grid-auto-flow: column !important;
+        grid-template-rows: repeat(2, 1fr) !important;
+        grid-auto-columns: 78% !important;
+        column-gap: 14px !important; row-gap: 14px !important;
+        scroll-snap-type: none !important;
+      }
+      #au-sec-2 .au-card, #au-sec-4 .au-card {
+        flex: none !important; width: auto !important; height: auto !important; min-height: 0 !important;
+      }
       #au-cta-content { padding-left: 24px !important; padding-right: 24px !important; }
 
       /* VC Partnerships subpage (mobile) - mirrors PE/GS/OE/AU model */
@@ -1116,8 +1138,20 @@
         flex-shrink: 0 !important;
         justify-content: center !important;
         margin: 2px 0 10px !important;
+        padding-left: 20px !important; padding-right: 20px !important;
       }
       .vc-hl h2 { font-size: clamp(26px, 7vw, 34px) !important; line-height: 1.1 !important; }
+      /* Content cards (sec-1 story, sec-3 CTA) were full-bleed — inset them to the side margin */
+      #vc-scroll .vc-card:not(.vc-logo) { width: auto !important; margin-left: 20px !important; margin-right: 20px !important; }
+      /* Partner-logo grid (sec-2) was absolute-positioned and overlapped its headline. Put it
+         in-flow below the headline as a compact 2x2, respecting the side margin. */
+      #vc-s2-grid {
+        position: relative !important;
+        left: auto !important; top: auto !important; right: auto !important; bottom: auto !important;
+        width: auto !important; height: auto !important;
+        margin: 10px 20px 0 !important;
+        grid-template-rows: auto auto !important;
+      }
       .vc-card {
         position: relative !important;
         left: auto !important; top: auto !important; right: auto !important; bottom: auto !important;
@@ -1141,6 +1175,9 @@
 
       /* Blog subpage (mobile) - mirrors PE/GS/OE/AU/VC model */
       #bl-overlay { left: 0 !important; }
+      /* Block native vertical touch-scroll so vertical swipes advance sections and horizontal
+         swipes drive the posts row. */
+      body.bl-state #bl-overlay { touch-action: pan-x !important; }
       #bl-stage { top: 0px !important; height: calc(100dvh - 60px) !important; overflow: hidden !important; }
       #bl-hero-frame {
         border-right: 1px solid rgba(255,255,255,0.12) !important;
@@ -1160,24 +1197,34 @@
         flex-shrink: 0 !important;
         justify-content: center !important;
         margin: 2px 0 14px !important;
+        padding-left: 20px !important; padding-right: 20px !important;
       }
       .bl-hl h2 { font-size: clamp(26px, 7vw, 34px) !important; line-height: 1.1 !important; }
+      /* Recent posts swipe horizontally as full-height cards (mirror the OE/AU rows) */
       #bl-s1-grid {
         position: relative !important;
         left: auto !important; top: auto !important;
-        width: 100% !important; height: auto !important;
-        display: flex !important; flex-direction: column !important;
+        width: auto !important; height: 100% !important;
+        flex: 1 1 auto !important; min-height: 0 !important;
+        display: flex !important; flex-direction: row !important; align-items: stretch !important;
         gap: 14px !important;
+        overflow-x: auto !important; overflow-y: hidden !important;
+        -webkit-overflow-scrolling: touch !important;
+        overscroll-behavior-x: contain !important; touch-action: pan-x !important;
+        scroll-snap-type: x mandatory !important; scrollbar-width: none !important;
+        padding: 0 20px !important; scroll-padding-left: 20px !important;  /* so snap-start respects the side margin instead of pulling the first card flush to the edge */
+        -webkit-mask-image: none !important; mask-image: none !important;
       }
       .bl-card {
         position: relative !important;
         left: auto !important; top: auto !important; right: auto !important; bottom: auto !important;
-        width: 100% !important; height: auto !important;
-        flex-shrink: 0 !important;
+        flex: 0 0 86% !important; width: auto !important; height: 100% !important;
+        min-height: 0 !important;
         box-sizing: border-box !important;
         border-radius: 24px !important;
         margin: 0 !important;
-        min-height: 300px !important;
+        scroll-snap-align: start !important;
+        overflow-y: auto !important; scrollbar-width: none !important;
         background: rgba(0,0,0,0.15) !important;
         backdrop-filter: blur(28px) saturate(140%) !important;
         -webkit-backdrop-filter: blur(28px) saturate(140%) !important;
@@ -3104,7 +3151,7 @@
                   </div>
                   <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(16px,1.2vw,20px); line-height:1.2; letter-spacing:-0.01em; text-wrap:pretty; flex-shrink:0; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden;">How Companies Can Leverage Technology to Bridge Geographical Gaps and Boost Offshore and Nearshore Collaboration</h3>
                   <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.62); font-size:clamp(12px,0.95vw,15px); line-height:1.45; text-wrap:pretty; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">Technology plays a critical role in ensuring that global teams&mdash;whether offshore or nearshore&mdash;work together efficiently.</p>
-                  <a href="#" style="margin-top:auto; align-self:flex-start; display:inline-flex; align-items:center; gap:9px; font-family:'Inter',sans-serif; font-weight:600; text-transform:uppercase; font-size:clamp(11px,0.85vw,13px); letter-spacing:0.06em; color:#9DEBC2; text-decoration:none; transition:gap .2s ease;" style-hover="gap:14px;">Read more <span style="font-weight:700;">&#8594;</span></a>
+                  <a href="#" onclick="{{ onBlogDetail }}" data-post="0" style="margin-top:auto; align-self:flex-start; display:inline-flex; align-items:center; gap:9px; font-family:'Inter',sans-serif; font-weight:600; text-transform:uppercase; font-size:clamp(11px,0.85vw,13px); letter-spacing:0.06em; color:#9DEBC2; text-decoration:none; transition:gap .2s ease;" style-hover="gap:14px;">Read more <span style="font-weight:700;">&#8594;</span></a>
                 </div>
 
                 <div class="bl-card" id="bl-s1-c2" style="border-radius:32px; box-sizing:border-box; background:rgba(0,0,0,0.18); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); display:flex; flex-direction:column; padding:clamp(16px,1.5vw,26px); gap:clamp(10px,1.2vh,16px); overflow:hidden; opacity:0; pointer-events:none;">
@@ -3118,7 +3165,7 @@
                   </div>
                   <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(16px,1.2vw,20px); line-height:1.2; letter-spacing:-0.01em; text-wrap:pretty; flex-shrink:0; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden;">Nearshore Outsourcing: Why LATAM Is the Secret Weapon for US Tech Companies</h3>
                   <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.62); font-size:clamp(12px,0.95vw,15px); line-height:1.45; text-wrap:pretty; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">The top LATAM locations to source STEM-educated talent, and how the adoption of AI is transforming the way US tech companies build teams.</p>
-                  <a href="#" style="margin-top:auto; align-self:flex-start; display:inline-flex; align-items:center; gap:9px; font-family:'Inter',sans-serif; font-weight:600; text-transform:uppercase; font-size:clamp(11px,0.85vw,13px); letter-spacing:0.06em; color:#9DEBC2; text-decoration:none; transition:gap .2s ease;" style-hover="gap:14px;">Read more <span style="font-weight:700;">&#8594;</span></a>
+                  <a href="#" onclick="{{ onBlogDetail }}" data-post="1" style="margin-top:auto; align-self:flex-start; display:inline-flex; align-items:center; gap:9px; font-family:'Inter',sans-serif; font-weight:600; text-transform:uppercase; font-size:clamp(11px,0.85vw,13px); letter-spacing:0.06em; color:#9DEBC2; text-decoration:none; transition:gap .2s ease;" style-hover="gap:14px;">Read more <span style="font-weight:700;">&#8594;</span></a>
                 </div>
 
                 <div class="bl-card" id="bl-s1-c3" style="border-radius:32px; box-sizing:border-box; background:rgba(0,0,0,0.18); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); display:flex; flex-direction:column; padding:clamp(16px,1.5vw,26px); gap:clamp(10px,1.2vh,16px); overflow:hidden; opacity:0; pointer-events:none;">
@@ -3132,7 +3179,7 @@
                   </div>
                   <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(16px,1.2vw,20px); line-height:1.2; letter-spacing:-0.01em; text-wrap:pretty; flex-shrink:0; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden;">Driving Impact in the AI-Driven SaaS Landscape: Announcing Savant Growth&rsquo;s New Fund</h3>
                   <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.62); font-size:clamp(12px,0.95vw,15px); line-height:1.45; text-wrap:pretty; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">Software companies rely on talented developers. But it&rsquo;s not just about having the right skills&mdash;it&rsquo;s about execution, velocity, and focus.</p>
-                  <a href="#" style="margin-top:auto; align-self:flex-start; display:inline-flex; align-items:center; gap:9px; font-family:'Inter',sans-serif; font-weight:600; text-transform:uppercase; font-size:clamp(11px,0.85vw,13px); letter-spacing:0.06em; color:#9DEBC2; text-decoration:none; transition:gap .2s ease;" style-hover="gap:14px;">Read more <span style="font-weight:700;">&#8594;</span></a>
+                  <a href="#" onclick="{{ onBlogDetail }}" data-post="2" style="margin-top:auto; align-self:flex-start; display:inline-flex; align-items:center; gap:9px; font-family:'Inter',sans-serif; font-weight:600; text-transform:uppercase; font-size:clamp(11px,0.85vw,13px); letter-spacing:0.06em; color:#9DEBC2; text-decoration:none; transition:gap .2s ease;" style-hover="gap:14px;">Read more <span style="font-weight:700;">&#8594;</span></a>
                 </div>
 
                 <div class="bl-card" id="bl-s1-c4" style="border-radius:32px; box-sizing:border-box; background:rgba(0,0,0,0.18); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); display:flex; flex-direction:column; padding:clamp(16px,1.5vw,26px); gap:clamp(10px,1.2vh,16px); overflow:hidden; opacity:0; pointer-events:none;">
@@ -3146,7 +3193,7 @@
                   </div>
                   <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(16px,1.2vw,20px); line-height:1.2; letter-spacing:-0.01em; text-wrap:pretty; flex-shrink:0; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden;">How Applied AI is Reshaping B2B SaaS Processes</h3>
                   <p style="margin:0; font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.62); font-size:clamp(12px,0.95vw,15px); line-height:1.45; text-wrap:pretty; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">AI adoption is transforming the B2B SaaS market, driving outsourcing as a strategic necessity for companies that want to stay ahead.</p>
-                  <a href="#" style="margin-top:auto; align-self:flex-start; display:inline-flex; align-items:center; gap:9px; font-family:'Inter',sans-serif; font-weight:600; text-transform:uppercase; font-size:clamp(11px,0.85vw,13px); letter-spacing:0.06em; color:#9DEBC2; text-decoration:none; transition:gap .2s ease;" style-hover="gap:14px;">Read more <span style="font-weight:700;">&#8594;</span></a>
+                  <a href="#" onclick="{{ onBlogDetail }}" data-post="3" style="margin-top:auto; align-self:flex-start; display:inline-flex; align-items:center; gap:9px; font-family:'Inter',sans-serif; font-weight:600; text-transform:uppercase; font-size:clamp(11px,0.85vw,13px); letter-spacing:0.06em; color:#9DEBC2; text-decoration:none; transition:gap .2s ease;" style-hover="gap:14px;">Read more <span style="font-weight:700;">&#8594;</span></a>
                 </div>
               </div>
             </div><!-- /bl-sec-1 -->
@@ -3446,6 +3493,55 @@
       </div>
   </div>
 
+  <!-- ══════════ BLOG POST DETAIL (article overlay, opens from a post card) ══════════ -->
+  <div id="bd-overlay" style="position:fixed; inset:0; z-index:300; overflow-y:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none; opacity:0; pointer-events:none; transition:opacity 0.45s cubic-bezier(0.22,1,0.36,1); background:rgba(4,7,6,0.66); backdrop-filter:blur(7px); -webkit-backdrop-filter:blur(7px);">
+    <div style="max-width:860px; margin:0 auto; padding:clamp(22px,4.5vh,52px) clamp(20px,4vw,40px) clamp(56px,10vh,110px);">
+      <!-- top bar -->
+      <div style="display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:clamp(22px,4vh,40px);">
+        <a href="#" onclick="{{ onBlogDetailHome }}" aria-label="DevSavant home" style="display:inline-flex; align-items:center; text-decoration:none; flex-shrink:0;"><span style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:clamp(15px,1.2vw,18px); letter-spacing:0.02em; color:#E0FFEE;">DEV</span><span style="font-family:'Space Grotesk',sans-serif; font-weight:300; font-size:clamp(15px,1.2vw,18px); letter-spacing:0.02em; color:rgba(199,255,224,0.75);">SAVANT</span></a>
+        <a href="#" onclick="{{ onBlogDetailBack }}" style="font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.65); font-size:clamp(13px,1.05vw,16px); text-decoration:none; letter-spacing:0.04em; display:inline-flex; align-items:center; gap:8px; transition:color .2s ease;" style-hover="color:#C7FFE0;"><span style="font-size:1.1em;">&#8592;</span> Back to blog</a>
+      </div>
+      <!-- article glass panel -->
+      <article style="background:rgba(0,0,0,0.28); backdrop-filter:blur(30px) saturate(140%); -webkit-backdrop-filter:blur(30px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:clamp(24px,3vw,36px); padding:clamp(26px,4vw,60px); box-sizing:border-box;">
+        <!-- category chips (populated by _showBlogDetail) -->
+        <div id="bd-chips" style="display:flex; align-items:center; gap:clamp(8px,0.7vw,12px); flex-wrap:wrap; margin-bottom:clamp(18px,2.4vh,26px);"></div>
+        <!-- title (populated) -->
+        <h1 id="bd-title" style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(22px,3.2vw,38px); line-height:1.15; letter-spacing:-0.01em; text-wrap:balance; text-shadow:0 4px 32px rgba(31,98,255,0.30);"></h1>
+        <!-- meta (populated) -->
+        <div style="display:flex; align-items:center; gap:14px; flex-wrap:wrap; margin-top:clamp(16px,2.2vh,24px); color:rgba(199,255,224,0.55); font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(12px,0.95vw,15px);">
+          <span style="display:inline-flex; align-items:center; gap:8px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"></rect><path d="M16 2v4M8 2v4M3 10h18"></path></svg><span id="bd-date"></span></span>
+          <span style="opacity:0.5;">&bull;</span>
+          <span style="display:inline-flex; align-items:center; gap:8px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c1.5-4 5-6 8-6s6.5 2 8 6"></path></svg><span id="bd-author"></span></span>
+        </div>
+        <!-- hero image placeholder -->
+        <div style="margin-top:clamp(22px,3.2vh,34px); height:clamp(180px,34vh,320px); border-radius:clamp(16px,2vw,24px); background:linear-gradient(135deg, rgba(120,190,150,0.28), rgba(15,40,30,0.55)); border:1px solid rgba(255,255,255,0.10); display:flex; align-items:center; justify-content:center; gap:10px;">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.5;"><rect x="3" y="4" width="18" height="16" rx="2"></rect><circle cx="8.5" cy="9.5" r="1.5"></circle><path d="M21 16l-5-5L5 20"></path></svg>
+          <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(11px,0.8vw,13px); letter-spacing:0.08em; text-transform:uppercase; color:rgba(199,255,224,0.4);">Image</span>
+        </div>
+        <!-- body -->
+        <div class="bd-body" id="bd-body" style="margin-top:clamp(26px,4vh,40px); font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.82); font-size:clamp(15px,1.15vw,18px); line-height:1.75; text-wrap:pretty;">
+          <p style="margin:0 0 clamp(22px,3vh,30px);">Technology plays a critical role in ensuring that global teams&mdash;whether offshore or nearshore&mdash;work together efficiently. Companies are leveraging a variety of tools to facilitate communication, streamline workflows, and bridge geographical gaps.</p>
+          <h3 style="margin:0 0 8px; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#9DEBC2; font-size:clamp(17px,1.5vw,23px); line-height:1.3;">Collaboration Platforms</h3>
+          <p style="margin:0 0 clamp(22px,3vh,30px);">Tools like Slack, Notion, and Jira enable real-time communication, file sharing, and task management. These platforms keep teams aligned and ensure that projects stay on track.</p>
+          <h3 style="margin:0 0 8px; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#9DEBC2; font-size:clamp(17px,1.5vw,23px); line-height:1.3;">Cloud-Based Solutions</h3>
+          <p style="margin:0 0 clamp(22px,3vh,30px);">Cloud platforms such as Google Workspace and Microsoft Azure allow for centralized document management and enable team members to access files and resources from anywhere, reducing the barriers of distance.</p>
+          <h3 style="margin:0 0 8px; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#9DEBC2; font-size:clamp(17px,1.5vw,23px); line-height:1.3;">Time Zone Management Tools</h3>
+          <p style="margin:0 0 clamp(22px,3vh,30px);">Tools like World Time Buddy and Calendly help coordinate meetings and manage time zone differences effectively, ensuring that collaboration happens seamlessly.</p>
+          <h3 style="margin:0 0 8px; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#9DEBC2; font-size:clamp(17px,1.5vw,23px); line-height:1.3;">Video Conferencing Platforms</h3>
+          <p style="margin:0 0 clamp(22px,3vh,30px);">High-quality video conferencing tools such as Zoom and Webex provide a face-to-face connection, which is especially important for building relationships and ensuring clear communication across borders.</p>
+          <h3 style="margin:0 0 8px; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#9DEBC2; font-size:clamp(17px,1.5vw,23px); line-height:1.3;">AI Translation Tools</h3>
+          <p style="margin:0 0 clamp(30px,4.2vh,44px);">AI-powered translation tools, such as Google Translate and DeepL, can help break down language barriers in real-time, enabling teams to communicate more effectively and reduce misunderstandings.</p>
+          <h2 style="margin:0 0 clamp(12px,1.6vh,18px); font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(22px,2.4vw,34px); line-height:1.2; letter-spacing:-0.01em;">Nearshoring as a Key Strategy for Future Growth</h2>
+          <p style="margin:0;">Both offshoring and nearshoring offer significant advantages when it comes to global talent acquisition, cost savings, and operational efficiency. However, as businesses continue to prioritize real-time communication, cultural alignment, and faster project delivery, nearshoring is becoming an increasingly attractive option. Nearshoring offers the perfect balance of cost efficiency, cultural compatibility, and operational efficiency for businesses looking to expand their global footprint in the years ahead. By leveraging cutting-edge technology and focusing on the distinct advantages of both nearshoring and offshoring, businesses can build stronger, more cohesive global teams that drive sustainable growth.</p>
+        </div>
+        <!-- footer CTA -->
+        <div style="margin-top:clamp(34px,5vh,52px); padding-top:clamp(22px,3vh,30px); border-top:1px solid rgba(255,255,255,0.10); display:flex; align-items:center; gap:clamp(16px,2vw,28px); flex-wrap:wrap;">
+          <a href="#" onclick="{{ onBlogDetailBack }}" style="display:inline-flex; align-items:center; gap:10px; background:#CCFFCE; color:#18282C; font-family:'Inter',sans-serif; font-weight:700; text-transform:uppercase; font-size:clamp(13px,1.1vw,16px); letter-spacing:0.045em; padding:12px 24px; text-decoration:none; box-shadow:0 0 40px rgba(150,255,170,0.26); transition:transform .2s ease, box-shadow .2s ease;" style-hover="transform:translateY(-2px); box-shadow:0 0 56px rgba(150,255,170,0.42);"><span style="font-weight:700;">&#8592;</span> Back to all posts</a>
+        </div>
+      </article>
+    </div>
+  </div>
+
 </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script>
@@ -3682,7 +3778,7 @@ class Component extends DCLogic {
   _subCfg = {
     pe: { el: 'pe-overlay', stops: [0, 0.15, 0.285, 0.425, 0.57, 0.705, 0.85, 0.975] },
     gs: { el: 'gs-overlay', stops: [0, 0.09, 0.19, 0.29, 0.39, 0.49, 0.59, 0.73, 0.975], mstops: [0, 0.13, 0.24, 0.36, 0.47, 0.59, 0.70, 0.83, 0.975] },
-    oe: { el: 'oe-overlay', stops: [0, 0.095, 0.176, 0.257, 0.338, 0.419, 0.50, 0.581, 0.662, 0.743, 0.824, 0.975] },
+    oe: { el: 'oe-overlay', stops: [0, 0.095, 0.176, 0.257, 0.338, 0.419, 0.50, 0.581, 0.662, 0.743, 0.824, 0.975], mstops: [0, 0.076, 0.157, 0.238, 0.319, 0.40, 0.481, 0.562, 0.643, 0.724, 0.832, 0.975] },
     au: { el: 'au-overlay', stops: [0, 0.15, 0.27, 0.39, 0.51, 0.61, 0.80], mstops: [0, 0.11, 0.23, 0.35, 0.47, 0.585, 0.80] },
     vc: { el: 'vc-overlay', stops: [0, 0.174, 0.40, 0.632, 0.865] },
     bl: { el: 'bl-overlay', stops: [0, 0.45, 0.905] },
@@ -3797,6 +3893,8 @@ class Component extends DCLogic {
     if (!this._activeSub()) return;      // only intercept while a subpage is open
     if (e.target && e.target.closest && e.target.closest('#ask-widget, #agent-messages, #mobile-menu')) return;
     if (Math.abs(e.deltaY) < 2) return;
+    // Predominantly-horizontal wheel/trackpad (scrolling a card row) must never swap sections.
+    if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
     // Gesture id for the whole subpage wheel stream (idle gap = new gesture). Computed once
     // up front so both the inner-grid budget and the section-swap guard share it.
     {
@@ -3864,13 +3962,22 @@ class Component extends DCLogic {
     }
     this._subGo(dir);
   }
-  _onSubTouchStart = (e) => { this._subTouchY = (e.touches && e.touches[0]) ? e.touches[0].clientY : null; };
+  _onSubTouchStart = (e) => {
+    const t = (e.touches && e.touches[0]);
+    this._subTouchY = t ? t.clientY : null;
+    this._subTouchX = t ? t.clientX : null;
+  };
   _onSubTouchEnd = (e) => {
-    if (!this._activeSub() || this._subTouchY == null) { this._subTouchY = null; return; }
-    const endY = (e.changedTouches && e.changedTouches[0]) ? e.changedTouches[0].clientY : this._subTouchY;
+    if (!this._activeSub() || this._subTouchY == null) { this._subTouchY = null; this._subTouchX = null; return; }
+    const ct = (e.changedTouches && e.changedTouches[0]);
+    const endY = ct ? ct.clientY : this._subTouchY;
+    const endX = ct ? ct.clientX : this._subTouchX;
     const dy = this._subTouchY - endY;
-    this._subTouchY = null;
-    if (Math.abs(dy) < 40 || this._subSnapLock) return;
+    const dx = (this._subTouchX != null) ? this._subTouchX - endX : 0;
+    this._subTouchY = null; this._subTouchX = null;
+    // Only a predominantly-vertical swipe advances a section. A horizontal swipe (scrolling a
+    // card row) must never swap sections, even at the row's scroll extremes.
+    if (Math.abs(dy) < 40 || Math.abs(dx) > Math.abs(dy) || this._subSnapLock) return;
     this._subGo(dy > 0 ? 1 : -1);
   };
   // Attach the snap wheel/touch listeners to a subpage overlay. Rebinds across logic
@@ -4004,6 +4111,9 @@ class Component extends DCLogic {
         document.getElementById('mobile-menu')?.classList.remove('open');
         this._showBlog();
       },
+      onBlogDetail: (e) => { if (e) e.preventDefault(); let idx = 0; const el = e && (e.currentTarget || e.target); const host = el && el.closest ? el.closest('[data-post]') : null; if (host) idx = (+host.dataset.post) || 0; this._showBlogDetail(idx); },
+      onBlogDetailBack: (e) => { if (e) e.preventDefault(); this._hideBlogDetail(); },
+      onBlogDetailHome: (e) => { if (e) e.preventDefault(); this._hideBlogDetail(); this._showHome(); },
       onCareers: (e) => { if (e) e.preventDefault(); this._showCareers(); },
       onMobileCareers: (e) => {
         if (e && e.preventDefault) e.preventDefault();
@@ -5072,10 +5182,6 @@ class Component extends DCLogic {
       const inS = S[i] + 0.028, outS = (i < N - 1 ? S[i + 1] : 0.90) - 0.012;
       const op = cl((p - inS) / 0.03) * (1 - cl((p - outS) / 0.025));
       ids.forEach(id => { const el = document.getElementById(id); if (el) { el.style.opacity = String(op); el.style.pointerEvents = op > 0.5 ? 'auto' : 'none'; } });
-      // All 10 sections are stacked absolutely (cross-fade); without this the topmost section's
-      // .pe-hrow captures every horizontal swipe. Gate the whole section so only the visible
-      // project's card row is touch-interactive. (Ignored on desktop where .pe-sec is display:contents.)
-      const secEl = document.getElementById('oe-sec-' + n); if (secEl) secEl.style.pointerEvents = op > 0.5 ? 'auto' : 'none';
     }
     // Accordion layout (desktop): position prob/sol/res cards + fade collapsed bodies
     if (!mob) {
@@ -5129,6 +5235,10 @@ class Component extends DCLogic {
         held = Math.max(held, op);
         const active = op > 0.985;
         ids.forEach(id => { const el = document.getElementById(id); if (el) { el.style.opacity = String(op); el.style.pointerEvents = active ? 'auto' : 'none'; } });
+        // Sections are stacked absolutely (cross-fade); gate the whole section so only the visible
+        // project's .pe-hrow card row is touch-interactive (else the topmost DOM section swallows swipes).
+        const oeSecEl = document.getElementById('oe-sec-' + n);
+        if (oeSecEl) oeSecEl.style.pointerEvents = active ? 'auto' : 'none';
         // Reset this section's own pinned scroll container while it's hidden, so it always
         // reappears at the top instead of wherever inertial scroll last left it.
         if (op < 0.02) {
@@ -5615,6 +5725,109 @@ class Component extends DCLogic {
     }
     this._bindSubScroll(blOvl);
     setTimeout(() => { this._setupBLMorph(); this._applyBLScroll(); }, 300);
+  }
+
+  // Blog post detail — a self-contained article overlay pushed on top of the blog list.
+  // Its own top-bar links (Back to blog / logo → home) are the way out, so it needs no
+  // integration with the section-swap state machine.
+  _BLOG_POSTS = [
+    { chips: ['#Nearshore', '#News'], date: 'February 15, 2025', author: 'David Coke',
+      title: 'How Companies Can Leverage Technology to Bridge Geographical Gaps and Boost Offshore and Nearshore Collaboration',
+      body: [
+        { t: 'p', x: `Technology plays a critical role in ensuring that global teams—whether offshore or nearshore—work together efficiently. Companies are leveraging a variety of tools to facilitate communication, streamline workflows, and bridge geographical gaps.` },
+        { t: 'h3', x: `Collaboration Platforms` },
+        { t: 'p', x: `Tools like Slack, Notion, and Jira enable real-time communication, file sharing, and task management. These platforms keep teams aligned and ensure that projects stay on track.` },
+        { t: 'h3', x: `Cloud-Based Solutions` },
+        { t: 'p', x: `Cloud platforms such as Google Workspace and Microsoft Azure allow for centralized document management and enable team members to access files and resources from anywhere, reducing the barriers of distance.` },
+        { t: 'h3', x: `Time Zone Management Tools` },
+        { t: 'p', x: `Tools like World Time Buddy and Calendly help coordinate meetings and manage time zone differences effectively, ensuring that collaboration happens seamlessly.` },
+        { t: 'h3', x: `Video Conferencing Platforms` },
+        { t: 'p', x: `High-quality video conferencing tools such as Zoom and Webex provide a face-to-face connection, which is especially important for building relationships and ensuring clear communication across borders.` },
+        { t: 'h3', x: `AI Translation Tools` },
+        { t: 'p', x: `AI-powered translation tools, such as Google Translate and DeepL, can help break down language barriers in real-time, enabling teams to communicate more effectively and reduce misunderstandings.` },
+        { t: 'h2', x: `Nearshoring as a Key Strategy for Future Growth` },
+        { t: 'p', x: `Both offshoring and nearshoring offer significant advantages when it comes to global talent acquisition, cost savings, and operational efficiency. However, as businesses continue to prioritize real-time communication, cultural alignment, and faster project delivery, nearshoring is becoming an increasingly attractive option. Nearshoring offers the perfect balance of cost efficiency, cultural compatibility, and operational efficiency for businesses looking to expand their global footprint in the years ahead. By leveraging cutting-edge technology and focusing on the distinct advantages of both nearshoring and offshoring, businesses can build stronger, more cohesive global teams that drive sustainable growth.` }
+      ] },
+    { chips: ['#Nearshore', '#Latam'], date: 'February 11, 2025', author: 'Ingrith Bucheli',
+      title: 'Nearshore Outsourcing: Why LATAM Is the Secret Weapon for US Tech Companies',
+      body: [
+        { t: 'h3', x: `The Top LATAM Locations to Source STEM-Educated Talent` },
+        { t: 'p', x: `The adoption of AI is transforming the B2B SaaS market, making outsourcing a strategic necessity. LATAM has emerged as a critical hub for cost-effective, highly skilled tech talent. With strong STEM education, cultural alignment, and time zone proximity, nearshoring to LATAM enables U.S. companies to scale their teams efficiently while optimizing costs.` },
+        { t: 'h3', x: `The Nearshore Outsourcing Model` },
+        { t: 'p', x: `According to Statista, "U.S. companies outsourcing to LATAM report productivity gains of up to 30%, thanks to streamlined communication and collaborative business practices." LATAM's tech ecosystem is expanding fast, producing nearly one million new tech graduates annually. This growth is driven by strong STEM education, increased female participation, and geographic proximity to North America, fostering seamless collaboration. At Savant Growth, the organization leverages DevSavant to access talent across regional tech hubs.` },
+        { t: 'h3', x: `Brazil: LATAM's Largest Tech Workforce` },
+        { t: 'p', x: `Brazil hosts over 500,000 developers with 15% annual growth. The nation's robust STEM education system provides U.S. companies with cost-effective, skilled professionals suitable for startups and enterprises.` },
+        { t: 'h3', x: `Mexico: Proximity and Cultural Familiarity` },
+        { t: 'p', x: `Mexico has 223,000 tech professionals growing 13% yearly. Guadalajara serves as a major innovation center attracting venture capital investment.` },
+        { t: 'h3', x: `Argentina: High English Proficiency and Technical Talent` },
+        { t: 'p', x: `Argentina offers 115,000 developers with 10% annual growth. Buenos Aires leads the country's tech ecosystem with competitive labor costs.` },
+        { t: 'h3', x: `Colombia: Government Support and Dynamic Tech Hubs` },
+        { t: 'p', x: `Colombia demonstrates high English proficiency and a strong IT services focus, providing competitive advantages for nearshore teams.` },
+        { t: 'h3', x: `The Nearshore Advantage for U.S. Companies` },
+        { t: 'p', x: `Nearshoring to LATAM provides overlapping time zones, cultural alignment, and "cost savings of up to 50% compared to domestic hiring." This approach helps businesses scale efficiently while reducing expenses.` },
+        { t: 'p', x: `DevSavant addresses cultural nuances to enhance collaboration, with leadership regularly visiting LATAM teams to build trust and community. As businesses recognize LATAM's advantages, the nearshoring model continues expanding as a key partnership strategy for growth.` }
+      ] },
+    { chips: ['#News', '#SaaS'], date: 'December 11, 2024', author: 'Ingrith Bucheli',
+      title: `Driving Impact in the AI-Driven SaaS Landscape: Announcing Savant Growth's New Fund`,
+      body: [
+        { t: 'p', x: `Savant Growth categorizes AI into two parts: core technologies, such as LLMs from OpenAI and Google, and applied AI, which employs these technologies for specific use cases.` },
+        { t: 'p', x: `DevSavant, the engineering and marketing division, works with Applied AI and B2B SaaS organizations, providing nearshore engineering teams at scalable costs. We believe large language models are driving an industry transformation across multiple sectors.` },
+        { t: 'h2', x: `Maximizing Value: Integrating Data, Algorithms, and Workflows for Success` },
+        { t: 'h3', x: `Data` },
+        { t: 'p', x: `Data is the first foundational pillar. B2B SaaS firms should leverage proprietary or operational data to identify growth opportunities through data-driven SEO and content creation.` },
+        { t: 'h3', x: `Algorithms` },
+        { t: 'p', x: `Algorithms are the second pillar. Deploying AI algorithm models that process and analyze data is essential for streamlining workflows and optimizing business processes.` },
+        { t: 'h3', x: `Workflows` },
+        { t: 'p', x: `Workflows are the third pillar. Adapting workflows is often the most challenging yet crucial step in fully realizing AI's potential.` },
+        { t: 'p', x: `In upcoming articles, we'll explore AI's transformation across sales, customer support, finance, healthcare, and logistics sectors.` }
+      ] },
+    { chips: ['#SaaS', '#B2B'], date: 'January 11, 2025', author: 'Ingrith Bucheli',
+      title: 'How Applied AI is Reshaping B2B SaaS Processes',
+      body: [
+        { t: 'p', x: `Software companies rely on talented developers. But it's not just about having the right skills—it's about having the drive and resources to move quickly and tackle tight deadlines. DevSavant aims to support Applied AI and B2B SaaS companies by providing highly productive nearshore engineering teams at scalable costs. This means companies can stretch their R&D budgets further—achieving up to 50% more productivity at roughly half the expense.` },
+        { t: 'p', x: `Drawing on top talent from across LATAM, our team of developers works within U.S. time zones to ensure smooth communication and collaboration with all clients. We are an extension of your in-house team, bringing specialized knowledge in Applied AI, B2B SaaS, data warehousing and analytics, full stack development, API development, prompt engineering, and project management.` },
+        { t: 'p', x: `Building on the success of our parent company Savant Growth's inaugural fund, Savant Growth I, which concentrated on scaling U.S.-based B2B SaaS companies, we are excited to announce the firm has secured its second fund in collaboration with global investment partner Kennet Partners. With €266M recently raised for AI-driven, B2B SaaS solutions, Savant Growth serves as the exclusive subadvisor, managing 30% of the new Kennet VI fund specifically targeting U.S.-based companies.` },
+        { t: 'p', x: `"At DevSavant, we believe true innovation stems from having access to highly skilled, talented, and motivated developers who can integrate seamlessly into our clients' teams to help them accelerate growth and achieve their goals more efficiently," said Daniel Peña, co-founder and CEO of DevSavant.` },
+        { t: 'p', x: `The partnership with Kennet enables American portfolio companies to scale and expand into European markets, while facilitating European portfolio companies' entry into the U.S. This strategic expansion is crucial for market leadership, as we help our portfolio companies evolve into Applied AI and data-driven enterprises.` },
+        { t: 'p', x: `"The significant investments in proprietary models by major players like Nvidia and OpenAI are catalyzing a new wave of emerging SaaS companies that automate tasks and digitize workflows across diverse markets. By integrating third-party models with Applied AI, we are confident that we can drive substantial business value for our entrepreneurs and investors," said Co-Founder and Managing Partner Javier Rojas.` },
+        { t: 'p', x: `As we look ahead, we are eager to build on our momentum with a focus on helping develop technologies that leverage Applied AI. Our software development and services empower companies to thrive by embracing the future of cutting-edge AI—transforming how they leverage nearshore development to deliver exceptional value to their customers.` }
+      ] }
+  ];
+  _showBlogDetail(idx) {
+    const d = document.getElementById('bd-overlay');
+    if (!d) return;
+    const post = this._BLOG_POSTS[idx | 0] || this._BLOG_POSTS[0];
+    const chipS = "font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(11px,0.9vw,14px); letter-spacing:0.03em; color:rgba(199,255,224,0.72); background:rgba(0,0,0,0.20); border:1px solid rgba(255,255,255,0.12); padding:6px 15px; border-radius:999px;";
+    const PS = 'margin:0 0 clamp(20px,2.8vh,28px);';
+    const H3S = "margin:clamp(12px,1.6vh,20px) 0 8px; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#9DEBC2; font-size:clamp(17px,1.5vw,23px); line-height:1.3;";
+    const H2S = "margin:clamp(26px,3.8vh,44px) 0 clamp(12px,1.6vh,18px); font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(22px,2.4vw,34px); line-height:1.2; letter-spacing:-0.01em;";
+    const chipsEl = document.getElementById('bd-chips');
+    const titleEl = document.getElementById('bd-title');
+    const dateEl = document.getElementById('bd-date');
+    const authorEl = document.getElementById('bd-author');
+    const bodyEl = document.getElementById('bd-body');
+    if (chipsEl) chipsEl.innerHTML = post.chips.map(c => '<span style="' + chipS + '">' + c + '</span>').join('');
+    if (titleEl) titleEl.textContent = post.title;
+    if (dateEl) dateEl.textContent = post.date;
+    if (authorEl) authorEl.textContent = post.author;
+    if (bodyEl) bodyEl.innerHTML = post.body.map(b =>
+      b.t === 'h2' ? '<h2 style="' + H2S + '">' + b.x + '</h2>'
+      : b.t === 'h3' ? '<h3 style="' + H3S + '">' + b.x + '</h3>'
+      : '<p style="' + PS + '">' + b.x + '</p>'
+    ).join('');
+    this._bdActive = true;
+    document.body.classList.add('bd-open');
+    d.scrollTop = 0;
+    d.style.opacity = '1';
+    d.style.pointerEvents = 'auto';
+  }
+  _hideBlogDetail() {
+    const d = document.getElementById('bd-overlay');
+    if (!d) return;
+    this._bdActive = false;
+    document.body.classList.remove('bd-open');
+    d.style.opacity = '0';
+    d.style.pointerEvents = 'none';
   }
 
   _setupBLMorph() {
