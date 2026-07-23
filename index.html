@@ -1168,6 +1168,9 @@
 
       /* Blog subpage (mobile) - mirrors PE/GS/OE/AU/VC model */
       #bl-overlay { left: 0 !important; }
+      /* Block native vertical touch-scroll so vertical swipes advance sections and horizontal
+         swipes drive the posts row. */
+      body.bl-state #bl-overlay { touch-action: pan-x !important; }
       #bl-stage { top: 0px !important; height: calc(100dvh - 60px) !important; overflow: hidden !important; }
       #bl-hero-frame {
         border-right: 1px solid rgba(255,255,255,0.12) !important;
@@ -1190,23 +1193,31 @@
         padding-left: 20px !important; padding-right: 20px !important;
       }
       .bl-hl h2 { font-size: clamp(26px, 7vw, 34px) !important; line-height: 1.1 !important; }
+      /* Recent posts swipe horizontally as full-height cards (mirror the OE/AU rows) */
       #bl-s1-grid {
         position: relative !important;
         left: auto !important; top: auto !important;
-        width: 100% !important; height: auto !important;
-        display: flex !important; flex-direction: column !important;
+        width: auto !important; height: 100% !important;
+        flex: 1 1 auto !important; min-height: 0 !important;
+        display: flex !important; flex-direction: row !important; align-items: stretch !important;
         gap: 14px !important;
-        padding-left: 20px !important; padding-right: 20px !important;  /* inset post cards to the side margin (were full-bleed) */
+        overflow-x: auto !important; overflow-y: hidden !important;
+        -webkit-overflow-scrolling: touch !important;
+        overscroll-behavior-x: contain !important; touch-action: pan-x !important;
+        scroll-snap-type: x mandatory !important; scrollbar-width: none !important;
+        padding: 0 20px !important; scroll-padding-left: 20px !important;  /* so snap-start respects the side margin instead of pulling the first card flush to the edge */
+        -webkit-mask-image: none !important; mask-image: none !important;
       }
       .bl-card {
         position: relative !important;
         left: auto !important; top: auto !important; right: auto !important; bottom: auto !important;
-        width: 100% !important; height: auto !important;
-        flex-shrink: 0 !important;
+        flex: 0 0 86% !important; width: auto !important; height: 100% !important;
+        min-height: 0 !important;
         box-sizing: border-box !important;
         border-radius: 24px !important;
         margin: 0 !important;
-        min-height: 300px !important;
+        scroll-snap-align: start !important;
+        overflow-y: auto !important; scrollbar-width: none !important;
         background: rgba(0,0,0,0.15) !important;
         backdrop-filter: blur(28px) saturate(140%) !important;
         -webkit-backdrop-filter: blur(28px) saturate(140%) !important;
@@ -3826,6 +3837,8 @@ class Component extends DCLogic {
     if (!this._activeSub()) return;      // only intercept while a subpage is open
     if (e.target && e.target.closest && e.target.closest('#ask-widget, #agent-messages, #mobile-menu')) return;
     if (Math.abs(e.deltaY) < 2) return;
+    // Predominantly-horizontal wheel/trackpad (scrolling a card row) must never swap sections.
+    if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
     // Gesture id for the whole subpage wheel stream (idle gap = new gesture). Computed once
     // up front so both the inner-grid budget and the section-swap guard share it.
     {
@@ -3893,13 +3906,22 @@ class Component extends DCLogic {
     }
     this._subGo(dir);
   }
-  _onSubTouchStart = (e) => { this._subTouchY = (e.touches && e.touches[0]) ? e.touches[0].clientY : null; };
+  _onSubTouchStart = (e) => {
+    const t = (e.touches && e.touches[0]);
+    this._subTouchY = t ? t.clientY : null;
+    this._subTouchX = t ? t.clientX : null;
+  };
   _onSubTouchEnd = (e) => {
-    if (!this._activeSub() || this._subTouchY == null) { this._subTouchY = null; return; }
-    const endY = (e.changedTouches && e.changedTouches[0]) ? e.changedTouches[0].clientY : this._subTouchY;
+    if (!this._activeSub() || this._subTouchY == null) { this._subTouchY = null; this._subTouchX = null; return; }
+    const ct = (e.changedTouches && e.changedTouches[0]);
+    const endY = ct ? ct.clientY : this._subTouchY;
+    const endX = ct ? ct.clientX : this._subTouchX;
     const dy = this._subTouchY - endY;
-    this._subTouchY = null;
-    if (Math.abs(dy) < 40 || this._subSnapLock) return;
+    const dx = (this._subTouchX != null) ? this._subTouchX - endX : 0;
+    this._subTouchY = null; this._subTouchX = null;
+    // Only a predominantly-vertical swipe advances a section. A horizontal swipe (scrolling a
+    // card row) must never swap sections, even at the row's scroll extremes.
+    if (Math.abs(dy) < 40 || Math.abs(dx) > Math.abs(dy) || this._subSnapLock) return;
     this._subGo(dy > 0 ? 1 : -1);
   };
   // Attach the snap wheel/touch listeners to a subpage overlay. Rebinds across logic
