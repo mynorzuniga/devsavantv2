@@ -1085,11 +1085,26 @@
       #au-scroll .pe-hrow { flex: 1 1 auto !important; min-height: 0 !important; align-items: stretch !important; }
       #au-scroll .au-card {
         flex: 0 0 86% !important; width: auto !important; height: 100% !important;
+        min-height: 0 !important;  /* drop the old stacked-layout floors (340px/150px) so the card fits the row height instead of overflowing/clipping */
         max-height: none !important; overflow-y: auto !important; scrollbar-width: none !important;
         margin: 0 !important; scroll-snap-align: start !important;
       }
       /* the single "Our Purpose" statement card fills the width (nothing to swipe past) */
       #au-scroll .au-purpose { flex: 0 0 100% !important; overflow-y: hidden !important; }
+      /* Our Story (4 cards) & Our DNA (5 cards) hold little copy per card — a single full-height
+         row leaves them too tall. Use a 2-row horizontal grid (like the homepage stats/clients)
+         so cards are compact and still scroll horizontally by column. */
+      #au-sec-2 .pe-hrow, #au-sec-4 .pe-hrow {
+        display: grid !important;
+        grid-auto-flow: column !important;
+        grid-template-rows: repeat(2, 1fr) !important;
+        grid-auto-columns: 78% !important;
+        column-gap: 14px !important; row-gap: 14px !important;
+        scroll-snap-type: none !important;
+      }
+      #au-sec-2 .au-card, #au-sec-4 .au-card {
+        flex: none !important; width: auto !important; height: auto !important; min-height: 0 !important;
+      }
       #au-cta-content { padding-left: 24px !important; padding-right: 24px !important; }
 
       /* VC Partnerships subpage (mobile) - mirrors PE/GS/OE/AU model */
@@ -1116,8 +1131,20 @@
         flex-shrink: 0 !important;
         justify-content: center !important;
         margin: 2px 0 10px !important;
+        padding-left: 20px !important; padding-right: 20px !important;
       }
       .vc-hl h2 { font-size: clamp(26px, 7vw, 34px) !important; line-height: 1.1 !important; }
+      /* Content cards (sec-1 story, sec-3 CTA) were full-bleed — inset them to the side margin */
+      #vc-scroll .vc-card:not(.vc-logo) { width: auto !important; margin-left: 20px !important; margin-right: 20px !important; }
+      /* Partner-logo grid (sec-2) was absolute-positioned and overlapped its headline. Put it
+         in-flow below the headline as a compact 2x2, respecting the side margin. */
+      #vc-s2-grid {
+        position: relative !important;
+        left: auto !important; top: auto !important; right: auto !important; bottom: auto !important;
+        width: auto !important; height: auto !important;
+        margin: 10px 20px 0 !important;
+        grid-template-rows: auto auto !important;
+      }
       .vc-card {
         position: relative !important;
         left: auto !important; top: auto !important; right: auto !important; bottom: auto !important;
@@ -1160,6 +1187,7 @@
         flex-shrink: 0 !important;
         justify-content: center !important;
         margin: 2px 0 14px !important;
+        padding-left: 20px !important; padding-right: 20px !important;
       }
       .bl-hl h2 { font-size: clamp(26px, 7vw, 34px) !important; line-height: 1.1 !important; }
       #bl-s1-grid {
@@ -1168,6 +1196,7 @@
         width: 100% !important; height: auto !important;
         display: flex !important; flex-direction: column !important;
         gap: 14px !important;
+        padding-left: 20px !important; padding-right: 20px !important;  /* inset post cards to the side margin (were full-bleed) */
       }
       .bl-card {
         position: relative !important;
@@ -3682,7 +3711,7 @@ class Component extends DCLogic {
   _subCfg = {
     pe: { el: 'pe-overlay', stops: [0, 0.15, 0.285, 0.425, 0.57, 0.705, 0.85, 0.975] },
     gs: { el: 'gs-overlay', stops: [0, 0.09, 0.19, 0.29, 0.39, 0.49, 0.59, 0.73, 0.975], mstops: [0, 0.13, 0.24, 0.36, 0.47, 0.59, 0.70, 0.83, 0.975] },
-    oe: { el: 'oe-overlay', stops: [0, 0.095, 0.176, 0.257, 0.338, 0.419, 0.50, 0.581, 0.662, 0.743, 0.824, 0.975] },
+    oe: { el: 'oe-overlay', stops: [0, 0.095, 0.176, 0.257, 0.338, 0.419, 0.50, 0.581, 0.662, 0.743, 0.824, 0.975], mstops: [0, 0.076, 0.157, 0.238, 0.319, 0.40, 0.481, 0.562, 0.643, 0.724, 0.832, 0.975] },
     au: { el: 'au-overlay', stops: [0, 0.15, 0.27, 0.39, 0.51, 0.61, 0.80], mstops: [0, 0.11, 0.23, 0.35, 0.47, 0.585, 0.80] },
     vc: { el: 'vc-overlay', stops: [0, 0.174, 0.40, 0.632, 0.865] },
     bl: { el: 'bl-overlay', stops: [0, 0.45, 0.905] },
@@ -5072,10 +5101,6 @@ class Component extends DCLogic {
       const inS = S[i] + 0.028, outS = (i < N - 1 ? S[i + 1] : 0.90) - 0.012;
       const op = cl((p - inS) / 0.03) * (1 - cl((p - outS) / 0.025));
       ids.forEach(id => { const el = document.getElementById(id); if (el) { el.style.opacity = String(op); el.style.pointerEvents = op > 0.5 ? 'auto' : 'none'; } });
-      // All 10 sections are stacked absolutely (cross-fade); without this the topmost section's
-      // .pe-hrow captures every horizontal swipe. Gate the whole section so only the visible
-      // project's card row is touch-interactive. (Ignored on desktop where .pe-sec is display:contents.)
-      const secEl = document.getElementById('oe-sec-' + n); if (secEl) secEl.style.pointerEvents = op > 0.5 ? 'auto' : 'none';
     }
     // Accordion layout (desktop): position prob/sol/res cards + fade collapsed bodies
     if (!mob) {
@@ -5129,6 +5154,10 @@ class Component extends DCLogic {
         held = Math.max(held, op);
         const active = op > 0.985;
         ids.forEach(id => { const el = document.getElementById(id); if (el) { el.style.opacity = String(op); el.style.pointerEvents = active ? 'auto' : 'none'; } });
+        // Sections are stacked absolutely (cross-fade); gate the whole section so only the visible
+        // project's .pe-hrow card row is touch-interactive (else the topmost DOM section swallows swipes).
+        const oeSecEl = document.getElementById('oe-sec-' + n);
+        if (oeSecEl) oeSecEl.style.pointerEvents = active ? 'auto' : 'none';
         // Reset this section's own pinned scroll container while it's hidden, so it always
         // reappears at the top instead of wherever inertial scroll last left it.
         if (op < 0.02) {
