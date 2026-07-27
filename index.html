@@ -179,29 +179,6 @@
     }
     body.bl-state #bl-overlay { opacity: 1 !important; filter: none !important; pointer-events: auto !important; }
     body.bl-state #bl-stage { opacity: 1 !important; }
-    /* ===== Careers page swap (mirrors PE/GS/OE/AU/VC/BL) ===== */
-    /* Outgoing home fades + blurs out smoothly */
-    body.cr-swapping #home-main,
-    body.cr-swapping #mission-overlay {
-      transition: opacity 1.1s cubic-bezier(0.4,0,0.2,1), filter 1.1s cubic-bezier(0.4,0,0.2,1) !important;
-    }
-    /* Incoming overlay: NO opacity transition. Chrome suppresses backdrop-filter while an
-       element's opacity is mid-transition, which made the frosted panel appear unfrosted
-       during the fade and then pop to frosted. Jumping opacity to 1 keeps the frost live
-       from the first frame — the outgoing fade-out covers the page-change motion. */
-    body.cr-swapping #cr-overlay,
-    body.cr-swapping #cr-stage {
-      transition: none !important;
-    }
-    body.cr-swapping #left-aside {
-      animation: none !important;
-    }
-    body.cr-state #home-main,
-    body.cr-state #mission-overlay {
-      opacity: 0 !important; filter: blur(18px) !important; pointer-events: none !important;
-    }
-    body.cr-state #cr-overlay { opacity: 1 !important; filter: none !important; pointer-events: auto !important; }
-    body.cr-state #cr-stage { opacity: 1 !important; }
     /* ===== Contact page swap (mirrors PE/GS/OE/AU/VC/BL/CR) ===== */
     body.co-swapping #home-main,
     body.co-swapping #mission-overlay {
@@ -226,10 +203,6 @@
     .co-submit:hover { transform:translateY(-2px); box-shadow:0 0 64px rgba(150,255,170,0.46); }
     .co-method { display:flex; align-items:center; gap:14px; padding:clamp(14px,1.5vw,19px); background:rgba(0,0,0,0.18); border:1px solid rgba(255,255,255,0.10); border-radius:16px; text-decoration:none; transition:transform .2s ease, border-color .2s ease, background .2s ease; }
     .co-method:hover { transform:translateY(-2px); border-color:rgba(143,245,194,0.45); background:rgba(0,0,0,0.28); }
-    .cr-select { -webkit-appearance:none; appearance:none; cursor:pointer; }
-    .cr-select option { background:#0b1512; color:#C7FFE0; }
-    #cr-s1-grid::-webkit-scrollbar { display: none; }
-    #cr-overlay::-webkit-scrollbar { display: none; }
     @keyframes btn-grow {
       from { clip-path: inset(0% 100% 0% 0%); }
       to   { clip-path: inset(0% 0% 0% 0%); }
@@ -1261,43 +1234,6 @@
       }
       .bl-card .bl-thumb { height: 160px !important; }
       #bl-cta-content { padding-left: 24px !important; padding-right: 24px !important; }
-      /* Careers subpage (mobile) - mirrors BL model */
-      #cr-overlay { left: 0 !important; }
-      #cr-stage { top: 0 !important; height: 100% !important; overflow: hidden !important; }
-      #cr-hero-frame {
-        border-right: 1px solid rgba(255,255,255,0.12) !important;
-        border-bottom: none !important;
-        border-top-left-radius: 26px !important;
-        border-top-right-radius: 26px !important;
-        border-bottom-left-radius: 0 !important;
-      }
-      #cr-hero-layer { padding-left: 26px !important; padding-right: 26px !important; height: calc(100% - 72px) !important; justify-content: flex-start !important; padding-top: 40px !important; padding-bottom: 24px !important; }
-      #cr-hero-layer h1 { font-size: clamp(48px, 6.6vw, 108px) !important; }
-      .cr-hl {
-        position: relative !important;
-        left: auto !important; top: auto !important;
-        width: 100% !important; height: auto !important;
-        flex-shrink: 0 !important;
-        justify-content: center !important;
-        margin: 2px 0 14px !important;
-      }
-      .cr-hl h2 { font-size: clamp(26px, 7vw, 34px) !important; line-height: 1.1 !important; }
-      #cr-s1-grid {
-        position: relative !important;
-        left: auto !important; top: auto !important;
-        width: 100% !important; height: auto !important;
-        display: flex !important; flex-direction: column !important;
-        gap: 12px !important;
-      }
-      .cr-job {
-        position: relative !important;
-        left: auto !important; top: auto !important; right: auto !important; bottom: auto !important;
-        width: 100% !important; height: auto !important;
-        flex-shrink: 0 !important;
-        box-sizing: border-box !important;
-        margin: 0 !important;
-      }
-      #cr-cta-content { padding-left: 24px !important; padding-right: 24px !important; }
       /* Contact page (mobile) */
       #co-overlay { left: 0 !important; }
       #co-frame {
@@ -1324,8 +1260,8 @@
     @keyframes cue-bob-down { 0%,100%{ transform: translateY(-2px); } 50%{ transform: translateY(3px); } }
     @keyframes cue-bob-up   { 0%,100%{ transform: translateY(2px); }  50%{ transform: translateY(-3px); } }
     @keyframes cue-glow     { 0%,100%{ opacity: 0.5; } 50%{ opacity: 1; } }
-    body.pe-state #home-scroll-cues, body.gs-state #home-scroll-cues, body.oe-state #home-scroll-cues, body.au-state #home-scroll-cues, body.vc-state #home-scroll-cues, body.bl-state #home-scroll-cues, body.cr-state #home-scroll-cues, body.co-state #home-scroll-cues,
-    body.pe-swapping #home-scroll-cues, body.gs-swapping #home-scroll-cues, body.oe-swapping #home-scroll-cues, body.au-swapping #home-scroll-cues, body.vc-swapping #home-scroll-cues, body.bl-swapping #home-scroll-cues, body.cr-swapping #home-scroll-cues, body.co-swapping #home-scroll-cues {
+    body.pe-state #home-scroll-cues, body.gs-state #home-scroll-cues, body.oe-state #home-scroll-cues, body.au-state #home-scroll-cues, body.vc-state #home-scroll-cues, body.bl-state #home-scroll-cues, body.co-state #home-scroll-cues,
+    body.pe-swapping #home-scroll-cues, body.gs-swapping #home-scroll-cues, body.oe-swapping #home-scroll-cues, body.au-swapping #home-scroll-cues, body.vc-swapping #home-scroll-cues, body.bl-swapping #home-scroll-cues, body.co-swapping #home-scroll-cues {
       opacity: 0 !important; pointer-events: none !important;
     }
     /* Subpage cues: hidden by default, revealed only once a subpage is settled (not mid-swap) */
@@ -1334,10 +1270,10 @@
        sit invisibly on top of the home arrows (same z-index, later in DOM) and swallow every
        click on the home page. Keep them inert unless a subpage is actually active. */
     #sub-scroll-cues .scroll-cue { pointer-events: none !important; }
-    body.pe-state #sub-scroll-cues, body.gs-state #sub-scroll-cues, body.oe-state #sub-scroll-cues, body.au-state #sub-scroll-cues, body.vc-state #sub-scroll-cues, body.bl-state #sub-scroll-cues, body.cr-state #sub-scroll-cues {
+    body.pe-state #sub-scroll-cues, body.gs-state #sub-scroll-cues, body.oe-state #sub-scroll-cues, body.au-state #sub-scroll-cues, body.vc-state #sub-scroll-cues, body.bl-state #sub-scroll-cues {
       opacity: 1; pointer-events: none;
     }
-    body.pe-state #sub-scroll-cues .scroll-cue, body.gs-state #sub-scroll-cues .scroll-cue, body.oe-state #sub-scroll-cues .scroll-cue, body.au-state #sub-scroll-cues .scroll-cue, body.vc-state #sub-scroll-cues .scroll-cue, body.bl-state #sub-scroll-cues .scroll-cue, body.cr-state #sub-scroll-cues .scroll-cue {
+    body.pe-state #sub-scroll-cues .scroll-cue, body.gs-state #sub-scroll-cues .scroll-cue, body.oe-state #sub-scroll-cues .scroll-cue, body.au-state #sub-scroll-cues .scroll-cue, body.vc-state #sub-scroll-cues .scroll-cue, body.bl-state #sub-scroll-cues .scroll-cue {
       pointer-events: auto !important;
     }
     @media (max-width: 767px) {
@@ -3268,246 +3204,6 @@
         <div id="bl-spacer" style="height:520vh; flex-shrink:0;"></div>
       </div>
 
-      <!-- ══════════ CAREERS PAGE (glass card, animates in — mirrors PE/GS/OE/AU/VC/BL) ══════════ -->
-      <div id="cr-overlay" style="position:absolute; left:clamp(280px,24vw,400px); top:0; right:0; bottom:0; display:flex; flex-direction:column; align-items:stretch; overflow-y:auto; scrollbar-width:none; pointer-events:none; opacity:0; z-index:25; transition:none;">
-        <div id="cr-stage" style="position:sticky; top:0; height:calc(100vh - 72px); overflow:visible; flex-shrink:0; opacity:0;">
-
-          <!-- SVG goo morph mask -->
-          <svg id="cr-disc-svg" style="position:absolute; inset:0; width:100%; height:100%; z-index:0; pointer-events:none;">
-            <defs>
-              <filter id="cr-goo-f" x="-20%" y="-20%" width="140%" height="140%">
-                <feGaussianBlur id="cr-gb" in="SourceGraphic" stdDeviation="0.4" result="b"></feGaussianBlur>
-                <feColorMatrix id="cr-cm" in="b" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7" result="g"></feColorMatrix>
-              </filter>
-              <mask id="cr-disc-msk" maskUnits="userSpaceOnUse" x="-200" y="-200" width="20000" height="20000">
-                <g filter="url(#cr-goo-f)" id="cr-disc-blobs"></g>
-              </mask>
-            </defs>
-          </svg>
-
-          <!-- Glass panel masked by goo -->
-          <div id="cr-disc-glass" style="position:absolute; top:0; left:0; right:0; height:100vh; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); overflow:hidden; -webkit-mask:url(#cr-disc-msk); mask:url(#cr-disc-msk);"><div style="position:absolute;inset:0;pointer-events:none;opacity:0.055;filter:url(#panel-noise);background:#ffffff;"></div></div>
-
-          <!-- Hero frame -->
-          <div id="cr-hero-frame" style="transform:translateZ(0); will-change:transform; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); transition:backdrop-filter 0.55s cubic-bezier(0.22,1,0.36,1), -webkit-backdrop-filter 0.55s cubic-bezier(0.22,1,0.36,1); -webkit-backdrop-filter:blur(28px) saturate(140%); position:absolute; top:0; left:0; right:0; height:100vh; border-left:1px solid rgba(255,255,255,0.12); border-top:1px solid rgba(255,255,255,0.12); border-bottom:1px solid rgba(255,255,255,0.12); border-top-left-radius:44px; border-bottom-left-radius:44px; pointer-events:none; z-index:1;"></div>
-
-          <!-- HERO content layer -->
-          <div id="cr-hero-layer" style="position:absolute; top:0; left:0; right:0; height:100vh; display:flex; flex-direction:column; justify-content:center; padding-left:clamp(48px,6.5vw,140px); padding-right:clamp(40px,5vw,90px); z-index:3; will-change:opacity,filter;">
-          <div style="max-width:960px;">
-            <h1 class="pe-el" style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(48px,6.6vw,108px); line-height:1.02; letter-spacing:-0.01em; text-wrap:balance; text-shadow:0 4px 32px rgba(31,98,255,0.40); opacity:0; transform:translateY(26px); transition:opacity 0.85s cubic-bezier(0.16,1,0.3,1) 0.18s, transform 0.85s cubic-bezier(0.16,1,0.3,1) 0.18s;">Build What&rsquo;s Next<br>With Us</h1>
-            <p class="pe-el" style="margin:clamp(20px,2.6vh,34px) 0 0; max-width:660px; font-family:'Inter',sans-serif; font-weight:300; color:#C7FFE0; font-size:clamp(16px,1.55vw,26px); line-height:1.5; text-wrap:pretty; opacity:0; transform:translateY(26px); transition:opacity 0.85s cubic-bezier(0.16,1,0.3,1) 0.30s, transform 0.85s cubic-bezier(0.16,1,0.3,1) 0.30s;">Remote-first, LATAM-based, working alongside the world&rsquo;s best software companies. Find the role where your work compounds.</p>
-            <div class="pe-el" style="display:flex; align-items:center; gap:clamp(20px,2.4vw,38px); flex-wrap:wrap; margin-top:clamp(26px,3.4vh,44px); opacity:0; transform:translateY(26px); transition:opacity 0.85s cubic-bezier(0.16,1,0.3,1) 0.46s, transform 0.85s cubic-bezier(0.16,1,0.3,1) 0.46s;">
-              <a href="#" onclick="{{ onSubDown }}" style="display:inline-flex; align-items:center; gap:14px; background:#CCFFCE; color:#18282C; font-family:'Inter',sans-serif; font-weight:700; text-transform:uppercase; font-size:clamp(15px,1.4vw,22px); letter-spacing:0.045em; padding:13px 26px; text-decoration:none; box-shadow:0 0 44px rgba(150,255,170,0.28); transition:transform .2s ease, box-shadow .2s ease;" style-hover="transform:translateY(-2px); box-shadow:0 0 60px rgba(150,255,170,0.45);">See open roles <span style="font-weight:700;font-size:1.05em;">&#8594;</span></a>
-              <a href="#" onclick="{{ onHome }}" style="font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.6); font-size:clamp(13px,1.1vw,17px); text-decoration:none; letter-spacing:0.04em; display:inline-flex; align-items:center; gap:8px; transition:color .2s ease;" style-hover="color:#C7FFE0;"><span style="font-size:1.1em;">&#8592;</span> Back to Home</a>
-            </div>
-          </div>
-          </div><!-- /cr-hero-layer -->
-
-          <div id="cr-scroll">
-
-            <!-- ══════════ SECTION 1 · OPEN POSITIONS ══════════ -->
-            <div class="pe-sec" id="cr-sec-1">
-              <div class="cr-hl" id="cr-s1-hl" style="position:absolute; left:2%; top:5%; width:96%; height:23%; display:flex; flex-direction:column; justify-content:flex-start; gap:clamp(12px,1.6vh,22px); opacity:0; pointer-events:none; z-index:3;">
-                <h2 id="cr-count" style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(30px,3.6vw,60px); line-height:1.0; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.35);">Open Positions (11)</h2>
-                <div style="display:flex; flex-direction:column; gap:clamp(8px,1vh,12px);">
-                  <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(11px,0.85vw,14px); letter-spacing:0.14em; text-transform:uppercase; color:rgba(199,255,224,0.5);">Filters</span>
-                  <div style="display:flex; align-items:center; gap:clamp(10px,1vw,16px); flex-wrap:wrap;">
-                    <div style="position:relative; flex:1 1 0; min-width:clamp(104px,10vw,160px); display:flex;">
-                      <select id="cr-f-dept" class="cr-select" onchange="{{ onFilter }}" style="width:100%; font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(13px,1vw,16px); color:#C7FFE0; background:rgba(0,0,0,0.25); border:1px solid rgba(255,255,255,0.14); border-radius:10px; padding:11px 40px 11px 16px;">
-                        <option value="">Department</option>
-                        <option value="AN">AN</option><option value="DS">DS</option><option value="FL">FL</option><option value="IM">IM</option><option value="LL">LL</option><option value="SG">SG</option>
-                      </select>
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="position:absolute; right:15px; top:50%; transform:translateY(-50%); pointer-events:none;"><path d="M6 9l6 6 6-6"></path></svg>
-                    </div>
-                    <div style="position:relative; flex:1 1 0; min-width:clamp(104px,10vw,160px); display:flex;">
-                      <select id="cr-f-type" class="cr-select" onchange="{{ onFilter }}" style="width:100%; font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(13px,1vw,16px); color:#C7FFE0; background:rgba(0,0,0,0.25); border:1px solid rgba(255,255,255,0.14); border-radius:10px; padding:11px 40px 11px 16px;">
-                        <option value="">Employment Type</option>
-                        <option value="Full time">Full time</option>
-                      </select>
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="position:absolute; right:15px; top:50%; transform:translateY(-50%); pointer-events:none;"><path d="M6 9l6 6 6-6"></path></svg>
-                    </div>
-                    <div style="position:relative; flex:1 1 0; min-width:clamp(104px,10vw,160px); display:flex;">
-                      <select id="cr-f-loc" class="cr-select" onchange="{{ onFilter }}" style="width:100%; font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(13px,1vw,16px); color:#C7FFE0; background:rgba(0,0,0,0.25); border:1px solid rgba(255,255,255,0.14); border-radius:10px; padding:11px 40px 11px 16px;">
-                        <option value="">Location</option>
-                        <option value="LATAM">LATAM</option><option value="Philippines">Philippines</option>
-                      </select>
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="position:absolute; right:15px; top:50%; transform:translateY(-50%); pointer-events:none;"><path d="M6 9l6 6 6-6"></path></svg>
-                    </div>
-                    <div style="position:relative; flex:1 1 0; min-width:clamp(104px,10vw,160px); display:flex;">
-                      <select id="cr-f-loctype" class="cr-select" onchange="{{ onFilter }}" style="width:100%; font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(13px,1vw,16px); color:#C7FFE0; background:rgba(0,0,0,0.25); border:1px solid rgba(255,255,255,0.14); border-radius:10px; padding:11px 40px 11px 16px;">
-                        <option value="">Location Type</option>
-                        <option value="Remote">Remote</option><option value="On-site">On-site</option>
-                      </select>
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9DEBC2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="position:absolute; right:15px; top:50%; transform:translateY(-50%); pointer-events:none;"><path d="M6 9l6 6 6-6"></path></svg>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div id="cr-s1-grid" style="position:absolute; left:2%; top:29%; width:96%; height:67%; display:grid; grid-template-columns:1fr 1fr; grid-auto-rows:min-content; align-content:start; gap:clamp(14px,1.6vw,22px); overflow-y:auto; scrollbar-width:none; z-index:2; opacity:0; pointer-events:none; padding-right:4px; padding-bottom:clamp(96px,13vh,150px); -webkit-mask-image:linear-gradient(to bottom, #000 calc(100% - 64px), transparent 100%); mask-image:linear-gradient(to bottom, #000 calc(100% - 64px), transparent 100%);">
-
-                <div class="cr-job" data-dept="AN" data-type="Full time" data-loc="LATAM" data-loctype="Remote" style="border-radius:24px; box-sizing:border-box; background:rgba(0,0,0,0.18); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); display:flex; flex-direction:column; padding:clamp(18px,1.5vw,26px); gap:clamp(10px,1.1vh,15px); overflow:hidden; transition:transform .2s ease, border-color .2s ease, box-shadow .2s ease;" style-hover="transform:translateY(-3px); border-color:rgba(157,235,194,0.5); box-shadow:0 12px 40px rgba(0,0,0,0.35);">
-                  <div style="display:flex; align-items:center; gap:9px; flex-wrap:wrap;">
-                    <span style="font-family:'Inter',sans-serif; font-weight:600; font-size:clamp(11px,0.8vw,13px); letter-spacing:0.06em; color:#18282C; background:#9DEBC2; padding:5px 13px; border-radius:999px;">AN</span>
-                    <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(11px,0.8vw,13px); letter-spacing:0.04em; color:#9DEBC2; background:rgba(157,235,194,0.08); border:1px solid rgba(157,235,194,0.35); padding:5px 13px; border-radius:999px;">Remote</span>
-                  </div>
-                  <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(18px,1.35vw,24px); line-height:1.2; letter-spacing:-0.01em; text-wrap:pretty;">Data Analytics Engineer</h3>
-                  <div style="display:flex; align-items:center; gap:clamp(14px,1.2vw,20px); flex-wrap:wrap; color:rgba(199,255,224,0.6); font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(13px,0.95vw,15px);">
-                    <span style="display:inline-flex; align-items:center; gap:7px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6-7-11a7 7 0 0114 0c0 5-7 11-7 11z"></path><circle cx="12" cy="10" r="2.5"></circle></svg>LATAM</span>
-                    <span style="display:inline-flex; align-items:center; gap:7px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>Full time</span>
-                  </div>
-                  <a href="#" style="margin-top:auto; align-self:flex-start; display:inline-flex; align-items:center; gap:9px; font-family:'Inter',sans-serif; font-weight:600; text-transform:uppercase; font-size:clamp(11px,0.85vw,13px); letter-spacing:0.06em; color:#9DEBC2; text-decoration:none; transition:gap .2s ease;" style-hover="gap:14px;">View role <span style="font-weight:700;">&#8594;</span></a>
-                </div>
-
-                <div class="cr-job" data-dept="AN" data-type="Full time" data-loc="LATAM" data-loctype="On-site" style="border-radius:24px; box-sizing:border-box; background:rgba(0,0,0,0.18); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); display:flex; flex-direction:column; padding:clamp(18px,1.5vw,26px); gap:clamp(10px,1.1vh,15px); overflow:hidden; transition:transform .2s ease, border-color .2s ease, box-shadow .2s ease;" style-hover="transform:translateY(-3px); border-color:rgba(157,235,194,0.5); box-shadow:0 12px 40px rgba(0,0,0,0.35);">
-                  <div style="display:flex; align-items:center; gap:9px; flex-wrap:wrap;">
-                    <span style="font-family:'Inter',sans-serif; font-weight:600; font-size:clamp(11px,0.8vw,13px); letter-spacing:0.06em; color:#18282C; background:#9DEBC2; padding:5px 13px; border-radius:999px;">AN</span>
-                  </div>
-                  <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(18px,1.35vw,24px); line-height:1.2; letter-spacing:-0.01em; text-wrap:pretty;">Senior Content Marketing Manager</h3>
-                  <div style="display:flex; align-items:center; gap:clamp(14px,1.2vw,20px); flex-wrap:wrap; color:rgba(199,255,224,0.6); font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(13px,0.95vw,15px);">
-                    <span style="display:inline-flex; align-items:center; gap:7px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6-7-11a7 7 0 0114 0c0 5-7 11-7 11z"></path><circle cx="12" cy="10" r="2.5"></circle></svg>LATAM</span>
-                    <span style="display:inline-flex; align-items:center; gap:7px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>Full time</span>
-                  </div>
-                  <a href="#" style="margin-top:auto; align-self:flex-start; display:inline-flex; align-items:center; gap:9px; font-family:'Inter',sans-serif; font-weight:600; text-transform:uppercase; font-size:clamp(11px,0.85vw,13px); letter-spacing:0.06em; color:#9DEBC2; text-decoration:none; transition:gap .2s ease;" style-hover="gap:14px;">View role <span style="font-weight:700;">&#8594;</span></a>
-                </div>
-
-                <div class="cr-job" data-dept="DS" data-type="Full time" data-loc="LATAM" data-loctype="On-site" style="border-radius:24px; box-sizing:border-box; background:rgba(0,0,0,0.18); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); display:flex; flex-direction:column; padding:clamp(18px,1.5vw,26px); gap:clamp(10px,1.1vh,15px); overflow:hidden; transition:transform .2s ease, border-color .2s ease, box-shadow .2s ease;" style-hover="transform:translateY(-3px); border-color:rgba(157,235,194,0.5); box-shadow:0 12px 40px rgba(0,0,0,0.35);">
-                  <div style="display:flex; align-items:center; gap:9px; flex-wrap:wrap;">
-                    <span style="font-family:'Inter',sans-serif; font-weight:600; font-size:clamp(11px,0.8vw,13px); letter-spacing:0.06em; color:#18282C; background:#9DEBC2; padding:5px 13px; border-radius:999px;">DS</span>
-                  </div>
-                  <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(18px,1.35vw,24px); line-height:1.2; letter-spacing:-0.01em; text-wrap:pretty;">Principal Engineer &ndash; Architect (AI Agents)</h3>
-                  <div style="display:flex; align-items:center; gap:clamp(14px,1.2vw,20px); flex-wrap:wrap; color:rgba(199,255,224,0.6); font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(13px,0.95vw,15px);">
-                    <span style="display:inline-flex; align-items:center; gap:7px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6-7-11a7 7 0 0114 0c0 5-7 11-7 11z"></path><circle cx="12" cy="10" r="2.5"></circle></svg>LATAM</span>
-                    <span style="display:inline-flex; align-items:center; gap:7px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>Full time</span>
-                  </div>
-                  <a href="#" style="margin-top:auto; align-self:flex-start; display:inline-flex; align-items:center; gap:9px; font-family:'Inter',sans-serif; font-weight:600; text-transform:uppercase; font-size:clamp(11px,0.85vw,13px); letter-spacing:0.06em; color:#9DEBC2; text-decoration:none; transition:gap .2s ease;" style-hover="gap:14px;">View role <span style="font-weight:700;">&#8594;</span></a>
-                </div>
-
-                <div class="cr-job" data-dept="DS" data-type="Full time" data-loc="LATAM" data-loctype="Remote" style="border-radius:24px; box-sizing:border-box; background:rgba(0,0,0,0.18); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); display:flex; flex-direction:column; padding:clamp(18px,1.5vw,26px); gap:clamp(10px,1.1vh,15px); overflow:hidden; transition:transform .2s ease, border-color .2s ease, box-shadow .2s ease;" style-hover="transform:translateY(-3px); border-color:rgba(157,235,194,0.5); box-shadow:0 12px 40px rgba(0,0,0,0.35);">
-                  <div style="display:flex; align-items:center; gap:9px; flex-wrap:wrap;">
-                    <span style="font-family:'Inter',sans-serif; font-weight:600; font-size:clamp(11px,0.8vw,13px); letter-spacing:0.06em; color:#18282C; background:#9DEBC2; padding:5px 13px; border-radius:999px;">DS</span>
-                    <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(11px,0.8vw,13px); letter-spacing:0.04em; color:#9DEBC2; background:rgba(157,235,194,0.08); border:1px solid rgba(157,235,194,0.35); padding:5px 13px; border-radius:999px;">Remote</span>
-                  </div>
-                  <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(18px,1.35vw,24px); line-height:1.2; letter-spacing:-0.01em; text-wrap:pretty;">Salesforce Administrator</h3>
-                  <div style="display:flex; align-items:center; gap:clamp(14px,1.2vw,20px); flex-wrap:wrap; color:rgba(199,255,224,0.6); font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(13px,0.95vw,15px);">
-                    <span style="display:inline-flex; align-items:center; gap:7px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6-7-11a7 7 0 0114 0c0 5-7 11-7 11z"></path><circle cx="12" cy="10" r="2.5"></circle></svg>LATAM</span>
-                    <span style="display:inline-flex; align-items:center; gap:7px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>Full time</span>
-                  </div>
-                  <a href="#" style="margin-top:auto; align-self:flex-start; display:inline-flex; align-items:center; gap:9px; font-family:'Inter',sans-serif; font-weight:600; text-transform:uppercase; font-size:clamp(11px,0.85vw,13px); letter-spacing:0.06em; color:#9DEBC2; text-decoration:none; transition:gap .2s ease;" style-hover="gap:14px;">View role <span style="font-weight:700;">&#8594;</span></a>
-                </div>
-
-                <div class="cr-job" data-dept="FL" data-type="Full time" data-loc="LATAM" data-loctype="On-site" style="border-radius:24px; box-sizing:border-box; background:rgba(0,0,0,0.18); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); display:flex; flex-direction:column; padding:clamp(18px,1.5vw,26px); gap:clamp(10px,1.1vh,15px); overflow:hidden; transition:transform .2s ease, border-color .2s ease, box-shadow .2s ease;" style-hover="transform:translateY(-3px); border-color:rgba(157,235,194,0.5); box-shadow:0 12px 40px rgba(0,0,0,0.35);">
-                  <div style="display:flex; align-items:center; gap:9px; flex-wrap:wrap;">
-                    <span style="font-family:'Inter',sans-serif; font-weight:600; font-size:clamp(11px,0.8vw,13px); letter-spacing:0.06em; color:#18282C; background:#9DEBC2; padding:5px 13px; border-radius:999px;">FL</span>
-                  </div>
-                  <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(18px,1.35vw,24px); line-height:1.2; letter-spacing:-0.01em; text-wrap:pretty;">AI CoE Program Lead</h3>
-                  <div style="display:flex; align-items:center; gap:clamp(14px,1.2vw,20px); flex-wrap:wrap; color:rgba(199,255,224,0.6); font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(13px,0.95vw,15px);">
-                    <span style="display:inline-flex; align-items:center; gap:7px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6-7-11a7 7 0 0114 0c0 5-7 11-7 11z"></path><circle cx="12" cy="10" r="2.5"></circle></svg>LATAM</span>
-                    <span style="display:inline-flex; align-items:center; gap:7px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>Full time</span>
-                  </div>
-                  <a href="#" style="margin-top:auto; align-self:flex-start; display:inline-flex; align-items:center; gap:9px; font-family:'Inter',sans-serif; font-weight:600; text-transform:uppercase; font-size:clamp(11px,0.85vw,13px); letter-spacing:0.06em; color:#9DEBC2; text-decoration:none; transition:gap .2s ease;" style-hover="gap:14px;">View role <span style="font-weight:700;">&#8594;</span></a>
-                </div>
-
-                <div class="cr-job" data-dept="FL" data-type="Full time" data-loc="LATAM" data-loctype="On-site" style="border-radius:24px; box-sizing:border-box; background:rgba(0,0,0,0.18); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); display:flex; flex-direction:column; padding:clamp(18px,1.5vw,26px); gap:clamp(10px,1.1vh,15px); overflow:hidden; transition:transform .2s ease, border-color .2s ease, box-shadow .2s ease;" style-hover="transform:translateY(-3px); border-color:rgba(157,235,194,0.5); box-shadow:0 12px 40px rgba(0,0,0,0.35);">
-                  <div style="display:flex; align-items:center; gap:9px; flex-wrap:wrap;">
-                    <span style="font-family:'Inter',sans-serif; font-weight:600; font-size:clamp(11px,0.8vw,13px); letter-spacing:0.06em; color:#18282C; background:#9DEBC2; padding:5px 13px; border-radius:999px;">FL</span>
-                  </div>
-                  <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(18px,1.35vw,24px); line-height:1.2; letter-spacing:-0.01em; text-wrap:pretty;">Technical Support Engineer</h3>
-                  <div style="display:flex; align-items:center; gap:clamp(14px,1.2vw,20px); flex-wrap:wrap; color:rgba(199,255,224,0.6); font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(13px,0.95vw,15px);">
-                    <span style="display:inline-flex; align-items:center; gap:7px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6-7-11a7 7 0 0114 0c0 5-7 11-7 11z"></path><circle cx="12" cy="10" r="2.5"></circle></svg>LATAM</span>
-                    <span style="display:inline-flex; align-items:center; gap:7px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>Full time</span>
-                  </div>
-                  <a href="#" style="margin-top:auto; align-self:flex-start; display:inline-flex; align-items:center; gap:9px; font-family:'Inter',sans-serif; font-weight:600; text-transform:uppercase; font-size:clamp(11px,0.85vw,13px); letter-spacing:0.06em; color:#9DEBC2; text-decoration:none; transition:gap .2s ease;" style-hover="gap:14px;">View role <span style="font-weight:700;">&#8594;</span></a>
-                </div>
-
-                <div class="cr-job" data-dept="IM" data-type="Full time" data-loc="LATAM" data-loctype="On-site" style="border-radius:24px; box-sizing:border-box; background:rgba(0,0,0,0.18); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); display:flex; flex-direction:column; padding:clamp(18px,1.5vw,26px); gap:clamp(10px,1.1vh,15px); overflow:hidden; transition:transform .2s ease, border-color .2s ease, box-shadow .2s ease;" style-hover="transform:translateY(-3px); border-color:rgba(157,235,194,0.5); box-shadow:0 12px 40px rgba(0,0,0,0.35);">
-                  <div style="display:flex; align-items:center; gap:9px; flex-wrap:wrap;">
-                    <span style="font-family:'Inter',sans-serif; font-weight:600; font-size:clamp(11px,0.8vw,13px); letter-spacing:0.06em; color:#18282C; background:#9DEBC2; padding:5px 13px; border-radius:999px;">IM</span>
-                  </div>
-                  <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(18px,1.35vw,24px); line-height:1.2; letter-spacing:-0.01em; text-wrap:pretty;">Customer Success Manager (CSM)</h3>
-                  <div style="display:flex; align-items:center; gap:clamp(14px,1.2vw,20px); flex-wrap:wrap; color:rgba(199,255,224,0.6); font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(13px,0.95vw,15px);">
-                    <span style="display:inline-flex; align-items:center; gap:7px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6-7-11a7 7 0 0114 0c0 5-7 11-7 11z"></path><circle cx="12" cy="10" r="2.5"></circle></svg>LATAM</span>
-                    <span style="display:inline-flex; align-items:center; gap:7px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>Full time</span>
-                  </div>
-                  <a href="#" style="margin-top:auto; align-self:flex-start; display:inline-flex; align-items:center; gap:9px; font-family:'Inter',sans-serif; font-weight:600; text-transform:uppercase; font-size:clamp(11px,0.85vw,13px); letter-spacing:0.06em; color:#9DEBC2; text-decoration:none; transition:gap .2s ease;" style-hover="gap:14px;">View role <span style="font-weight:700;">&#8594;</span></a>
-                </div>
-
-                <div class="cr-job" data-dept="LL" data-type="Full time" data-loc="LATAM" data-loctype="On-site" style="border-radius:24px; box-sizing:border-box; background:rgba(0,0,0,0.18); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); display:flex; flex-direction:column; padding:clamp(18px,1.5vw,26px); gap:clamp(10px,1.1vh,15px); overflow:hidden; transition:transform .2s ease, border-color .2s ease, box-shadow .2s ease;" style-hover="transform:translateY(-3px); border-color:rgba(157,235,194,0.5); box-shadow:0 12px 40px rgba(0,0,0,0.35);">
-                  <div style="display:flex; align-items:center; gap:9px; flex-wrap:wrap;">
-                    <span style="font-family:'Inter',sans-serif; font-weight:600; font-size:clamp(11px,0.8vw,13px); letter-spacing:0.06em; color:#18282C; background:#9DEBC2; padding:5px 13px; border-radius:999px;">LL</span>
-                  </div>
-                  <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(18px,1.35vw,24px); line-height:1.2; letter-spacing:-0.01em; text-wrap:pretty;">Customer Success Manager (Mid-Market) LATAM</h3>
-                  <div style="display:flex; align-items:center; gap:clamp(14px,1.2vw,20px); flex-wrap:wrap; color:rgba(199,255,224,0.6); font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(13px,0.95vw,15px);">
-                    <span style="display:inline-flex; align-items:center; gap:7px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6-7-11a7 7 0 0114 0c0 5-7 11-7 11z"></path><circle cx="12" cy="10" r="2.5"></circle></svg>LATAM</span>
-                    <span style="display:inline-flex; align-items:center; gap:7px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>Full time</span>
-                  </div>
-                  <a href="#" style="margin-top:auto; align-self:flex-start; display:inline-flex; align-items:center; gap:9px; font-family:'Inter',sans-serif; font-weight:600; text-transform:uppercase; font-size:clamp(11px,0.85vw,13px); letter-spacing:0.06em; color:#9DEBC2; text-decoration:none; transition:gap .2s ease;" style-hover="gap:14px;">View role <span style="font-weight:700;">&#8594;</span></a>
-                </div>
-
-                <div class="cr-job" data-dept="LL" data-type="Full time" data-loc="LATAM" data-loctype="On-site" style="border-radius:24px; box-sizing:border-box; background:rgba(0,0,0,0.18); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); display:flex; flex-direction:column; padding:clamp(18px,1.5vw,26px); gap:clamp(10px,1.1vh,15px); overflow:hidden; transition:transform .2s ease, border-color .2s ease, box-shadow .2s ease;" style-hover="transform:translateY(-3px); border-color:rgba(157,235,194,0.5); box-shadow:0 12px 40px rgba(0,0,0,0.35);">
-                  <div style="display:flex; align-items:center; gap:9px; flex-wrap:wrap;">
-                    <span style="font-family:'Inter',sans-serif; font-weight:600; font-size:clamp(11px,0.8vw,13px); letter-spacing:0.06em; color:#18282C; background:#9DEBC2; padding:5px 13px; border-radius:999px;">LL</span>
-                  </div>
-                  <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(18px,1.35vw,24px); line-height:1.2; letter-spacing:-0.01em; text-wrap:pretty;">Senior Customer Onboarding &amp; Success Manager (LATAM)</h3>
-                  <div style="display:flex; align-items:center; gap:clamp(14px,1.2vw,20px); flex-wrap:wrap; color:rgba(199,255,224,0.6); font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(13px,0.95vw,15px);">
-                    <span style="display:inline-flex; align-items:center; gap:7px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6-7-11a7 7 0 0114 0c0 5-7 11-7 11z"></path><circle cx="12" cy="10" r="2.5"></circle></svg>LATAM</span>
-                    <span style="display:inline-flex; align-items:center; gap:7px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>Full time</span>
-                  </div>
-                  <a href="#" style="margin-top:auto; align-self:flex-start; display:inline-flex; align-items:center; gap:9px; font-family:'Inter',sans-serif; font-weight:600; text-transform:uppercase; font-size:clamp(11px,0.85vw,13px); letter-spacing:0.06em; color:#9DEBC2; text-decoration:none; transition:gap .2s ease;" style-hover="gap:14px;">View role <span style="font-weight:700;">&#8594;</span></a>
-                </div>
-
-                <div class="cr-job" data-dept="LL" data-type="Full time" data-loc="Philippines" data-loctype="Remote" style="border-radius:24px; box-sizing:border-box; background:rgba(0,0,0,0.18); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); display:flex; flex-direction:column; padding:clamp(18px,1.5vw,26px); gap:clamp(10px,1.1vh,15px); overflow:hidden; transition:transform .2s ease, border-color .2s ease, box-shadow .2s ease;" style-hover="transform:translateY(-3px); border-color:rgba(157,235,194,0.5); box-shadow:0 12px 40px rgba(0,0,0,0.35);">
-                  <div style="display:flex; align-items:center; gap:9px; flex-wrap:wrap;">
-                    <span style="font-family:'Inter',sans-serif; font-weight:600; font-size:clamp(11px,0.8vw,13px); letter-spacing:0.06em; color:#18282C; background:#9DEBC2; padding:5px 13px; border-radius:999px;">LL</span>
-                    <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(11px,0.8vw,13px); letter-spacing:0.04em; color:#9DEBC2; background:rgba(157,235,194,0.08); border:1px solid rgba(157,235,194,0.35); padding:5px 13px; border-radius:999px;">Remote</span>
-                  </div>
-                  <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(18px,1.35vw,24px); line-height:1.2; letter-spacing:-0.01em; text-wrap:pretty;">Senior Customer Success Manager (APAC)</h3>
-                  <div style="display:flex; align-items:center; gap:clamp(14px,1.2vw,20px); flex-wrap:wrap; color:rgba(199,255,224,0.6); font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(13px,0.95vw,15px);">
-                    <span style="display:inline-flex; align-items:center; gap:7px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6-7-11a7 7 0 0114 0c0 5-7 11-7 11z"></path><circle cx="12" cy="10" r="2.5"></circle></svg>Philippines</span>
-                    <span style="display:inline-flex; align-items:center; gap:7px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>Full time</span>
-                  </div>
-                  <a href="#" style="margin-top:auto; align-self:flex-start; display:inline-flex; align-items:center; gap:9px; font-family:'Inter',sans-serif; font-weight:600; text-transform:uppercase; font-size:clamp(11px,0.85vw,13px); letter-spacing:0.06em; color:#9DEBC2; text-decoration:none; transition:gap .2s ease;" style-hover="gap:14px;">View role <span style="font-weight:700;">&#8594;</span></a>
-                </div>
-
-                <div class="cr-job" data-dept="SG" data-type="Full time" data-loc="LATAM" data-loctype="On-site" style="border-radius:24px; box-sizing:border-box; background:rgba(0,0,0,0.18); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); display:flex; flex-direction:column; padding:clamp(18px,1.5vw,26px); gap:clamp(10px,1.1vh,15px); overflow:hidden; transition:transform .2s ease, border-color .2s ease, box-shadow .2s ease;" style-hover="transform:translateY(-3px); border-color:rgba(157,235,194,0.5); box-shadow:0 12px 40px rgba(0,0,0,0.35);">
-                  <div style="display:flex; align-items:center; gap:9px; flex-wrap:wrap;">
-                    <span style="font-family:'Inter',sans-serif; font-weight:600; font-size:clamp(11px,0.8vw,13px); letter-spacing:0.06em; color:#18282C; background:#9DEBC2; padding:5px 13px; border-radius:999px;">SG</span>
-                  </div>
-                  <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(18px,1.35vw,24px); line-height:1.2; letter-spacing:-0.01em; text-wrap:pretty;">IT Support Specialist</h3>
-                  <div style="display:flex; align-items:center; gap:clamp(14px,1.2vw,20px); flex-wrap:wrap; color:rgba(199,255,224,0.6); font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(13px,0.95vw,15px);">
-                    <span style="display:inline-flex; align-items:center; gap:7px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6-7-11a7 7 0 0114 0c0 5-7 11-7 11z"></path><circle cx="12" cy="10" r="2.5"></circle></svg>LATAM</span>
-                    <span style="display:inline-flex; align-items:center; gap:7px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>Full time</span>
-                  </div>
-                  <a href="#" style="margin-top:auto; align-self:flex-start; display:inline-flex; align-items:center; gap:9px; font-family:'Inter',sans-serif; font-weight:600; text-transform:uppercase; font-size:clamp(11px,0.85vw,13px); letter-spacing:0.06em; color:#9DEBC2; text-decoration:none; transition:gap .2s ease;" style-hover="gap:14px;">View role <span style="font-weight:700;">&#8594;</span></a>
-                </div>
-
-              </div>
-            </div><!-- /cr-sec-1 -->
-
-            <!-- ══════════ CAREERS CTA finale ══════════ -->
-            <div id="cr-cta-content" style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:flex-start; justify-content:center; padding-left:clamp(48px,6.5vw,140px); padding-right:clamp(32px,5vw,80px); gap:clamp(24px,3.4vh,44px); opacity:0; pointer-events:none; z-index:30;">
-              <h1 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(48px,6.6vw,112px); line-height:1.0; letter-spacing:-0.02em; text-shadow:0 4px 48px rgba(10,200,120,0.35);">Don&rsquo;t See Your Role?</h1>
-              <p style="margin:0; max-width:640px; font-family:'Inter',sans-serif; font-weight:300; color:#C7FFE0; font-size:clamp(16px,1.5vw,24px); line-height:1.5; text-wrap:pretty;">We&rsquo;re always looking for exceptional people. Send us your profile and we&rsquo;ll reach out when there&rsquo;s a fit.</p>
-              <div style="display:flex; align-items:center; gap:clamp(16px,2vw,28px); flex-wrap:wrap;">
-                <a href="mailto:careers@devsavant.com" style="display:inline-flex; align-items:center; gap:14px; background:#CCFFCE; color:#18282C; font-family:'Inter',sans-serif; font-weight:700; text-transform:uppercase; font-size:clamp(14px,1.2vw,20px); letter-spacing:0.05em; padding:clamp(13px,1.5vh,18px) clamp(28px,2.8vw,44px); text-decoration:none; box-shadow:0 0 52px rgba(150,255,170,0.32); transition:transform .2s ease,box-shadow .2s ease;" style-hover="transform:translateY(-3px);box-shadow:0 0 72px rgba(150,255,170,0.50);">Send Your Profile <span style="font-weight:700;font-size:1.1em;">&#8594;</span></a>
-                <a href="#" onclick="{{ onHome }}" style="display:inline-flex; align-items:center; gap:12px; background:transparent; color:#C7FFE0; font-family:'Inter',sans-serif; font-weight:600; text-transform:uppercase; font-size:clamp(14px,1.2vw,20px); letter-spacing:0.05em; padding:clamp(13px,1.5vh,18px) clamp(28px,2.8vw,44px); text-decoration:none; border:1px solid rgba(199,255,224,0.35); transition:border-color .2s ease, color .2s ease;" style-hover="border-color:#9DEBC2; color:#E0FFEE;">Back to Home</a>
-              </div>
-              <div style="display:flex; align-items:center; gap:clamp(24px,3.5vw,52px); margin-top:clamp(6px,1.2vh,16px);">
-                <a href="#" style="display:flex; flex-direction:column; align-items:center; gap:10px; text-decoration:none; opacity:0.70; transition:opacity .2s;" style-hover="opacity:1;">
-                  <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="rgba(199,255,224,0.10)"/><path d="M10 13h3v9h-3v-9zm1.5-4.5a1.5 1.5 0 110 3 1.5 1.5 0 010-3zM15 13h2.9v1.3h.04C18.44 13.5 19.5 13 20.7 13c3 0 3.3 2 3.3 4.5V22h-3v-4c0-1 0-2.3-1.4-2.3-1.4 0-1.6 1.1-1.6 2.2V22h-3v-9z" fill="#C7FFE0"/></svg>
-                </a>
-                <a href="mailto:careers@devsavant.com" style="display:flex; flex-direction:column; align-items:center; gap:10px; text-decoration:none; opacity:0.70; transition:opacity .2s;" style-hover="opacity:1;">
-                  <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="rgba(199,255,224,0.10)"/><rect x="8" y="10" width="16" height="12" rx="2" stroke="#C7FFE0" stroke-width="1.5" fill="none"/><path d="M8 12l8 6 8-6" stroke="#C7FFE0" stroke-width="1.5" stroke-linecap="round"/></svg>
-                </a>
-              </div>
-              <a href="#" style="font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.35); font-size:clamp(11px,0.85vw,14px); text-decoration:underline; letter-spacing:0.05em; transition:color .2s;" style-hover="color:rgba(199,255,224,0.70);">Privacy Policy</a>
-            </div>
-
-          </div><!-- /cr-scroll -->
-        </div><!-- /cr-stage -->
-        <div id="cr-spacer" style="height:520vh; flex-shrink:0;"></div>
-      </div>
-
       <!-- ══════════ CONTACT PAGE (glass panel, animates in — mirrors PE/GS/OE/AU/VC/BL/CR) ══════════ -->
       <div id="co-overlay" style="position:absolute; left:clamp(280px,24vw,400px); top:0; right:0; bottom:0; overflow-y:auto; scrollbar-width:none; pointer-events:none; opacity:0; z-index:25; transition:none; will-change:opacity,filter;">
         <!-- pinned frosted frame (GPU layer — mirrors the other subpages' hero-frame so the swap composites smoothly) -->
@@ -3869,12 +3565,11 @@ class Component extends DCLogic {
     oe: { el: 'oe-overlay', stops: [0, 0.095, 0.176, 0.257, 0.338, 0.419, 0.50, 0.581, 0.662, 0.743, 0.824, 0.975], mstops: [0, 0.076, 0.157, 0.238, 0.319, 0.40, 0.481, 0.562, 0.643, 0.724, 0.832, 0.975] },
     au: { el: 'au-overlay', stops: [0, 0.15, 0.27, 0.39, 0.51, 0.61, 0.80], mstops: [0, 0.11, 0.23, 0.35, 0.47, 0.585, 0.80] },
     vc: { el: 'vc-overlay', stops: [0, 0.174, 0.40, 0.632, 0.865] },
-    bl: { el: 'bl-overlay', stops: [0, 0.45, 0.905] },
-    cr: { el: 'cr-overlay', stops: [0, 0.45, 0.905] }
+    bl: { el: 'bl-overlay', stops: [0, 0.45, 0.905] }
   };
   _activeSub() {
     const c = document.body.className || '';
-    const m = c.match(/\b(pe|gs|oe|au|vc|bl|cr|co)-state\b/);
+    const m = c.match(/\b(pe|gs|oe|au|vc|bl|co)-state\b/);
     return m ? m[1] : null;
   }
   _stopsFor(cfg) { return (cfg && cfg.mstops && window.innerWidth < 768) ? cfg.mstops : (cfg ? cfg.stops : null); }
@@ -3907,13 +3602,6 @@ class Component extends DCLogic {
   _WHEEL_RELEASE_MS = 260;
   _homeSwapLocked = false; _homeReleaseTimer = 0;
   _subSwapLocked = false; _subReleaseTimer = 0;
-  _blParkedOnPosts() {
-    if (this._activeSub() !== 'bl') return false;
-    const sc = document.getElementById('bl-overlay'); if (!sc) return false;
-    const max = sc.scrollHeight - sc.clientHeight; if (max <= 0) return false;
-    const p = sc.scrollTop / max;
-    return Math.abs(p - this._subCfg.bl.stops[this._BL_POSTS_STOP]) < 0.05;
-  }
   // Returns the inner-scrollable grid element if the active subpage is currently
   // parked on a section that owns an internal scroll budget (blog posts / careers list).
   _parkedInnerGrid() {
@@ -3924,7 +3612,6 @@ class Component extends DCLogic {
     const max = sc.scrollHeight - sc.clientHeight; if (max <= 0) return null;
     const p = sc.scrollTop / max;
     if (key === 'bl' && Math.abs(p - cfg.stops[1]) < 0.05) return document.getElementById('bl-s1-grid');
-    if (key === 'cr' && Math.abs(p - cfg.stops[1]) < 0.05) return document.getElementById('cr-s1-grid');
     // Our Expertise: each case-study section (stops 1..10) owns an expanded accordion card
     // whose body scrolls internally. Feed that body into the same budget system so a wheel
     // reads through the card before the section is allowed to change.
@@ -3963,7 +3650,6 @@ class Component extends DCLogic {
   _onSubStopLanded(key, idx, dir) {
     let grid = null;
     if (key === 'bl' && idx === this._BL_POSTS_STOP) grid = document.getElementById('bl-s1-grid');
-    if (key === 'cr' && idx === 1) grid = document.getElementById('cr-s1-grid');
     if (key === 'oe' && idx >= 1 && idx <= 10) {
       const expKey = (this._oeExpanded && this._oeExpanded[idx - 1]) || 'prob';
       const card = document.getElementById('oe-s' + idx + '-' + expKey);
@@ -4205,13 +3891,6 @@ class Component extends DCLogic {
       onContact: (e) => { if (e) e.preventDefault(); this._showContact(); },
       onContactSubmit: (e) => { if (e && e.preventDefault) e.preventDefault(); this._submitContact(); },
       onMobileContact: (e) => { if (e && e.preventDefault) e.preventDefault(); document.getElementById('mobile-menu')?.classList.remove('open'); this._showContact(); },
-      onCareers: (e) => { if (e) e.preventDefault(); this._showCareers(); },
-      onMobileCareers: (e) => {
-        if (e && e.preventDefault) e.preventDefault();
-        document.getElementById('mobile-menu')?.classList.remove('open');
-        this._showCareers();
-      },
-      onFilter: () => this._applyCareerFilter()
     };
   }
 
@@ -4244,22 +3923,13 @@ class Component extends DCLogic {
   // ─── Agent Open / Close ────────────────────────────────────────────
 
   _openAgentPanel() {
-    if (this._agentOpen || this._animating) return;
+    if (!window.dsAnimate) return;
     this._agentOpen = true;
-    this._animatePanel(true);
+    window.dsAnimate.open(() => this._renderChips());
   }
 
   _closeAgentPanel() {
-    if (!this._agentOpen || this._animating) return;
     this._agentOpen = false;
-    this._animatePanel(false);
-  }
-
-  _openAgentPanel() {
-    if (window.dsAnimate) window.dsAnimate.open(() => this._renderChips());
-  }
-
-  _closeAgentPanel() {
     if (window.dsAnimate) window.dsAnimate.close();
   }
 
@@ -4317,73 +3987,6 @@ class Component extends DCLogic {
     if (items[0]) select(items[0]);
   }
 
-  _initFaqAccordion(clipId) {
-    const clip = document.getElementById(clipId || 'faq-clip');
-    if (!clip || clip._faqWired) return;
-    clip._faqWired = true;
-    const isPE = (clip.id === 'pe-faq-clip');
-    const isGS = (clip.id === 'gs-faq-clip');
-    const easeIO = (t) => t < 0.5 ? 2*t*t : 1 - Math.pow(-2*t+2, 2)/2;
-    // rAF-driven height animation (CSS transitions are frozen on this morph-heavy page)
-    const animateMaxH = (b, from, to) => {
-      if (!b) return;
-      if (b._mhRAF) cancelAnimationFrame(b._mhRAF);
-      const dur = 360, t0 = performance.now();
-      const step = (now) => {
-        const k = Math.min(1, (now - t0) / dur);
-        const v = from + (to - from) * easeIO(k);
-        b.style.setProperty('max-height', v.toFixed(1) + 'px', 'important');
-        if (isPE && this._applyPEScroll) this._applyPEScroll();
-        else if (isGS && this._applyGSScroll) this._applyGSScroll();
-        else if (this._applyScroll) this._applyScroll();
-        if (k < 1) { b._mhRAF = requestAnimationFrame(step); }
-        else { b._mhRAF = 0; }
-      };
-      b._mhRAF = requestAnimationFrame(step);
-    };
-    const collapse = (item, animate) => {
-      const b = item.querySelector('.faq-body');
-      const c = item.querySelector('.faq-chevron');
-      if (b) {
-        b.style.setProperty('overflow', 'hidden', 'important');
-        const cur = b.getBoundingClientRect().height;
-        if (animate && cur > 1) animateMaxH(b, cur, 0);
-        else { if (b._mhRAF) cancelAnimationFrame(b._mhRAF); b.style.setProperty('max-height', '0px', 'important'); }
-      }
-      if (c) c.style.setProperty('transform', 'rotate(0deg)', 'important');
-      item.dataset.open = '0';
-    };
-    const expand = (item) => {
-      const b = item.querySelector('.faq-body');
-      const c = item.querySelector('.faq-chevron');
-      if (b) {
-        b.style.setProperty('overflow', 'hidden', 'important');
-        const target = b.scrollHeight + 24;
-        const cur = b.getBoundingClientRect().height;
-        animateMaxH(b, cur, target);
-      }
-      if (c) c.style.setProperty('transform', 'rotate(90deg)', 'important');
-      item.dataset.open = '1';
-    };
-    clip.querySelectorAll('.faq-item').forEach(item => {
-      const body = item.querySelector('.faq-body');
-      if (body) body.style.setProperty('transition', 'none', 'important');
-      if (window.innerWidth < 768) {
-        // Mobile: FAQ is a horizontal grid of always-expanded cards — let CSS own the
-        // body height instead of the accordion's inline max-height, and skip toggling.
-        if (body) { body.style.removeProperty('max-height'); body.style.removeProperty('overflow'); }
-        item.dataset.open = '1';
-        return;
-      }
-      collapse(item, false);
-      item.addEventListener('click', () => {
-        const wasOpen = item.dataset.open === '1';
-        clip.querySelectorAll('.faq-item').forEach(it => { if (it !== item) collapse(it, true); });
-        if (wasOpen) collapse(item, true);
-        else expand(item);
-      });
-    });
-  }
 
   // _animatePanel delegated entirely to window.dsAnimate (helmet script)
   // so the DC compiler cannot mangle any variable names
@@ -4542,7 +4145,6 @@ class Component extends DCLogic {
     if (this._gsActive) { this._gsActive = false; document.body.classList.remove('gs-state'); const g0 = document.getElementById('gs-overlay'); if (g0) g0.scrollTop = 0; }
     if (this._oeActive) { this._oeActive = false; document.body.classList.remove('oe-state'); const o0 = document.getElementById('oe-overlay'); if (o0) o0.scrollTop = 0; }
     if (this._auActive) { this._auActive = false; document.body.classList.remove('au-state'); const a0 = document.getElementById('au-overlay'); if (a0) a0.scrollTop = 0; }
-    if (this._crActive) { this._crActive = false; document.body.classList.remove('cr-state'); const cr0 = document.getElementById('cr-overlay'); if (cr0) cr0.scrollTop = 0; }
     if (this._vcActive) { this._vcActive = false; document.body.classList.remove('vc-state'); const v0 = document.getElementById('vc-overlay'); if (v0) v0.scrollTop = 0; }
     this._peActive = true;
     if (this._scrollEl) { this._scrollEl.scrollTop = 0; this._scrollEl.style.overflowY = 'hidden'; }
@@ -4559,7 +4161,7 @@ class Component extends DCLogic {
     b.classList.add('pe-state', 'pe-swapping');
     // After the swap settles, drop the transition layer (state class keeps the look)
     clearTimeout(this._peTimer);
-    this._peTimer = setTimeout(() => { if (this._peActive) document.body.classList.remove('pe-swapping'); }, 1350);
+    this._peTimer = setTimeout(() => { document.body.classList.remove('pe-swapping'); }, 1350);
     // Set up PE page scroll
     const peOvl = document.getElementById('pe-overlay');
     if (peOvl) peOvl.scrollTop = 0;
@@ -4587,14 +4189,13 @@ class Component extends DCLogic {
   }
 
   _showHome() {
-    if (!this._peActive && !this._gsActive && !this._oeActive && !this._auActive && !this._vcActive && !this._blActive && !this._crActive && !this._coActive) return;
+    if (!this._peActive && !this._gsActive && !this._oeActive && !this._auActive && !this._vcActive && !this._blActive && !this._coActive) return;
     this._peActive = false;
     this._gsActive = false;
     this._oeActive = false;
     this._auActive = false;
     this._vcActive = false;
     this._blActive = false;
-    this._crActive = false;
     this._coActive = false;
     const b = document.body;
     // Select Home in the nav
@@ -4602,7 +4203,7 @@ class Component extends DCLogic {
     const home = document.querySelector('.nav-link');
     if (home) home.classList.add('active');
     // Remove PE/GS/OE/AU/VC state (home returns to its default/scroll look) + run the swap
-    b.classList.remove('pe-state', 'gs-state', 'oe-state', 'au-state', 'vc-state', 'bl-state', 'cr-state', 'co-state', 'pe-swapping', 'gs-swapping', 'oe-swapping', 'au-swapping', 'vc-swapping', 'bl-swapping', 'cr-swapping', 'co-swapping');
+    b.classList.remove('pe-state', 'gs-state', 'oe-state', 'au-state', 'vc-state', 'bl-state', 'co-state', 'pe-swapping', 'gs-swapping', 'oe-swapping', 'au-swapping', 'vc-swapping', 'bl-swapping', 'co-swapping');
     void b.offsetWidth;
     b.classList.add('pe-swapping');
     const peOvlR = document.getElementById('pe-overlay'); if (peOvlR) peOvlR.scrollTop = 0;
@@ -4611,7 +4212,7 @@ class Component extends DCLogic {
     const auOvlR = document.getElementById('au-overlay'); if (auOvlR) auOvlR.scrollTop = 0;
     const vcOvlR = document.getElementById('vc-overlay'); if (vcOvlR) vcOvlR.scrollTop = 0;
     const blOvlR = document.getElementById('bl-overlay'); if (blOvlR) blOvlR.scrollTop = 0;
-    const crOvlR = document.getElementById('cr-overlay'); if (crOvlR) crOvlR.scrollTop = 0;
+    const coOvlR = document.getElementById('co-overlay'); if (coOvlR) coOvlR.scrollTop = 0;
     if (this._scrollEl) { this._scrollEl.style.overflowY = 'auto'; this._scrollEl.scrollTop = 0; }
     this._scrollProg = 0;
     this._applyScroll();
@@ -4857,7 +4458,6 @@ class Component extends DCLogic {
     if (this._peActive) { this._peActive = false; document.body.classList.remove('pe-state'); const p0 = document.getElementById('pe-overlay'); if (p0) p0.scrollTop = 0; }
     if (this._oeActive) { this._oeActive = false; document.body.classList.remove('oe-state'); const o0 = document.getElementById('oe-overlay'); if (o0) o0.scrollTop = 0; }
     if (this._auActive) { this._auActive = false; document.body.classList.remove('au-state'); const a0 = document.getElementById('au-overlay'); if (a0) a0.scrollTop = 0; }
-    if (this._crActive) { this._crActive = false; document.body.classList.remove('cr-state'); const cr0 = document.getElementById('cr-overlay'); if (cr0) cr0.scrollTop = 0; }
     if (this._vcActive) { this._vcActive = false; document.body.classList.remove('vc-state'); const v0 = document.getElementById('vc-overlay'); if (v0) v0.scrollTop = 0; }
     this._gsActive = true;
     if (this._scrollEl) { this._scrollEl.scrollTop = 0; this._scrollEl.style.overflowY = 'hidden'; }
@@ -4870,7 +4470,7 @@ class Component extends DCLogic {
     void b.offsetWidth;
     b.classList.add('gs-state', 'gs-swapping');
     clearTimeout(this._gsTimer);
-    this._gsTimer = setTimeout(() => { if (this._gsActive) document.body.classList.remove('gs-swapping'); }, 1350);
+    this._gsTimer = setTimeout(() => { document.body.classList.remove('gs-swapping'); }, 1350);
     const gsOvl = document.getElementById('gs-overlay');
     if (gsOvl) gsOvl.scrollTop = 0;
     if (gsOvl && !this._gsScrollListenerAdded) {
@@ -5105,7 +4705,6 @@ class Component extends DCLogic {
     if (this._peActive) { this._peActive = false; document.body.classList.remove('pe-state'); const p0 = document.getElementById('pe-overlay'); if (p0) p0.scrollTop = 0; }
     if (this._gsActive) { this._gsActive = false; document.body.classList.remove('gs-state'); const g0 = document.getElementById('gs-overlay'); if (g0) g0.scrollTop = 0; }
     if (this._auActive) { this._auActive = false; document.body.classList.remove('au-state'); const a0 = document.getElementById('au-overlay'); if (a0) a0.scrollTop = 0; }
-    if (this._crActive) { this._crActive = false; document.body.classList.remove('cr-state'); const cr0 = document.getElementById('cr-overlay'); if (cr0) cr0.scrollTop = 0; }
     if (this._vcActive) { this._vcActive = false; document.body.classList.remove('vc-state'); const v0 = document.getElementById('vc-overlay'); if (v0) v0.scrollTop = 0; }
     this._oeActive = true;
     if (this._scrollEl) { this._scrollEl.scrollTop = 0; this._scrollEl.style.overflowY = 'hidden'; }
@@ -5119,7 +4718,7 @@ class Component extends DCLogic {
     void b.offsetWidth;
     b.classList.add('oe-state', 'oe-swapping');
     clearTimeout(this._oeTimer);
-    this._oeTimer = setTimeout(() => { if (this._oeActive) document.body.classList.remove('oe-swapping'); }, 1350);
+    this._oeTimer = setTimeout(() => { document.body.classList.remove('oe-swapping'); }, 1350);
     const oeOvl = document.getElementById('oe-overlay');
     if (oeOvl) oeOvl.scrollTop = 0;
     if (oeOvl && !this._oeScrollListenerAdded) {
@@ -5391,7 +4990,6 @@ class Component extends DCLogic {
   _showAU() {
     if (this._auActive) return;
     if (this._coActive) { this._coActive = false; document.body.classList.remove('co-state', 'co-swapping'); const co0 = document.getElementById('co-overlay'); if (co0) co0.scrollTop = 0; }
-    if (this._crActive) { this._crActive = false; document.body.classList.remove('cr-state'); const cr0 = document.getElementById('cr-overlay'); if (cr0) cr0.scrollTop = 0; }
     if (this._blActive) { this._blActive = false; document.body.classList.remove('bl-state'); const b0 = document.getElementById('bl-overlay'); if (b0) b0.scrollTop = 0; }
     if (this._peActive) { this._peActive = false; document.body.classList.remove('pe-state'); const p0 = document.getElementById('pe-overlay'); if (p0) p0.scrollTop = 0; }
     if (this._gsActive) { this._gsActive = false; document.body.classList.remove('gs-state'); const g0 = document.getElementById('gs-overlay'); if (g0) g0.scrollTop = 0; }
@@ -5409,7 +5007,7 @@ class Component extends DCLogic {
     void b.offsetWidth;
     b.classList.add('au-state', 'au-swapping');
     clearTimeout(this._auTimer);
-    this._auTimer = setTimeout(() => { if (this._auActive) document.body.classList.remove('au-swapping'); }, 1350);
+    this._auTimer = setTimeout(() => { document.body.classList.remove('au-swapping'); }, 1350);
     const auOvl = document.getElementById('au-overlay');
     if (auOvl) auOvl.scrollTop = 0;
     if (auOvl && !this._auScrollListenerAdded) {
@@ -5606,7 +5204,6 @@ class Component extends DCLogic {
     if (this._gsActive) { this._gsActive = false; document.body.classList.remove('gs-state'); const g0 = document.getElementById('gs-overlay'); if (g0) g0.scrollTop = 0; }
     if (this._oeActive) { this._oeActive = false; document.body.classList.remove('oe-state'); const o0 = document.getElementById('oe-overlay'); if (o0) o0.scrollTop = 0; }
     if (this._auActive) { this._auActive = false; document.body.classList.remove('au-state'); const a0 = document.getElementById('au-overlay'); if (a0) a0.scrollTop = 0; }
-    if (this._crActive) { this._crActive = false; document.body.classList.remove('cr-state'); const cr0 = document.getElementById('cr-overlay'); if (cr0) cr0.scrollTop = 0; }
     this._vcActive = true;
     if (this._scrollEl) { this._scrollEl.scrollTop = 0; this._scrollEl.style.overflowY = 'hidden'; }
     this._scrollProg = 0;
@@ -5619,7 +5216,7 @@ class Component extends DCLogic {
     void b.offsetWidth;
     b.classList.add('vc-state', 'vc-swapping');
     clearTimeout(this._vcTimer);
-    this._vcTimer = setTimeout(() => { if (this._vcActive) document.body.classList.remove('vc-swapping'); }, 1350);
+    this._vcTimer = setTimeout(() => { document.body.classList.remove('vc-swapping'); }, 1350);
     const vcOvl = document.getElementById('vc-overlay');
     if (vcOvl) vcOvl.scrollTop = 0;
     if (vcOvl && !this._vcScrollListenerAdded) {
@@ -5802,7 +5399,6 @@ class Component extends DCLogic {
     if (this._gsActive) { this._gsActive = false; document.body.classList.remove('gs-state'); const g0 = document.getElementById('gs-overlay'); if (g0) g0.scrollTop = 0; }
     if (this._oeActive) { this._oeActive = false; document.body.classList.remove('oe-state'); const o0 = document.getElementById('oe-overlay'); if (o0) o0.scrollTop = 0; }
     if (this._auActive) { this._auActive = false; document.body.classList.remove('au-state'); const a0 = document.getElementById('au-overlay'); if (a0) a0.scrollTop = 0; }
-    if (this._crActive) { this._crActive = false; document.body.classList.remove('cr-state'); const cr0 = document.getElementById('cr-overlay'); if (cr0) cr0.scrollTop = 0; }
     if (this._vcActive) { this._vcActive = false; document.body.classList.remove('vc-state'); const v0 = document.getElementById('vc-overlay'); if (v0) v0.scrollTop = 0; }
     this._blActive = true;
     if (this._scrollEl) { this._scrollEl.scrollTop = 0; this._scrollEl.style.overflowY = 'hidden'; }
@@ -5816,7 +5412,7 @@ class Component extends DCLogic {
     void b.offsetWidth;
     b.classList.add('bl-state', 'bl-swapping');
     clearTimeout(this._blTimer);
-    this._blTimer = setTimeout(() => { if (this._blActive) document.body.classList.remove('bl-swapping'); }, 1350);
+    this._blTimer = setTimeout(() => { document.body.classList.remove('bl-swapping'); }, 1350);
     const blOvl = document.getElementById('bl-overlay');
     if (blOvl) blOvl.scrollTop = 0;
     if (blOvl && !this._blScrollListenerAdded) {
@@ -5940,7 +5536,6 @@ class Component extends DCLogic {
     if (this._auActive) { this._auActive = false; document.body.classList.remove('au-state'); const a0 = document.getElementById('au-overlay'); if (a0) a0.scrollTop = 0; }
     if (this._vcActive) { this._vcActive = false; document.body.classList.remove('vc-state'); const v0 = document.getElementById('vc-overlay'); if (v0) v0.scrollTop = 0; }
     if (this._blActive) { this._blActive = false; document.body.classList.remove('bl-state'); const b0 = document.getElementById('bl-overlay'); if (b0) b0.scrollTop = 0; }
-    if (this._crActive) { this._crActive = false; document.body.classList.remove('cr-state'); const c0 = document.getElementById('cr-overlay'); if (c0) c0.scrollTop = 0; }
     if (this._bdActive) this._hideBlogDetail();
     this._coActive = true;
     if (this._scrollEl) { this._scrollEl.scrollTop = 0; this._scrollEl.style.overflowY = 'hidden'; }
@@ -5951,7 +5546,7 @@ class Component extends DCLogic {
     void b.offsetWidth;
     b.classList.add('co-state', 'co-swapping');
     clearTimeout(this._coTimer);
-    this._coTimer = setTimeout(() => { if (this._coActive) document.body.classList.remove('co-swapping'); }, 1350);
+    this._coTimer = setTimeout(() => { document.body.classList.remove('co-swapping'); }, 1350);
     const coOvl = document.getElementById('co-overlay');
     if (coOvl) coOvl.scrollTop = 0;
     // Crossfade: the home panel fades/blurs out via the co-swapping CSS (same as every other
@@ -6103,161 +5698,12 @@ class Component extends DCLogic {
 
   // ─── Careers view (seamless in-page nav, mirrors PE/GS/OE/AU/VC/BL) ──
 
-  _onCRScroll = () => {
-    if (this._crScrollRAF) return;
-    this._crScrollRAF = requestAnimationFrame(() => { this._crScrollRAF = 0; this._applyCRScroll(); });
-  };
 
-  _showCareers() {
-    if (this._crActive) return;
-    if (this._coActive) { this._coActive = false; document.body.classList.remove('co-state', 'co-swapping'); const co0 = document.getElementById('co-overlay'); if (co0) co0.scrollTop = 0; }
-    if (this._peActive) { this._peActive = false; document.body.classList.remove('pe-state'); const p0 = document.getElementById('pe-overlay'); if (p0) p0.scrollTop = 0; }
-    if (this._gsActive) { this._gsActive = false; document.body.classList.remove('gs-state'); const g0 = document.getElementById('gs-overlay'); if (g0) g0.scrollTop = 0; }
-    if (this._oeActive) { this._oeActive = false; document.body.classList.remove('oe-state'); const o0 = document.getElementById('oe-overlay'); if (o0) o0.scrollTop = 0; }
-    if (this._auActive) { this._auActive = false; document.body.classList.remove('au-state'); const a0 = document.getElementById('au-overlay'); if (a0) a0.scrollTop = 0; }
-    if (this._vcActive) { this._vcActive = false; document.body.classList.remove('vc-state'); const v0 = document.getElementById('vc-overlay'); if (v0) v0.scrollTop = 0; }
-    if (this._blActive) { this._blActive = false; document.body.classList.remove('bl-state'); const b0 = document.getElementById('bl-overlay'); if (b0) b0.scrollTop = 0; }
-    this._crActive = true;
-    if (this._scrollEl) { this._scrollEl.scrollTop = 0; this._scrollEl.style.overflowY = 'hidden'; }
-    this._scrollProg = 0;
-    const b = document.body;
-    document.querySelectorAll('.nav-link').forEach(a => a.classList.remove('active'));
-    const links = [...document.querySelectorAll('#main-nav .nav-link')];
-    const crLink = links.find(a => a.textContent.trim() === 'Careers');
-    if (crLink) crLink.classList.add('active');
-    b.classList.remove('cr-swapping');
-    void b.offsetWidth;
-    b.classList.add('cr-state', 'cr-swapping');
-    clearTimeout(this._crTimer);
-    this._crTimer = setTimeout(() => { if (this._crActive) document.body.classList.remove('cr-swapping'); }, 1350);
-    const crOvl = document.getElementById('cr-overlay');
-    if (crOvl) crOvl.scrollTop = 0;
-    if (crOvl && !this._crScrollListenerAdded) {
-      crOvl.addEventListener('scroll', this._onCRScroll, { passive: true });
-      this._crScrollListenerAdded = true;
-    }
-    this._bindSubScroll(crOvl);
-    setTimeout(() => { this._setupCRMorph(); this._applyCRScroll(); }, 300);
-  }
 
-  _setupCRMorph() {
-    if (this._crReady) return;
-    const blobsEl = document.getElementById('cr-disc-blobs');
-    if (!blobsEl) { setTimeout(() => this._setupCRMorph(), 100); return; }
-    const SVGNS = 'http://www.w3.org/2000/svg';
-    this._crRects = [];
-    for (let i = 0; i < 4; i++) {
-      const r = document.createElementNS(SVGNS, 'rect');
-      r.setAttribute('fill', 'white'); blobsEl.appendChild(r); this._crRects.push(r);
-    }
-    this._crReady = true;
-    this._applyCRMorph([0]);
-  }
 
-  _crGeom(cardIdx, w, h, mob) {
-    if (!mob) {
-      // 2×2 morph cells landing in the positions grid area (below title + filters)
-      const gap = Math.max(14, Math.min(0.016 * w, 22));
-      const gx = 0.02 * w, gy = 0.29 * h, gw = 0.96 * w, gh = 0.67 * h;
-      const CW = (gw - gap) / 2, CH = (gh - gap) / 2;
-      const col = cardIdx % 2, row = Math.floor(cardIdx / 2);
-      return { x: gx + col * (CW + gap), y: gy + row * (CH + gap), w: CW, h: CH, rx: 24 };
-    }
-    const M = 0.04 * w, FW = 0.92 * w;
-    const cardH = 0.2 * h, gap = 0.02 * h;
-    return { x: M, y: 0.05 * h + cardIdx * (cardH + gap), w: FW, h: cardH, rx: 20 };
-  }
 
-  _applyCRScroll() {
-    const sc = document.getElementById('cr-overlay');
-    if (!sc) return;
-    const cl = (t) => Math.max(0, Math.min(1, t));
-    const hl = document.getElementById('cr-hero-layer');
-    const mob = window.innerWidth < 768;
-    const max = (sc.scrollHeight - sc.clientHeight) || 1;
-    const p = sc.scrollTop / max;
-    this._subCueUpdate(p); this._scrollProg = p;
-    const heroFade = cl((p - 0.04) / 0.05);
-    if (hl) {
-      hl.style.opacity = String(1 - heroFade);
-      hl.style.filter = heroFade > 0 ? 'blur(' + (heroFade * 14).toFixed(1) + 'px)' : '';
-      hl.style.pointerEvents = heroFade > 0.5 ? 'none' : 'auto';
-    }
-    const S0 = 0.14, TW = 0.11;
-    const e0 = cl((p - S0) / TW);
-    this._applyCRMorph([e0]);
-    const frame = document.getElementById('cr-hero-frame');
-    if (frame) frame.style.opacity = String(1 - cl(e0 / 0.3));
-    const outS = 0.72;
-    const outro = 1 - cl((p - outS) / 0.04);
-    const cardsIn = cl((e0 - 0.55) / 0.45);
-    const morphOut = cl((e0 - 0.65) / 0.35);
-    const op = cardsIn * outro;
-    const ids = ['cr-s1-hl', 'cr-s1-grid'];
-    ids.forEach(id => { const el = document.getElementById(id); if (el) { el.style.opacity = String(op); el.style.pointerEvents = op > 0.5 ? 'auto' : 'none'; } });
-    const ctaGlassOp = cl((p - 0.80) / 0.05);
-    const ctaContentOp = cl((p - 0.84) / 0.06);
-    const ctaGlassEl = document.getElementById('cta-glass');
-    if (ctaGlassEl) { ctaGlassEl.style.opacity = String(ctaGlassOp); ctaGlassEl.style.pointerEvents = ctaGlassOp > 0.05 ? 'auto' : 'none'; }
-    if (this._bg) this._bg.style.filter = ctaGlassOp > 0 ? 'blur(' + (ctaGlassOp * 18).toFixed(1) + 'px)' : '';
-    const discGlassEl = document.getElementById('cr-disc-glass');
-    const crTailFade = cl((p - outS) / 0.05);
-    if (discGlassEl) discGlassEl.style.opacity = String((1 - morphOut) * (1 - ctaGlassOp) * (1 - crTailFade));
-    const ctaContentEl = document.getElementById('cr-cta-content');
-    if (ctaContentEl) {
-      ctaContentEl.style.opacity = String(ctaContentOp);
-      const ctaInteractive = ctaContentOp > 0.3;
-      ctaContentEl.querySelectorAll(':scope > a, :scope > div').forEach((el) => { el.style.pointerEvents = ctaInteractive ? 'auto' : 'none'; });
-      ctaContentEl.style.filter = ctaContentOp < 1 ? 'blur(' + ((1 - ctaContentOp) * 12).toFixed(1) + 'px)' : '';
-    }
-    if (mob) {
-      const F = 0.04;
-      const mOp = cl((p - S0) / F) * (1 - cl((p - (outS - F)) / F));
-      const active = mOp > 0.985;
-      ids.forEach(id => { const el = document.getElementById(id); if (el) { el.style.opacity = String(mOp); el.style.pointerEvents = active ? 'auto' : 'none'; } });
-      if (discGlassEl) discGlassEl.style.opacity = String((1 - Math.max(mOp, ctaContentOp)) * (1 - ctaGlassOp) * (1 - crTailFade));
-    }
-  }
 
-  _applyCRMorph(E) {
-    if (!this._crRects) return;
-    const panel = document.getElementById('cr-stage');
-    const w = (panel && panel.offsetWidth) || window.innerWidth;
-    const h = (panel && panel.offsetHeight) || window.innerHeight;
-    if (!w || !h) return;
-    const mob = window.innerWidth < 768;
-    const cl = (t) => Math.max(0, Math.min(1, t));
-    const ease = (t) => t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
-    const lr = (a, b, t) => ({ x: a.x + (b.x - a.x) * t, y: a.y + (b.y - a.y) * t, w: a.w + (b.w - a.w) * t, h: a.h + (b.h - a.h) * t, rx: a.rx + (b.rx - a.rx) * t });
-    const setR = (el, r) => {
-      el.setAttribute('x', r.x.toFixed(1)); el.setAttribute('y', r.y.toFixed(1));
-      el.setAttribute('width', Math.max(0, r.w).toFixed(1)); el.setAttribute('height', Math.max(0, r.h).toFixed(1));
-      el.setAttribute('rx', (mob ? Math.min(r.rx, 20) : r.rx).toFixed(1));
-    };
-    const cover = mob ? { x: 0, y: 0, w: w, h: h + 80, rx: 26 } : { x: 0, y: 0, w: w + 60, h: h + 76, rx: 44 };
-    const e0 = ease(cl(E[0]));
-    for (let slot = 0; slot < 4; slot++) {
-      const g = this._crGeom(slot, w, h, mob);
-      setR(this._crRects[slot], lr(cover, g, e0));
-    }
-    const act = Math.sin(Math.PI * cl(E[0]));
-    const blurEl = document.getElementById('cr-gb'), cmEl = document.getElementById('cr-cm');
-    if (blurEl) blurEl.setAttribute('stdDeviation', (0.4 + act * 22.1).toFixed(1));
-    if (cmEl) cmEl.setAttribute('values', '1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 ' + (18 + act * 10).toFixed(0) + ' ' + (-7 - act * 5).toFixed(0));
-  }
 
-  _applyCareerFilter = () => {
-    const val = (id) => { const e = document.getElementById(id); return e ? e.value : ''; };
-    const dept = val('cr-f-dept'), type = val('cr-f-type'), loc = val('cr-f-loc'), lt = val('cr-f-loctype');
-    let n = 0;
-    document.querySelectorAll('#cr-s1-grid .cr-job').forEach((c) => {
-      const ok = (!dept || c.dataset.dept === dept) && (!type || c.dataset.type === type) && (!loc || c.dataset.loc === loc) && (!lt || c.dataset.loctype === lt);
-      c.style.display = ok ? 'flex' : 'none';
-      if (ok) n++;
-    });
-    const cnt = document.getElementById('cr-count');
-    if (cnt) cnt.textContent = 'Open Positions (' + n + ')';
-  };
 
   // ─── Scroll ────────────────────────────────────────────────────────
 
@@ -6271,7 +5717,6 @@ class Component extends DCLogic {
     if (c.contains('au-state')) return 0.44;
     if (c.contains('vc-state')) return 0.86;
     if (c.contains('bl-state')) return 0.70;
-    if (c.contains('cr-state')) return 0.95;
     if (c.contains('co-state')) return 0.95;
     return 0.0; // home
   }
