@@ -206,6 +206,10 @@
     }
     body.co-state #co-overlay { opacity: 1 !important; filter: none !important; pointer-events: auto !important; }
     #co-overlay::-webkit-scrollbar { display: none; }
+    /* Blog tag filter chips */
+    .bl-chip { font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(12px,0.95vw,15px); letter-spacing:0.03em; color:rgba(199,255,224,0.72); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); padding:7px 16px; border-radius:999px; cursor:pointer; transition:color .2s ease, background .2s ease; }
+    .bl-chip:hover { color:#E0FFEE; }
+    .bl-chip.active { font-weight:400; color:#18282C; background:#9DEBC2; border-color:#9DEBC2; }
     /* Inactive page overlays are fully hidden, not just transparent: it stops the
        compositor from keeping every hidden page's backdrop-filter layers alive (the
        main mobile/Android cost of this design) and keeps keyboard focus and screen
@@ -3137,13 +3141,13 @@
             <div class="pe-sec" id="bl-sec-1">
               <div class="bl-hl" id="bl-s1-hl" style="position:absolute; left:2%; top:3.5%; width:96%; height:13.5%; display:flex; flex-direction:column; justify-content:center; gap:clamp(10px,1.3vh,16px); opacity:0; pointer-events:none; z-index:3;">
                 <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(30px,3.6vw,64px); line-height:1.0; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.35);">Recent blog posts</h2>
-                <div style="display:flex; align-items:center; gap:clamp(8px,0.7vw,12px); flex-wrap:wrap;">
-                  <span style="font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(12px,0.95vw,15px); letter-spacing:0.03em; color:#18282C; background:#9DEBC2; padding:7px 16px; border-radius:999px;">All</span>
-                  <span style="font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(12px,0.95vw,15px); letter-spacing:0.03em; color:rgba(199,255,224,0.72); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); padding:7px 16px; border-radius:999px;">#Latam</span>
-                  <span style="font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(12px,0.95vw,15px); letter-spacing:0.03em; color:rgba(199,255,224,0.72); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); padding:7px 16px; border-radius:999px;">#Nearshore</span>
-                  <span style="font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(12px,0.95vw,15px); letter-spacing:0.03em; color:rgba(199,255,224,0.72); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); padding:7px 16px; border-radius:999px;">#News</span>
-                  <span style="font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(12px,0.95vw,15px); letter-spacing:0.03em; color:rgba(199,255,224,0.72); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); padding:7px 16px; border-radius:999px;">#SaaS</span>
-                  <span style="font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(12px,0.95vw,15px); letter-spacing:0.03em; color:rgba(199,255,224,0.72); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); padding:7px 16px; border-radius:999px;">#B2B</span>
+                <div id="bl-filter" style="display:flex; align-items:center; gap:clamp(8px,0.7vw,12px); flex-wrap:wrap;">
+                  <span class="bl-chip active" data-tag="all" role="button" tabindex="0" aria-pressed="true">All</span>
+                  <span class="bl-chip" data-tag="#Latam" role="button" tabindex="0" aria-pressed="false">#Latam</span>
+                  <span class="bl-chip" data-tag="#Nearshore" role="button" tabindex="0" aria-pressed="false">#Nearshore</span>
+                  <span class="bl-chip" data-tag="#News" role="button" tabindex="0" aria-pressed="false">#News</span>
+                  <span class="bl-chip" data-tag="#SaaS" role="button" tabindex="0" aria-pressed="false">#SaaS</span>
+                  <span class="bl-chip" data-tag="#B2B" role="button" tabindex="0" aria-pressed="false">#B2B</span>
                 </div>
               </div>
 
@@ -5457,6 +5461,7 @@ class Component extends DCLogic {
       this._blScrollListenerAdded = true;
     }
     this._bindSubScroll(blOvl);
+    this._initBlogFilter();
     setTimeout(() => { this._setupBLMorph(); this._applyBLScroll(); }, 300);
   }
 
@@ -5526,6 +5531,33 @@ class Component extends DCLogic {
         { t: 'p', x: `As we look ahead, we are eager to build on our momentum with a focus on helping develop technologies that leverage Applied AI. Our software development and services empower companies to thrive by embracing the future of cutting-edge AI—transforming how they leverage nearshore development to deliver exceptional value to their customers.` }
       ] }
   ];
+  // Tag chips above the posts grid filter the cards; card index i maps to _BLOG_POSTS[i].
+  _initBlogFilter() {
+    const row = document.getElementById('bl-filter');
+    if (!row || row._filterWired) return;
+    row._filterWired = true;
+    const apply = (tag) => {
+      row.querySelectorAll('.bl-chip').forEach(c => {
+        const on = c.dataset.tag === tag;
+        c.classList.toggle('active', on);
+        c.setAttribute('aria-pressed', on ? 'true' : 'false');
+      });
+      this._BLOG_POSTS.forEach((post, i) => {
+        const card = document.getElementById('bl-s1-c' + (i + 1));
+        if (card) card.style.display = (tag === 'all' || post.chips.includes(tag)) ? '' : 'none';
+      });
+    };
+    row.addEventListener('click', (e) => {
+      const chip = e.target.closest('.bl-chip');
+      if (chip) apply(chip.dataset.tag);
+    });
+    row.addEventListener('keydown', (e) => {
+      if (e.key !== 'Enter' && e.key !== ' ') return;
+      const chip = e.target.closest('.bl-chip');
+      if (chip) { e.preventDefault(); apply(chip.dataset.tag); }
+    });
+  }
+
   _showBlogDetail(idx) {
     const d = document.getElementById('bd-overlay');
     if (!d) return;
