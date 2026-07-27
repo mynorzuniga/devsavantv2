@@ -3,16 +3,19 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="./support.js"></script>
+<!-- Fonts, three.js and the panel animator load from the real head so the requests start
+     at parse time (in the <helmet> template they were only injected after React booted). -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://unpkg.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&family=Space+Grotesk:wght@500&display=swap" rel="stylesheet">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script defer src="./dsAnimate.js"></script>
+<script defer src="./support.js"></script>
 </head>
 <body>
 <x-dc>
 <helmet>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&family=Space+Grotesk:wght@500&display=swap" rel="stylesheet">
-  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="./dsAnimate.js"></script>
   <style>
     * { box-sizing: border-box; }
     html, body { margin: 0; padding: 0; background: #050505; }
@@ -23,7 +26,7 @@
        making text unreadable. Only applies when NEITHER prefix is supported, so
        Chrome/Safari/modern Android render identically to before. */
     @supports not ((backdrop-filter: blur(2px)) or (-webkit-backdrop-filter: blur(2px))) {
-      [style*="backdrop-filter"] { background: rgba(6,18,14,0.86) !important; }
+      [style*="backdrop-filter"], .vc-logo, .bl-card, #home-cue-group, #sub-cue-group { background: rgba(6,18,14,0.86) !important; }
     }
 
     @keyframes content-enter {
@@ -192,6 +195,20 @@
     }
     body.co-state #co-overlay { opacity: 1 !important; filter: none !important; pointer-events: auto !important; }
     #co-overlay::-webkit-scrollbar { display: none; }
+    /* Inactive page overlays are fully hidden, not just transparent: it stops the
+       compositor from keeping every hidden page's backdrop-filter layers alive (the
+       main mobile/Android cost of this design) and keeps keyboard focus and screen
+       readers out of invisible pages. visibility (not display) so all geometry stays
+       measurable for the morph code, and the state/swapping classes restore it before
+       any swap transition starts. */
+    #pe-overlay, #gs-overlay, #oe-overlay, #au-overlay, #vc-overlay, #bl-overlay, #co-overlay { visibility: hidden; }
+    body.pe-state #pe-overlay, body.pe-swapping #pe-overlay,
+    body.gs-state #gs-overlay, body.gs-swapping #gs-overlay,
+    body.oe-state #oe-overlay, body.oe-swapping #oe-overlay,
+    body.au-state #au-overlay, body.au-swapping #au-overlay,
+    body.vc-state #vc-overlay, body.vc-swapping #vc-overlay,
+    body.bl-state #bl-overlay, body.bl-swapping #bl-overlay,
+    body.co-state #co-overlay, body.co-swapping #co-overlay { visibility: visible; }
     /* Contact form + methods */
     .co-eyebrow { display:inline-flex; align-items:center; gap:9px; align-self:flex-start; margin-bottom:clamp(16px,2.2vh,26px); font-family:'Inter',sans-serif; font-weight:300; font-size:clamp(11px,0.9vw,14px); letter-spacing:0.08em; text-transform:uppercase; color:rgba(199,255,224,0.72); background:rgba(0,0,0,0.20); border:1px solid rgba(255,255,255,0.12); padding:8px 17px; border-radius:999px; }
     .co-label { display:flex; flex-direction:column; gap:7px; font-family:'Inter',sans-serif; font-weight:400; font-size:clamp(11px,0.85vw,13px); letter-spacing:0.06em; text-transform:uppercase; color:rgba(199,255,224,0.58); }
@@ -1304,7 +1321,7 @@
 
   <!-- ══════════ MOBILE HEADER ══════════ -->
   <div id="mobile-header">
-    <img decoding="async" src="uploads/logo-devsavant-full.png" alt="DevSavant" onclick="{{ onHome }}" style="height:30px; width:auto; object-fit:contain; object-position:left; display:block; cursor:pointer;">
+    <img width="1034" height="714" decoding="async" src="uploads/logo-devsavant-full.png" alt="DevSavant" onclick="{{ onHome }}" style="height:30px; width:auto; object-fit:contain; object-position:left; display:block; cursor:pointer;">
     <div style="display:flex; align-items:center; gap:10px;">
       <button onclick="{{ onMobileAsk }}" aria-label="Ask Anything" style="display:flex; align-items:center; gap:8px; background:rgba(0,0,0,0.40); border:1px solid rgba(199,255,224,0.38); border-radius:11px; cursor:pointer; padding:9px 15px; -webkit-tap-highlight-color:transparent; backdrop-filter:blur(18px); -webkit-backdrop-filter:blur(18px);">
         <span style="font-family:'Inter',sans-serif; font-weight:300; font-size:15px; color:#fff; white-space:nowrap;">Ask Anything</span>
@@ -1325,7 +1342,7 @@
   <div id="mobile-menu">
     <!-- Top bar -->
     <div style="display:flex; align-items:center; justify-content:space-between; height:60px; flex-shrink:0;">
-      <img decoding="async" src="uploads/logo-devsavant-full.png" alt="DevSavant" onclick="{{ onMobileHome }}" style="height:30px; width:auto; object-fit:contain; object-position:left; display:block; cursor:pointer;">
+      <img width="1034" height="714" decoding="async" src="uploads/logo-devsavant-full.png" alt="DevSavant" onclick="{{ onMobileHome }}" style="height:30px; width:auto; object-fit:contain; object-position:left; display:block; cursor:pointer;">
       <button onclick="{{ onMobileMenuClose }}" aria-label="Close menu" style="background:none; border:none; cursor:pointer; padding:10px; display:flex; align-items:center; justify-content:center; -webkit-tap-highlight-color:transparent;">
         <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
           <path d="M1 1l16 16M17 1L1 17" stroke="rgba(255,255,255,0.65)" stroke-width="1.6" stroke-linecap="round"></path>
@@ -1385,7 +1402,7 @@
 
         <!-- Logo -->
         <div id="logo-area" onclick="{{ onHome }}" style="flex-shrink:0; cursor:pointer; animation:nav-enter 1s cubic-bezier(0.16,1,0.3,1) 0.2s both;">
-          <img decoding="async"
+          <img width="1034" height="714" decoding="async"
             src="uploads/logo-devsavant-full.png"
             alt="DevSavant"
             id="logo-img"
@@ -1679,18 +1696,18 @@
 
         <!-- ══════════ CLIENTS (logo grid) ══════════ -->
         <div id="clients-grid" style="position:absolute; left:2%; top:21%; width:96%; height:68%; display:grid; grid-template-columns:repeat(4,1fr); grid-template-rows:repeat(3,1fr); column-gap:1.8%; row-gap:4%; z-index:4;">
-          <div style="display:flex; align-items:center; justify-content:center; padding:clamp(14px,1.5vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.14); border-radius:24px; opacity:0;"><img loading="lazy" decoding="async" src="uploads/Agio-copia-640x184x0x0x640x184x1740154482.png" alt="Agio" style="max-width:78%; max-height:52%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;"></div>
-          <div style="display:flex; align-items:center; justify-content:center; padding:clamp(14px,1.5vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.14); border-radius:24px; opacity:0;"><img loading="lazy" decoding="async" src="uploads/Antenna-copia-640x184x0x0x640x184x1740151316.png" alt="Antenna" style="max-width:78%; max-height:52%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;"></div>
-          <div style="display:flex; align-items:center; justify-content:center; padding:clamp(14px,1.5vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.14); border-radius:24px; opacity:0;"><img loading="lazy" decoding="async" src="uploads/Conversica-640x184x0x0x640x184x1740155620.png" alt="Conversica" style="max-width:78%; max-height:52%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;"></div>
-          <div style="display:flex; align-items:center; justify-content:center; padding:clamp(14px,1.5vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.14); border-radius:24px; opacity:0;"><img loading="lazy" decoding="async" src="uploads/Exactera-640x184x0x0x640x184x1740155548.png" alt="Exactera" style="max-width:78%; max-height:52%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;"></div>
-          <div style="display:flex; align-items:center; justify-content:center; padding:clamp(14px,1.5vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.14); border-radius:24px; opacity:0;"><img loading="lazy" decoding="async" src="uploads/FileCloud-copia-640x184x0x0x640x184x1740151502.png" alt="FileCloud" style="max-width:78%; max-height:52%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;"></div>
-          <div style="display:flex; align-items:center; justify-content:center; padding:clamp(14px,1.5vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.14); border-radius:24px; opacity:0;"><img loading="lazy" decoding="async" src="uploads/Fulcrum-copia-640x184x0x0x640x184x1740151725.png" alt="Fulcrum" style="max-width:78%; max-height:52%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;"></div>
-          <div style="display:flex; align-items:center; justify-content:center; padding:clamp(14px,1.5vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.14); border-radius:24px; opacity:0;"><img loading="lazy" decoding="async" src="uploads/iCAN-copia-640x184x0x0x640x184x1740153618.png" alt="iCAN" style="max-width:78%; max-height:52%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;"></div>
-          <div style="display:flex; align-items:center; justify-content:center; padding:clamp(14px,1.5vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.14); border-radius:24px; opacity:0;"><img loading="lazy" decoding="async" src="uploads/Impartner-copia-640x184x0x0x640x184x1740153282.png" alt="Impartner" style="max-width:78%; max-height:52%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;"></div>
-          <div style="display:flex; align-items:center; justify-content:center; padding:clamp(14px,1.5vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.14); border-radius:24px; opacity:0;"><img loading="lazy" decoding="async" src="uploads/intelepeer-v2-640x188x0x2x640x184x1755102863.png" alt="IntelePeer" style="max-width:78%; max-height:52%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;"></div>
-          <div style="display:flex; align-items:center; justify-content:center; padding:clamp(14px,1.5vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.14); border-radius:24px; opacity:0;"><img loading="lazy" decoding="async" src="uploads/Learning-copia-640x184x0x0x640x184x1740155105.png" alt="Breakout Learning" style="max-width:78%; max-height:52%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;"></div>
-          <div style="display:flex; align-items:center; justify-content:center; padding:clamp(14px,1.5vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.14); border-radius:24px; opacity:0;"><img loading="lazy" decoding="async" src="uploads/Onfleet-copia-640x184x0x0x640x184x1740153465.png" alt="Onfleet" style="max-width:78%; max-height:52%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;"></div>
-          <div style="display:flex; align-items:center; justify-content:center; padding:clamp(14px,1.5vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.14); border-radius:24px; opacity:0;"><img loading="lazy" decoding="async" src="uploads/Redica-Systems-copia-640x184x0x0x640x184x1740155189.png" alt="Redica Systems" style="max-width:78%; max-height:52%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;"></div>
+          <div style="display:flex; align-items:center; justify-content:center; padding:clamp(14px,1.5vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.14); border-radius:24px; opacity:0;"><img width="350" height="101" loading="lazy" decoding="async" src="uploads/Agio-copia-640x184x0x0x640x184x1740154482.png" alt="Agio" style="max-width:78%; max-height:52%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;"></div>
+          <div style="display:flex; align-items:center; justify-content:center; padding:clamp(14px,1.5vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.14); border-radius:24px; opacity:0;"><img width="351" height="101" loading="lazy" decoding="async" src="uploads/Antenna-copia-640x184x0x0x640x184x1740151316.png" alt="Antenna" style="max-width:78%; max-height:52%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;"></div>
+          <div style="display:flex; align-items:center; justify-content:center; padding:clamp(14px,1.5vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.14); border-radius:24px; opacity:0;"><img width="351" height="101" loading="lazy" decoding="async" src="uploads/Conversica-640x184x0x0x640x184x1740155620.png" alt="Conversica" style="max-width:78%; max-height:52%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;"></div>
+          <div style="display:flex; align-items:center; justify-content:center; padding:clamp(14px,1.5vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.14); border-radius:24px; opacity:0;"><img width="351" height="101" loading="lazy" decoding="async" src="uploads/Exactera-640x184x0x0x640x184x1740155548.png" alt="Exactera" style="max-width:78%; max-height:52%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;"></div>
+          <div style="display:flex; align-items:center; justify-content:center; padding:clamp(14px,1.5vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.14); border-radius:24px; opacity:0;"><img width="351" height="101" loading="lazy" decoding="async" src="uploads/FileCloud-copia-640x184x0x0x640x184x1740151502.png" alt="FileCloud" style="max-width:78%; max-height:52%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;"></div>
+          <div style="display:flex; align-items:center; justify-content:center; padding:clamp(14px,1.5vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.14); border-radius:24px; opacity:0;"><img width="351" height="101" loading="lazy" decoding="async" src="uploads/Fulcrum-copia-640x184x0x0x640x184x1740151725.png" alt="Fulcrum" style="max-width:78%; max-height:52%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;"></div>
+          <div style="display:flex; align-items:center; justify-content:center; padding:clamp(14px,1.5vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.14); border-radius:24px; opacity:0;"><img width="351" height="101" loading="lazy" decoding="async" src="uploads/iCAN-copia-640x184x0x0x640x184x1740153618.png" alt="iCAN" style="max-width:78%; max-height:52%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;"></div>
+          <div style="display:flex; align-items:center; justify-content:center; padding:clamp(14px,1.5vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.14); border-radius:24px; opacity:0;"><img width="351" height="101" loading="lazy" decoding="async" src="uploads/Impartner-copia-640x184x0x0x640x184x1740153282.png" alt="Impartner" style="max-width:78%; max-height:52%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;"></div>
+          <div style="display:flex; align-items:center; justify-content:center; padding:clamp(14px,1.5vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.14); border-radius:24px; opacity:0;"><img width="309" height="89" loading="lazy" decoding="async" src="uploads/intelepeer-v2-640x188x0x2x640x184x1755102863.png" alt="IntelePeer" style="max-width:78%; max-height:52%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;"></div>
+          <div style="display:flex; align-items:center; justify-content:center; padding:clamp(14px,1.5vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.14); border-radius:24px; opacity:0;"><img width="351" height="101" loading="lazy" decoding="async" src="uploads/Learning-copia-640x184x0x0x640x184x1740155105.png" alt="Breakout Learning" style="max-width:78%; max-height:52%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;"></div>
+          <div style="display:flex; align-items:center; justify-content:center; padding:clamp(14px,1.5vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.14); border-radius:24px; opacity:0;"><img width="351" height="101" loading="lazy" decoding="async" src="uploads/Onfleet-copia-640x184x0x0x640x184x1740153465.png" alt="Onfleet" style="max-width:78%; max-height:52%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;"></div>
+          <div style="display:flex; align-items:center; justify-content:center; padding:clamp(14px,1.5vw,30px); background:rgba(0,0,0,0.18); backdrop-filter:blur(52px) saturate(160%); -webkit-backdrop-filter:blur(52px) saturate(160%); border:1px solid rgba(255,255,255,0.14); border-radius:24px; opacity:0;"><img width="351" height="101" loading="lazy" decoding="async" src="uploads/Redica-Systems-copia-640x184x0x0x640x184x1740155189.png" alt="Redica Systems" style="max-width:78%; max-height:52%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;"></div>
         </div>
         </div><!-- /cli-scroll -->
         <div id="faq-scroll">
@@ -2396,7 +2413,7 @@
     <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(22px,2.5vw,42px); line-height:1.08; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.30); text-wrap:balance; max-width:1100px;">Fulcrum / Scaling an Engineering Team</h2>
   </div>
   <div class="pe-hrow"><div class="oe-card" id="oe-s1-img" style="position:absolute; left:2%; top:16%; width:44%; height:64%; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); overflow:hidden; border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; opacity:0; pointer-events:none; z-index:2;">
-    <img src="uploads/oe-project-1.jpg" alt="Fulcrum" loading="lazy" decoding="async" style="width:100%; height:100%; object-fit:cover; object-position:center; display:block;" />
+    <img width="503" height="917" src="uploads/oe-project-1.jpg" alt="Fulcrum" loading="lazy" decoding="async" style="width:100%; height:100%; object-fit:cover; object-position:center; display:block;" />
   </div>
   <div class="oe-card" id="oe-s1-prob" style="position:absolute; left:48%; top:16%; width:50%; height:20.400000000000002%; padding:clamp(16px,1.6vw,26px) clamp(20px,2vw,30px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; opacity:0; pointer-events:none; z-index:2;">
     <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#9DEBC2; font-size:clamp(14px,1.1vw,19px); line-height:1.2; flex-shrink:0;">The Problem</h3>
@@ -2425,7 +2442,7 @@
     <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(22px,2.5vw,42px); line-height:1.08; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.30); text-wrap:balance; max-width:1100px;">IntelePeer / Data Warehousing</h2>
   </div>
   <div class="pe-hrow"><div class="oe-card" id="oe-s2-img" style="position:absolute; left:2%; top:16%; width:44%; height:64%; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); overflow:hidden; border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; opacity:0; pointer-events:none; z-index:2;">
-    <img src="uploads/oe-project-2.jpg" alt="IntelePeer" loading="lazy" decoding="async" style="width:100%; height:100%; object-fit:cover; object-position:center; display:block;" />
+    <img width="527" height="917" src="uploads/oe-project-2.jpg" alt="IntelePeer" loading="lazy" decoding="async" style="width:100%; height:100%; object-fit:cover; object-position:center; display:block;" />
   </div>
   <div class="oe-card" id="oe-s2-prob" style="position:absolute; left:48%; top:16%; width:50%; height:20.400000000000002%; padding:clamp(16px,1.6vw,26px) clamp(20px,2vw,30px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; opacity:0; pointer-events:none; z-index:2;">
     <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#9DEBC2; font-size:clamp(14px,1.1vw,19px); line-height:1.2; flex-shrink:0;">The Problem</h3>
@@ -2454,7 +2471,7 @@
     <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(22px,2.5vw,42px); line-height:1.08; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.30); text-wrap:balance; max-width:1100px;">Conversica / ETL Pipeline for Dynamic Massive Lead Ingestion</h2>
   </div>
   <div class="pe-hrow"><div class="oe-card" id="oe-s3-img" style="position:absolute; left:2%; top:20%; width:44%; height:74%; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); overflow:hidden; border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; opacity:0; pointer-events:none; z-index:2;">
-    <img src="uploads/oe-project-3.jpg" alt="Conversica" loading="lazy" decoding="async" style="width:100%; height:100%; object-fit:cover; object-position:center; display:block;" />
+    <img width="516" height="917" src="uploads/oe-project-3.jpg" alt="Conversica" loading="lazy" decoding="async" style="width:100%; height:100%; object-fit:cover; object-position:center; display:block;" />
   </div>
   <div class="oe-card" id="oe-s3-prob" style="position:absolute; left:48%; top:20%; width:50%; height:23.666666666666668%; padding:clamp(16px,1.6vw,26px) clamp(20px,2vw,30px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; opacity:0; pointer-events:none; z-index:2;">
     <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#9DEBC2; font-size:clamp(14px,1.1vw,19px); line-height:1.2; flex-shrink:0;">The Problem</h3>
@@ -2475,7 +2492,7 @@
     <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(22px,2.5vw,42px); line-height:1.08; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.30); text-wrap:balance; max-width:1100px;">Impartner / Data Lifecycle Project</h2>
   </div>
   <div class="pe-hrow"><div class="oe-card" id="oe-s4-img" style="position:absolute; left:2%; top:20%; width:44%; height:74%; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); overflow:hidden; border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; opacity:0; pointer-events:none; z-index:2;">
-    <img src="uploads/oe-project-4.jpg" alt="Impartner" loading="lazy" decoding="async" style="width:100%; height:100%; object-fit:cover; object-position:center; display:block;" />
+    <img width="516" height="917" src="uploads/oe-project-4.jpg" alt="Impartner" loading="lazy" decoding="async" style="width:100%; height:100%; object-fit:cover; object-position:center; display:block;" />
   </div>
   <div class="oe-card" id="oe-s4-prob" style="position:absolute; left:48%; top:20%; width:50%; height:23.666666666666668%; padding:clamp(16px,1.6vw,26px) clamp(20px,2vw,30px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; opacity:0; pointer-events:none; z-index:2;">
     <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#9DEBC2; font-size:clamp(14px,1.1vw,19px); line-height:1.2; flex-shrink:0;">The Problem</h3>
@@ -2496,7 +2513,7 @@
     <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(22px,2.5vw,42px); line-height:1.08; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.30); text-wrap:balance; max-width:1100px;">AI-Powered Reading Assessment (EdTech | PoC in 4 Weeks)</h2>
   </div>
   <div class="pe-hrow"><div class="oe-card" id="oe-s5-img" style="position:absolute; left:2%; top:20%; width:44%; height:74%; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); overflow:hidden; border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; opacity:0; pointer-events:none; z-index:2;">
-    <img src="uploads/oe-project-5.jpg" alt="Reading Assessment" loading="lazy" decoding="async" style="width:100%; height:100%; object-fit:cover; object-position:center; display:block;" />
+    <img width="543" height="753" src="uploads/oe-project-5.jpg" alt="Reading Assessment" loading="lazy" decoding="async" style="width:100%; height:100%; object-fit:cover; object-position:center; display:block;" />
   </div>
   <div class="oe-card" id="oe-s5-prob" style="position:absolute; left:48%; top:20%; width:50%; height:23.666666666666668%; padding:clamp(16px,1.6vw,26px) clamp(20px,2vw,30px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; opacity:0; pointer-events:none; z-index:2;">
     <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#9DEBC2; font-size:clamp(14px,1.1vw,19px); line-height:1.2; flex-shrink:0;">The Problem</h3>
@@ -2517,7 +2534,7 @@
     <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(22px,2.5vw,42px); line-height:1.08; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.30); text-wrap:balance; max-width:1100px;">Interactive Audiobook Companion (Venture-Backed | 8-Week MVP)</h2>
   </div>
   <div class="pe-hrow"><div class="oe-card" id="oe-s6-img" style="position:absolute; left:2%; top:20%; width:44%; height:74%; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); overflow:hidden; border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; opacity:0; pointer-events:none; z-index:2;">
-    <img src="uploads/oe-project-6.jpg" alt="Audiobook Companion" loading="lazy" decoding="async" style="width:100%; height:100%; object-fit:cover; object-position:center; display:block;" />
+    <img width="516" height="730" src="uploads/oe-project-6.jpg" alt="Audiobook Companion" loading="lazy" decoding="async" style="width:100%; height:100%; object-fit:cover; object-position:center; display:block;" />
   </div>
   <div class="oe-card" id="oe-s6-prob" style="position:absolute; left:48%; top:20%; width:50%; height:23.666666666666668%; padding:clamp(16px,1.6vw,26px) clamp(20px,2vw,30px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; opacity:0; pointer-events:none; z-index:2;">
     <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#9DEBC2; font-size:clamp(14px,1.1vw,19px); line-height:1.2; flex-shrink:0;">The Problem</h3>
@@ -2538,7 +2555,7 @@
     <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(22px,2.5vw,42px); line-height:1.08; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.30); text-wrap:balance; max-width:1100px;">Self-Service AI Book Generation Platform (Founder-Led | 8 Weeks)</h2>
   </div>
   <div class="pe-hrow"><div class="oe-card" id="oe-s7-img" style="position:absolute; left:2%; top:20%; width:44%; height:74%; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); overflow:hidden; border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; opacity:0; pointer-events:none; z-index:2;">
-    <img src="uploads/oe-project-7.jpg" alt="AI Book Generation" loading="lazy" decoding="async" style="width:100%; height:100%; object-fit:cover; object-position:center; display:block;" />
+    <img width="543" height="753" src="uploads/oe-project-7.jpg" alt="AI Book Generation" loading="lazy" decoding="async" style="width:100%; height:100%; object-fit:cover; object-position:center; display:block;" />
   </div>
   <div class="oe-card" id="oe-s7-prob" style="position:absolute; left:48%; top:20%; width:50%; height:23.666666666666668%; padding:clamp(16px,1.6vw,26px) clamp(20px,2vw,30px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; opacity:0; pointer-events:none; z-index:2;">
     <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#9DEBC2; font-size:clamp(14px,1.1vw,19px); line-height:1.2; flex-shrink:0;">The Problem</h3>
@@ -2559,7 +2576,7 @@
     <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(22px,2.5vw,42px); line-height:1.08; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.30); text-wrap:balance; max-width:1100px;">AI-Powered Support Automation (Growth-Stage SaaS | 9-Week Delivery)</h2>
   </div>
   <div class="pe-hrow"><div class="oe-card" id="oe-s8-img" style="position:absolute; left:2%; top:20%; width:44%; height:74%; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); overflow:hidden; border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; opacity:0; pointer-events:none; z-index:2;">
-    <img src="uploads/oe-project-8.jpg" alt="Support Automation" loading="lazy" decoding="async" style="width:100%; height:100%; object-fit:cover; object-position:center; display:block;" />
+    <img width="516" height="730" src="uploads/oe-project-8.jpg" alt="Support Automation" loading="lazy" decoding="async" style="width:100%; height:100%; object-fit:cover; object-position:center; display:block;" />
   </div>
   <div class="oe-card" id="oe-s8-prob" style="position:absolute; left:48%; top:20%; width:50%; height:23.666666666666668%; padding:clamp(16px,1.6vw,26px) clamp(20px,2vw,30px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; opacity:0; pointer-events:none; z-index:2;">
     <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#9DEBC2; font-size:clamp(14px,1.1vw,19px); line-height:1.2; flex-shrink:0;">The Problem</h3>
@@ -2580,7 +2597,7 @@
     <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(22px,2.5vw,42px); line-height:1.08; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.30); text-wrap:balance; max-width:1100px;">Cross-Platform AI Conversation Manager (Internal Product | Ongoing)</h2>
   </div>
   <div class="pe-hrow"><div class="oe-card" id="oe-s9-img" style="position:absolute; left:2%; top:20%; width:44%; height:74%; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); overflow:hidden; border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; opacity:0; pointer-events:none; z-index:2;">
-    <img src="uploads/oe-project-9.jpg" alt="Conversation Manager" loading="lazy" decoding="async" style="width:100%; height:100%; object-fit:cover; object-position:center; display:block;" />
+    <img width="543" height="753" src="uploads/oe-project-9.jpg" alt="Conversation Manager" loading="lazy" decoding="async" style="width:100%; height:100%; object-fit:cover; object-position:center; display:block;" />
   </div>
   <div class="oe-card" id="oe-s9-prob" style="position:absolute; left:48%; top:20%; width:50%; height:23.666666666666668%; padding:clamp(16px,1.6vw,26px) clamp(20px,2vw,30px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; opacity:0; pointer-events:none; z-index:2;">
     <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#9DEBC2; font-size:clamp(14px,1.1vw,19px); line-height:1.2; flex-shrink:0;">The Problem</h3>
@@ -2601,7 +2618,7 @@
     <h2 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#E0FFEE; font-size:clamp(22px,2.5vw,42px); line-height:1.08; letter-spacing:-0.01em; text-shadow:0 4px 32px rgba(31,98,255,0.30); text-wrap:balance; max-width:1100px;">Automated Financial Reporting Dashboard (Private Equity | 1-Week Sprint)</h2>
   </div>
   <div class="pe-hrow"><div class="oe-card" id="oe-s10-img" style="position:absolute; left:2%; top:20%; width:44%; height:74%; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); overflow:hidden; border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; opacity:0; pointer-events:none; z-index:2;">
-    <img src="uploads/oe-project-10.jpg" alt="Financial Reporting" loading="lazy" decoding="async" style="width:100%; height:100%; object-fit:cover; object-position:center; display:block;" />
+    <img width="516" height="730" src="uploads/oe-project-10.jpg" alt="Financial Reporting" loading="lazy" decoding="async" style="width:100%; height:100%; object-fit:cover; object-position:center; display:block;" />
   </div>
   <div class="oe-card" id="oe-s10-prob" style="position:absolute; left:48%; top:20%; width:50%; height:23.666666666666668%; padding:clamp(16px,1.6vw,26px) clamp(20px,2vw,30px); background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:40px; box-sizing:border-box; display:flex; flex-direction:column; opacity:0; pointer-events:none; z-index:2;">
     <h3 style="margin:0; font-family:'Space Grotesk',sans-serif; font-weight:500; color:#9DEBC2; font-size:clamp(14px,1.1vw,19px); line-height:1.2; flex-shrink:0;">The Problem</h3>
@@ -2740,7 +2757,7 @@
               
               <div class="pe-hrow"><div class="au-card au-person" id="au-s3-c1" style="position:absolute; left:2%; top:24%; width:31.3%; height:64%; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:32px; display:flex; flex-direction:column; opacity:0; pointer-events:none; z-index:2; box-sizing:border-box; overflow:hidden;">
                 <div class="au-photo" style="flex:1; min-height:0; margin:14px 14px 0; border-radius:32px; overflow:hidden; box-sizing:border-box;">
-                  <img src="uploads/founder-javier-rojas.png" alt="Javier Rojas" loading="lazy" decoding="async" style="width:100%; height:100%; object-fit:cover; object-position:center top; display:block;" />
+                  <img width="444" height="624" src="uploads/founder-javier-rojas.png" alt="Javier Rojas" loading="lazy" decoding="async" style="width:100%; height:100%; object-fit:cover; object-position:center top; display:block;" />
                 </div>
                 <div style="flex-shrink:0; padding:clamp(14px,1.4vw,20px);">
                   <div style="display:flex; align-items:baseline; justify-content:space-between; gap:8px; flex-wrap:wrap;">
@@ -2756,7 +2773,7 @@
               
               <div class="au-card au-person" id="au-s3-c2" style="position:absolute; left:34.35%; top:24%; width:31.3%; height:64%; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:32px; display:flex; flex-direction:column; opacity:0; pointer-events:none; z-index:2; box-sizing:border-box; overflow:hidden;">
                 <div class="au-photo" style="flex:1; min-height:0; margin:14px 14px 0; border-radius:32px; overflow:hidden; box-sizing:border-box;">
-                  <img src="uploads/founder-eric-filipek.png" alt="Eric Filipek" loading="lazy" decoding="async" style="width:100%; height:100%; object-fit:cover; object-position:center top; display:block;" />
+                  <img width="444" height="624" src="uploads/founder-eric-filipek.png" alt="Eric Filipek" loading="lazy" decoding="async" style="width:100%; height:100%; object-fit:cover; object-position:center top; display:block;" />
                 </div>
                 <div style="flex-shrink:0; padding:clamp(14px,1.4vw,20px);">
                   <div style="display:flex; align-items:baseline; justify-content:space-between; gap:8px; flex-wrap:wrap;">
@@ -2772,7 +2789,7 @@
               
               <div class="au-card au-person" id="au-s3-c3" style="position:absolute; left:66.7%; top:24%; width:31.3%; height:64%; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:32px; display:flex; flex-direction:column; opacity:0; pointer-events:none; z-index:2; box-sizing:border-box; overflow:hidden;">
                 <div class="au-photo" style="flex:1; min-height:0; margin:14px 14px 0; border-radius:32px; overflow:hidden; box-sizing:border-box;">
-                  <img src="uploads/founder-daniel-pena.png" alt="Daniel Peña" loading="lazy" decoding="async" style="width:100%; height:100%; object-fit:cover; object-position:center top; display:block;" />
+                  <img width="444" height="624" src="uploads/founder-daniel-pena.png" alt="Daniel Peña" loading="lazy" decoding="async" style="width:100%; height:100%; object-fit:cover; object-position:center top; display:block;" />
                 </div>
                 <div style="flex-shrink:0; padding:clamp(14px,1.4vw,20px);">
                   <div style="display:flex; align-items:baseline; justify-content:space-between; gap:8px; flex-wrap:wrap;">
@@ -2849,7 +2866,7 @@
               
               <div class="pe-hrow"><div class="au-card au-person" id="au-s5-c1" style="position:absolute; left:2%; top:26%; width:22.875%; height:62%; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:32px; display:flex; flex-direction:column; opacity:0; pointer-events:none; z-index:2; box-sizing:border-box; overflow:hidden;">
                 <div class="au-photo" style="flex:1; min-height:0; margin:14px 14px 0; border-radius:32px; overflow:hidden; box-sizing:border-box;">
-                  <img src="uploads/leader-daniel-pena.png" alt="Daniel Peña" loading="lazy" decoding="async" style="width:100%; height:100%; object-fit:cover; object-position:center top; display:block;" />
+                  <img width="444" height="624" src="uploads/leader-daniel-pena.png" alt="Daniel Peña" loading="lazy" decoding="async" style="width:100%; height:100%; object-fit:cover; object-position:center top; display:block;" />
                 </div>
                 <div style="flex-shrink:0; padding:clamp(14px,1.4vw,20px);">
                   <div style="display:flex; align-items:baseline; justify-content:space-between; gap:8px; flex-wrap:wrap;">
@@ -2865,7 +2882,7 @@
               
               <div class="au-card au-person" id="au-s5-c2" style="position:absolute; left:26.375%; top:26%; width:22.875%; height:62%; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:32px; display:flex; flex-direction:column; opacity:0; pointer-events:none; z-index:2; box-sizing:border-box; overflow:hidden;">
                 <div class="au-photo" style="flex:1; min-height:0; margin:14px 14px 0; border-radius:32px; overflow:hidden; box-sizing:border-box;">
-                  <img src="uploads/leader-sergio-echeverri.png" alt="Sergio Echeverri" loading="lazy" decoding="async" style="width:100%; height:100%; object-fit:cover; object-position:center top; display:block;" />
+                  <img width="444" height="625" src="uploads/leader-sergio-echeverri.png" alt="Sergio Echeverri" loading="lazy" decoding="async" style="width:100%; height:100%; object-fit:cover; object-position:center top; display:block;" />
                 </div>
                 <div style="flex-shrink:0; padding:clamp(14px,1.4vw,20px);">
                   <div style="display:flex; align-items:baseline; justify-content:space-between; gap:8px; flex-wrap:wrap;">
@@ -2881,7 +2898,7 @@
               
               <div class="au-card au-person" id="au-s5-c3" style="position:absolute; left:50.75%; top:26%; width:22.875%; height:62%; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:32px; display:flex; flex-direction:column; opacity:0; pointer-events:none; z-index:2; box-sizing:border-box; overflow:hidden;">
                 <div class="au-photo" style="flex:1; min-height:0; margin:14px 14px 0; border-radius:32px; overflow:hidden; box-sizing:border-box;">
-                  <img src="uploads/leader-david-coke.png" alt="David Coke" loading="lazy" decoding="async" style="width:100%; height:100%; object-fit:cover; object-position:center top; display:block;" />
+                  <img width="444" height="625" src="uploads/leader-david-coke.png" alt="David Coke" loading="lazy" decoding="async" style="width:100%; height:100%; object-fit:cover; object-position:center top; display:block;" />
                 </div>
                 <div style="flex-shrink:0; padding:clamp(14px,1.4vw,20px);">
                   <div style="display:flex; align-items:baseline; justify-content:space-between; gap:8px; flex-wrap:wrap;">
@@ -2897,7 +2914,7 @@
 
               <div class="au-card au-person" id="au-s5-c4" style="position:absolute; left:75.125%; top:26%; width:22.875%; height:62%; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); border-radius:32px; display:flex; flex-direction:column; opacity:0; pointer-events:none; z-index:2; box-sizing:border-box; overflow:hidden;">
                 <div class="au-photo" style="flex:1; min-height:0; margin:14px 14px 0; border-radius:32px; overflow:hidden; box-sizing:border-box;">
-                  <img src="uploads/leader-camilo-correa.png" alt="Camilo Correa" loading="lazy" decoding="async" style="width:100%; height:100%; object-fit:cover; object-position:center top; display:block;" />
+                  <img width="444" height="625" src="uploads/leader-camilo-correa.png" alt="Camilo Correa" loading="lazy" decoding="async" style="width:100%; height:100%; object-fit:cover; object-position:center top; display:block;" />
                 </div>
                 <div style="flex-shrink:0; padding:clamp(14px,1.4vw,20px);">
                   <div style="display:flex; align-items:baseline; justify-content:space-between; gap:8px; flex-wrap:wrap;">
@@ -3014,19 +3031,19 @@
 
               <div id="vc-s2-grid" style="position:absolute; left:2%; top:22%; width:96%; height:66%; display:grid; grid-template-columns:1fr 1fr; grid-template-rows:1fr 1fr; gap:clamp(16px,2vw,28px); z-index:2;">
                 <div class="vc-card vc-logo" id="vc-s2-c1" style="border-radius:32px; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); box-sizing:border-box; display:flex; align-items:center; justify-content:center; padding:clamp(16px,2vw,32px); opacity:0; pointer-events:none;">
-                  <img loading="lazy" decoding="async" src="assets/logo-savant-growth.png" alt="Savant Growth logo" style="max-width:70%; max-height:56%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;">
+                  <img width="280" height="80" loading="lazy" decoding="async" src="assets/logo-savant-growth.png" alt="Savant Growth logo" style="max-width:70%; max-height:56%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;">
                 </div>
 
                 <div class="vc-card vc-logo" id="vc-s2-c2" style="border-radius:32px; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); box-sizing:border-box; display:flex; align-items:center; justify-content:center; padding:clamp(16px,2vw,32px); opacity:0; pointer-events:none;">
-                  <img loading="lazy" decoding="async" src="assets/logo-kennet.png" alt="Kennet logo" style="max-width:60%; max-height:48%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;">
+                  <img width="259" height="74" loading="lazy" decoding="async" src="assets/logo-kennet.png" alt="Kennet logo" style="max-width:60%; max-height:48%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;">
                 </div>
 
                 <div class="vc-card vc-logo" id="vc-s2-c3" style="border-radius:32px; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); box-sizing:border-box; display:flex; align-items:center; justify-content:center; padding:clamp(16px,2vw,32px); opacity:0; pointer-events:none;">
-                  <img loading="lazy" decoding="async" src="assets/logo-clearlake.png" alt="Clearlake logo" style="max-width:65%; max-height:50%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;">
+                  <img width="364" height="69" loading="lazy" decoding="async" src="assets/logo-clearlake.png" alt="Clearlake logo" style="max-width:65%; max-height:50%; object-fit:contain; filter:brightness(0) invert(0.8); opacity:0.85;">
                 </div>
 
                 <div class="vc-card vc-logo" id="vc-s2-c4" style="border-radius:32px; background:rgba(0,0,0,0.15); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); box-sizing:border-box; display:flex; align-items:center; justify-content:center; padding:clamp(16px,2vw,32px); opacity:0; pointer-events:none;">
-                  <img loading="lazy" decoding="async" src="assets/logo-rbv.png" alt="RBV logo" style="max-width:52%; max-height:70%; object-fit:contain; filter:grayscale(1) brightness(1.55) contrast(0.82); opacity:0.9;">
+                  <img width="112" height="104" loading="lazy" decoding="async" src="assets/logo-rbv.png" alt="RBV logo" style="max-width:52%; max-height:70%; object-fit:contain; filter:grayscale(1) brightness(1.55) contrast(0.82); opacity:0.9;">
                 </div>
               </div>
             </div><!-- /vc-sec-2 -->
@@ -3123,7 +3140,7 @@
 
                 <div class="bl-card" id="bl-s1-c1" style="border-radius:32px; box-sizing:border-box; background:rgba(0,0,0,0.18); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); display:flex; flex-direction:column; padding:clamp(16px,1.5vw,26px); gap:clamp(10px,1.2vh,16px); overflow:hidden; opacity:0; pointer-events:none;">
                   <div class="bl-thumb" style="flex-shrink:0; height:clamp(78px,13vh,140px); border-radius:18px; border:1px solid rgba(255,255,255,0.10); overflow:hidden;">
-                    <img src="uploads/blog-1.png" alt="How Companies Can Leverage Technology to Bridge Geographical Gaps" loading="lazy" decoding="async" style="width:100%; height:100%; object-fit:cover; display:block;" />
+                    <img width="876" height="328" src="uploads/blog-1.jpg" alt="How Companies Can Leverage Technology to Bridge Geographical Gaps" loading="lazy" decoding="async" style="width:100%; height:100%; object-fit:cover; display:block;" />
                   </div>
                   <div style="display:flex; align-items:center; gap:8px; color:rgba(199,255,224,0.55);">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"></rect><path d="M16 2v4M8 2v4M3 10h18"></path></svg>
@@ -3136,7 +3153,7 @@
 
                 <div class="bl-card" id="bl-s1-c2" style="border-radius:32px; box-sizing:border-box; background:rgba(0,0,0,0.18); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); display:flex; flex-direction:column; padding:clamp(16px,1.5vw,26px); gap:clamp(10px,1.2vh,16px); overflow:hidden; opacity:0; pointer-events:none;">
                   <div class="bl-thumb" style="flex-shrink:0; height:clamp(78px,13vh,140px); border-radius:18px; border:1px solid rgba(255,255,255,0.10); overflow:hidden;">
-                    <img src="uploads/blog-2.png" alt="Nearshore Outsourcing: Why LATAM Is the Secret Weapon for US Tech Companies" loading="lazy" decoding="async" style="width:100%; height:100%; object-fit:cover; display:block;" />
+                    <img width="876" height="328" src="uploads/blog-2.png" alt="Nearshore Outsourcing: Why LATAM Is the Secret Weapon for US Tech Companies" loading="lazy" decoding="async" style="width:100%; height:100%; object-fit:cover; display:block;" />
                   </div>
                   <div style="display:flex; align-items:center; gap:8px; color:rgba(199,255,224,0.55);">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"></rect><path d="M16 2v4M8 2v4M3 10h18"></path></svg>
@@ -3149,7 +3166,7 @@
 
                 <div class="bl-card" id="bl-s1-c3" style="border-radius:32px; box-sizing:border-box; background:rgba(0,0,0,0.18); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); display:flex; flex-direction:column; padding:clamp(16px,1.5vw,26px); gap:clamp(10px,1.2vh,16px); overflow:hidden; opacity:0; pointer-events:none;">
                   <div class="bl-thumb" style="flex-shrink:0; height:clamp(78px,13vh,140px); border-radius:18px; border:1px solid rgba(255,255,255,0.10); overflow:hidden;">
-                    <img src="uploads/blog-3.jpg" alt="Announcing Savant Growth's New Fund" loading="lazy" decoding="async" style="width:100%; height:100%; object-fit:cover; display:block;" />
+                    <img width="876" height="328" src="uploads/blog-3.jpg" alt="Announcing Savant Growth's New Fund" loading="lazy" decoding="async" style="width:100%; height:100%; object-fit:cover; display:block;" />
                   </div>
                   <div style="display:flex; align-items:center; gap:8px; color:rgba(199,255,224,0.55);">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"></rect><path d="M16 2v4M8 2v4M3 10h18"></path></svg>
@@ -3162,7 +3179,7 @@
 
                 <div class="bl-card" id="bl-s1-c4" style="border-radius:32px; box-sizing:border-box; background:rgba(0,0,0,0.18); backdrop-filter:blur(28px) saturate(140%); -webkit-backdrop-filter:blur(28px) saturate(140%); border:1px solid rgba(255,255,255,0.12); display:flex; flex-direction:column; padding:clamp(16px,1.5vw,26px); gap:clamp(10px,1.2vh,16px); overflow:hidden; opacity:0; pointer-events:none;">
                   <div class="bl-thumb" style="flex-shrink:0; height:clamp(78px,13vh,140px); border-radius:18px; border:1px solid rgba(255,255,255,0.10); overflow:hidden;">
-                    <img src="uploads/blog-4.jpg" alt="How Applied AI is Reshaping B2B SaaS Processes" loading="lazy" decoding="async" style="width:100%; height:100%; object-fit:cover; display:block;" />
+                    <img width="876" height="328" src="uploads/blog-4.jpg" alt="How Applied AI is Reshaping B2B SaaS Processes" loading="lazy" decoding="async" style="width:100%; height:100%; object-fit:cover; display:block;" />
                   </div>
                   <div style="display:flex; align-items:center; gap:8px; color:rgba(199,255,224,0.55);">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"></rect><path d="M16 2v4M8 2v4M3 10h18"></path></svg>
@@ -3299,7 +3316,7 @@
         </div>
         <!-- hero image (populated by _showBlogDetail) -->
         <div style="margin-top:clamp(22px,3.2vh,34px); height:clamp(180px,34vh,320px); border-radius:clamp(16px,2vw,24px); border:1px solid rgba(255,255,255,0.10); overflow:hidden;">
-          <img id="bd-hero-img" src="" alt="" decoding="async" style="width:100%; height:100%; object-fit:cover; display:block;" />
+          <img id="bd-hero-img" width="876" height="328" src="" alt="" decoding="async" style="width:100%; height:100%; object-fit:cover; display:block;" />
         </div>
         <!-- body -->
         <div class="bd-body" id="bd-body" style="margin-top:clamp(26px,4vh,40px); font-family:'Inter',sans-serif; font-weight:300; color:rgba(199,255,224,0.82); font-size:clamp(15px,1.15vw,18px); line-height:1.75; text-wrap:pretty;">
@@ -4408,10 +4425,10 @@ class Component extends DCLogic {
       const stageEl = document.getElementById('pe-stage');
       const items = document.querySelectorAll('#pe-faq-items .faq-item');
       const fallback = (i)=>({ x:0.02*w, y:(0.17*h)+i*(0.125*h+0.025*h), w:0.96*w, h:0.125*h, rx:18 });
+      const sr = stageEl ? stageEl.getBoundingClientRect() : null; // one read per frame, not one per bar
       const measure = (i) => {
         const it = items[i];
-        if (!it || !stageEl) return fallback(i);
-        const sr = stageEl.getBoundingClientRect();
+        if (!it || !sr) return fallback(i);
         const b = it.getBoundingClientRect();
         if (!b.height) return fallback(i);
         return { x:b.left-sr.left, y:b.top-sr.top, w:b.width, h:b.height, rx:18 };
@@ -4915,7 +4932,10 @@ class Component extends DCLogic {
       ctaContentEl.style.opacity = String(ctaContentOp);
       ctaContentEl.style.pointerEvents = 'none';
       const ctaInteractive = ctaContentOp > 0.3;
-      ctaContentEl.querySelectorAll(':scope > a, :scope > div').forEach((el) => { el.style.pointerEvents = ctaInteractive ? 'auto' : 'none'; });
+      if (ctaContentEl.__ctaOn !== ctaInteractive) { // query + write only when the state flips, not per frame
+        ctaContentEl.__ctaOn = ctaInteractive;
+        (ctaContentEl.__ctaKids || (ctaContentEl.__ctaKids = ctaContentEl.querySelectorAll(':scope > a, :scope > div'))).forEach((el) => { el.style.pointerEvents = ctaInteractive ? 'auto' : 'none'; });
+      }
       ctaContentEl.style.filter = ctaContentOp < 1 ? 'blur(' + ((1 - ctaContentOp) * 12).toFixed(1) + 'px)' : '';
     }
     if (mob) {
@@ -5128,7 +5148,10 @@ class Component extends DCLogic {
       ctaContentEl.style.opacity = String(ctaContentOp);
       ctaContentEl.style.pointerEvents = 'none';
       const ctaInteractive = ctaContentOp > 0.3;
-      ctaContentEl.querySelectorAll(':scope > a, :scope > div').forEach((el) => { el.style.pointerEvents = ctaInteractive ? 'auto' : 'none'; });
+      if (ctaContentEl.__ctaOn !== ctaInteractive) { // query + write only when the state flips, not per frame
+        ctaContentEl.__ctaOn = ctaInteractive;
+        (ctaContentEl.__ctaKids || (ctaContentEl.__ctaKids = ctaContentEl.querySelectorAll(':scope > a, :scope > div'))).forEach((el) => { el.style.pointerEvents = ctaInteractive ? 'auto' : 'none'; });
+      }
       ctaContentEl.style.filter = ctaContentOp < 1 ? 'blur(' + ((1 - ctaContentOp) * 12).toFixed(1) + 'px)' : '';
     }
     if (mob) {
@@ -5328,7 +5351,10 @@ class Component extends DCLogic {
       ctaContentEl.style.opacity = String(ctaContentOp);
       ctaContentEl.style.pointerEvents = 'none';
       const ctaInteractive = ctaContentOp > 0.3;
-      ctaContentEl.querySelectorAll(':scope > a, :scope > div').forEach((el) => { el.style.pointerEvents = ctaInteractive ? 'auto' : 'none'; });
+      if (ctaContentEl.__ctaOn !== ctaInteractive) { // query + write only when the state flips, not per frame
+        ctaContentEl.__ctaOn = ctaInteractive;
+        (ctaContentEl.__ctaKids || (ctaContentEl.__ctaKids = ctaContentEl.querySelectorAll(':scope > a, :scope > div'))).forEach((el) => { el.style.pointerEvents = ctaInteractive ? 'auto' : 'none'; });
+      }
       ctaContentEl.style.filter = ctaContentOp < 1 ? 'blur(' + ((1 - ctaContentOp) * 12).toFixed(1) + 'px)' : '';
     }
     if (mob) {
@@ -5427,7 +5453,7 @@ class Component extends DCLogic {
   // Its own top-bar links (Back to blog / logo → home) are the way out, so it needs no
   // integration with the section-swap state machine.
   _BLOG_POSTS = [
-    { chips: ['#Nearshore', '#News'], date: 'February 15, 2025', author: 'David Coke', img: 'uploads/blog-1.png',
+    { chips: ['#Nearshore', '#News'], date: 'February 15, 2025', author: 'David Coke', img: 'uploads/blog-1.jpg',
       title: 'How Companies Can Leverage Technology to Bridge Geographical Gaps and Boost Offshore and Nearshore Collaboration',
       body: [
         { t: 'p', x: `Technology plays a critical role in ensuring that global teams—whether offshore or nearshore—work together efficiently. Companies are leveraging a variety of tools to facilitate communication, streamline workflows, and bridge geographical gaps.` },
@@ -5657,7 +5683,10 @@ class Component extends DCLogic {
     if (ctaContentEl) {
       ctaContentEl.style.opacity = String(ctaContentOp);
       const ctaInteractive = ctaContentOp > 0.3;
-      ctaContentEl.querySelectorAll(':scope > a, :scope > div').forEach((el) => { el.style.pointerEvents = ctaInteractive ? 'auto' : 'none'; });
+      if (ctaContentEl.__ctaOn !== ctaInteractive) { // query + write only when the state flips, not per frame
+        ctaContentEl.__ctaOn = ctaInteractive;
+        (ctaContentEl.__ctaKids || (ctaContentEl.__ctaKids = ctaContentEl.querySelectorAll(':scope > a, :scope > div'))).forEach((el) => { el.style.pointerEvents = ctaInteractive ? 'auto' : 'none'; });
+      }
       ctaContentEl.style.filter = ctaContentOp < 1 ? 'blur(' + ((1 - ctaContentOp) * 12).toFixed(1) + 'px)' : '';
     }
     if (mob) {
@@ -5864,7 +5893,10 @@ class Component extends DCLogic {
       // otherwise it silently blocks clicks on the left-side nav once opaque.
       ctaContent.style.pointerEvents = 'none';
       const ctaInteractive = ctaContentOp > 0.3;
-      ctaContent.querySelectorAll(':scope > a, :scope > div').forEach((el) => { el.style.pointerEvents = ctaInteractive ? 'auto' : 'none'; });
+      if (ctaContent.__ctaOn !== ctaInteractive) { // query + write only when the state flips, not per frame
+        ctaContent.__ctaOn = ctaInteractive;
+        (ctaContent.__ctaKids || (ctaContent.__ctaKids = ctaContent.querySelectorAll(':scope > a, :scope > div'))).forEach((el) => { el.style.pointerEvents = ctaInteractive ? 'auto' : 'none'; });
+      }
       ctaContent.style.filter = ctaContentOp < 1 ? 'blur(' + ((1 - ctaContentOp) * 12).toFixed(1) + 'px)' : '';
     }
   }
@@ -6072,7 +6104,9 @@ class Component extends DCLogic {
     const camera   = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
     const renderer = new THREE.WebGLRenderer({ antialias: false, alpha: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    // The shader is a soft blurred-noise background — extra device pixels are invisible
+    // but cost real fragment work. Cap harder on phones (dpr 3 devices were paying 4x).
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, window.innerWidth < 768 ? 1.5 : 2));
     this._bg.appendChild(renderer.domElement);
     this.renderer = renderer;
 
